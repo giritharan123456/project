@@ -16,6 +16,9 @@ import OpportunityHeatMap from '../components/OpportunityHeatMap';
 import AdvancedFilters from '../components/AdvancedFilters';
 import AnalyticsPanel from '../components/AnalyticsPanel';
 import EnhancedExport from '../components/EnhancedExport';
+import QuickStats from '../components/QuickStats';
+import RecentSearches from '../components/RecentSearches';
+import HelpGuide from '../components/HelpGuide';
 import PageTransition from '../components/PageTransition';
 import AnimatedCounter from '../components/AnimatedCounter';
 import FloatingAIChat from '../components/FloatingAIChat';
@@ -26,6 +29,7 @@ function Dashboard() {
   const [selectedDistrict, setSelectedDistrict] = useState('Chennai');
   const [searchPincode, setSearchPincode] = useState('');
   const [selectedBusinessCategory, setSelectedBusinessCategory] = useState('all');
+  const [recentSearches, setRecentSearches] = useState([]);
   
   const tamilNaduData = {
     districts: {
@@ -198,6 +202,9 @@ function Dashboard() {
 
   const handleSearch = (pincode) => {
     setSearchPincode(pincode);
+    if (pincode && !recentSearches.includes(pincode)) {
+      setRecentSearches(prev => [pincode, ...prev].slice(0, 5));
+    }
   };
 
   const handleFilter = (category) => {
@@ -206,6 +213,10 @@ function Dashboard() {
 
   const handleDistrictChange = (district) => {
     setSelectedDistrict(district);
+  };
+
+  const handleClearRecentSearches = () => {
+    setRecentSearches([]);
   };
 
   const currentDistrictData = marketData.districts[selectedDistrict];
@@ -257,6 +268,15 @@ function Dashboard() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.12 }}
+          className="mb-6"
+        >
+          <QuickStats pincodeData={filteredPincodeData} selectedDistrict={selectedDistrict} />
+        </motion.div>
+        
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.15 }}
           className="mb-6"
         >
@@ -264,6 +284,19 @@ function Dashboard() {
             onSearch={handleSearch} 
             placeholder={`Search by pincode in ${selectedDistrict}...`}
             suggestions={filteredPincodeData.map(p => p.pincode)}
+          />
+        </motion.div>
+        
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.17 }}
+          className="mb-6"
+        >
+          <RecentSearches 
+            searches={recentSearches}
+            onSearch={handleSearch}
+            onClear={handleClearRecentSearches}
           />
         </motion.div>
         
@@ -427,6 +460,7 @@ function Dashboard() {
       </div>
       
       <ScrollToTop />
+      <HelpGuide />
       <FloatingAIChat />
     </div>
     </PageTransition>
