@@ -7,9 +7,10 @@ import ChartsSection from '../components/ChartsSection';
 import MapSection from '../components/MapSection';
 import TopAreas from '../components/TopAreas';
 import DistrictSelector from '../components/DistrictSelector';
-import PincodeAnalysis from '../components/PincodeAnalysis';
+import Recommendations from '../components/Recommendations';
+import FloatingAIChat from '../components/FloatingAIChat';
 import RealTimeDashboard from '../components/RealTimeDashboard';
-import AIRecommendations from '../components/AIRecommendations';
+import Competitors from '../components/Competitors';
 import AdvancedKPICards from '../components/AdvancedKPICards';
 import BusinessInsights from '../components/BusinessInsights';
 import AdvancedForecasting from '../components/AdvancedForecasting';
@@ -299,11 +300,7 @@ function Dashboard() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.4 }}
         >
-          <AIRecommendations 
-            pincodeData={filteredPincodeData} 
-            businessCategories={marketData.businessCategories}
-            selectedDistrict={selectedDistrict}
-          />
+          <Competitors />
         </motion.div>
         
         <motion.div
@@ -311,7 +308,7 @@ function Dashboard() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.45 }}
         >
-          <PincodeAnalysis rankingData={rankingData} selectedCategory={selectedBusinessCategory} />
+          <Recommendations />
         </motion.div>
         
         <div className="grid grid-cols-[repeat(auto-fit,minmax(400px,1fr))] gap-6 mt-8">
@@ -406,6 +403,8 @@ function Dashboard() {
           />
         </motion.div>
       </div>
+      
+      <FloatingAIChat />
     </div>
   );
 }
