@@ -16,7 +16,10 @@ import OpportunityHeatMap from '../components/OpportunityHeatMap';
 import AdvancedFilters from '../components/AdvancedFilters';
 import AnalyticsPanel from '../components/AnalyticsPanel';
 import EnhancedExport from '../components/EnhancedExport';
+import PageTransition from '../components/PageTransition';
+import AnimatedCounter from '../components/AnimatedCounter';
 import FloatingAIChat from '../components/FloatingAIChat';
+import ScrollToTop from '../components/ScrollToTop';
 
 function Dashboard() {
   const { isDarkMode } = useTheme();
@@ -225,18 +228,19 @@ function Dashboard() {
    .map((item, index) => ({ ...item, rank: index + 1 }));
 
   return (
-    <div className={`min-h-screen transition-colors duration-300 ${isDarkMode ? 'bg-bg-dark' : 'bg-bg-light'}`}>
+    <PageTransition>
+      <div className={`min-h-screen transition-colors duration-300 ${isDarkMode ? 'bg-bg-dark' : 'bg-bg-light'}`}>
       <motion.header 
         className={`py-8 px-8 border-b shadow-lg ${isDarkMode ? 'bg-card-dark border-border-dark shadow-[0_4px_6px_-1px_rgba(0,0,0,0.3),0_2px_4px_-1px_rgba(0,0,0,0.2)]' : 'bg-card-light border-border-light shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-1px_rgba(0,0,0,0.06)]'}`}
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <h1 className={`text-3xl font-bold mb-2 bg-gradient-to-r from-primary-blue to-primary-purple bg-clip-text text-transparent ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>🇮🇳 Tamil Nadu Market Gap Finder</h1>
-        <p className={`text-base opacity-70 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Pincode-wise underserved business opportunities analysis</p>
+        <h1 className={`text-2xl md:text-3xl font-bold mb-2 bg-gradient-to-r from-primary-blue to-primary-purple bg-clip-text text-transparent ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>🇮🇳 Tamil Nadu Market Gap Finder</h1>
+        <p className={`text-sm md:text-base opacity-70 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Pincode-wise underserved business opportunities analysis</p>
       </motion.header>
 
-      <div className="max-w-[1600px] mx-auto p-8">
+      <div className="max-w-[1600px] mx-auto p-4 md:p-8">
         <motion.div 
           className="flex justify-between items-center mb-8 gap-6 flex-wrap"
           initial={{ opacity: 0, y: 20 }}
@@ -254,14 +258,20 @@ function Dashboard() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.15 }}
+          className="mb-6"
         >
-          <SearchBar onSearch={handleSearch} placeholder={`Search by pincode in ${selectedDistrict}...`} />
+          <SearchBar 
+            onSearch={handleSearch} 
+            placeholder={`Search by pincode in ${selectedDistrict}...`}
+            suggestions={filteredPincodeData.map(p => p.pincode)}
+          />
         </motion.div>
         
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
+          className="mb-6"
         >
           <FilterPanel 
             onFilter={handleFilter} 
@@ -270,10 +280,11 @@ function Dashboard() {
           />
         </motion.div>
         
-        <div className="grid grid-cols-[repeat(auto-fit,minmax(400px,1fr))] gap-6 mt-8">
+        <div className="grid grid-cols-1 md:grid-cols-[repeat(auto-fit,minmax(350px,1fr))] lg:grid-cols-[repeat(auto-fit,minmax(400px,1fr))] gap-6 mt-8">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
+            whileHover={{ scale: 1.02, y: -5 }}
             transition={{ duration: 0.5, delay: 0.25 }}
           >
             <ChartsSection 
@@ -286,6 +297,7 @@ function Dashboard() {
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
+            whileHover={{ scale: 1.02, y: -5 }}
             transition={{ duration: 0.5, delay: 0.3 }}
           >
             <MapSection 
@@ -297,6 +309,7 @@ function Dashboard() {
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
+            whileHover={{ scale: 1.02, y: -5 }}
             transition={{ duration: 0.5, delay: 0.35 }}
           >
             <TopAreas 
@@ -309,7 +322,9 @@ function Dashboard() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
+          whileHover={{ y: -3 }}
           transition={{ duration: 0.5, delay: 0.4 }}
+          className="mb-8"
         >
           <AdvancedKPICards data={filteredPincodeData} selectedDistrict={selectedDistrict} />
         </motion.div>
@@ -317,7 +332,9 @@ function Dashboard() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
+          whileHover={{ y: -3 }}
           transition={{ duration: 0.5, delay: 0.45 }}
+          className="mb-8"
         >
           <RealTimeDashboard data={filteredPincodeData} />
         </motion.div>
@@ -325,7 +342,9 @@ function Dashboard() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
+          whileHover={{ y: -3 }}
           transition={{ duration: 0.5, delay: 0.5 }}
+          className="mb-8"
         >
           <AdvancedFilters pincodeData={filteredPincodeData} onFilterChange={() => {}} />
         </motion.div>
@@ -333,7 +352,9 @@ function Dashboard() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
+          whileHover={{ y: -3 }}
           transition={{ duration: 0.5, delay: 0.55 }}
+          className="mb-8"
         >
           <Competitors />
         </motion.div>
@@ -341,7 +362,9 @@ function Dashboard() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
+          whileHover={{ y: -3 }}
           transition={{ duration: 0.5, delay: 0.6 }}
+          className="mb-8"
         >
           <BusinessInsights 
             pincodeData={filteredPincodeData} 
@@ -351,7 +374,9 @@ function Dashboard() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
+          whileHover={{ y: -3 }}
           transition={{ duration: 0.5, delay: 0.65 }}
+          className="mb-8"
         >
           <AdvancedForecasting 
             pincodeData={filteredPincodeData} 
@@ -362,7 +387,9 @@ function Dashboard() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
+          whileHover={{ y: -3 }}
           transition={{ duration: 0.5, delay: 0.7 }}
+          className="mb-8"
         >
           <OpportunityHeatMap 
             pincodeData={filteredPincodeData}
@@ -373,7 +400,9 @@ function Dashboard() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
+          whileHover={{ y: -3 }}
           transition={{ duration: 0.5, delay: 0.75 }}
+          className="mb-8"
         >
           <AnalyticsPanel 
             pincodeData={filteredPincodeData}
@@ -385,7 +414,9 @@ function Dashboard() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
+          whileHover={{ y: -3 }}
           transition={{ duration: 0.5, delay: 0.8 }}
+          className="mb-8"
         >
           <EnhancedExport 
             data={filteredPincodeData}
@@ -395,8 +426,10 @@ function Dashboard() {
         </motion.div>
       </div>
       
+      <ScrollToTop />
       <FloatingAIChat />
     </div>
+    </PageTransition>
   );
 }
 
