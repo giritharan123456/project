@@ -16,6 +16,7 @@ import OpportunityHeatMap from '../components/OpportunityHeatMap';
 import AdvancedFilters from '../components/AdvancedFilters';
 import AnalyticsPanel from '../components/AnalyticsPanel';
 import EnhancedExport from '../components/EnhancedExport';
+import FloatingAIChat from '../components/FloatingAIChat';
 
 function Dashboard() {
   const { isDarkMode } = useTheme();
@@ -393,6 +394,8 @@ function Dashboard() {
           />
         </motion.div>
       </div>
+      
+      <FloatingAIChat />
     </div>
   );
 }
