@@ -3,7 +3,6 @@ import { useTheme } from '../contexts/ThemeContext';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, Legend, ResponsiveContainer, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar } from 'recharts';
 import { AlertTriangle, TrendingUp, ChevronDown, ChevronUp } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import AnimatedCard from './AnimatedCard';
 
 const barData = [
   { name: 'Your Business', 'Market Share': 45, 'Digital Presence': 80 },
@@ -39,7 +38,12 @@ const Competitors = () => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-        <AnimatedCard hoverEffect={false}>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.3 }}
+          className={`p-6 rounded-xl border ${isDarkMode ? 'bg-card-dark border-border-dark' : 'bg-card-light border-border-light'}`}
+        >
           <h3 className="text-xl font-semibold mb-6">Market Share vs Engagement</h3>
           <div className="h-[300px] w-full">
             <ResponsiveContainer width="100%" height="100%">
@@ -61,9 +65,14 @@ const Competitors = () => {
               </BarChart>
             </ResponsiveContainer>
           </div>
-        </AnimatedCard>
+        </motion.div>
 
-        <AnimatedCard hoverEffect={false}>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.3, delay: 0.1 }}
+          className={`p-6 rounded-xl border ${isDarkMode ? 'bg-card-dark border-border-dark' : 'bg-card-light border-border-light'}`}
+        >
           <h3 className="text-xl font-semibold mb-6">Competitive Strengths Matrix</h3>
           <div className="h-[300px] w-full">
             <ResponsiveContainer width="100%" height="100%">
@@ -85,11 +94,17 @@ const Competitors = () => {
               </RadarChart>
             </ResponsiveContainer>
           </div>
-        </AnimatedCard>
+        </motion.div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <AnimatedCard expandable={true} onClick={() => toggleInsight(1)}>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3, delay: 0.2 }}
+          className={`p-6 rounded-xl border cursor-pointer transition-all duration-300 ${isDarkMode ? 'bg-card-dark border-border-dark hover:border-primary-blue' : 'bg-card-light border-border-light hover:border-primary-blue'}`}
+          onClick={() => toggleInsight(1)}
+        >
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-4">
               <div className="p-3 rounded-full" style={{ backgroundColor: 'rgba(245, 158, 11, 0.1)' }}>
@@ -122,9 +137,15 @@ const Competitors = () => {
               </motion.div>
             )}
           </AnimatePresence>
-        </AnimatedCard>
+        </motion.div>
 
-        <AnimatedCard expandable={true} onClick={() => toggleInsight(2)}>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3, delay: 0.3 }}
+          className={`p-6 rounded-xl border cursor-pointer transition-all duration-300 ${isDarkMode ? 'bg-card-dark border-border-dark hover:border-primary-blue' : 'bg-card-light border-border-light hover:border-primary-blue'}`}
+          onClick={() => toggleInsight(2)}
+        >
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-4">
               <div className="p-3 rounded-full" style={{ backgroundColor: 'rgba(16, 185, 129, 0.1)' }}>
@@ -157,7 +178,7 @@ const Competitors = () => {
               </motion.div>
             )}
           </AnimatePresence>
-        </AnimatedCard>
+        </motion.div>
       </div>
     </div>
   );
