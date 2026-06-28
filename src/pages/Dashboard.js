@@ -7,8 +7,6 @@ import ChartsSection from '../components/ChartsSection';
 import MapSection from '../components/MapSection';
 import TopAreas from '../components/TopAreas';
 import DistrictSelector from '../components/DistrictSelector';
-import Recommendations from '../components/Recommendations';
-import FloatingAIChat from '../components/FloatingAIChat';
 import RealTimeDashboard from '../components/RealTimeDashboard';
 import Competitors from '../components/Competitors';
 import AdvancedKPICards from '../components/AdvancedKPICards';
@@ -256,29 +254,13 @@ function Dashboard() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.15 }}
         >
-          <RealTimeDashboard data={filteredPincodeData} />
-        </motion.div>
-        
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-        >
-          <AdvancedKPICards data={filteredPincodeData} selectedDistrict={selectedDistrict} />
-        </motion.div>
-        
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.25 }}
-        >
           <SearchBar onSearch={handleSearch} placeholder={`Search by pincode in ${selectedDistrict}...`} />
         </motion.div>
         
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
         >
           <FilterPanel 
             onFilter={handleFilter} 
@@ -290,7 +272,7 @@ function Dashboard() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.35 }}
+          transition={{ duration: 0.5, delay: 0.25 }}
         >
           <AdvancedFilters pincodeData={filteredPincodeData} onFilterChange={() => {}} />
         </motion.div>
@@ -298,24 +280,24 @@ function Dashboard() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
         >
-          <Competitors />
+          <AdvancedKPICards data={filteredPincodeData} selectedDistrict={selectedDistrict} />
         </motion.div>
         
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.45 }}
+          transition={{ duration: 0.5, delay: 0.35 }}
         >
-          <Recommendations />
+          <RealTimeDashboard data={filteredPincodeData} />
         </motion.div>
         
         <div className="grid grid-cols-[repeat(auto-fit,minmax(400px,1fr))] gap-6 mt-8">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, delay: 0.5 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
           >
             <ChartsSection 
               businessCategories={marketData.businessCategories}
@@ -327,7 +309,7 @@ function Dashboard() {
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, delay: 0.55 }}
+            transition={{ duration: 0.5, delay: 0.45 }}
           >
             <MapSection 
               pincodeData={filteredPincodeData}
@@ -338,7 +320,7 @@ function Dashboard() {
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, delay: 0.6 }}
+            transition={{ duration: 0.5, delay: 0.5 }}
           >
             <TopAreas 
               pincodeData={filteredPincodeData}
@@ -350,7 +332,15 @@ function Dashboard() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.65 }}
+          transition={{ duration: 0.5, delay: 0.55 }}
+        >
+          <Competitors />
+        </motion.div>
+        
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.6 }}
         >
           <BusinessInsights 
             pincodeData={filteredPincodeData} 
@@ -360,7 +350,7 @@ function Dashboard() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.7 }}
+          transition={{ duration: 0.5, delay: 0.65 }}
         >
           <AdvancedForecasting 
             pincodeData={filteredPincodeData} 
@@ -371,7 +361,7 @@ function Dashboard() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.75 }}
+          transition={{ duration: 0.5, delay: 0.7 }}
         >
           <OpportunityHeatMap 
             pincodeData={filteredPincodeData}
@@ -382,7 +372,7 @@ function Dashboard() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.8 }}
+          transition={{ duration: 0.5, delay: 0.75 }}
         >
           <AnalyticsPanel 
             pincodeData={filteredPincodeData}
@@ -394,7 +384,7 @@ function Dashboard() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.85 }}
+          transition={{ duration: 0.5, delay: 0.8 }}
         >
           <EnhancedExport 
             data={filteredPincodeData}
@@ -403,8 +393,6 @@ function Dashboard() {
           />
         </motion.div>
       </div>
-      
-      <FloatingAIChat />
     </div>
   );
 }
