@@ -31,7 +31,7 @@ const EmptyState = ({ type = 'noData', message = '', actionText = '', onAction =
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       className={`flex flex-col items-center justify-center p-12 rounded-2xl ${
-        isDarkMode ? 'bg-card-dark' : 'bg-card-light'
+        isDarkMode ? 'bg-[#1e293b]' : 'bg-[#ffffff]'
       }`}
     >
       <motion.div
@@ -42,7 +42,7 @@ const EmptyState = ({ type = 'noData', message = '', actionText = '', onAction =
           isDarkMode ? 'bg-white/5' : 'bg-black/5'
         }`}
       >
-        <div className={`text-primary-blue opacity-50`}>
+        <div className={`text-[#2563eb] opacity-50`}>
           {icon}
         </div>
       </motion.div>
@@ -51,7 +51,7 @@ const EmptyState = ({ type = 'noData', message = '', actionText = '', onAction =
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.2 }}
-        className={`text-2xl font-semibold mb-3 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}
+        className={`text-2xl font-semibold mb-3 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}
       >
         {title}
       </motion.h3>
@@ -60,7 +60,7 @@ const EmptyState = ({ type = 'noData', message = '', actionText = '', onAction =
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.3 }}
-        className={`text-center max-w-md mb-6 ${isDarkMode ? 'text-text-dark opacity-70' : 'text-text-light opacity-70'}`}
+        className={`text-center max-w-md mb-6 ${isDarkMode ? 'text-[#f1f5f9] opacity-70' : 'text-[#1e293b] opacity-70'}`}
       >
         {message || defaultMessage}
       </motion.p>
@@ -71,7 +71,7 @@ const EmptyState = ({ type = 'noData', message = '', actionText = '', onAction =
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
           onClick={onAction}
-          className="px-6 py-3 bg-gradient-to-r from-primary-blue to-primary-purple text-white rounded-xl font-medium hover:opacity-90 transition-opacity"
+          className="px-6 py-3 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white rounded-xl font-medium hover:opacity-90 transition-opacity"
         >
           {actionText}
         </motion.button>

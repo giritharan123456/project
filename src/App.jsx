@@ -25,9 +25,10 @@ import AnalyticsDashboard from './pages/AnalyticsDashboard';
 function App() {
   return (
     <AuthProvider>
-      <ToastProvider>
-        <div className="min-h-screen bg-bg-light transition-colors duration-300">
-          <Routes>
+      <ThemeProvider>
+        <ToastProvider>
+          <div className="min-h-screen bg-[#f8fafc] transition-colors duration-300">
+            <Routes>
             <Route path="/" element={<Landing />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
@@ -47,6 +48,7 @@ function App() {
           </Routes>
         </div>
       </ToastProvider>
+    </ThemeProvider>
     </AuthProvider>
   );
 }

@@ -32,7 +32,7 @@ const AnimatedCounter = ({ value, duration = 2, decimals = 0, prefix = '', suffi
     <motion.span
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className={`font-bold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}
+      className={`font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}
     >
       {prefix}{decimals > 0 ? count.toFixed(decimals) : Math.round(count).toLocaleString()}{suffix}
     </motion.span>

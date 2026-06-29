@@ -41,7 +41,7 @@ function Comparison() {
   const winner = getWinner();
 
   return (
-    <div className={`min-h-[calc(100vh-70px)] p-6 transition-colors duration-300 ${isDarkMode ? 'bg-bg-dark' : 'bg-bg-light'}`}>
+    <div className={`min-h-[calc(100vh-70px)] p-6 transition-colors duration-300 ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <motion.div
@@ -51,7 +51,7 @@ function Comparison() {
         >
           <Link 
             to="/dashboard"
-            className={`inline-flex items-center gap-2 mb-4 font-medium hover:text-primary-blue transition-colors ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}
+            className={`inline-flex items-center gap-2 mb-4 font-medium hover:text-[#2563eb] transition-colors ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}
           >
             <ArrowLeft size={20} />
             Back to Dashboard
@@ -60,12 +60,12 @@ function Comparison() {
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
               <div className="flex items-center gap-3 mb-2">
-                <BarChart3 className="text-primary-blue" size={28} />
-                <h1 className={`text-3xl font-bold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+                <BarChart3 className="text-[#2563eb]" size={28} />
+                <h1 className={`text-3xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                   Area Comparison
                 </h1>
               </div>
-              <p className={`text-lg opacity-70 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+              <p className={`text-lg opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                 Compare multiple locations side by side
               </p>
             </div>
@@ -73,7 +73,7 @@ function Comparison() {
             <button
               onClick={() => setShowAddModal(true)}
               disabled={selectedAreas.length >= 4}
-              className="px-6 py-3 bg-gradient-to-r from-primary-blue to-primary-purple text-white rounded-xl font-semibold hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+              className="px-6 py-3 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white rounded-xl font-semibold hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
             >
               <Plus size={20} />
               Add Area ({selectedAreas.length}/4)
@@ -96,7 +96,7 @@ function Comparison() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 + (index * 0.1) }}
-                className={`p-6 rounded-2xl border-2 relative ${isWinner ? 'border-yellow-500 bg-yellow-50 dark:bg-yellow-900/20' : isDarkMode ? 'bg-card-dark border-border-dark' : 'bg-card-light border-border-light'}`}
+                className={`p-6 rounded-2xl border-2 relative ${isWinner ? 'border-yellow-500 bg-yellow-50 dark:bg-yellow-900/20' : isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
               >
                 {isWinner && (
                   <div className="absolute -top-3 -right-3 w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center">
@@ -106,44 +106,44 @@ function Comparison() {
                 
                 <button
                   onClick={() => removeArea(area.id)}
-                  className={`absolute top-4 right-4 p-1 rounded-lg transition-colors ${isDarkMode ? 'text-text-dark hover:bg-card-dark' : 'text-text-light hover:bg-card-light'}`}
+                  className={`absolute top-4 right-4 p-1 rounded-lg transition-colors ${isDarkMode ? 'text-[#f1f5f9] hover:bg-[#1e293b]' : 'text-[#1e293b] hover:bg-[#ffffff]'}`}
                 >
                   <X size={16} />
                 </button>
 
                 <div className="flex items-center gap-2 mb-3">
-                  <MapPin className="text-primary-blue" size={20} />
-                  <h3 className={`font-bold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>{area.name}</h3>
+                  <MapPin className="text-[#2563eb]" size={20} />
+                  <h3 className={`font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{area.name}</h3>
                 </div>
-                <p className={`text-sm opacity-70 mb-4 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+                <p className={`text-sm opacity-70 mb-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                   {area.district} • {area.pincode}
                 </p>
 
                 <div className="text-center mb-4">
-                  <div className={`text-4xl font-extrabold ${isWinner ? 'text-yellow-600 dark:text-yellow-400' : 'bg-gradient-to-r from-primary-blue to-primary-purple bg-clip-text text-transparent'}`}>
+                  <div className={`text-4xl font-extrabold ${isWinner ? 'text-yellow-600 dark:text-yellow-400' : 'bg-gradient-to-r from-[#2563eb] to-[#7c3aed] bg-clip-text text-transparent'}`}>
                     {area.score}
                   </div>
-                  <p className={`text-sm opacity-70 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+                  <p className={`text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                     Market Score
                   </p>
                 </div>
 
                 <div className="space-y-3">
                   <div className="flex justify-between items-center">
-                    <span className={`text-sm ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Population</span>
-                    <span className={`text-sm font-semibold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+                    <span className={`text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Population</span>
+                    <span className={`text-sm font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                       {area.population.toLocaleString()}
                     </span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className={`text-sm ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Competition</span>
-                    <span className={`text-sm font-semibold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+                    <span className={`text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Competition</span>
+                    <span className={`text-sm font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                       {area.competition}%
                     </span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className={`text-sm ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Demand</span>
-                    <span className={`text-sm font-semibold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+                    <span className={`text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Demand</span>
+                    <span className={`text-sm font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                       {area.demand}%
                     </span>
                   </div>
@@ -158,11 +158,11 @@ function Comparison() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
-          className={`p-6 rounded-2xl border mb-8 ${isDarkMode ? 'bg-card-dark border-border-dark' : 'bg-card-light border-border-light'}`}
+          className={`p-6 rounded-2xl border mb-8 ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
         >
           <div className="flex items-center gap-3 mb-6">
-            <BarChart3 className="text-primary-blue" size={24} />
-            <h3 className={`text-xl font-bold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+            <BarChart3 className="text-[#2563eb]" size={24} />
+            <h3 className={`text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
               Detailed Comparison
             </h3>
           </div>
@@ -170,10 +170,10 @@ function Comparison() {
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className={`border-b ${isDarkMode ? 'border-border-dark' : 'border-border-light'}`}>
-                  <th className={`text-left p-4 font-semibold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Metric</th>
+                <tr className={`border-b ${isDarkMode ? 'border-[#334155]' : 'border-[#e2e8f0]'}`}>
+                  <th className={`text-left p-4 font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Metric</th>
                   {selectedAreas.map(area => (
-                    <th key={area.id} className={`text-center p-4 font-semibold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+                    <th key={area.id} className={`text-center p-4 font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                       {area.name}
                       {area.id === winner.id && <Crown className="inline ml-1 text-yellow-500" size={16} />}
                     </th>
@@ -188,10 +188,10 @@ function Comparison() {
                   { label: 'Demand', icon: TrendingUp, isHigherBetter: true },
                   { label: 'Avg. Income', icon: DollarSign, isHigherBetter: true }
                 ].map((metric, rowIndex) => (
-                  <tr key={rowIndex} className={`border-b ${isDarkMode ? 'border-border-dark' : 'border-border-light'}`}>
-                    <td className={`p-4 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+                  <tr key={rowIndex} className={`border-b ${isDarkMode ? 'border-[#334155]' : 'border-[#e2e8f0]'}`}>
+                    <td className={`p-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                       <div className="flex items-center gap-2">
-                        <metric.icon className="text-primary-blue" size={16} />
+                        <metric.icon className="text-[#2563eb]" size={16} />
                         {metric.label}
                       </div>
                     </td>
@@ -212,7 +212,7 @@ function Comparison() {
                           ));
                       return (
                         <td key={colIndex} className="text-center p-4">
-                          <span className={`font-semibold ${isBest ? 'text-green-500' : isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+                          <span className={`font-semibold ${isBest ? 'text-green-500' : isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                             {value}
                           </span>
                           {isBest && <Star className="inline ml-1 text-yellow-500 fill-yellow-500" size={14} />}
@@ -231,11 +231,11 @@ function Comparison() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
-          className={`p-6 rounded-2xl border mb-8 ${isDarkMode ? 'bg-card-dark border-border-dark' : 'bg-card-light border-border-light'}`}
+          className={`p-6 rounded-2xl border mb-8 ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
         >
           <div className="flex items-center gap-3 mb-6">
-            <Award className="text-primary-blue" size={24} />
-            <h3 className={`text-xl font-bold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+            <Award className="text-[#2563eb]" size={24} />
+            <h3 className={`text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
               Rankings
             </h3>
           </div>
@@ -247,22 +247,22 @@ function Comparison() {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.7 + (index * 0.1) }}
-                className={`p-4 rounded-xl border flex items-center gap-4 ${index === 0 ? 'border-yellow-500 bg-yellow-50 dark:bg-yellow-900/20' : isDarkMode ? 'bg-bg-dark border-border-dark' : 'bg-bg-light border-border-light'}`}
+                className={`p-4 rounded-xl border flex items-center gap-4 ${index === 0 ? 'border-yellow-500 bg-yellow-50 dark:bg-yellow-900/20' : isDarkMode ? 'bg-[#0f172a] border-[#334155]' : 'bg-[#f8fafc] border-[#e2e8f0]'}`}
               >
                 <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold ${index === 0 ? 'bg-yellow-500 text-white' : index === 1 ? 'bg-gray-400 text-white' : index === 2 ? 'bg-orange-400 text-white' : 'bg-gray-300 text-white'}`}>
                   {index + 1}
                 </div>
                 <div className="flex-1">
-                  <h4 className={`font-bold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>{area.name}</h4>
-                  <p className={`text-sm opacity-70 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+                  <h4 className={`font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{area.name}</h4>
+                  <p className={`text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                     {area.district} • {area.pincode}
                   </p>
                 </div>
                 <div className="text-right">
-                  <div className={`text-2xl font-bold ${index === 0 ? 'text-yellow-600 dark:text-yellow-400' : isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+                  <div className={`text-2xl font-bold ${index === 0 ? 'text-yellow-600 dark:text-yellow-400' : isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                     {area.score}
                   </div>
-                  <p className={`text-sm opacity-70 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+                  <p className={`text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                     Score
                   </p>
                 </div>
@@ -280,44 +280,44 @@ function Comparison() {
         >
           <Link 
             to="/ai-recommendations"
-            className={`p-6 rounded-2xl border flex items-center gap-4 transition-all hover:-translate-y-1 ${isDarkMode ? 'bg-card-dark border-border-dark hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.3)]' : 'bg-card-light border-border-light hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1)]'}`}
+            className={`p-6 rounded-2xl border flex items-center gap-4 transition-all hover:-translate-y-1 ${isDarkMode ? 'bg-[#1e293b] border-[#334155] hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.3)]' : 'bg-[#ffffff] border-[#e2e8f0] hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1)]'}`}
           >
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-primary-blue to-primary-purple flex items-center justify-center">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-[#2563eb] to-[#7c3aed] flex items-center justify-center">
               <Star className="text-white" size={24} />
             </div>
             <div>
-              <h4 className={`font-bold mb-1 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>AI Recommendations</h4>
-              <p className={`text-sm opacity-70 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Get smart suggestions</p>
+              <h4 className={`font-bold mb-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>AI Recommendations</h4>
+              <p className={`text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Get smart suggestions</p>
             </div>
-            <ChevronRight className={`ml-auto ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`} size={20} />
+            <ChevronRight className={`ml-auto ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`} size={20} />
           </Link>
 
           <Link 
             to="/forecast"
-            className={`p-6 rounded-2xl border flex items-center gap-4 transition-all hover:-translate-y-1 ${isDarkMode ? 'bg-card-dark border-border-dark hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.3)]' : 'bg-card-light border-border-light hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1)]'}`}
+            className={`p-6 rounded-2xl border flex items-center gap-4 transition-all hover:-translate-y-1 ${isDarkMode ? 'bg-[#1e293b] border-[#334155] hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.3)]' : 'bg-[#ffffff] border-[#e2e8f0] hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1)]'}`}
           >
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-primary-blue to-primary-purple flex items-center justify-center">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-[#2563eb] to-[#7c3aed] flex items-center justify-center">
               <TrendingUp className="text-white" size={24} />
             </div>
             <div>
-              <h4 className={`font-bold mb-1 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>View Forecast</h4>
-              <p className={`text-sm opacity-70 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Future predictions</p>
+              <h4 className={`font-bold mb-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>View Forecast</h4>
+              <p className={`text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Future predictions</p>
             </div>
-            <ChevronRight className={`ml-auto ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`} size={20} />
+            <ChevronRight className={`ml-auto ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`} size={20} />
           </Link>
 
           <Link 
             to="/reports"
-            className={`p-6 rounded-2xl border flex items-center gap-4 transition-all hover:-translate-y-1 ${isDarkMode ? 'bg-card-dark border-border-dark hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.3)]' : 'bg-card-light border-border-light hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1)]'}`}
+            className={`p-6 rounded-2xl border flex items-center gap-4 transition-all hover:-translate-y-1 ${isDarkMode ? 'bg-[#1e293b] border-[#334155] hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.3)]' : 'bg-[#ffffff] border-[#e2e8f0] hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1)]'}`}
           >
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-primary-blue to-primary-purple flex items-center justify-center">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-[#2563eb] to-[#7c3aed] flex items-center justify-center">
               <BarChart3 className="text-white" size={24} />
             </div>
             <div>
-              <h4 className={`font-bold mb-1 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Export Report</h4>
-              <p className={`text-sm opacity-70 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Download comparison</p>
+              <h4 className={`font-bold mb-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Export Report</h4>
+              <p className={`text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Download comparison</p>
             </div>
-            <ChevronRight className={`ml-auto ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`} size={20} />
+            <ChevronRight className={`ml-auto ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`} size={20} />
           </Link>
         </motion.div>
 
@@ -333,15 +333,15 @@ function Comparison() {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               onClick={(e) => e.stopPropagation()}
-              className={`p-6 rounded-2xl border max-w-md w-full ${isDarkMode ? 'bg-card-dark border-border-dark' : 'bg-card-light border-border-light'}`}
+              className={`p-6 rounded-2xl border max-w-md w-full ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
             >
               <div className="flex items-center justify-between mb-6">
-                <h3 className={`text-xl font-bold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+                <h3 className={`text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                   Add Area to Compare
                 </h3>
                 <button
                   onClick={() => setShowAddModal(false)}
-                  className={`p-2 rounded-lg ${isDarkMode ? 'text-text-dark hover:bg-card-dark' : 'text-text-light hover:bg-card-light'}`}
+                  className={`p-2 rounded-lg ${isDarkMode ? 'text-[#f1f5f9] hover:bg-[#1e293b]' : 'text-[#1e293b] hover:bg-[#ffffff]'}`}
                 >
                   <X size={20} />
                 </button>
@@ -354,7 +354,7 @@ function Comparison() {
                     <button
                       key={area.id}
                       onClick={() => addArea(area)}
-                      className={`w-full p-4 rounded-xl border text-left transition-all hover:border-primary-blue ${isDarkMode ? 'bg-bg-dark border-border-dark text-text-dark' : 'bg-bg-light border-border-light text-text-light'}`}
+                      className={`w-full p-4 rounded-xl border text-left transition-all hover:border-[#2563eb] ${isDarkMode ? 'bg-[#0f172a] border-[#334155] text-[#f1f5f9]' : 'bg-[#f8fafc] border-[#e2e8f0] text-[#1e293b]'}`}
                     >
                       <div className="flex items-center justify-between">
                         <div>
@@ -362,7 +362,7 @@ function Comparison() {
                           <p className="text-sm opacity-70">{area.district} • {area.pincode}</p>
                         </div>
                         <div className="text-right">
-                          <div className="text-lg font-bold text-primary-blue">{area.score}</div>
+                          <div className="text-lg font-bold text-[#2563eb]">{area.score}</div>
                           <p className="text-xs opacity-70">Score</p>
                         </div>
                       </div>
@@ -371,7 +371,7 @@ function Comparison() {
               </div>
 
               {availableAreas.filter(area => !selectedAreas.find(a => a.id === area.id)).length === 0 && (
-                <p className={`text-center py-8 opacity-70 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+                <p className={`text-center py-8 opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                   No more areas available to compare
                 </p>
               )}

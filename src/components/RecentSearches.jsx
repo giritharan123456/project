@@ -11,15 +11,15 @@ const RecentSearches = ({ searches, onSearch, onClear }) => {
   }
 
   return (
-    <div className={`p-4 rounded-xl border mb-4 ${isDarkMode ? 'bg-card-dark border-border-dark' : 'bg-card-light border-border-light'}`}>
+    <div className={`p-4 rounded-xl border mb-4 ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}>
       <div className="flex justify-between items-center mb-3">
-        <h4 className={`text-sm font-semibold flex items-center gap-2 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+        <h4 className={`text-sm font-semibold flex items-center gap-2 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
           <Clock size={16} />
           Recent Searches
         </h4>
         <button
           onClick={onClear}
-          className={`text-xs px-2 py-1 rounded-lg transition-colors ${isDarkMode ? 'text-text-dark hover:bg-white/10' : 'text-text-light hover:bg-black/5'}`}
+          className={`text-xs px-2 py-1 rounded-lg transition-colors ${isDarkMode ? 'text-[#f1f5f9] hover:bg-white/10' : 'text-[#1e293b] hover:bg-black/5'}`}
         >
           Clear All
         </button>
@@ -32,7 +32,7 @@ const RecentSearches = ({ searches, onSearch, onClear }) => {
             animate={{ opacity: 1, scale: 1 }}
             whileHover={{ scale: 1.05 }}
             onClick={() => onSearch(search)}
-            className={`text-xs px-3 py-1.5 rounded-full border transition-colors ${isDarkMode ? 'bg-bg-dark border-border-dark text-text-dark hover:border-primary-blue' : 'bg-bg-light border-border-light text-text-light hover:border-primary-blue'}`}
+            className={`text-xs px-3 py-1.5 rounded-full border transition-colors ${isDarkMode ? 'bg-[#0f172a] border-[#334155] text-[#f1f5f9] hover:border-[#2563eb]' : 'bg-[#f8fafc] border-[#e2e8f0] text-[#1e293b] hover:border-[#2563eb]'}`}
           >
             {search}
           </motion.button>

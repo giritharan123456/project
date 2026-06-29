@@ -56,7 +56,7 @@ function AnalyticsDashboard() {
   };
 
   return (
-    <div className={`min-h-[calc(100vh-70px)] p-6 transition-colors duration-300 ${isDarkMode ? 'bg-bg-dark' : 'bg-bg-light'}`}>
+    <div className={`min-h-[calc(100vh-70px)] p-6 transition-colors duration-300 ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <motion.div
@@ -65,12 +65,12 @@ function AnalyticsDashboard() {
           className="mb-8"
         >
           <div className="flex items-center gap-3 mb-2">
-            <BarChart3 className="text-primary-blue" size={32} />
-            <h1 className={`text-3xl font-bold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+            <BarChart3 className="text-[#2563eb]" size={32} />
+            <h1 className={`text-3xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
               Analytics Dashboard
             </h1>
           </div>
-          <p className={`text-lg opacity-70 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+          <p className={`text-lg opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                 Overview of platform performance and data insights
           </p>
         </motion.div>
@@ -88,14 +88,14 @@ function AnalyticsDashboard() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 + (index * 0.1) }}
-              className={`p-6 rounded-2xl border ${isDarkMode ? 'bg-card-dark border-border-dark' : 'bg-card-light border-border-light'}`}
+              className={`p-6 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
             >
               <metric.icon className={`${metric.color} mb-3`} size={24} />
-              <p className={`text-sm opacity-70 mb-1 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>{metric.label}</p>
-              <p className={`text-2xl font-bold mb-1 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+              <p className={`text-sm opacity-70 mb-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{metric.label}</p>
+              <p className={`text-2xl font-bold mb-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                 {metric.value}
               </p>
-              <p className={`text-xs opacity-50 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>{metric.detail}</p>
+              <p className={`text-xs opacity-50 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{metric.detail}</p>
             </motion.div>
           ))}
         </div>
@@ -105,11 +105,11 @@ function AnalyticsDashboard() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
-          className={`p-6 rounded-2xl border mb-8 ${isDarkMode ? 'bg-card-dark border-border-dark' : 'bg-card-light border-border-light'}`}
+          className={`p-6 rounded-2xl border mb-8 ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
         >
           <div className="flex items-center gap-3 mb-6">
-            <MapPin className="text-primary-blue" size={24} />
-            <h3 className={`text-xl font-bold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+            <MapPin className="text-[#2563eb]" size={24} />
+            <h3 className={`text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
               Market Coverage
             </h3>
           </div>
@@ -121,10 +121,10 @@ function AnalyticsDashboard() {
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.6 + (index * 0.1) }}
-                className={`p-4 rounded-xl border flex items-center gap-3 ${isDarkMode ? 'bg-bg-dark border-border-dark' : 'bg-bg-light border-border-light'}`}
+                className={`p-4 rounded-xl border flex items-center gap-3 ${isDarkMode ? 'bg-[#0f172a] border-[#334155]' : 'bg-[#f8fafc] border-[#e2e8f0]'}`}
               >
                 <CheckCircle className="text-green-500" size={20} />
-                <span className={`font-semibold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>{district}</span>
+                <span className={`font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{district}</span>
               </motion.div>
             ))}
           </div>
@@ -135,11 +135,11 @@ function AnalyticsDashboard() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
-          className={`p-6 rounded-2xl border mb-8 ${isDarkMode ? 'bg-card-dark border-border-dark' : 'bg-card-light border-border-light'}`}
+          className={`p-6 rounded-2xl border mb-8 ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
         >
           <div className="flex items-center gap-3 mb-6">
-            <Database className="text-primary-blue" size={24} />
-            <h3 className={`text-xl font-bold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+            <Database className="text-[#2563eb]" size={24} />
+            <h3 className={`text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
               Data Quality Breakdown
             </h3>
           </div>
@@ -152,8 +152,8 @@ function AnalyticsDashboard() {
             ].map((item, index) => (
               <div key={index}>
                 <div className="flex justify-between mb-2">
-                  <span className={`text-sm font-medium ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>{item.label}</span>
-                  <span className={`text-sm font-semibold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>{item.value}%</span>
+                  <span className={`text-sm font-medium ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{item.label}</span>
+                  <span className={`text-sm font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{item.value}%</span>
                 </div>
                 <div className="w-full h-3 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
                   <motion.div 
@@ -173,11 +173,11 @@ function AnalyticsDashboard() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.7 }}
-          className={`p-6 rounded-2xl border mb-8 ${isDarkMode ? 'bg-card-dark border-border-dark' : 'bg-card-light border-border-light'}`}
+          className={`p-6 rounded-2xl border mb-8 ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
         >
           <div className="flex items-center gap-3 mb-6">
-            <Zap className="text-primary-blue" size={24} />
-            <h3 className={`text-xl font-bold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+            <Zap className="text-[#2563eb]" size={24} />
+            <h3 className={`text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
               Business Opportunities
             </h3>
           </div>
@@ -193,16 +193,16 @@ function AnalyticsDashboard() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.8 + (index * 0.1) }}
-                className={`p-6 rounded-xl ${isDarkMode ? 'bg-bg-dark' : 'bg-bg-light'}`}
+                className={`p-6 rounded-xl ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}
               >
                 <div className="flex items-center justify-between mb-4">
-                  <span className={`font-semibold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>{item.label}</span>
+                  <span className={`font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{item.label}</span>
                   <div className={`w-3 h-3 rounded-full ${item.color}`} />
                 </div>
-                <div className="text-4xl font-extrabold bg-gradient-to-r from-primary-blue to-primary-purple bg-clip-text text-transparent">
+                <div className="text-4xl font-extrabold bg-gradient-to-r from-[#2563eb] to-[#7c3aed] bg-clip-text text-transparent">
                   {item.count}
                 </div>
-                <p className={`text-sm opacity-70 mt-2 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+                <p className={`text-sm opacity-70 mt-2 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                   Areas identified
                 </p>
               </motion.div>
@@ -217,11 +217,11 @@ function AnalyticsDashboard() {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.8 }}
-            className={`p-6 rounded-2xl border ${isDarkMode ? 'bg-card-dark border-border-dark' : 'bg-card-light border-border-light'}`}
+            className={`p-6 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
           >
             <div className="flex items-center gap-3 mb-6">
               <TrendingUp className="text-green-500" size={24} />
-              <h3 className={`text-xl font-bold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+              <h3 className={`text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                 High Growth Areas
               </h3>
             </div>
@@ -233,11 +233,11 @@ function AnalyticsDashboard() {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.9 + (index * 0.1) }}
-                  className={`p-4 rounded-xl border flex items-center justify-between ${isDarkMode ? 'bg-bg-dark border-border-dark' : 'bg-bg-light border-border-light'}`}
+                  className={`p-4 rounded-xl border flex items-center justify-between ${isDarkMode ? 'bg-[#0f172a] border-[#334155]' : 'bg-[#f8fafc] border-[#e2e8f0]'}`}
                 >
                   <div>
-                    <h4 className={`font-bold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>{area.name}</h4>
-                    <p className={`text-sm opacity-70 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Score: {area.score}</p>
+                    <h4 className={`font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{area.name}</h4>
+                    <p className={`text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Score: {area.score}</p>
                   </div>
                   <span className="text-green-500 font-bold">{area.growth}</span>
                 </motion.div>
@@ -250,11 +250,11 @@ function AnalyticsDashboard() {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.8 }}
-            className={`p-6 rounded-2xl border ${isDarkMode ? 'bg-card-dark border-border-dark' : 'bg-card-light border-border-light'}`}
+            className={`p-6 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
           >
             <div className="flex items-center gap-3 mb-6">
               <AlertTriangle className="text-orange-500" size={24} />
-              <h3 className={`text-xl font-bold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+              <h3 className={`text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                 High Risk Areas
               </h3>
             </div>
@@ -266,11 +266,11 @@ function AnalyticsDashboard() {
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.9 + (index * 0.1) }}
-                  className={`p-4 rounded-xl border flex items-center justify-between ${isDarkMode ? 'bg-bg-dark border-border-dark' : 'bg-bg-light border-border-light'}`}
+                  className={`p-4 rounded-xl border flex items-center justify-between ${isDarkMode ? 'bg-[#0f172a] border-[#334155]' : 'bg-[#f8fafc] border-[#e2e8f0]'}`}
                 >
                   <div>
-                    <h4 className={`font-bold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>{area.name}</h4>
-                    <p className={`text-sm opacity-70 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Score: {area.score}</p>
+                    <h4 className={`font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{area.name}</h4>
+                    <p className={`text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Score: {area.score}</p>
                   </div>
                   <span className="text-orange-500 text-sm font-medium">{area.risk}</span>
                 </motion.div>
@@ -284,11 +284,11 @@ function AnalyticsDashboard() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1 }}
-          className={`p-6 rounded-2xl border mb-8 ${isDarkMode ? 'bg-card-dark border-border-dark' : 'bg-card-light border-border-light'}`}
+          className={`p-6 rounded-2xl border mb-8 ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
         >
           <div className="flex items-center gap-3 mb-6">
-            <Award className="text-primary-blue" size={24} />
-            <h3 className={`text-xl font-bold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+            <Award className="text-[#2563eb]" size={24} />
+            <h3 className={`text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
               Platform Performance
             </h3>
           </div>
@@ -305,11 +305,11 @@ function AnalyticsDashboard() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1.1 + (index * 0.1) }}
-                className={`p-4 rounded-xl ${isDarkMode ? 'bg-bg-dark' : 'bg-bg-light'}`}
+                className={`p-4 rounded-xl ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}
               >
-                <stat.icon className="text-primary-blue mb-2" size={20} />
-                <p className={`text-2xl font-bold mb-1 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>{stat.value}</p>
-                <p className={`text-sm opacity-70 mb-1 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>{stat.label}</p>
+                <stat.icon className="text-[#2563eb] mb-2" size={20} />
+                <p className={`text-2xl font-bold mb-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{stat.value}</p>
+                <p className={`text-sm opacity-70 mb-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{stat.label}</p>
                 <span className="text-green-500 text-sm font-semibold">{stat.change}</span>
               </motion.div>
             ))}
@@ -325,44 +325,44 @@ function AnalyticsDashboard() {
         >
           <Link 
             to="/dashboard"
-            className={`p-6 rounded-2xl border flex items-center gap-4 transition-all hover:-translate-y-1 ${isDarkMode ? 'bg-card-dark border-border-dark hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.3)]' : 'bg-card-light border-border-light hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1)]'}`}
+            className={`p-6 rounded-2xl border flex items-center gap-4 transition-all hover:-translate-y-1 ${isDarkMode ? 'bg-[#1e293b] border-[#334155] hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.3)]' : 'bg-[#ffffff] border-[#e2e8f0] hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1)]'}`}
           >
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-primary-blue to-primary-purple flex items-center justify-center">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-[#2563eb] to-[#7c3aed] flex items-center justify-center">
               <MapPin className="text-white" size={24} />
             </div>
             <div>
-              <h4 className={`font-bold mb-1 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Explore Areas</h4>
-              <p className={`text-sm opacity-70 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Browse locations</p>
+              <h4 className={`font-bold mb-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Explore Areas</h4>
+              <p className={`text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Browse locations</p>
             </div>
-            <ArrowRight className={`ml-auto ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`} size={20} />
+            <ArrowRight className={`ml-auto ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`} size={20} />
           </Link>
 
           <Link 
             to="/ai-recommendations"
-            className={`p-6 rounded-2xl border flex items-center gap-4 transition-all hover:-translate-y-1 ${isDarkMode ? 'bg-card-dark border-border-dark hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.3)]' : 'bg-card-light border-border-light hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1)]'}`}
+            className={`p-6 rounded-2xl border flex items-center gap-4 transition-all hover:-translate-y-1 ${isDarkMode ? 'bg-[#1e293b] border-[#334155] hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.3)]' : 'bg-[#ffffff] border-[#e2e8f0] hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1)]'}`}
           >
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-primary-blue to-primary-purple flex items-center justify-center">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-[#2563eb] to-[#7c3aed] flex items-center justify-center">
               <Zap className="text-white" size={24} />
             </div>
             <div>
-              <h4 className={`font-bold mb-1 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>AI Insights</h4>
-              <p className={`text-sm opacity-70 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Get recommendations</p>
+              <h4 className={`font-bold mb-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>AI Insights</h4>
+              <p className={`text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Get recommendations</p>
             </div>
-            <ArrowRight className={`ml-auto ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`} size={20} />
+            <ArrowRight className={`ml-auto ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`} size={20} />
           </Link>
 
           <Link 
             to="/reports"
-            className={`p-6 rounded-2xl border flex items-center gap-4 transition-all hover:-translate-y-1 ${isDarkMode ? 'bg-card-dark border-border-dark hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.3)]' : 'bg-card-light border-border-light hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1)]'}`}
+            className={`p-6 rounded-2xl border flex items-center gap-4 transition-all hover:-translate-y-1 ${isDarkMode ? 'bg-[#1e293b] border-[#334155] hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.3)]' : 'bg-[#ffffff] border-[#e2e8f0] hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1)]'}`}
           >
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-primary-blue to-primary-purple flex items-center justify-center">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-[#2563eb] to-[#7c3aed] flex items-center justify-center">
               <FileText className="text-white" size={24} />
             </div>
             <div>
-              <h4 className={`font-bold mb-1 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Generate Reports</h4>
-              <p className={`text-sm opacity-70 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Export analytics</p>
+              <h4 className={`font-bold mb-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Generate Reports</h4>
+              <p className={`text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Export analytics</p>
             </div>
-            <ArrowRight className={`ml-auto ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`} size={20} />
+            <ArrowRight className={`ml-auto ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`} size={20} />
           </Link>
         </motion.div>
       </div>

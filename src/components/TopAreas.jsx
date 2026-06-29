@@ -10,32 +10,32 @@ function TopAreas({ pincodeData, businessCategories }) {
   });
 
   return (
-    <div className={`p-6 rounded-xl border transition-all duration-300 ${isDarkMode ? 'bg-card-dark border-border-dark shadow-[0_4px_6px_-1px_rgba(0,0,0,0.3),0_2px_4px_-1px_rgba(0,0,0,0.2)]' : 'bg-card-light border-border-light shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-1px_rgba(0,0,0,0.06)]'}`}>
-      <h3 className={`text-xl font-bold mb-6 bg-gradient-to-r from-primary-blue to-primary-purple bg-clip-text text-transparent ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>🏆 Top Pincodes by Market Opportunity</h3>
+    <div className={`p-6 rounded-xl border transition-all duration-300 ${isDarkMode ? 'bg-[#1e293b] border-[#334155] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.3),0_2px_4px_-1px_rgba(0,0,0,0.2)]' : 'bg-[#ffffff] border-[#e2e8f0] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-1px_rgba(0,0,0,0.06)]'}`}>
+      <h3 className={`text-xl font-bold mb-6 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] bg-clip-text text-transparent ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>🏆 Top Pincodes by Market Opportunity</h3>
       <div className="flex flex-col gap-4">
         {sortedPincodes.map((pincode, index) => {
           const avgGapScore = Object.values(pincode.marketGapScores).reduce((a, b) => a + b, 0) / Object.keys(pincode.marketGapScores).length;
           const topCategory = Object.entries(pincode.marketGapScores).sort(([, a], [, b]) => b - a)[0];
           
           return (
-            <div key={index} className={`p-4 rounded-lg border transition-all duration-300 ${isDarkMode ? 'bg-bg-dark border-border-dark hover:border-primary-blue' : 'bg-bg-light border-border-light hover:border-primary-blue'}`}>
+            <div key={index} className={`p-4 rounded-lg border transition-all duration-300 ${isDarkMode ? 'bg-[#0f172a] border-[#334155] hover:border-[#2563eb]' : 'bg-[#f8fafc] border-[#e2e8f0] hover:border-[#2563eb]'}`}>
               <div className="flex justify-between items-start mb-3">
                 <div className="flex items-center gap-3">
-                  <span className={`text-lg font-bold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>#{index + 1}</span>
+                  <span className={`text-lg font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>#{index + 1}</span>
                   <div>
-                    <span className={`block font-semibold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>{pincode.area}</span>
-                    <span className={`block text-xs opacity-70 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>{pincode.pincode}</span>
-                    <span className={`block text-xs opacity-70 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>{pincode.district}</span>
+                    <span className={`block font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{pincode.area}</span>
+                    <span className={`block text-xs opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{pincode.pincode}</span>
+                    <span className={`block text-xs opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{pincode.district}</span>
                   </div>
                 </div>
                 <div className="text-right">
                   <div className="flex gap-2 mb-2">
-                    <span className={`text-xs px-2 py-1 rounded-full ${isDarkMode ? 'bg-bg-dark text-text-dark border border-border-dark' : 'bg-bg-light text-text-light border border-border-light'}`}>👥 {pincode.population.toLocaleString()}</span>
-                    <span className={`text-xs px-2 py-1 rounded-full ${isDarkMode ? 'bg-bg-dark text-text-dark border border-border-dark' : 'bg-bg-light text-text-light border border-border-light'}`}>📈 {pincode.populationGrowth}%</span>
+                    <span className={`text-xs px-2 py-1 rounded-full ${isDarkMode ? 'bg-[#0f172a] text-[#f1f5f9] border border-[#334155]' : 'bg-[#f8fafc] text-[#1e293b] border border-[#e2e8f0]'}`}>👥 {pincode.population.toLocaleString()}</span>
+                    <span className={`text-xs px-2 py-1 rounded-full ${isDarkMode ? 'bg-[#0f172a] text-[#f1f5f9] border border-[#334155]' : 'bg-[#f8fafc] text-[#1e293b] border border-[#e2e8f0]'}`}>📈 {pincode.populationGrowth}%</span>
                   </div>
                   <div className="flex items-center gap-2 mb-2">
-                    <span className={`text-xs opacity-70 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Best: {topCategory[0]}</span>
-                    <span className={`text-sm font-bold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>{topCategory[1]}</span>
+                    <span className={`text-xs opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Best: {topCategory[0]}</span>
+                    <span className={`text-sm font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{topCategory[1]}</span>
                   </div>
                   <div className="w-full h-2 rounded-full bg-gray-200 mb-1 overflow-hidden">
                     <div 
@@ -52,11 +52,11 @@ function TopAreas({ pincodeData, businessCategories }) {
       </div>
       
       <div className="mt-6 pt-6 border-t">
-        <h4 className={`text-lg font-semibold mb-4 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>📊 Business Category Summary</h4>
+        <h4 className={`text-lg font-semibold mb-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>📊 Business Category Summary</h4>
         <div className="flex flex-wrap gap-3">
           {businessCategories.slice(0, 4).map((cat, index) => (
-            <div key={index} className={`px-4 py-2 rounded-lg border ${isDarkMode ? 'bg-bg-dark border-border-dark' : 'bg-bg-light border-border-light'}`}>
-              <span className={`block text-sm font-semibold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>{cat.name}</span>
+            <div key={index} className={`px-4 py-2 rounded-lg border ${isDarkMode ? 'bg-[#0f172a] border-[#334155]' : 'bg-[#f8fafc] border-[#e2e8f0]'}`}>
+              <span className={`block text-sm font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{cat.name}</span>
               <span className={`block text-xs font-bold ${cat.gap >= 30 ? 'text-red-500' : cat.gap >= 20 ? 'text-amber-500' : 'text-emerald-500'}`}>
                 {cat.gap}% gap
               </span>

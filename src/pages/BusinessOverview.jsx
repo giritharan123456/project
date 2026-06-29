@@ -118,7 +118,7 @@ function BusinessOverview() {
   };
 
   return (
-    <div className={`min-h-[calc(100vh-70px)] p-6 transition-colors duration-300 ${isDarkMode ? 'bg-bg-dark' : 'bg-bg-light'}`}>
+    <div className={`min-h-[calc(100vh-70px)] p-6 transition-colors duration-300 ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <motion.div
@@ -128,7 +128,7 @@ function BusinessOverview() {
         >
           <Link 
             to="/dashboard"
-            className={`inline-flex items-center gap-2 mb-4 font-medium hover:text-primary-blue transition-colors ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}
+            className={`inline-flex items-center gap-2 mb-4 font-medium hover:text-[#2563eb] transition-colors ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}
           >
             <ArrowLeft size={20} />
             Back to Dashboard
@@ -137,21 +137,21 @@ function BusinessOverview() {
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
               <div className="flex items-center gap-3 mb-2">
-                <Store className="text-primary-blue" size={28} />
-                <h1 className={`text-3xl font-bold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+                <Store className="text-[#2563eb]" size={28} />
+                <h1 className={`text-3xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                   Business Overview
                 </h1>
               </div>
-              <p className={`text-lg opacity-70 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+              <p className={`text-lg opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                 Pincode: {pincode || '600017'}
               </p>
             </div>
             
             <div className="flex items-center gap-3">
-              <button className={`p-3 rounded-xl border transition-colors ${isDarkMode ? 'text-text-dark border-border-dark hover:bg-card-dark' : 'text-text-light border-border-light hover:bg-card-light'}`}>
+              <button className={`p-3 rounded-xl border transition-colors ${isDarkMode ? 'text-[#f1f5f9] border-[#334155] hover:bg-[#1e293b]' : 'text-[#1e293b] border-[#e2e8f0] hover:bg-[#ffffff]'}`}>
                 <Heart size={20} />
               </button>
-              <button className={`p-3 rounded-xl border transition-colors ${isDarkMode ? 'text-text-dark border-border-dark hover:bg-card-dark' : 'text-text-light border-border-light hover:bg-card-light'}`}>
+              <button className={`p-3 rounded-xl border transition-colors ${isDarkMode ? 'text-[#f1f5f9] border-[#334155] hover:bg-[#1e293b]' : 'text-[#1e293b] border-[#e2e8f0] hover:bg-[#ffffff]'}`}>
                 <Share2 size={20} />
               </button>
             </div>
@@ -171,11 +171,11 @@ function BusinessOverview() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 + (index * 0.1) }}
-              className={`p-6 rounded-2xl border ${isDarkMode ? 'bg-card-dark border-border-dark' : 'bg-card-light border-border-light'}`}
+              className={`p-6 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
             >
               <stat.icon className={`${stat.color} mb-3`} size={24} />
-              <p className={`text-sm opacity-70 mb-1 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>{stat.label}</p>
-              <p className={`text-2xl font-bold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+              <p className={`text-sm opacity-70 mb-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{stat.label}</p>
+              <p className={`text-2xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                 {stat.value}
               </p>
             </motion.div>
@@ -187,11 +187,11 @@ function BusinessOverview() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
-          className={`p-6 rounded-2xl border mb-8 ${isDarkMode ? 'bg-card-dark border-border-dark' : 'bg-card-light border-border-light'}`}
+          className={`p-6 rounded-2xl border mb-8 ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
         >
           <div className="flex items-center gap-3 mb-6">
-            <PieChart className="text-primary-blue" size={24} />
-            <h3 className={`text-xl font-bold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+            <PieChart className="text-[#2563eb]" size={24} />
+            <h3 className={`text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
               Popular Business Categories
             </h3>
           </div>
@@ -200,16 +200,16 @@ function BusinessOverview() {
               <motion.div
                 key={index}
                 whileHover={{ scale: 1.05 }}
-                className={`p-4 rounded-xl border text-center ${isDarkMode ? 'bg-bg-dark border-border-dark' : 'bg-bg-light border-border-light'}`}
+                className={`p-4 rounded-xl border text-center ${isDarkMode ? 'bg-[#0f172a] border-[#334155]' : 'bg-[#f8fafc] border-[#e2e8f0]'}`}
               >
-                <div className="w-12 h-12 bg-gradient-to-r from-primary-blue to-primary-purple rounded-lg flex items-center justify-center mx-auto mb-3">
+                <div className="w-12 h-12 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] rounded-lg flex items-center justify-center mx-auto mb-3">
                   <category.icon className="text-white" size={24} />
                 </div>
-                <p className={`text-sm font-semibold mb-1 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+                <p className={`text-sm font-semibold mb-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                   {category.name}
                 </p>
                 <div className="flex items-center justify-center gap-1">
-                  <span className={`text-lg font-bold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+                  <span className={`text-lg font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                     {category.count}
                   </span>
                   <TrendingUp className="text-green-500" size={14} />
@@ -225,16 +225,16 @@ function BusinessOverview() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
-          className={`p-6 rounded-2xl border mb-8 ${isDarkMode ? 'bg-card-dark border-border-dark' : 'bg-card-light border-border-light'}`}
+          className={`p-6 rounded-2xl border mb-8 ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
         >
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div className="flex items-center gap-4">
               <div className="relative">
-                <Search className={`absolute left-3 top-1/2 -translate-y-1/2 ${isDarkMode ? 'text-text-dark opacity-50' : 'text-text-light opacity-50'}`} size={20} />
+                <Search className={`absolute left-3 top-1/2 -translate-y-1/2 ${isDarkMode ? 'text-[#f1f5f9] opacity-50' : 'text-[#1e293b] opacity-50'}`} size={20} />
                 <input
                   type="text"
                   placeholder="Search businesses..."
-                  className={`pl-10 pr-4 py-2 rounded-lg border bg-transparent outline-none focus:border-primary-blue transition-colors ${isDarkMode ? 'text-text-dark border-border-dark' : 'text-text-light border-border-light'}`}
+                  className={`pl-10 pr-4 py-2 rounded-lg border bg-transparent outline-none focus:border-[#2563eb] transition-colors ${isDarkMode ? 'text-[#f1f5f9] border-[#334155]' : 'text-[#1e293b] border-[#e2e8f0]'}`}
                 />
               </div>
               
@@ -242,26 +242,26 @@ function BusinessOverview() {
                 <select
                   value={selectedCategory}
                   onChange={(e) => setSelectedCategory(e.target.value)}
-                  className={`px-4 py-2 pr-10 rounded-lg border bg-transparent outline-none focus:border-primary-blue transition-colors appearance-none cursor-pointer ${isDarkMode ? 'text-text-dark border-border-dark' : 'text-text-light border-border-light'}`}
+                  className={`px-4 py-2 pr-10 rounded-lg border bg-transparent outline-none focus:border-[#2563eb] transition-colors appearance-none cursor-pointer ${isDarkMode ? 'text-[#f1f5f9] border-[#334155]' : 'text-[#1e293b] border-[#e2e8f0]'}`}
                 >
                   {categories.map(category => (
                     <option key={category} value={category}>{category}</option>
                   ))}
                 </select>
-                <ChevronDown className={`absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`} size={16} />
+                <ChevronDown className={`absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`} size={16} />
               </div>
             </div>
 
             <div className="flex items-center gap-2">
               <button
                 onClick={() => setViewMode('grid')}
-                className={`p-2 rounded-lg transition-colors ${viewMode === 'grid' ? 'bg-primary-blue text-white' : isDarkMode ? 'text-text-dark hover:bg-card-dark' : 'text-text-light hover:bg-card-light'}`}
+                className={`p-2 rounded-lg transition-colors ${viewMode === 'grid' ? 'bg-[#2563eb] text-white' : isDarkMode ? 'text-[#f1f5f9] hover:bg-[#1e293b]' : 'text-[#1e293b] hover:bg-[#ffffff]'}`}
               >
                 <Grid size={20} />
               </button>
               <button
                 onClick={() => setViewMode('list')}
-                className={`p-2 rounded-lg transition-colors ${viewMode === 'list' ? 'bg-primary-blue text-white' : isDarkMode ? 'text-text-dark hover:bg-card-dark' : 'text-text-light hover:bg-card-light'}`}
+                className={`p-2 rounded-lg transition-colors ${viewMode === 'list' ? 'bg-[#2563eb] text-white' : isDarkMode ? 'text-[#f1f5f9] hover:bg-[#1e293b]' : 'text-[#1e293b] hover:bg-[#ffffff]'}`}
               >
                 <List size={20} />
               </button>
@@ -276,7 +276,7 @@ function BusinessOverview() {
           transition={{ delay: 0.7 }}
         >
           <div className="flex items-center justify-between mb-4">
-            <h3 className={`text-xl font-bold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+            <h3 className={`text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
               Existing Businesses ({filteredBusinesses.length})
             </h3>
           </div>
@@ -292,10 +292,10 @@ function BusinessOverview() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.8 + (index * 0.1) }}
                     whileHover={{ scale: 1.02 }}
-                    className={`p-6 rounded-2xl border ${isDarkMode ? 'bg-card-dark border-border-dark hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.3)]' : 'bg-card-light border-border-light hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1)]'}`}
+                    className={`p-6 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155] hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.3)]' : 'bg-[#ffffff] border-[#e2e8f0] hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1)]'}`}
                   >
                     <div className="flex items-start justify-between mb-4">
-                      <div className="w-12 h-12 bg-gradient-to-r from-primary-blue to-primary-purple rounded-xl flex items-center justify-center">
+                      <div className="w-12 h-12 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] rounded-xl flex items-center justify-center">
                         <CategoryIcon className="text-white" size={24} />
                       </div>
                       <span className={`px-3 py-1 rounded-full text-xs font-semibold ${business.status === 'Open' ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'}`}>
@@ -303,33 +303,33 @@ function BusinessOverview() {
                       </span>
                     </div>
                     
-                    <h4 className={`font-bold mb-2 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+                    <h4 className={`font-bold mb-2 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                       {business.name}
                     </h4>
-                    <p className={`text-sm opacity-70 mb-3 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+                    <p className={`text-sm opacity-70 mb-3 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                       {business.category}
                     </p>
                     
                     <div className="flex items-center gap-1 mb-3">
                       <Star className="text-yellow-500 fill-yellow-500" size={16} />
-                      <span className={`font-semibold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+                      <span className={`font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                         {business.rating}
                       </span>
-                      <span className={`text-sm opacity-70 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+                      <span className={`text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                         ({business.reviews} reviews)
                       </span>
                     </div>
                     
                     <div className="space-y-2 text-sm">
-                      <div className={`flex items-center gap-2 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+                      <div className={`flex items-center gap-2 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                         <MapPin size={14} />
                         <span>{business.distance}</span>
                       </div>
-                      <div className={`flex items-center gap-2 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+                      <div className={`flex items-center gap-2 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                         <Clock size={14} />
                         <span>{business.hours}</span>
                       </div>
-                      <div className={`flex items-center gap-2 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+                      <div className={`flex items-center gap-2 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                         <Building2 size={14} />
                         <span>Since {business.established}</span>
                       </div>
@@ -348,20 +348,20 @@ function BusinessOverview() {
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.8 + (index * 0.1) }}
-                    className={`p-6 rounded-2xl border ${isDarkMode ? 'bg-card-dark border-border-dark hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.3)]' : 'bg-card-light border-border-light hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1)]'}`}
+                    className={`p-6 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155] hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.3)]' : 'bg-[#ffffff] border-[#e2e8f0] hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1)]'}`}
                   >
                     <div className="flex items-start gap-4">
-                      <div className="w-16 h-16 bg-gradient-to-r from-primary-blue to-primary-purple rounded-xl flex items-center justify-center flex-shrink-0">
+                      <div className="w-16 h-16 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] rounded-xl flex items-center justify-center flex-shrink-0">
                         <CategoryIcon className="text-white" size={32} />
                       </div>
                       
                       <div className="flex-1">
                         <div className="flex items-start justify-between mb-2">
                           <div>
-                            <h4 className={`font-bold text-lg ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+                            <h4 className={`font-bold text-lg ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                               {business.name}
                             </h4>
-                            <p className={`text-sm opacity-70 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+                            <p className={`text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                               {business.category}
                             </p>
                           </div>
@@ -373,28 +373,28 @@ function BusinessOverview() {
                         <div className="flex items-center gap-4 mb-3">
                           <div className="flex items-center gap-1">
                             <Star className="text-yellow-500 fill-yellow-500" size={16} />
-                            <span className={`font-semibold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+                            <span className={`font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                               {business.rating}
                             </span>
-                            <span className={`text-sm opacity-70 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+                            <span className={`text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                               ({business.reviews} reviews)
                             </span>
                           </div>
-                          <span className={`text-sm ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+                          <span className={`text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                             Since {business.established}
                           </span>
                         </div>
                         
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-                          <div className={`flex items-center gap-2 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+                          <div className={`flex items-center gap-2 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                             <MapPin size={14} />
                             <span>{business.distance}</span>
                           </div>
-                          <div className={`flex items-center gap-2 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+                          <div className={`flex items-center gap-2 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                             <Clock size={14} />
                             <span>{business.hours}</span>
                           </div>
-                          <div className={`flex items-center gap-2 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+                          <div className={`flex items-center gap-2 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                             <Phone size={14} />
                             <span>{business.phone}</span>
                           </div>
@@ -419,10 +419,10 @@ function BusinessOverview() {
             <div className="flex items-start gap-4">
               <AlertCircle className="text-orange-500 flex-shrink-0" size={24} />
               <div>
-                <h4 className={`font-bold mb-2 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+                <h4 className={`font-bold mb-2 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                   High Market Saturation
                 </h4>
-                <p className={`text-sm opacity-70 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+                <p className={`text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                   This area has {businessData.marketSaturation}% market saturation. Consider exploring nearby areas with lower competition for better business opportunities.
                 </p>
               </div>

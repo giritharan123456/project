@@ -29,10 +29,10 @@ const Competitors = () => {
   return (
     <div className="w-full">
       <div className="mb-8">
-        <h2 className="text-3xl font-bold mb-2 bg-gradient-to-r from-primary-blue to-primary-purple bg-clip-text text-transparent">
+        <h2 className="text-3xl font-bold mb-2 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] bg-clip-text text-transparent">
           Competitor Intelligence
         </h2>
-        <p className={`text-base opacity-80 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+        <p className={`text-base opacity-80 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
           AI-driven analysis of your top competitors and market positioning.
         </p>
       </div>
@@ -42,7 +42,7 @@ const Competitors = () => {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.3 }}
-          className={`p-6 rounded-xl border ${isDarkMode ? 'bg-card-dark border-border-dark' : 'bg-card-light border-border-light'}`}
+          className={`p-6 rounded-xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
         >
           <h3 className="text-xl font-semibold mb-6">Market Share vs Engagement</h3>
           <div className="h-[300px] w-full">
@@ -60,8 +60,8 @@ const Competitors = () => {
                   }} 
                 />
                 <Legend />
-                <Bar dataKey="Market Share" fill="var(--primary-blue)" radius={[4, 4, 0, 0]} />
-                <Bar dataKey="Digital Presence" fill="var(--primary-purple)" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="Market Share" fill="#2563eb" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="Digital Presence" fill="#7c3aed" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -71,7 +71,7 @@ const Competitors = () => {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.3, delay: 0.1 }}
-          className={`p-6 rounded-xl border ${isDarkMode ? 'bg-card-dark border-border-dark' : 'bg-card-light border-border-light'}`}
+          className={`p-6 rounded-xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
         >
           <h3 className="text-xl font-semibold mb-6">Competitive Strengths Matrix</h3>
           <div className="h-[300px] w-full">
@@ -80,8 +80,8 @@ const Competitors = () => {
                 <PolarGrid stroke={isDarkMode ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.2)'} />
                 <PolarAngleAxis dataKey="subject" stroke={isDarkMode ? '#f1f5f9' : '#1e293b'} />
                 <PolarRadiusAxis angle={30} domain={[0, 100]} stroke={isDarkMode ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.5)'} />
-                <Radar name="Your Business" dataKey="A" stroke="var(--primary-blue)" fill="var(--primary-blue)" fillOpacity={0.5} />
-                <Radar name="Competitor A" dataKey="B" stroke="var(--warning)" fill="var(--warning)" fillOpacity={0.5} />
+                <Radar name="Your Business" dataKey="A" stroke="#2563eb" fill="#2563eb" fillOpacity={0.5} />
+                <Radar name="Competitor A" dataKey="B" stroke="#f59e0b" fill="#f59e0b" fillOpacity={0.5} />
                 <Legend />
                 <RechartsTooltip 
                   contentStyle={{ 
@@ -102,13 +102,13 @@ const Competitors = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3, delay: 0.2 }}
-          className={`p-6 rounded-xl border cursor-pointer transition-all duration-300 ${isDarkMode ? 'bg-card-dark border-border-dark hover:border-primary-blue' : 'bg-card-light border-border-light hover:border-primary-blue'}`}
+          className={`p-6 rounded-xl border cursor-pointer transition-all duration-300 ${isDarkMode ? 'bg-[#1e293b] border-[#334155] hover:border-[#2563eb]' : 'bg-[#ffffff] border-[#e2e8f0] hover:border-[#2563eb]'}`}
           onClick={() => toggleInsight(1)}
         >
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-4">
               <div className="p-3 rounded-full" style={{ backgroundColor: 'rgba(245, 158, 11, 0.1)' }}>
-                <AlertTriangle size={24} style={{ color: 'var(--warning)' }} />
+                <AlertTriangle size={24} style={{ color: '#f59e0b' }} />
               </div>
               <div>
                 <h4 className="text-lg font-semibold">Competitor A has Low Customer Satisfaction</h4>
@@ -143,13 +143,13 @@ const Competitors = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3, delay: 0.3 }}
-          className={`p-6 rounded-xl border cursor-pointer transition-all duration-300 ${isDarkMode ? 'bg-card-dark border-border-dark hover:border-primary-blue' : 'bg-card-light border-border-light hover:border-primary-blue'}`}
+          className={`p-6 rounded-xl border cursor-pointer transition-all duration-300 ${isDarkMode ? 'bg-[#1e293b] border-[#334155] hover:border-[#2563eb]' : 'bg-[#ffffff] border-[#e2e8f0] hover:border-[#2563eb]'}`}
           onClick={() => toggleInsight(2)}
         >
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-4">
               <div className="p-3 rounded-full" style={{ backgroundColor: 'rgba(16, 185, 129, 0.1)' }}>
-                <TrendingUp size={24} style={{ color: 'var(--success)' }} />
+                <TrendingUp size={24} style={{ color: '#10b981' }} />
               </div>
               <div>
                 <h4 className="text-lg font-semibold">Dominant Digital Presence</h4>

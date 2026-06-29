@@ -153,23 +153,23 @@ ${index + 1}. ${pincode.area} (${pincode.pincode})
   const districtComparison = calculateDistrictComparison();
 
   return (
-    <div className={`p-6 rounded-xl border mb-6 transition-all duration-300 ${isDarkMode ? 'bg-card-dark border-border-dark shadow-[0_4px_6px_-1px_rgba(0,0,0,0.3),0_2px_4px_-1px_rgba(0,0,0,0.2)]' : 'bg-card-light border-border-light shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-1px_rgba(0,0,0,0.06)]'}`}>
+    <div className={`p-6 rounded-xl border mb-6 transition-all duration-300 ${isDarkMode ? 'bg-[#1e293b] border-[#334155] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.3),0_2px_4px_-1px_rgba(0,0,0,0.2)]' : 'bg-[#ffffff] border-[#e2e8f0] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-1px_rgba(0,0,0,0.06)]'}`}>
       <div className="flex justify-between items-center mb-6">
-        <h3 className={`text-xl font-bold bg-gradient-to-r from-primary-blue to-primary-purple bg-clip-text text-transparent ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>📊 Professional Analytics Dashboard</h3>
+        <h3 className={`text-xl font-bold bg-gradient-to-r from-[#2563eb] to-[#7c3aed] bg-clip-text text-transparent ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>📊 Professional Analytics Dashboard</h3>
         <div className="flex gap-2">
-          <button className={`px-4 py-2 border-2 rounded-lg transition-all duration-300 ${isDarkMode ? 'bg-bg-dark border-border-dark text-text-dark hover:border-primary-blue' : 'bg-bg-light border-border-light text-text-light hover:border-primary-blue'}`} onClick={handleExportReport}>📥 Export Report</button>
-          <button className={`px-4 py-2 border-2 rounded-lg transition-all duration-300 ${isDarkMode ? 'bg-bg-dark border-border-dark text-text-dark hover:border-primary-blue' : 'bg-bg-light border-border-light text-text-light hover:border-primary-blue'}`} onClick={handleSchedule}>📅 Schedule</button>
+          <button className={`px-4 py-2 border-2 rounded-lg transition-all duration-300 ${isDarkMode ? 'bg-[#0f172a] border-[#334155] text-[#f1f5f9] hover:border-[#2563eb]' : 'bg-[#f8fafc] border-[#e2e8f0] text-[#1e293b] hover:border-[#2563eb]'}`} onClick={handleExportReport}>📥 Export Report</button>
+          <button className={`px-4 py-2 border-2 rounded-lg transition-all duration-300 ${isDarkMode ? 'bg-[#0f172a] border-[#334155] text-[#f1f5f9] hover:border-[#2563eb]' : 'bg-[#f8fafc] border-[#e2e8f0] text-[#1e293b] hover:border-[#2563eb]'}`} onClick={handleSchedule}>📅 Schedule</button>
         </div>
       </div>
 
       <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-6">
         <motion.div
-          className={`p-4 rounded-lg border ${isDarkMode ? 'bg-bg-dark border-border-dark' : 'bg-bg-light border-border-light'}`}
+          className={`p-4 rounded-lg border ${isDarkMode ? 'bg-[#0f172a] border-[#334155]' : 'bg-[#f8fafc] border-[#e2e8f0]'}`}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
         >
-          <h4 className={`text-sm font-semibold mb-4 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Category Distribution</h4>
+          <h4 className={`text-sm font-semibold mb-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Category Distribution</h4>
           <ResponsiveContainer width="100%" height={200}>
             <PieChart>
               <Pie
@@ -200,17 +200,17 @@ ${index + 1}. ${pincode.area} (${pincode.pincode})
         </motion.div>
 
         <motion.div
-          className={`p-4 rounded-lg border ${isDarkMode ? 'bg-bg-dark border-border-dark' : 'bg-bg-light border-border-light'}`}
+          className={`p-4 rounded-lg border ${isDarkMode ? 'bg-[#0f172a] border-[#334155]' : 'bg-[#f8fafc] border-[#e2e8f0]'}`}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
-          <h4 className={`text-sm font-semibold mb-4 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Performance Metrics</h4>
+          <h4 className={`text-sm font-semibold mb-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Performance Metrics</h4>
           <div className="space-y-4">
             {performanceMetrics.map((metric, index) => (
               <div key={index}>
                 <div className="flex justify-between mb-2">
-                  <span className={`text-xs font-semibold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>{metric.name}</span>
+                  <span className={`text-xs font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{metric.name}</span>
                   <span className="text-sm font-bold" style={{ color: metric.color }}>
                     {metric.value}%
                   </span>
@@ -224,7 +224,7 @@ ${index + 1}. ${pincode.area} (${pincode.pincode})
                     }}
                   ></div>
                 </div>
-                <div className={`text-xs mt-1 opacity-70 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+                <div className={`text-xs mt-1 opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                   Target: {metric.target}%
                 </div>
               </div>
@@ -234,12 +234,12 @@ ${index + 1}. ${pincode.area} (${pincode.pincode})
       </div>
 
       <motion.div
-        className={`p-4 rounded-lg border mt-6 ${isDarkMode ? 'bg-bg-dark border-border-dark' : 'bg-bg-light border-border-light'}`}
+        className={`p-4 rounded-lg border mt-6 ${isDarkMode ? 'bg-[#0f172a] border-[#334155]' : 'bg-[#f8fafc] border-[#e2e8f0]'}`}
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.3 }}
       >
-        <h4 className={`text-sm font-semibold mb-4 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>District Comparison</h4>
+        <h4 className={`text-sm font-semibold mb-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>District Comparison</h4>
         <ResponsiveContainer width="100%" height={250}>
           <BarChart data={districtComparison}>
             <CartesianGrid strokeDasharray="3 3" stroke={isDarkMode ? '#334155' : '#e0e0e0'} />
@@ -268,39 +268,39 @@ ${index + 1}. ${pincode.area} (${pincode.pincode})
       </motion.div>
 
       <motion.div
-        className={`p-4 rounded-lg border mt-6 ${isDarkMode ? 'bg-bg-dark border-border-dark' : 'bg-bg-light border-border-light'}`}
+        className={`p-4 rounded-lg border mt-6 ${isDarkMode ? 'bg-[#0f172a] border-[#334155]' : 'bg-[#f8fafc] border-[#e2e8f0]'}`}
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.4 }}
       >
-        <h4 className={`text-sm font-semibold mb-4 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Key Insights Summary</h4>
+        <h4 className={`text-sm font-semibold mb-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Key Insights Summary</h4>
         <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-4">
-          <div className={`p-3 rounded-lg border ${isDarkMode ? 'bg-bg-dark border-border-dark' : 'bg-bg-light border-border-light'}`}>
+          <div className={`p-3 rounded-lg border ${isDarkMode ? 'bg-[#0f172a] border-[#334155]' : 'bg-[#f8fafc] border-[#e2e8f0]'}`}>
             <div className="text-2xl mb-2">🎯</div>
             <div>
-              <h5 className={`font-bold text-sm ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Top Performing District</h5>
-              <p className={`text-xs opacity-70 mt-1 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Chennai leads with highest market gap opportunities</p>
+              <h5 className={`font-bold text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Top Performing District</h5>
+              <p className={`text-xs opacity-70 mt-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Chennai leads with highest market gap opportunities</p>
             </div>
           </div>
-          <div className={`p-3 rounded-lg border ${isDarkMode ? 'bg-bg-dark border-border-dark' : 'bg-bg-light border-border-light'}`}>
+          <div className={`p-3 rounded-lg border ${isDarkMode ? 'bg-[#0f172a] border-[#334155]' : 'bg-[#f8fafc] border-[#e2e8f0]'}`}>
             <div className="text-2xl mb-2">📈</div>
             <div>
-              <h5 className={`font-bold text-sm ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Growth Trend</h5>
-              <p className={`text-xs opacity-70 mt-1 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Coimbatore shows highest population growth rate</p>
+              <h5 className={`font-bold text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Growth Trend</h5>
+              <p className={`text-xs opacity-70 mt-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Coimbatore shows highest population growth rate</p>
             </div>
           </div>
-          <div className={`p-3 rounded-lg border ${isDarkMode ? 'bg-bg-dark border-border-dark' : 'bg-bg-light border-border-light'}`}>
+          <div className={`p-3 rounded-lg border ${isDarkMode ? 'bg-[#0f172a] border-[#334155]' : 'bg-[#f8fafc] border-[#e2e8f0]'}`}>
             <div className="text-2xl mb-2">💡</div>
             <div>
-              <h5 className={`font-bold text-sm ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Opportunity Category</h5>
-              <p className={`text-xs opacity-70 mt-1 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Supermarket category shows highest underserved demand</p>
+              <h5 className={`font-bold text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Opportunity Category</h5>
+              <p className={`text-xs opacity-70 mt-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Supermarket category shows highest underserved demand</p>
             </div>
           </div>
-          <div className={`p-3 rounded-lg border ${isDarkMode ? 'bg-bg-dark border-border-dark' : 'bg-bg-light border-border-light'}`}>
+          <div className={`p-3 rounded-lg border ${isDarkMode ? 'bg-[#0f172a] border-[#334155]' : 'bg-[#f8fafc] border-[#e2e8f0]'}`}>
             <div className="text-2xl mb-2">⚡</div>
             <div>
-              <h5 className={`font-bold text-sm ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Data Coverage</h5>
-              <p className={`text-xs opacity-70 mt-1 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>100% coverage across all major districts</p>
+              <h5 className={`font-bold text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Data Coverage</h5>
+              <p className={`text-xs opacity-70 mt-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>100% coverage across all major districts</p>
             </div>
           </div>
         </div>
@@ -309,27 +309,27 @@ ${index + 1}. ${pincode.area} (${pincode.pincode})
       {showScheduleModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50" onClick={() => setShowScheduleModal(false)}>
           <motion.div
-            className={`p-6 rounded-xl border max-w-md w-full mx-4 ${isDarkMode ? 'bg-card-dark border-border-dark' : 'bg-card-light border-border-light'}`}
+            className={`p-6 rounded-xl border max-w-md w-full mx-4 ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex justify-between items-center mb-4">
-              <h3 className={`text-lg font-bold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>📅 Schedule Report</h3>
-              <button className={`px-3 py-1 border-2 rounded-lg ${isDarkMode ? 'bg-bg-dark border-border-dark text-text-dark' : 'bg-bg-light border-border-light text-text-light'}`} onClick={() => setShowScheduleModal(false)}>✕</button>
+              <h3 className={`text-lg font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>📅 Schedule Report</h3>
+              <button className={`px-3 py-1 border-2 rounded-lg ${isDarkMode ? 'bg-[#0f172a] border-[#334155] text-[#f1f5f9]' : 'bg-[#f8fafc] border-[#e2e8f0] text-[#1e293b]'}`} onClick={() => setShowScheduleModal(false)}>✕</button>
             </div>
             <div className="space-y-4">
               <div>
-                <label className={`block text-sm font-semibold mb-2 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Report Type</label>
-                <select className={`w-full p-2 border-2 rounded-lg ${isDarkMode ? 'bg-bg-dark border-border-dark text-text-dark' : 'bg-bg-light border-border-light text-text-light'}`}>
+                <label className={`block text-sm font-semibold mb-2 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Report Type</label>
+                <select className={`w-full p-2 border-2 rounded-lg ${isDarkMode ? 'bg-[#0f172a] border-[#334155] text-[#f1f5f9]' : 'bg-[#f8fafc] border-[#e2e8f0] text-[#1e293b]'}`}>
                   <option>Market Gap Analysis Report</option>
                   <option>District Comparison Report</option>
                   <option>Category Distribution Report</option>
                 </select>
               </div>
               <div>
-                <label className={`block text-sm font-semibold mb-2 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Frequency</label>
-                <select className={`w-full p-2 border-2 rounded-lg ${isDarkMode ? 'bg-bg-dark border-border-dark text-text-dark' : 'bg-bg-light border-border-light text-text-light'}`}>
+                <label className={`block text-sm font-semibold mb-2 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Frequency</label>
+                <select className={`w-full p-2 border-2 rounded-lg ${isDarkMode ? 'bg-[#0f172a] border-[#334155] text-[#f1f5f9]' : 'bg-[#f8fafc] border-[#e2e8f0] text-[#1e293b]'}`}>
                   <option>Daily</option>
                   <option>Weekly</option>
                   <option>Monthly</option>
@@ -337,17 +337,17 @@ ${index + 1}. ${pincode.area} (${pincode.pincode})
                 </select>
               </div>
               <div>
-                <label className={`block text-sm font-semibold mb-2 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Time</label>
-                <input type="time" defaultValue="09:00" className={`w-full p-2 border-2 rounded-lg ${isDarkMode ? 'bg-bg-dark border-border-dark text-text-dark' : 'bg-bg-light border-border-light text-text-light'}`} />
+                <label className={`block text-sm font-semibold mb-2 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Time</label>
+                <input type="time" defaultValue="09:00" className={`w-full p-2 border-2 rounded-lg ${isDarkMode ? 'bg-[#0f172a] border-[#334155] text-[#f1f5f9]' : 'bg-[#f8fafc] border-[#e2e8f0] text-[#1e293b]'}`} />
               </div>
               <div>
-                <label className={`block text-sm font-semibold mb-2 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Email Recipients</label>
-                <input type="email" placeholder="Enter email address" className={`w-full p-2 border-2 rounded-lg ${isDarkMode ? 'bg-bg-dark border-border-dark text-text-dark' : 'bg-bg-light border-border-light text-text-light'}`} />
+                <label className={`block text-sm font-semibold mb-2 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Email Recipients</label>
+                <input type="email" placeholder="Enter email address" className={`w-full p-2 border-2 rounded-lg ${isDarkMode ? 'bg-[#0f172a] border-[#334155] text-[#f1f5f9]' : 'bg-[#f8fafc] border-[#e2e8f0] text-[#1e293b]'}`} />
               </div>
             </div>
             <div className="flex gap-2 mt-6">
-              <button className={`flex-1 px-4 py-2 border-2 rounded-lg ${isDarkMode ? 'bg-bg-dark border-border-dark text-text-dark' : 'bg-bg-light border-border-light text-text-light'}`} onClick={() => setShowScheduleModal(false)}>Cancel</button>
-              <button className="flex-1 px-4 py-2 bg-gradient-to-r from-primary-blue to-primary-purple text-white border-none rounded-lg font-semibold" onClick={() => {
+              <button className={`flex-1 px-4 py-2 border-2 rounded-lg ${isDarkMode ? 'bg-[#0f172a] border-[#334155] text-[#f1f5f9]' : 'bg-[#f8fafc] border-[#e2e8f0] text-[#1e293b]'}`} onClick={() => setShowScheduleModal(false)}>Cancel</button>
+              <button className="flex-1 px-4 py-2 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white border-none rounded-lg font-semibold" onClick={() => {
                 alert('Schedule saved successfully!');
                 setShowScheduleModal(false);
               }}>Save Schedule</button>

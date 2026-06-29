@@ -39,8 +39,8 @@ const ScrollToTop = () => {
           onClick={scrollToTop}
           className={`fixed bottom-24 left-8 p-3 rounded-full shadow-lg z-40 transition-all ${
             isDarkMode 
-              ? 'bg-gradient-to-r from-primary-blue to-primary-purple text-white' 
-              : 'bg-gradient-to-r from-primary-blue to-primary-purple text-white'
+              ? 'bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white' 
+              : 'bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white'
           }`}
           aria-label="Scroll to top"
         >

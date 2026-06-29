@@ -240,15 +240,15 @@ function Dashboard() {
 
   return (
     <PageTransition>
-      <div className={`min-h-screen transition-colors duration-300 ${isDarkMode ? 'bg-bg-dark' : 'bg-bg-light'}`}>
+      <div className={`min-h-screen transition-colors duration-300 ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
       <motion.header 
-        className={`py-8 px-8 border-b shadow-lg ${isDarkMode ? 'bg-card-dark border-border-dark shadow-[0_4px_6px_-1px_rgba(0,0,0,0.3),0_2px_4px_-1px_rgba(0,0,0,0.2)]' : 'bg-card-light border-border-light shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-1px_rgba(0,0,0,0.06)]'}`}
+        className={`py-8 px-8 border-b shadow-lg ${isDarkMode ? 'bg-[#1e293b] border-[#334155] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.3),0_2px_4px_-1px_rgba(0,0,0,0.2)]' : 'bg-[#ffffff] border-[#e2e8f0] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-1px_rgba(0,0,0,0.06)]'}`}
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <h1 className={`text-2xl md:text-3xl font-bold mb-2 bg-gradient-to-r from-primary-blue to-primary-purple bg-clip-text text-transparent ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>🇮🇳 Tamil Nadu Market Gap Finder</h1>
-        <p className={`text-sm md:text-base opacity-70 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Pincode-wise underserved business opportunities analysis</p>
+        <h1 className={`text-2xl md:text-3xl font-bold mb-2 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] bg-clip-text text-transparent ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>🇮🇳 Tamil Nadu Market Gap Finder</h1>
+        <p className={`text-sm md:text-base opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Pincode-wise underserved business opportunities analysis</p>
       </motion.header>
 
       <div className="max-w-[1600px] mx-auto p-4 md:p-8">

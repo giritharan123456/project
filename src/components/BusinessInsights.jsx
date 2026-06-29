@@ -97,24 +97,24 @@ function BusinessInsights({ pincodeData }) {
   const demandDistribution = generateDemandDistribution();
 
   return (
-    <div className={`p-6 rounded-xl border mb-6 transition-all duration-300 ${isDarkMode ? 'bg-card-dark border-border-dark shadow-[0_4px_6px_-1px_rgba(0,0,0,0.3),0_2px_4px_-1px_rgba(0,0,0,0.2)]' : 'bg-card-light border-border-light shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-1px_rgba(0,0,0,0.06)]'}`}>
+    <div className={`p-6 rounded-xl border mb-6 transition-all duration-300 ${isDarkMode ? 'bg-[#1e293b] border-[#334155] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.3),0_2px_4px_-1px_rgba(0,0,0,0.2)]' : 'bg-[#ffffff] border-[#e2e8f0] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-1px_rgba(0,0,0,0.06)]'}`}>
       <div className="mb-6">
-        <h3 className={`text-xl font-bold mb-4 bg-gradient-to-r from-primary-blue to-primary-purple bg-clip-text text-transparent ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>📊 Business Insights & Opportunity Visualization</h3>
+        <h3 className={`text-xl font-bold mb-4 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] bg-clip-text text-transparent ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>📊 Business Insights & Opportunity Visualization</h3>
         <div className="flex gap-2 flex-wrap">
           <button
-            className={`px-4 py-2 rounded-lg transition-all duration-300 ${selectedView === 'opportunity' ? 'bg-gradient-to-r from-primary-blue to-primary-purple text-white' : `${isDarkMode ? 'bg-bg-dark text-text-dark border border-border-dark hover:border-primary-blue' : 'bg-bg-light text-text-light border border-border-light hover:border-primary-blue'}`}`}
+            className={`px-4 py-2 rounded-lg transition-all duration-300 ${selectedView === 'opportunity' ? 'bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white' : `${isDarkMode ? 'bg-[#0f172a] text-[#f1f5f9] border border-[#334155] hover:border-[#2563eb]' : 'bg-[#f8fafc] text-[#1e293b] border border-[#e2e8f0] hover:border-[#2563eb]'}`}`}
             onClick={() => setSelectedView('opportunity')}
           >
             Opportunity Analysis
           </button>
           <button
-            className={`px-4 py-2 rounded-lg transition-all duration-300 ${selectedView === 'competition' ? 'bg-gradient-to-r from-primary-blue to-primary-purple text-white' : `${isDarkMode ? 'bg-bg-dark text-text-dark border border-border-dark hover:border-primary-blue' : 'bg-bg-light text-text-light border border-border-light hover:border-primary-blue'}`}`}
+            className={`px-4 py-2 rounded-lg transition-all duration-300 ${selectedView === 'competition' ? 'bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white' : `${isDarkMode ? 'bg-[#0f172a] text-[#f1f5f9] border border-[#334155] hover:border-[#2563eb]' : 'bg-[#f8fafc] text-[#1e293b] border border-[#e2e8f0] hover:border-[#2563eb]'}`}`}
             onClick={() => setSelectedView('competition')}
           >
             Competition Analysis
           </button>
           <button
-            className={`px-4 py-2 rounded-lg transition-all duration-300 ${selectedView === 'demand' ? 'bg-gradient-to-r from-primary-blue to-primary-purple text-white' : `${isDarkMode ? 'bg-bg-dark text-text-dark border border-border-dark hover:border-primary-blue' : 'bg-bg-light text-text-light border border-border-light hover:border-primary-blue'}`}`}
+            className={`px-4 py-2 rounded-lg transition-all duration-300 ${selectedView === 'demand' ? 'bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white' : `${isDarkMode ? 'bg-[#0f172a] text-[#f1f5f9] border border-[#334155] hover:border-[#2563eb]' : 'bg-[#f8fafc] text-[#1e293b] border border-[#e2e8f0] hover:border-[#2563eb]'}`}`}
             onClick={() => setSelectedView('demand')}
           >
             Demand Distribution
@@ -130,7 +130,7 @@ function BusinessInsights({ pincodeData }) {
             transition={{ duration: 0.3 }}
           >
             <div className="mb-6">
-              <h4 className={`text-sm font-semibold mb-4 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Category Opportunity Scores</h4>
+              <h4 className={`text-sm font-semibold mb-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Category Opportunity Scores</h4>
               <ResponsiveContainer width="100%" height={300}>
                 <BarChart data={opportunityData}>
                   <CartesianGrid strokeDasharray="3 3" stroke={isDarkMode ? '#334155' : '#e0e0e0'} />
@@ -157,25 +157,25 @@ function BusinessInsights({ pincodeData }) {
             </div>
 
             <div>
-              <h4 className={`text-sm font-semibold mb-4 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Opportunity Details</h4>
+              <h4 className={`text-sm font-semibold mb-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Opportunity Details</h4>
               <div className="overflow-x-auto">
                 <table className="w-full border-collapse">
                   <thead>
-                    <tr className={`border-b ${isDarkMode ? 'border-border-dark' : 'border-border-light'}`}>
-                      <th className={`p-3 text-left text-sm font-semibold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Category</th>
-                      <th className={`p-3 text-left text-sm font-semibold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Avg Gap</th>
-                      <th className={`p-3 text-left text-sm font-semibold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Avg Demand</th>
-                      <th className={`p-3 text-left text-sm font-semibold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Avg Competitors</th>
-                      <th className={`p-3 text-left text-sm font-semibold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Opportunity Score</th>
+                    <tr className={`border-b ${isDarkMode ? 'border-[#334155]' : 'border-[#e2e8f0]'}`}>
+                      <th className={`p-3 text-left text-sm font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Category</th>
+                      <th className={`p-3 text-left text-sm font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Avg Gap</th>
+                      <th className={`p-3 text-left text-sm font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Avg Demand</th>
+                      <th className={`p-3 text-left text-sm font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Avg Competitors</th>
+                      <th className={`p-3 text-left text-sm font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Opportunity Score</th>
                     </tr>
                   </thead>
                   <tbody>
                     {opportunityData.map((item, index) => (
-                      <tr key={index} className={`border-b ${isDarkMode ? 'border-border-dark' : 'border-border-light'}`}>
-                        <td className={`p-3 text-sm ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>{item.category}</td>
-                        <td className={`p-3 text-sm ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>{item.avgGap}</td>
-                        <td className={`p-3 text-sm ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>{item.avgDemand}</td>
-                        <td className={`p-3 text-sm ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>{item.avgCompetitors}</td>
+                      <tr key={index} className={`border-b ${isDarkMode ? 'border-[#334155]' : 'border-[#e2e8f0]'}`}>
+                        <td className={`p-3 text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{item.category}</td>
+                        <td className={`p-3 text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{item.avgGap}</td>
+                        <td className={`p-3 text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{item.avgDemand}</td>
+                        <td className={`p-3 text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{item.avgCompetitors}</td>
                         <td className="p-3">
                           <span className={`inline-block px-3 py-1 rounded-full text-sm font-bold ${getScoreClass(item.opportunityScore) === 'high' ? 'bg-red-500 text-white' : getScoreClass(item.opportunityScore) === 'medium' ? 'bg-amber-500 text-white' : 'bg-emerald-500 text-white'}`}>
                             {item.opportunityScore}
@@ -197,7 +197,7 @@ function BusinessInsights({ pincodeData }) {
             transition={{ duration: 0.3 }}
           >
             <div className="mb-6">
-              <h4 className={`text-sm font-semibold mb-4 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Area Competition Levels</h4>
+              <h4 className={`text-sm font-semibold mb-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Area Competition Levels</h4>
               <ResponsiveContainer width="100%" height={300}>
                 <BarChart data={competitionData}>
                   <CartesianGrid strokeDasharray="3 3" stroke={isDarkMode ? '#334155' : '#e0e0e0'} />
@@ -224,23 +224,23 @@ function BusinessInsights({ pincodeData }) {
             </div>
 
             <div>
-              <h4 className={`text-sm font-semibold mb-4 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Competition Insights</h4>
+              <h4 className={`text-sm font-semibold mb-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Competition Insights</h4>
               <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-4">
                 {competitionData.slice(0, 4).map((area, index) => (
-                  <div key={index} className={`p-4 rounded-lg border ${isDarkMode ? 'bg-bg-dark border-border-dark' : 'bg-bg-light border-border-light'}`}>
-                    <h5 className={`font-bold mb-3 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>{area.area}</h5>
+                  <div key={index} className={`p-4 rounded-lg border ${isDarkMode ? 'bg-[#0f172a] border-[#334155]' : 'bg-[#f8fafc] border-[#e2e8f0]'}`}>
+                    <h5 className={`font-bold mb-3 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{area.area}</h5>
                     <div className="space-y-2">
                       <div className="flex justify-between">
-                        <span className={`text-xs opacity-70 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Competitors</span>
-                        <span className={`text-sm font-semibold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>{area.competitors}</span>
+                        <span className={`text-xs opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Competitors</span>
+                        <span className={`text-sm font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{area.competitors}</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className={`text-xs opacity-70 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Market Gap</span>
-                        <span className={`text-sm font-semibold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>{area.marketGap}</span>
+                        <span className={`text-xs opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Market Gap</span>
+                        <span className={`text-sm font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{area.marketGap}</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className={`text-xs opacity-70 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Population</span>
-                        <span className={`text-sm font-semibold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>{area.population.toLocaleString()}</span>
+                        <span className={`text-xs opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Population</span>
+                        <span className={`text-sm font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{area.population.toLocaleString()}</span>
                       </div>
                     </div>
                   </div>
@@ -257,7 +257,7 @@ function BusinessInsights({ pincodeData }) {
             transition={{ duration: 0.3 }}
           >
             <div className="mb-6">
-              <h4 className={`text-sm font-semibold mb-4 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Demand Distribution</h4>
+              <h4 className={`text-sm font-semibold mb-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Demand Distribution</h4>
               <ResponsiveContainer width="100%" height={300}>
                 <PieChart>
                   <Pie
@@ -288,16 +288,16 @@ function BusinessInsights({ pincodeData }) {
             </div>
 
             <div>
-              <h4 className={`text-sm font-semibold mb-4 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Demand Summary</h4>
+              <h4 className={`text-sm font-semibold mb-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Demand Summary</h4>
               <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-4">
                 {demandDistribution.map((item, index) => (
-                  <div key={index} className={`p-4 rounded-lg border-2 ${isDarkMode ? 'bg-bg-dark border-border-dark' : 'bg-bg-light border-border-light'}`} style={{ borderColor: COLORS[index % COLORS.length] }}>
+                  <div key={index} className={`p-4 rounded-lg border-2 ${isDarkMode ? 'bg-[#0f172a] border-[#334155]' : 'bg-[#f8fafc] border-[#e2e8f0]'}`} style={{ borderColor: COLORS[index % COLORS.length] }}>
                     <div className="w-10 h-10 rounded-full flex items-center justify-center mb-3" style={{ background: COLORS[index % COLORS.length] }}>
                       <span className="text-xl">{index === 0 ? '🔥' : index === 1 ? '⚡' : '💧'}</span>
                     </div>
-                    <h5 className={`font-bold mb-2 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>{item.level}</h5>
-                    <p className={`text-sm mb-2 opacity-70 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>{item.percentage}% of total demand</p>
-                    <span className={`inline-block px-3 py-1 rounded-full text-xs font-bold ${isDarkMode ? 'bg-bg-dark text-text-dark border border-border-dark' : 'bg-bg-light text-text-light border border-border-light'}`}>{item.count} data points</span>
+                    <h5 className={`font-bold mb-2 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{item.level}</h5>
+                    <p className={`text-sm mb-2 opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{item.percentage}% of total demand</p>
+                    <span className={`inline-block px-3 py-1 rounded-full text-xs font-bold ${isDarkMode ? 'bg-[#0f172a] text-[#f1f5f9] border border-[#334155]' : 'bg-[#f8fafc] text-[#1e293b] border border-[#e2e8f0]'}`}>{item.count} data points</span>
                   </div>
                 ))}
               </div>

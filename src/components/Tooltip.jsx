@@ -22,7 +22,7 @@ const Tooltip = ({ content, children, position = 'top' }) => {
         className="inline-flex items-center gap-1 cursor-help"
       >
         {children}
-        <Info size={14} className={`opacity-50 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`} />
+        <Info size={14} className={`opacity-50 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`} />
       </div>
       
       <AnimatePresence>
@@ -32,10 +32,10 @@ const Tooltip = ({ content, children, position = 'top' }) => {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.9 }}
             className={`absolute ${positionClasses[position]} w-64 p-3 rounded-lg shadow-lg z-50 ${
-              isDarkMode ? 'bg-card-dark border-border-dark border' : 'bg-card-light border-border-light border'
+              isDarkMode ? 'bg-[#1e293b] border-[#334155] border' : 'bg-[#ffffff] border-[#e2e8f0] border'
             }`}
           >
-            <p className={`text-sm ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+            <p className={`text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
               {content}
             </p>
           </motion.div>

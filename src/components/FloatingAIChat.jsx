@@ -35,11 +35,7 @@ const FloatingAIChat = () => {
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
         onClick={() => setIsOpen(true)}
-        className={`fixed bottom-8 right-8 p-4 rounded-full shadow-lg z-50 transition-all ${
-          isDarkMode 
-            ? 'bg-gradient-to-r from-primary-blue to-primary-purple text-white' 
-            : 'bg-gradient-to-r from-primary-blue to-primary-purple text-white'
-        }`}
+        className={`fixed bottom-8 right-8 p-4 rounded-full shadow-lg z-50 transition-all bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white`}
       >
         <MessageCircle size={24} />
       </motion.button>
@@ -51,20 +47,20 @@ const FloatingAIChat = () => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.9 }}
             className={`fixed bottom-24 right-8 w-96 max-w-[calc(100vw-2rem)] rounded-2xl shadow-2xl z-50 ${
-              isDarkMode ? 'bg-card-dark border-border-dark' : 'bg-card-light border-border-light'
+              isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'
             } border`}
           >
             <div className={`p-4 border-b flex items-center justify-between ${
-              isDarkMode ? 'border-border-dark' : 'border-border-light'
+              isDarkMode ? 'border-[#334155]' : 'border-[#e2e8f0]'
             }`}>
               <div className="flex items-center gap-3">
                 <div className={`p-2 rounded-full ${
-                  isDarkMode ? 'bg-primary-blue/20' : 'bg-primary-blue/10'
+                  isDarkMode ? 'bg-[#2563eb]/20' : 'bg-[#2563eb]/10'
                 }`}>
-                  <Bot size={20} className="text-primary-blue" />
+                  <Bot size={20} className="text-[#2563eb]" />
                 </div>
                 <div>
-                  <h3 className={`font-semibold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+                  <h3 className={`font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                     AI Assistant
                   </h3>
                   <p className="text-xs opacity-70">Online</p>
@@ -74,8 +70,8 @@ const FloatingAIChat = () => {
                 onClick={() => setIsOpen(false)}
                 className={`p-2 rounded-lg transition-colors ${
                   isDarkMode 
-                    ? 'hover:bg-white/10 text-text-dark' 
-                    : 'hover:bg-black/10 text-text-light'
+                    ? 'hover:bg-white/10 text-[#f1f5f9]' 
+                    : 'hover:bg-black/10 text-[#1e293b]'
                 }`}
               >
                 <X size={20} />
@@ -93,9 +89,9 @@ const FloatingAIChat = () => {
                   <div className={`max-w-[80%] p-3 rounded-2xl ${
                     msg.isBot
                       ? isDarkMode 
-                        ? 'bg-white/10 text-text-dark' 
-                        : 'bg-black/5 text-text-light'
-                      : 'bg-gradient-to-r from-primary-blue to-primary-purple text-white'
+                        ? 'bg-white/10 text-[#f1f5f9]' 
+                        : 'bg-black/5 text-[#1e293b]'
+                      : 'bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white'
                   }`}>
                     <p className="text-sm">{msg.text}</p>
                   </div>
@@ -104,7 +100,7 @@ const FloatingAIChat = () => {
             </div>
 
             <div className={`p-4 border-t flex gap-2 ${
-              isDarkMode ? 'border-border-dark' : 'border-border-light'
+              isDarkMode ? 'border-[#334155]' : 'border-[#e2e8f0]'
             }`}>
               <input
                 type="text"
@@ -114,8 +110,8 @@ const FloatingAIChat = () => {
                 placeholder="Ask about market opportunities..."
                 className={`flex-1 px-4 py-2 rounded-xl outline-none transition-colors ${
                   isDarkMode 
-                    ? 'bg-white/5 text-text-dark placeholder:text-white/50 border border-white/10 focus:border-primary-blue' 
-                    : 'bg-black/5 text-text-light placeholder:text-black/50 border border-black/10 focus:border-primary-blue'
+                    ? 'bg-white/5 text-[#f1f5f9] placeholder:text-white/50 border border-white/10 focus:border-[#2563eb]' 
+                    : 'bg-black/5 text-[#1e293b] placeholder:text-black/50 border border-black/10 focus:border-[#2563eb]'
                 }`}
               />
               <button
@@ -123,7 +119,7 @@ const FloatingAIChat = () => {
                 disabled={!message.trim()}
                 className={`p-2 rounded-xl transition-all ${
                   message.trim()
-                    ? 'bg-gradient-to-r from-primary-blue to-primary-purple text-white'
+                    ? 'bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white'
                     : isDarkMode
                       ? 'bg-white/10 text-white/50'
                       : 'bg-black/10 text-black/50'

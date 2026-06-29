@@ -24,22 +24,22 @@ function MapSection({ pincodeData, selectedDistrict }) {
   };
 
   return (
-    <div className={`p-6 rounded-xl border transition-all duration-300 ${isDarkMode ? 'bg-card-dark border-border-dark shadow-[0_4px_6px_-1px_rgba(0,0,0,0.3),0_2px_4px_-1px_rgba(0,0,0,0.2)]' : 'bg-card-light border-border-light shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-1px_rgba(0,0,0,0.06)]'}`}>
-      <h3 className={`text-xl font-bold mb-2 bg-gradient-to-r from-primary-blue to-primary-purple bg-clip-text text-transparent ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>🗺️ Market Gap Heat Map - {selectedDistrict}</h3>
-      <p className={`text-sm mb-4 opacity-70 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Circle size represents population, color represents market opportunity</p>
+    <div className={`p-6 rounded-xl border transition-all duration-300 ${isDarkMode ? 'bg-[#1e293b] border-[#334155] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.3),0_2px_4px_-1px_rgba(0,0,0,0.2)]' : 'bg-[#ffffff] border-[#e2e8f0] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-1px_rgba(0,0,0,0.06)]'}`}>
+      <h3 className={`text-xl font-bold mb-2 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] bg-clip-text text-transparent ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>🗺️ Market Gap Heat Map - {selectedDistrict}</h3>
+      <p className={`text-sm mb-4 opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Circle size represents population, color represents market opportunity</p>
       
       <div className="flex gap-4 mb-4 flex-wrap">
         <div className="flex items-center gap-2">
           <span className="w-4 h-4 rounded-full bg-red-500"></span>
-          <span className={`text-xs ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>High Opportunity (≥80)</span>
+          <span className={`text-xs ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>High Opportunity (≥80)</span>
         </div>
         <div className="flex items-center gap-2">
           <span className="w-4 h-4 rounded-full bg-amber-500"></span>
-          <span className={`text-xs ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Medium Opportunity (70-79)</span>
+          <span className={`text-xs ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Medium Opportunity (70-79)</span>
         </div>
         <div className="flex items-center gap-2">
           <span className="w-4 h-4 rounded-full bg-emerald-500"></span>
-          <span className={`text-xs ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Low Opportunity (&lt;70)</span>
+          <span className={`text-xs ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Low Opportunity (&lt;70)</span>
         </div>
       </div>
 
@@ -66,7 +66,7 @@ function MapSection({ pincodeData, selectedDistrict }) {
               }}
             >
               <Popup>
-                <div className={`p-4 min-w-[250px] ${isDarkMode ? 'bg-card-dark text-text-dark' : 'bg-card-light text-text-light'}`}>
+                <div className={`p-4 min-w-[250px] ${isDarkMode ? 'bg-[#1e293b] text-[#f1f5f9]' : 'bg-[#ffffff] text-[#1e293b]'}`}>
                   <h4 className="text-lg font-bold mb-2">{pincode.area} ({pincode.pincode})</h4>
                   <p className="text-sm mb-1"><strong>District:</strong> {pincode.district}</p>
                   <p className="text-sm mb-1"><strong>Population:</strong> {pincode.population.toLocaleString()}</p>

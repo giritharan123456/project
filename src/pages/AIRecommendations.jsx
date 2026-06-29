@@ -64,7 +64,7 @@ function AIRecommendations() {
   ];
 
   return (
-    <div className={`min-h-[calc(100vh-70px)] p-6 transition-colors duration-300 ${isDarkMode ? 'bg-bg-dark' : 'bg-bg-light'}`}>
+    <div className={`min-h-[calc(100vh-70px)] p-6 transition-colors duration-300 ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <motion.div
@@ -73,12 +73,12 @@ function AIRecommendations() {
           className="mb-8"
         >
           <div className="flex items-center gap-3 mb-2">
-            <Sparkles className="text-primary-blue" size={32} />
-            <h1 className={`text-3xl font-bold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+            <Sparkles className="text-[#2563eb]" size={32} />
+            <h1 className={`text-3xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
               AI-Powered Recommendations
             </h1>
           </div>
-          <p className={`text-lg opacity-70 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+          <p className={`text-lg opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
             Intelligent business suggestions based on market analysis
           </p>
         </motion.div>
@@ -88,9 +88,9 @@ function AIRecommendations() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className={`p-8 rounded-3xl border-2 mb-8 relative overflow-hidden ${isDarkMode ? 'bg-card-dark border-primary-blue' : 'bg-card-light border-primary-blue'}`}
+          className={`p-8 rounded-3xl border-2 mb-8 relative overflow-hidden ${isDarkMode ? 'bg-[#1e293b] border-[#2563eb]' : 'bg-[#ffffff] border-[#2563eb]'}`}
         >
-          <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-r from-primary-blue to-primary-purple rounded-full opacity-10 blur-3xl" />
+          <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] rounded-full opacity-10 blur-3xl" />
           
           <div className="relative z-10">
             <div className="flex items-center gap-2 mb-4">
@@ -100,30 +100,30 @@ function AIRecommendations() {
             
             <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6 mb-6">
               <div>
-                <h2 className={`text-3xl font-bold mb-2 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+                <h2 className={`text-3xl font-bold mb-2 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                   {topRecommendation.business}
                 </h2>
-                <p className={`text-lg opacity-70 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+                <p className={`text-lg opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                   {topRecommendation.category}
                 </p>
               </div>
               
               <div className="flex items-center gap-4">
                 <div className="text-center">
-                  <div className="text-4xl font-extrabold bg-gradient-to-r from-primary-blue to-primary-purple bg-clip-text text-transparent">
+                  <div className="text-4xl font-extrabold bg-gradient-to-r from-[#2563eb] to-[#7c3aed] bg-clip-text text-transparent">
                     {topRecommendation.successProbability}%
                   </div>
-                  <p className={`text-sm opacity-70 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+                  <p className={`text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                     Success Probability
                   </p>
                 </div>
               </div>
             </div>
 
-            <div className={`p-4 rounded-xl mb-6 ${isDarkMode ? 'bg-bg-dark' : 'bg-bg-light'}`}>
+            <div className={`p-4 rounded-xl mb-6 ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
               <div className="flex items-start gap-3">
-                <Lightbulb className="text-primary-blue flex-shrink-0" size={20} />
-                <p className={`text-sm ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+                <Lightbulb className="text-[#2563eb] flex-shrink-0" size={20} />
+                <p className={`text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                   <span className="font-semibold">Why Recommended:</span> {topRecommendation.whyRecommended}
                 </p>
               </div>
@@ -131,30 +131,30 @@ function AIRecommendations() {
 
             {/* Key Metrics */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-              <div className={`p-4 rounded-xl ${isDarkMode ? 'bg-bg-dark' : 'bg-bg-light'}`}>
+              <div className={`p-4 rounded-xl ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
                 <div className="flex items-center gap-2 mb-2">
                   <DollarSign className="text-green-500" size={20} />
-                  <span className={`text-sm font-semibold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Investment</span>
+                  <span className={`text-sm font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Investment</span>
                 </div>
-                <p className={`text-xl font-bold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+                <p className={`text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                   {topRecommendation.investment}
                 </p>
               </div>
-              <div className={`p-4 rounded-xl ${isDarkMode ? 'bg-bg-dark' : 'bg-bg-light'}`}>
+              <div className={`p-4 rounded-xl ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
                 <div className="flex items-center gap-2 mb-2">
                   <Users className="text-blue-500" size={20} />
-                  <span className={`text-sm font-semibold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Expected Customers</span>
+                  <span className={`text-sm font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Expected Customers</span>
                 </div>
-                <p className={`text-xl font-bold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+                <p className={`text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                   {topRecommendation.expectedCustomers}
                 </p>
               </div>
-              <div className={`p-4 rounded-xl ${isDarkMode ? 'bg-bg-dark' : 'bg-bg-light'}`}>
+              <div className={`p-4 rounded-xl ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
                 <div className="flex items-center gap-2 mb-2">
                   <TrendingUp className="text-purple-500" size={20} />
-                  <span className={`text-sm font-semibold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Expected Revenue</span>
+                  <span className={`text-sm font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Expected Revenue</span>
                 </div>
-                <p className={`text-xl font-bold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+                <p className={`text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                   {topRecommendation.expectedRevenue}
                 </p>
               </div>
@@ -165,11 +165,11 @@ function AIRecommendations() {
               <div>
                 <div className="flex items-center gap-2 mb-4">
                   <CheckCircle className="text-green-500" size={20} />
-                  <h3 className={`font-bold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Advantages</h3>
+                  <h3 className={`font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Advantages</h3>
                 </div>
                 <ul className="space-y-2">
                   {topRecommendation.advantages.map((advantage, index) => (
-                    <li key={index} className={`flex items-start gap-2 text-sm ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+                    <li key={index} className={`flex items-start gap-2 text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                       <CheckCircle className="text-green-500 flex-shrink-0 mt-0.5" size={16} />
                       {advantage}
                     </li>
@@ -179,11 +179,11 @@ function AIRecommendations() {
               <div>
                 <div className="flex items-center gap-2 mb-4">
                   <AlertTriangle className="text-orange-500" size={20} />
-                  <h3 className={`font-bold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Challenges</h3>
+                  <h3 className={`font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Challenges</h3>
                 </div>
                 <ul className="space-y-2">
                   {topRecommendation.challenges.map((challenge, index) => (
-                    <li key={index} className={`flex items-start gap-2 text-sm ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+                    <li key={index} className={`flex items-start gap-2 text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                       <AlertTriangle className="text-orange-500 flex-shrink-0 mt-0.5" size={16} />
                       {challenge}
                     </li>
@@ -193,11 +193,11 @@ function AIRecommendations() {
             </div>
 
             {/* Future Demand */}
-            <div className={`p-4 rounded-xl mb-6 ${isDarkMode ? 'bg-bg-dark' : 'bg-bg-light'}`}>
+            <div className={`p-4 rounded-xl mb-6 ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <Clock className="text-primary-blue" size={20} />
-                  <span className={`font-semibold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Future Demand</span>
+                  <Clock className="text-[#2563eb]" size={20} />
+                  <span className={`font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Future Demand</span>
                 </div>
                 <span className="text-green-500 font-bold">{topRecommendation.futureDemand}</span>
               </div>
@@ -206,14 +206,14 @@ function AIRecommendations() {
             {/* Alternative Ideas */}
             <div>
               <div className="flex items-center gap-2 mb-4">
-                <Zap className="text-primary-blue" size={20} />
-                <h3 className={`font-bold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Alternative Ideas</h3>
+                <Zap className="text-[#2563eb]" size={20} />
+                <h3 className={`font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Alternative Ideas</h3>
               </div>
               <div className="flex flex-wrap gap-3">
                 {topRecommendation.alternativeIdeas.map((idea, index) => (
                   <span
                     key={index}
-                    className={`px-4 py-2 rounded-full text-sm font-medium ${isDarkMode ? 'bg-bg-dark text-text-dark border border-border-dark' : 'bg-bg-light text-text-light border border-border-light'}`}
+                    className={`px-4 py-2 rounded-full text-sm font-medium ${isDarkMode ? 'bg-[#0f172a] text-[#f1f5f9] border border-[#334155]' : 'bg-[#f8fafc] text-[#1e293b] border border-[#e2e8f0]'}`}
                   >
                     {idea}
                   </span>
@@ -230,7 +230,7 @@ function AIRecommendations() {
           transition={{ delay: 0.2 }}
           className="mb-8"
         >
-          <h2 className={`text-2xl font-bold mb-6 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+          <h2 className={`text-2xl font-bold mb-6 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
             Other Recommendations
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -241,40 +241,40 @@ function AIRecommendations() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 + (index * 0.1) }}
                 whileHover={{ scale: 1.02 }}
-                className={`p-6 rounded-2xl border ${isDarkMode ? 'bg-card-dark border-border-dark hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.3)]' : 'bg-card-light border-border-light hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1)]'}`}
+                className={`p-6 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155] hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.3)]' : 'bg-[#ffffff] border-[#e2e8f0] hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1)]'}`}
               >
                 <div className="flex items-center gap-2 mb-3">
                   <Star className="text-yellow-500 fill-yellow-500" size={20} />
-                  <span className={`font-semibold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+                  <span className={`font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                     {recommendation.business}
                   </span>
                 </div>
-                <p className={`text-sm opacity-70 mb-4 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+                <p className={`text-sm opacity-70 mb-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                   {recommendation.category}
                 </p>
                 <div className="space-y-3">
                   <div className="flex justify-between">
-                    <span className={`text-sm ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Investment</span>
-                    <span className={`text-sm font-semibold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+                    <span className={`text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Investment</span>
+                    <span className={`text-sm font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                       {recommendation.investment}
                     </span>
                   </div>
                   <div className="flex justify-between">
-                    <span className={`text-sm ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Success Rate</span>
-                    <span className={`text-sm font-semibold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+                    <span className={`text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Success Rate</span>
+                    <span className={`text-sm font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                       {recommendation.successProbability}%
                     </span>
                   </div>
                   <div className="flex justify-between">
-                    <span className={`text-sm ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Revenue</span>
-                    <span className={`text-sm font-semibold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+                    <span className={`text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Revenue</span>
+                    <span className={`text-sm font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                       {recommendation.expectedRevenue}
                     </span>
                   </div>
                 </div>
                 <div className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden mt-4">
                   <div 
-                    className="h-full bg-gradient-to-r from-primary-blue to-primary-purple rounded-full"
+                    className="h-full bg-gradient-to-r from-[#2563eb] to-[#7c3aed] rounded-full"
                     style={{ width: `${recommendation.successProbability}%` }}
                   />
                 </div>
@@ -288,11 +288,11 @@ function AIRecommendations() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
-          className={`p-6 rounded-2xl border mb-8 ${isDarkMode ? 'bg-card-dark border-border-dark' : 'bg-card-light border-border-light'}`}
+          className={`p-6 rounded-2xl border mb-8 ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
         >
           <div className="flex items-center gap-3 mb-6">
-            <BarChart3 className="text-primary-blue" size={24} />
-            <h3 className={`text-xl font-bold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+            <BarChart3 className="text-[#2563eb]" size={24} />
+            <h3 className={`text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
               AI Market Insights
             </h3>
           </div>
@@ -303,10 +303,10 @@ function AIRecommendations() {
               { icon: DollarSign, label: 'Avg. Spend', value: '₹850', color: 'text-purple-500' },
               { icon: Target, label: 'Competition', value: 'Low', color: 'text-orange-500' }
             ].map((insight, index) => (
-              <div key={index} className={`p-4 rounded-xl ${isDarkMode ? 'bg-bg-dark' : 'bg-bg-light'}`}>
+              <div key={index} className={`p-4 rounded-xl ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
                 <insight.icon className={`${insight.color} mb-2`} size={20} />
-                <p className={`text-sm opacity-70 mb-1 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>{insight.label}</p>
-                <p className={`text-xl font-bold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>{insight.value}</p>
+                <p className={`text-sm opacity-70 mb-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{insight.label}</p>
+                <p className={`text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{insight.value}</p>
               </div>
             ))}
           </div>
@@ -321,44 +321,44 @@ function AIRecommendations() {
         >
           <Link 
             to="/forecast"
-            className={`p-6 rounded-2xl border flex items-center gap-4 transition-all hover:-translate-y-1 ${isDarkMode ? 'bg-card-dark border-border-dark hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.3)]' : 'bg-card-light border-border-light hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1)]'}`}
+            className={`p-6 rounded-2xl border flex items-center gap-4 transition-all hover:-translate-y-1 ${isDarkMode ? 'bg-[#1e293b] border-[#334155] hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.3)]' : 'bg-[#ffffff] border-[#e2e8f0] hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1)]'}`}
           >
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-primary-blue to-primary-purple flex items-center justify-center">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-[#2563eb] to-[#7c3aed] flex items-center justify-center">
               <TrendingUp className="text-white" size={24} />
             </div>
             <div>
-              <h4 className={`font-bold mb-1 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>View Forecast</h4>
-              <p className={`text-sm opacity-70 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>5-year predictions</p>
+              <h4 className={`font-bold mb-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>View Forecast</h4>
+              <p className={`text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>5-year predictions</p>
             </div>
-            <ChevronRight className={`ml-auto ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`} size={20} />
+            <ChevronRight className={`ml-auto ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`} size={20} />
           </Link>
 
           <Link 
             to="/comparison"
-            className={`p-6 rounded-2xl border flex items-center gap-4 transition-all hover:-translate-y-1 ${isDarkMode ? 'bg-card-dark border-border-dark hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.3)]' : 'bg-card-light border-border-light hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1)]'}`}
+            className={`p-6 rounded-2xl border flex items-center gap-4 transition-all hover:-translate-y-1 ${isDarkMode ? 'bg-[#1e293b] border-[#334155] hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.3)]' : 'bg-[#ffffff] border-[#e2e8f0] hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1)]'}`}
           >
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-primary-blue to-primary-purple flex items-center justify-center">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-[#2563eb] to-[#7c3aed] flex items-center justify-center">
               <PieChart className="text-white" size={24} />
             </div>
             <div>
-              <h4 className={`font-bold mb-1 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Compare Areas</h4>
-              <p className={`text-sm opacity-70 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Side-by-side analysis</p>
+              <h4 className={`font-bold mb-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Compare Areas</h4>
+              <p className={`text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Side-by-side analysis</p>
             </div>
-            <ChevronRight className={`ml-auto ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`} size={20} />
+            <ChevronRight className={`ml-auto ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`} size={20} />
           </Link>
 
           <Link 
             to="/reports"
-            className={`p-6 rounded-2xl border flex items-center gap-4 transition-all hover:-translate-y-1 ${isDarkMode ? 'bg-card-dark border-border-dark hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.3)]' : 'bg-card-light border-border-light hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1)]'}`}
+            className={`p-6 rounded-2xl border flex items-center gap-4 transition-all hover:-translate-y-1 ${isDarkMode ? 'bg-[#1e293b] border-[#334155] hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.3)]' : 'bg-[#ffffff] border-[#e2e8f0] hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1)]'}`}
           >
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-primary-blue to-primary-purple flex items-center justify-center">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-[#2563eb] to-[#7c3aed] flex items-center justify-center">
               <BookOpen className="text-white" size={24} />
             </div>
             <div>
-              <h4 className={`font-bold mb-1 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Export Report</h4>
-              <p className={`text-sm opacity-70 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Download PDF</p>
+              <h4 className={`font-bold mb-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Export Report</h4>
+              <p className={`text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Download PDF</p>
             </div>
-            <ChevronRight className={`ml-auto ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`} size={20} />
+            <ChevronRight className={`ml-auto ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`} size={20} />
           </Link>
         </motion.div>
       </div>

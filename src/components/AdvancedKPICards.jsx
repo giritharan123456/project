@@ -138,21 +138,21 @@ function AdvancedKPICards({ data, selectedDistrict }) {
       {kpiData.map((kpi, index) => (
         <motion.div
           key={index}
-          className={`p-6 rounded-xl border transition-all duration-300 ${isDarkMode ? 'bg-card-dark border-border-dark shadow-[0_4px_6px_-1px_rgba(0,0,0,0.3),0_2px_4px_-1px_rgba(0,0,0,0.2)] hover:-translate-y-1 hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),0_4px_6px_-2px_rgba(0,0,0,0.05)]' : 'bg-card-light border-border-light shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-1px_rgba(0,0,0,0.06)] hover:-translate-y-1 hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),0_4px_6px_-2px_rgba(0,0,0,0.05)]'}`}
+          className={`p-6 rounded-xl border transition-all duration-300 ${isDarkMode ? 'bg-[#1e293b] border-[#334155] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.3),0_2px_4px_-1px_rgba(0,0,0,0.2)] hover:-translate-y-1 hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),0_4px_6px_-2px_rgba(0,0,0,0.05)]' : 'bg-[#ffffff] border-[#e2e8f0] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-1px_rgba(0,0,0,0.06)] hover:-translate-y-1 hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),0_4px_6px_-2px_rgba(0,0,0,0.05)]'}`}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: index * 0.1 }}
           whileHover={{ y: -5, scale: 1.02 }}
         >
           <div className="flex justify-between items-start mb-4">
-            <h4 className={`text-sm font-semibold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>{kpi.title}</h4>
+            <h4 className={`text-sm font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{kpi.title}</h4>
             <div className="flex items-center gap-1" style={{ color: getTrendColor(kpi.trend) }}>
               <span className="text-lg">{getTrendIcon(kpi.trend)}</span>
               <span className="text-sm font-semibold">{Math.abs(kpi.trend).toFixed(1)}%</span>
             </div>
           </div>
 
-          <div className={`text-3xl font-bold mb-4 bg-gradient-to-r from-primary-blue to-primary-purple bg-clip-text text-transparent`}>
+          <div className={`text-3xl font-bold mb-4 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] bg-clip-text text-transparent`}>
             {formatValue(kpi.value, kpi.format)}
           </div>
 
@@ -181,7 +181,7 @@ function AdvancedKPICards({ data, selectedDistrict }) {
             </div>
           )}
 
-          <div className={`text-xs opacity-60 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+          <div className={`text-xs opacity-60 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
             vs previous period
           </div>
         </motion.div>

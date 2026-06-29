@@ -39,8 +39,8 @@ const QuickStats = ({ pincodeData, selectedDistrict }) => {
   ];
 
   return (
-    <div className={`p-6 rounded-xl border mb-6 ${isDarkMode ? 'bg-card-dark border-border-dark shadow-[0_4px_6px_-1px_rgba(0,0,0,0.3),0_2px_4px_-1px_rgba(0,0,0,0.2)]' : 'bg-card-light border-border-light shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-1px_rgba(0,0,0,0.06)]'}`}>
-      <h3 className={`text-lg font-semibold mb-4 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>📊 Quick Overview - {selectedDistrict}</h3>
+    <div className={`p-6 rounded-xl border mb-6 ${isDarkMode ? 'bg-[#1e293b] border-[#334155] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.3),0_2px_4px_-1px_rgba(0,0,0,0.2)]' : 'bg-[#ffffff] border-[#e2e8f0] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-1px_rgba(0,0,0,0.06)]'}`}>
+      <h3 className={`text-lg font-semibold mb-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>📊 Quick Overview - {selectedDistrict}</h3>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {stats.map((stat, index) => {
           const Icon = stat.icon;

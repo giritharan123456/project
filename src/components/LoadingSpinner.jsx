@@ -14,9 +14,7 @@ const LoadingSpinner = ({ size = 'medium', text = 'Loading...' }) => {
   return (
     <div className="flex flex-col items-center justify-center p-8">
       <motion.div
-        className={`rounded-full border-4 border-t-transparent ${sizeClasses[size]} ${
-          isDarkMode ? 'border-primary-blue' : 'border-primary-blue'
-        }`}
+        className={`rounded-full border-4 border-t-transparent ${sizeClasses[size]} border-[#2563eb]`}
         animate={{ rotate: 360 }}
         transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
       />
@@ -25,7 +23,7 @@ const LoadingSpinner = ({ size = 'medium', text = 'Loading...' }) => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3 }}
-          className={`mt-4 text-sm font-medium ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}
+          className={`mt-4 text-sm font-medium ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}
         >
           {text}
         </motion.p>
