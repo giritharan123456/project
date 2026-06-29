@@ -27,14 +27,6 @@ function Navbar() {
         </Link>
         <ul className="flex list-none m-0 p-0 gap-2">
           <li className="m-0">
-            <Link to="/home" className={`flex items-center gap-2 text-sm font-medium px-4 py-2.5 rounded-lg transition-all duration-300 bg-transparent no-underline ${
-              isDarkMode ? 'text-text-dark hover:bg-gradient-to-r hover:from-primary-blue hover:to-primary-purple hover:text-white hover:-translate-y-0.5 hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),0_4px_6px_-2px_rgba(0,0,0,0.05)]' : 'text-text-light hover:bg-gradient-to-r hover:from-primary-blue hover:to-primary-purple hover:text-white hover:-translate-y-0.5 hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),0_4px_6px_-2px_rgba(0,0,0,0.05)]'
-            }`}>
-              <span className="text-lg">🏠</span>
-              <span className="hidden md:inline">Home</span>
-            </Link>
-          </li>
-          <li className="m-0">
             <Link to="/dashboard" className={`flex items-center gap-2 text-sm font-medium px-4 py-2.5 rounded-lg transition-all duration-300 bg-transparent no-underline ${
               isDarkMode ? 'text-text-dark hover:bg-gradient-to-r hover:from-primary-blue hover:to-primary-purple hover:text-white hover:-translate-y-0.5 hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),0_4px_6px_-2px_rgba(0,0,0,0.05)]' : 'text-text-light hover:bg-gradient-to-r hover:from-primary-blue hover:to-primary-purple hover:text-white hover:-translate-y-0.5 hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),0_4px_6px_-2px_rgba(0,0,0,0.05)]'
             }`}>
@@ -43,11 +35,51 @@ function Navbar() {
             </Link>
           </li>
           <li className="m-0">
-            <Link to="/analysis" className={`flex items-center gap-2 text-sm font-medium px-4 py-2.5 rounded-lg transition-all duration-300 bg-transparent no-underline ${
+            <Link to="/ai-recommendations" className={`flex items-center gap-2 text-sm font-medium px-4 py-2.5 rounded-lg transition-all duration-300 bg-transparent no-underline ${
+              isDarkMode ? 'text-text-dark hover:bg-gradient-to-r hover:from-primary-blue hover:to-primary-purple hover:text-white hover:-translate-y-0.5 hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),0_4px_6px_-2px_rgba(0,0,0,0.05)]' : 'text-text-light hover:bg-gradient-to-r hover:from-primary-blue hover:to-primary-purple hover:text-white hover:-translate-y-0.5 hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),0_4px_6px_-2px_rgba(0,0,0,0.05)]'
+            }`}>
+              <span className="text-lg">🤖</span>
+              <span className="hidden md:inline">AI</span>
+            </Link>
+          </li>
+          <li className="m-0">
+            <Link to="/forecast" className={`flex items-center gap-2 text-sm font-medium px-4 py-2.5 rounded-lg transition-all duration-300 bg-transparent no-underline ${
               isDarkMode ? 'text-text-dark hover:bg-gradient-to-r hover:from-primary-blue hover:to-primary-purple hover:text-white hover:-translate-y-0.5 hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),0_4px_6px_-2px_rgba(0,0,0,0.05)]' : 'text-text-light hover:bg-gradient-to-r hover:from-primary-blue hover:to-primary-purple hover:text-white hover:-translate-y-0.5 hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),0_4px_6px_-2px_rgba(0,0,0,0.05)]'
             }`}>
               <span className="text-lg">📈</span>
-              <span className="hidden md:inline">Analysis</span>
+              <span className="hidden md:inline">Forecast</span>
+            </Link>
+          </li>
+          <li className="m-0">
+            <Link to="/comparison" className={`flex items-center gap-2 text-sm font-medium px-4 py-2.5 rounded-lg transition-all duration-300 bg-transparent no-underline ${
+              isDarkMode ? 'text-text-dark hover:bg-gradient-to-r hover:from-primary-blue hover:to-primary-purple hover:text-white hover:-translate-y-0.5 hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),0_4px_6px_-2px_rgba(0,0,0,0.05)]' : 'text-text-light hover:bg-gradient-to-r hover:from-primary-blue hover:to-primary-purple hover:text-white hover:-translate-y-0.5 hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),0_4px_6px_-2px_rgba(0,0,0,0.05)]'
+            }`}>
+              <span className="text-lg">⚖️</span>
+              <span className="hidden md:inline">Compare</span>
+            </Link>
+          </li>
+          <li className="m-0">
+            <Link to="/notifications" className={`flex items-center gap-2 text-sm font-medium px-4 py-2.5 rounded-lg transition-all duration-300 bg-transparent no-underline ${
+              isDarkMode ? 'text-text-dark hover:bg-gradient-to-r hover:from-primary-blue hover:to-primary-purple hover:text-white hover:-translate-y-0.5 hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),0_4px_6px_-2px_rgba(0,0,0,0.05)]' : 'text-text-light hover:bg-gradient-to-r hover:from-primary-blue hover:to-primary-purple hover:text-white hover:-translate-y-0.5 hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),0_4px_6px_-2px_rgba(0,0,0,0.05)]'
+            }`}>
+              <span className="text-lg">�</span>
+              <span className="hidden md:inline">Alerts</span>
+            </Link>
+          </li>
+          <li className="m-0">
+            <Link to="/workspace" className={`flex items-center gap-2 text-sm font-medium px-4 py-2.5 rounded-lg transition-all duration-300 bg-transparent no-underline ${
+              isDarkMode ? 'text-text-dark hover:bg-gradient-to-r hover:from-primary-blue hover:to-primary-purple hover:text-white hover:-translate-y-0.5 hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),0_4px_6px_-2px_rgba(0,0,0,0.05)]' : 'text-text-light hover:bg-gradient-to-r hover:from-primary-blue hover:to-primary-purple hover:text-white hover:-translate-y-0.5 hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),0_4px_6px_-2px_rgba(0,0,0,0.05)]'
+            }`}>
+              <span className="text-lg">👤</span>
+              <span className="hidden md:inline">Workspace</span>
+            </Link>
+          </li>
+          <li className="m-0">
+            <Link to="/analytics" className={`flex items-center gap-2 text-sm font-medium px-4 py-2.5 rounded-lg transition-all duration-300 bg-transparent no-underline ${
+              isDarkMode ? 'text-text-dark hover:bg-gradient-to-r hover:from-primary-blue hover:to-primary-purple hover:text-white hover:-translate-y-0.5 hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),0_4px_6px_-2px_rgba(0,0,0,0.05)]' : 'text-text-light hover:bg-gradient-to-r hover:from-primary-blue hover:to-primary-purple hover:text-white hover:-translate-y-0.5 hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),0_4px_6px_-2px_rgba(0,0,0,0.05)]'
+            }`}>
+              <span className="text-lg">�</span>
+              <span className="hidden md:inline">Analytics</span>
             </Link>
           </li>
           <li className="m-0">

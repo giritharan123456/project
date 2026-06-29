@@ -22,6 +22,12 @@ function Login() {
     navigate('/dashboard');
   };
 
+  const handleGuestAccess = () => {
+    // Allow guest access without authentication
+    login({ email: 'guest@marketgapfinder.com', name: 'Guest User', isGuest: true });
+    navigate('/dashboard');
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     
@@ -187,7 +193,7 @@ function Login() {
           <div className="flex-1 h-px bg-[#e0e0e0]"></div>
         </div>
 
-        <button className="flex items-center justify-center gap-3 p-3.5 bg-white border-2 border-[#e0e0e0] rounded-xl text-base font-semibold text-[#333] cursor-pointer transition-all duration-300 mb-6 hover:border-[#667eea] hover:bg-[#f8f9ff] hover:-translate-y-0.5" onClick={handleGoogleSignIn}>
+        <button className="flex items-center justify-center gap-3 p-3.5 bg-white border-2 border-[#e0e0e0] rounded-xl text-base font-semibold text-[#333] cursor-pointer transition-all duration-300 mb-4 hover:border-[#667eea] hover:bg-[#f8f9ff] hover:-translate-y-0.5" onClick={handleGoogleSignIn}>
           <svg className="w-6 h-6" viewBox="0 0 24 24">
             <path
               fill="#4285F4"
@@ -207,6 +213,13 @@ function Login() {
             />
           </svg>
           <span>Sign in with Google</span>
+        </button>
+
+        <button className="flex items-center justify-center gap-3 p-3.5 bg-[#f8f9ff] border-2 border-[#667eea] rounded-xl text-base font-semibold text-[#667eea] cursor-pointer transition-all duration-300 mb-6 hover:bg-[#667eea] hover:text-white hover:-translate-y-0.5" onClick={handleGuestAccess}>
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+          </svg>
+          <span>Continue as Guest</span>
         </button>
 
         <div className="text-center text-sm text-[#666]">
