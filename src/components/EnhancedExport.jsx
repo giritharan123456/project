@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
@@ -7,7 +6,6 @@ import autoTable from 'jspdf-autotable';
 function EnhancedExport({ data, selectedDistrict, businessCategories }) {
   const { isDarkMode } = useTheme();
   const [isExporting, setIsExporting] = useState(false);
-  const [showOptions, setShowOptions] = useState(false);
 
   const handleExport = async () => {
     setIsExporting(true);
@@ -91,49 +89,34 @@ function EnhancedExport({ data, selectedDistrict, businessCategories }) {
 
   return (
     <div className={`p-6 rounded-xl border mb-6 transition-all duration-300 ${isDarkMode ? 'bg-card-dark border-border-dark shadow-[0_4px_6px_-1px_rgba(0,0,0,0.3),0_2px_4px_-1px_rgba(0,0,0,0.2)]' : 'bg-card-light border-border-light shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-1px_rgba(0,0,0,0.06)]'}`}>
-      <div className="flex justify-between items-center mb-4">
-        <h3 className={`text-xl font-bold bg-gradient-to-r from-primary-blue to-primary-purple bg-clip-text text-transparent ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>📥 Enhanced Export</h3>
-        <button 
-          className={`px-4 py-2 border-2 rounded-lg transition-all duration-300 ${isDarkMode ? 'bg-bg-dark border-border-dark text-text-dark hover:border-primary-blue' : 'bg-bg-light border-border-light text-text-light hover:border-primary-blue'}`}
-          onClick={() => setShowOptions(!showOptions)}
-        >
-          {showOptions ? '▼' : '▶'} Options
-        </button>
-      </div>
+      <h3 className={`text-xl font-bold mb-4 bg-gradient-to-r from-primary-blue to-primary-purple bg-clip-text text-transparent ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>📥 Export Report</h3>
 
-      <motion.div 
-        className="overflow-hidden"
-        initial={{ height: 'auto' }}
-        animate={{ height: showOptions ? 'auto' : '0px' }}
-        transition={{ duration: 0.3 }}
-      >
-        <div className="space-y-6">
-          <div>
-            <h4 className={`text-sm font-semibold mb-3 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Export Summary</h4>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <div className={`p-3 rounded-lg border ${isDarkMode ? 'bg-bg-dark border-border-dark' : 'bg-bg-light border-border-light'}`}>
-                <span className={`block text-xs opacity-70 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>District</span>
-                <span className={`block font-semibold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>{selectedDistrict}</span>
-              </div>
-              <div className={`p-3 rounded-lg border ${isDarkMode ? 'bg-bg-dark border-border-dark' : 'bg-bg-light border-border-light'}`}>
-                <span className={`block text-xs opacity-70 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Pincodes</span>
-                <span className={`block font-semibold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>{data?.length || 0}</span>
-              </div>
-              <div className={`p-3 rounded-lg border ${isDarkMode ? 'bg-bg-dark border-border-dark' : 'bg-bg-light border-border-light'}`}>
-                <span className={`block text-xs opacity-70 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Categories</span>
-                <span className={`block font-semibold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>{businessCategories?.length || 0}</span>
-              </div>
-              <div className={`p-3 rounded-lg border ${isDarkMode ? 'bg-bg-dark border-border-dark' : 'bg-bg-light border-border-light'}`}>
-                <span className={`block text-xs opacity-70 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Format</span>
-                <span className={`block font-semibold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>PDF</span>
-              </div>
+      <div className="space-y-6 mb-6">
+        <div>
+          <h4 className={`text-sm font-semibold mb-3 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Export Summary</h4>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className={`p-3 rounded-lg border ${isDarkMode ? 'bg-bg-dark border-border-dark' : 'bg-bg-light border-border-light'}`}>
+              <span className={`block text-xs opacity-70 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>District</span>
+              <span className={`block font-semibold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>{selectedDistrict}</span>
+            </div>
+            <div className={`p-3 rounded-lg border ${isDarkMode ? 'bg-bg-dark border-border-dark' : 'bg-bg-light border-border-light'}`}>
+              <span className={`block text-xs opacity-70 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Pincodes</span>
+              <span className={`block font-semibold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>{data?.length || 0}</span>
+            </div>
+            <div className={`p-3 rounded-lg border ${isDarkMode ? 'bg-bg-dark border-border-dark' : 'bg-bg-light border-border-light'}`}>
+              <span className={`block text-xs opacity-70 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Categories</span>
+              <span className={`block font-semibold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>{businessCategories?.length || 0}</span>
+            </div>
+            <div className={`p-3 rounded-lg border ${isDarkMode ? 'bg-bg-dark border-border-dark' : 'bg-bg-light border-border-light'}`}>
+              <span className={`block text-xs opacity-70 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Format</span>
+              <span className={`block font-semibold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>PDF</span>
             </div>
           </div>
         </div>
-      </motion.div>
+      </div>
 
       <button 
-        className="w-full mt-4 px-6 py-3 bg-gradient-to-r from-primary-blue to-primary-purple text-white border-none rounded-xl font-semibold cursor-pointer transition-all duration-300 shadow-[0_4px_15px_rgba(102,126,234,0.3)] hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(102,126,234,0.4)] active:translate-y-0 disabled:opacity-50 disabled:cursor-not-allowed"
+        className="w-full px-6 py-3 bg-gradient-to-r from-primary-blue to-primary-purple text-white border-none rounded-xl font-semibold cursor-pointer transition-all duration-300 shadow-[0_4px_15px_rgba(102,126,234,0.3)] hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(102,126,234,0.4)] active:translate-y-0 disabled:opacity-50 disabled:cursor-not-allowed"
         onClick={handleExport}
         disabled={isExporting || !data || data.length === 0}
       >
