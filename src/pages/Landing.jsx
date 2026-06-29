@@ -67,37 +67,37 @@ function Landing() {
   ];
 
   return (
-    <div className={`min-h-screen transition-colors duration-300 ${isDarkMode ? 'bg-bg-dark' : 'bg-bg-light'}`}>
+    <div className={`min-h-screen ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
       {/* Navigation */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 border-b backdrop-blur-xl ${isDarkMode ? 'bg-bg-dark/80 border-border-dark' : 'bg-bg-light/80 border-border-light'}`}>
+      <nav className={`fixed top-0 left-0 right-0 z-50 border-b backdrop-blur-xl ${isDarkMode ? 'bg-[#0f172a]/80 border-[#334155]' : 'bg-[#f8fafc]/80 border-[#e2e8f0]'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-2">
-              <Target className="text-primary-blue" size={32} />
-              <span className={`text-xl font-bold bg-gradient-to-r from-primary-blue to-primary-purple bg-clip-text text-transparent`}>
+              <Target className="text-[#2563eb]" size={32} />
+              <span className="text-xl font-bold bg-gradient-to-r from-[#2563eb] to-[#7c3aed] bg-clip-text text-transparent">
                 Market Gap Finder
               </span>
             </div>
             
             <div className="hidden md:flex items-center gap-8">
-              <a href="#features" className={`text-sm font-medium hover:text-primary-blue transition-colors ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Features</a>
-              <a href="#how-it-works" className={`text-sm font-medium hover:text-primary-blue transition-colors ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>How It Works</a>
-              <a href="#reviews" className={`text-sm font-medium hover:text-primary-blue transition-colors ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Reviews</a>
-              <a href="#faq" className={`text-sm font-medium hover:text-primary-blue transition-colors ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>FAQ</a>
-              <a href="#contact" className={`text-sm font-medium hover:text-primary-blue transition-colors ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Contact</a>
+              <a href="#features" className={`text-sm font-medium hover:text-[#2563eb] transition-colors ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Features</a>
+              <a href="#how-it-works" className={`text-sm font-medium hover:text-[#2563eb] transition-colors ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>How It Works</a>
+              <a href="#reviews" className={`text-sm font-medium hover:text-[#2563eb] transition-colors ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Reviews</a>
+              <a href="#faq" className={`text-sm font-medium hover:text-[#2563eb] transition-colors ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>FAQ</a>
+              <a href="#contact" className={`text-sm font-medium hover:text-[#2563eb] transition-colors ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Contact</a>
             </div>
 
             <div className="hidden md:flex items-center gap-4">
               <button 
                 onClick={toggleTheme}
-                className={`p-2 rounded-lg transition-colors ${isDarkMode ? 'text-text-dark hover:bg-card-dark' : 'text-text-light hover:bg-card-light'}`}
+                className={`p-2 rounded-lg transition-colors ${isDarkMode ? 'text-[#f1f5f9] hover:bg-[#1e293b]' : 'text-[#1e293b] hover:bg-[#ffffff]'}`}
               >
                 {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
               </button>
-              <Link to="/login" className={`px-4 py-2 rounded-lg font-medium transition-colors ${isDarkMode ? 'text-text-dark hover:bg-card-dark' : 'text-text-light hover:bg-card-light'}`}>
+              <Link to="/login" className={`px-4 py-2 rounded-lg font-medium transition-colors ${isDarkMode ? 'text-[#f1f5f9] hover:bg-[#1e293b]' : 'text-[#1e293b] hover:bg-[#ffffff]'}`}>
                 Login
               </Link>
-              <Link to="/signup" className="px-4 py-2 bg-gradient-to-r from-primary-blue to-primary-purple text-white rounded-lg font-medium hover:opacity-90 transition-opacity">
+              <Link to="/signup" className="px-4 py-2 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white rounded-lg font-medium hover:opacity-90 transition-opacity">
                 Sign Up
               </Link>
             </div>
@@ -116,17 +116,17 @@ function Landing() {
           <motion.div 
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            className={`md:hidden border-t p-4 ${isDarkMode ? 'bg-card-dark border-border-dark' : 'bg-card-light border-border-light'}`}
+            className={`md:hidden border-t p-4 ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
           >
             <div className="flex flex-col gap-4">
-              <a href="#features" className={`text-sm font-medium ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Features</a>
-              <a href="#how-it-works" className={`text-sm font-medium ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>How It Works</a>
-              <a href="#reviews" className={`text-sm font-medium ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Reviews</a>
-              <a href="#faq" className={`text-sm font-medium ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>FAQ</a>
-              <a href="#contact" className={`text-sm font-medium ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Contact</a>
+              <a href="#features" className={`text-sm font-medium ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Features</a>
+              <a href="#how-it-works" className={`text-sm font-medium ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>How It Works</a>
+              <a href="#reviews" className={`text-sm font-medium ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Reviews</a>
+              <a href="#faq" className={`text-sm font-medium ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>FAQ</a>
+              <a href="#contact" className={`text-sm font-medium ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Contact</a>
               <div className="flex gap-2 pt-4 border-t">
                 <Link to="/login" className="flex-1 px-4 py-2 rounded-lg font-medium text-center border">Login</Link>
-                <Link to="/signup" className="flex-1 px-4 py-2 bg-gradient-to-r from-primary-blue to-primary-purple text-white rounded-lg font-medium text-center">Sign Up</Link>
+                <Link to="/signup" className="flex-1 px-4 py-2 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white rounded-lg font-medium text-center">Sign Up</Link>
               </div>
             </div>
           </motion.div>
@@ -142,26 +142,26 @@ function Landing() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
             >
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 dark:bg-blue-900/20 text-primary-blue text-sm font-medium mb-6">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 dark:bg-blue-900/20 text-[#2563eb] text-sm font-medium mb-6">
                 <Zap size={16} />
                 <span>AI-Powered Market Intelligence</span>
               </div>
-              <h1 className={`text-4xl sm:text-5xl lg:text-6xl font-extrabold mb-6 leading-tight ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+              <h1 className={`text-4xl sm:text-5xl lg:text-6xl font-extrabold mb-6 leading-tight ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                 Find Your Next
-                <span className="block bg-gradient-to-r from-primary-blue to-primary-purple bg-clip-text text-transparent">
+                <span className="block bg-gradient-to-r from-[#2563eb] to-[#7c3aed] bg-clip-text text-transparent">
                   Business Opportunity
                 </span>
               </h1>
-              <p className={`text-lg mb-8 opacity-80 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+              <p className={`text-lg mb-8 opacity-80 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                 Data-driven platform to identify underserved business opportunities across Tamil Nadu. 
                 Make informed decisions with real market intelligence.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 mb-8">
-                <Link to="/signup" className="px-8 py-4 bg-gradient-to-r from-primary-blue to-primary-purple text-white rounded-xl font-semibold text-center hover:opacity-90 transition-opacity shadow-lg">
+                <Link to="/signup" className="px-8 py-4 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white rounded-xl font-semibold text-center hover:opacity-90 transition-opacity shadow-lg">
                   Get Started Free
                   <ArrowRight className="inline ml-2" size={20} />
                 </Link>
-                <Link to="/login" className={`px-8 py-4 rounded-xl font-semibold text-center border-2 transition-colors ${isDarkMode ? 'text-text-dark border-border-dark hover:bg-card-dark' : 'text-text-light border-border-light hover:bg-card-light'}`}>
+                <Link to="/login" className={`px-8 py-4 rounded-xl font-semibold text-center border-2 transition-colors ${isDarkMode ? 'text-[#f1f5f9] border-[#334155] hover:bg-[#1e293b]' : 'text-[#1e293b] border-[#e2e8f0] hover:bg-[#ffffff]'}`}>
                   View Demo
                   <Play className="inline ml-2" size={20} />
                 </Link>
@@ -169,7 +169,7 @@ function Landing() {
               <div className="flex items-center gap-6">
                 <div className="flex -space-x-2">
                   {[1, 2, 3, 4].map(i => (
-                    <div key={i} className="w-10 h-10 rounded-full bg-gradient-to-r from-primary-blue to-primary-purple border-2 border-white dark:border-gray-800 flex items-center justify-center text-white text-xs font-bold">
+                    <div key={i} className="w-10 h-10 rounded-full bg-gradient-to-r from-[#2563eb] to-[#7c3aed] border-2 border-white dark:border-gray-800 flex items-center justify-center text-white text-xs font-bold">
                       {i}
                     </div>
                   ))}
@@ -180,7 +180,7 @@ function Landing() {
                       <Star key={i} size={16} className="text-yellow-500 fill-yellow-500" />
                     ))}
                   </div>
-                  <p className={`text-sm opacity-70 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+                  <p className={`text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                     Trusted by 10,000+ entrepreneurs
                   </p>
                 </div>
@@ -193,52 +193,39 @@ function Landing() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="relative"
             >
-              <div className={`relative rounded-2xl border-2 p-8 backdrop-blur-xl ${isDarkMode ? 'bg-card-dark border-primary-blue' : 'bg-card-light border-primary-blue'}`}>
-                <div className="absolute -top-4 -right-4 w-24 h-24 bg-gradient-to-r from-primary-blue to-primary-purple rounded-full opacity-20 blur-2xl" />
-                <div className="absolute -bottom-4 -left-4 w-24 h-24 bg-gradient-to-r from-primary-purple to-primary-blue rounded-full opacity-20 blur-2xl" />
-                
-                <div className="relative z-10">
-                  <div className="flex items-center gap-3 mb-6">
-                    <Search className="text-primary-blue" size={24} />
+              <div className="relative z-10">
+                <div className={`p-8 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'} shadow-2xl`}>
+                  <div className="flex items-center gap-2 mb-6">
+                    <Search className="text-[#2563eb]" size={24} />
                     <input 
                       type="text" 
-                      placeholder="Search by district, area, or pincode..." 
-                      className={`flex-1 px-4 py-3 rounded-lg border bg-transparent outline-none focus:border-primary-blue transition-colors ${isDarkMode ? 'text-text-dark border-border-dark' : 'text-text-light border-border-light'}`}
+                      placeholder="Search by pincode or area..." 
+                      className={`flex-1 px-4 py-3 rounded-lg border bg-transparent outline-none focus:border-[#2563eb] transition-colors ${isDarkMode ? 'text-[#f1f5f9] border-[#334155]' : 'text-[#1e293b] border-[#e2e8f0]'}`}
                     />
-                    <button className="p-3 bg-gradient-to-r from-primary-blue to-primary-purple text-white rounded-lg hover:opacity-90 transition-opacity">
+                    <button className="p-3 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white rounded-lg hover:opacity-90 transition-opacity">
                       <Mic size={20} />
                     </button>
                   </div>
                   
-                  <div className="space-y-4">
-                    <div className={`p-4 rounded-lg border ${isDarkMode ? 'bg-bg-dark border-border-dark' : 'bg-bg-light border-border-light'}`}>
-                      <div className="flex items-center justify-between mb-2">
-                        <span className={`font-semibold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Chennai - T. Nagar</span>
-                        <span className="text-green-500 font-bold">92% Opportunity</span>
-                      </div>
-                      <div className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-                        <div className="h-full bg-gradient-to-r from-primary-blue to-primary-purple rounded-full" style={{ width: '92%' }} />
-                      </div>
+                  <div className="grid grid-cols-2 gap-4 mb-6">
+                    <div className={`p-4 rounded-xl ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
+                      <p className={`text-sm opacity-70 mb-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Market Gap Score</p>
+                      <p className="text-2xl font-bold text-[#2563eb]">92%</p>
                     </div>
-                    
-                    <div className={`p-4 rounded-lg border ${isDarkMode ? 'bg-bg-dark border-border-dark' : 'bg-bg-light border-border-light'}`}>
-                      <div className="flex items-center justify-between mb-2">
-                        <span className={`font-semibold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Coimbatore - Gandhipuram</span>
-                        <span className="text-yellow-500 font-bold">78% Opportunity</span>
-                      </div>
-                      <div className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-                        <div className="h-full bg-gradient-to-r from-primary-blue to-primary-purple rounded-full" style={{ width: '78%' }} />
-                      </div>
+                    <div className={`p-4 rounded-xl ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
+                      <p className={`text-sm opacity-70 mb-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Opportunities</p>
+                      <p className="text-2xl font-bold text-[#7c3aed]">156</p>
                     </div>
+                  </div>
 
-                    <div className={`p-4 rounded-lg border ${isDarkMode ? 'bg-bg-dark border-border-dark' : 'bg-bg-light border-border-light'}`}>
-                      <div className="flex items-center justify-between mb-2">
-                        <span className={`font-semibold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Madurai - Anna Nagar</span>
-                        <span className="text-green-500 font-bold">85% Opportunity</span>
+                  <div className={`p-4 rounded-xl ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
+                    <p className={`text-sm font-semibold mb-3 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Top Opportunity</p>
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className={`font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Specialty Coffee Shop</p>
+                        <p className={`text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>T. Nagar, Chennai</p>
                       </div>
-                      <div className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-                        <div className="h-full bg-gradient-to-r from-primary-blue to-primary-purple rounded-full" style={{ width: '85%' }} />
-                      </div>
+                      <ArrowRight className="text-[#2563eb]" size={20} />
                     </div>
                   </div>
                 </div>
@@ -257,11 +244,11 @@ function Landing() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className={`text-3xl sm:text-4xl font-bold mb-4 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
-              Powerful Features for Smart Decisions
+            <h2 className={`text-3xl sm:text-4xl font-bold mb-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+              Powerful Features
             </h2>
-            <p className={`text-lg opacity-70 max-w-2xl mx-auto ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
-              Everything you need to identify and validate business opportunities
+            <p className={`text-lg opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+              Everything you need to make smart business decisions
             </p>
           </motion.div>
 
@@ -273,13 +260,17 @@ function Landing() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className={`p-6 rounded-2xl border transition-all duration-300 hover:-translate-y-2 ${isDarkMode ? 'bg-card-dark border-border-dark hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.3)]' : 'bg-card-light border-border-light hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1)]'}`}
+                className={`p-6 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
               >
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-primary-blue to-primary-purple flex items-center justify-center mb-4">
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-[#2563eb] to-[#7c3aed] flex items-center justify-center mb-4">
                   <feature.icon className="text-white" size={24} />
                 </div>
-                <h3 className={`text-xl font-bold mb-2 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>{feature.title}</h3>
-                <p className={`opacity-70 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>{feature.desc}</p>
+                <h3 className={`text-xl font-bold mb-2 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+                  {feature.title}
+                </h3>
+                <p className={`opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+                  {feature.desc}
+                </p>
               </motion.div>
             ))}
           </div>
@@ -287,86 +278,66 @@ function Landing() {
       </section>
 
       {/* Benefits Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-primary-blue/10 to-primary-purple/10">
+      <section className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className={`text-3xl sm:text-4xl font-bold mb-4 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
-              Why Choose Market Gap Finder?
-            </h2>
-            <p className={`text-lg opacity-70 max-w-2xl mx-auto ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
-              Stop guessing. Start growing with data-driven insights
-            </p>
-          </motion.div>
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+            >
+              <h2 className={`text-3xl sm:text-4xl font-bold mb-6 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+                Why Choose Market Gap Finder?
+              </h2>
+              <div className="space-y-6">
+                {benefits.map((benefit, index) => (
+                  <div key={index} className="flex items-start gap-4">
+                    <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-[#2563eb] to-[#7c3aed] flex items-center justify-center flex-shrink-0">
+                      <benefit.icon className="text-white" size={24} />
+                    </div>
+                    <div>
+                      <h3 className={`font-bold mb-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+                        {benefit.title}
+                      </h3>
+                      <p className={`opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+                        {benefit.desc}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {benefits.map((benefit, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="text-center"
-              >
-                <div className="w-16 h-16 rounded-full bg-gradient-to-r from-primary-blue to-primary-purple flex items-center justify-center mx-auto mb-4">
-                  <benefit.icon className="text-white" size={32} />
-                </div>
-                <h3 className={`text-lg font-bold mb-2 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>{benefit.title}</h3>
-                <p className={`text-sm opacity-70 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>{benefit.desc}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* How It Works Section */}
-      <section id="how-it-works" className="py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className={`text-3xl sm:text-4xl font-bold mb-4 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
-              How It Works
-            </h2>
-            <p className={`text-lg opacity-70 max-w-2xl mx-auto ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
-              Get started in 4 simple steps
-            </p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {howItWorks.map((item, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="relative"
-              >
-                <div className={`w-16 h-16 rounded-full bg-gradient-to-r from-primary-blue to-primary-purple flex items-center justify-center mx-auto mb-4 text-white text-2xl font-bold`}>
-                  {item.step}
-                </div>
-                <h3 className={`text-lg font-bold mb-2 text-center ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>{item.title}</h3>
-                <p className={`text-sm opacity-70 text-center ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>{item.desc}</p>
-                {index < howItWorks.length - 1 && (
-                  <div className="hidden lg:block absolute top-8 left-[60%] w-[80%] border-t-2 border-dashed border-primary-blue/30" />
-                )}
-              </motion.div>
-            ))}
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className={`p-8 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
+            >
+              <div className="space-y-6">
+                {howItWorks.map((step, index) => (
+                  <div key={index} className="flex items-start gap-4">
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-r from-[#2563eb] to-[#7c3aed] flex items-center justify-center text-white font-bold flex-shrink-0">
+                      {step.step}
+                    </div>
+                    <div>
+                      <h3 className={`font-bold mb-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+                        {step.title}
+                      </h3>
+                      <p className={`text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+                        {step.desc}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>
 
       {/* Reviews Section */}
-      <section id="reviews" className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-primary-blue/10 to-primary-purple/10">
+      <section id="reviews" className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -374,10 +345,10 @@ function Landing() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className={`text-3xl sm:text-4xl font-bold mb-4 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+            <h2 className={`text-3xl sm:text-4xl font-bold mb-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
               What Our Users Say
             </h2>
-            <p className={`text-lg opacity-70 max-w-2xl mx-auto ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+            <p className={`text-lg opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
               Trusted by entrepreneurs across Tamil Nadu
             </p>
           </motion.div>
@@ -390,17 +361,23 @@ function Landing() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className={`p-6 rounded-2xl border ${isDarkMode ? 'bg-card-dark border-border-dark' : 'bg-card-light border-border-light'}`}
+                className={`p-6 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
               >
                 <div className="flex items-center gap-1 mb-4">
                   {[...Array(review.rating)].map((_, i) => (
                     <Star key={i} size={16} className="text-yellow-500 fill-yellow-500" />
                   ))}
                 </div>
-                <p className={`mb-4 opacity-80 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>{review.text}</p>
+                <p className={`mb-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+                  "{review.text}"
+                </p>
                 <div>
-                  <p className={`font-semibold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>{review.name}</p>
-                  <p className={`text-sm opacity-60 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>{review.role}</p>
+                  <p className={`font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+                    {review.name}
+                  </p>
+                  <p className={`text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+                    {review.role}
+                  </p>
                 </div>
               </motion.div>
             ))}
@@ -417,12 +394,9 @@ function Landing() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className={`text-3xl sm:text-4xl font-bold mb-4 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+            <h2 className={`text-3xl sm:text-4xl font-bold mb-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
               Frequently Asked Questions
             </h2>
-            <p className={`text-lg opacity-70 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
-              Got questions? We've got answers
-            </p>
           </motion.div>
 
           <div className="space-y-4">
@@ -433,25 +407,26 @@ function Landing() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className={`rounded-xl border overflow-hidden ${isDarkMode ? 'bg-card-dark border-border-dark' : 'bg-card-light border-border-light'}`}
+                className={`p-6 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
               >
                 <button
                   onClick={() => setActiveFaq(activeFaq === index ? null : index)}
-                  className="w-full px-6 py-4 flex items-center justify-between text-left"
+                  className="w-full flex items-center justify-between text-left"
                 >
-                  <span className={`font-semibold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>{faq.question}</span>
-                  <ChevronDown 
-                    className={`transition-transform ${activeFaq === index ? 'rotate-180' : ''} ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`} 
-                    size={20} 
-                  />
+                  <span className={`font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+                    {faq.question}
+                  </span>
+                  <ChevronDown className={`transition-transform ${activeFaq === index ? 'rotate-180' : ''}`} size={20} />
                 </button>
                 {activeFaq === index && (
                   <motion.div
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: 'auto' }}
-                    className="px-6 pb-4"
+                    className={`mt-4 pt-4 border-t ${isDarkMode ? 'border-[#334155]' : 'border-[#e2e8f0]'}`}
                   >
-                    <p className={`opacity-70 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>{faq.answer}</p>
+                    <p className={`opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+                      {faq.answer}
+                    </p>
                   </motion.div>
                 )}
               </motion.div>
@@ -461,7 +436,7 @@ function Landing() {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-primary-blue/10 to-primary-purple/10">
+      <section id="contact" className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -469,11 +444,11 @@ function Landing() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className={`text-3xl sm:text-4xl font-bold mb-4 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+            <h2 className={`text-3xl sm:text-4xl font-bold mb-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
               Get In Touch
             </h2>
-            <p className={`text-lg opacity-70 max-w-2xl mx-auto ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
-              Have questions? We'd love to hear from you
+            <p className={`text-lg opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+              Have questions? We'd love to hear from you.
             </p>
           </motion.div>
 
@@ -482,33 +457,33 @@ function Landing() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className={`p-6 rounded-2xl border text-center ${isDarkMode ? 'bg-card-dark border-border-dark' : 'bg-card-light border-border-light'}`}
+              className={`p-6 rounded-2xl border text-center ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
             >
-              <Mail className="text-primary-blue mx-auto mb-4" size={32} />
-              <h3 className={`font-bold mb-2 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Email Us</h3>
-              <p className={`text-sm opacity-70 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>support@marketgapfinder.com</p>
+              <Mail className="text-[#2563eb] mx-auto mb-4" size={32} />
+              <h3 className={`font-bold mb-2 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Email Us</h3>
+              <p className={`text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>support@marketgapfinder.com</p>
             </motion.div>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
-              className={`p-6 rounded-2xl border text-center ${isDarkMode ? 'bg-card-dark border-border-dark' : 'bg-card-light border-border-light'}`}
+              className={`p-6 rounded-2xl border text-center ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
             >
-              <Phone className="text-primary-blue mx-auto mb-4" size={32} />
-              <h3 className={`font-bold mb-2 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Call Us</h3>
-              <p className={`text-sm opacity-70 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>+91 98765 43210</p>
+              <Phone className="text-[#2563eb] mx-auto mb-4" size={32} />
+              <h3 className={`font-bold mb-2 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Call Us</h3>
+              <p className={`text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>+91 98765 43210</p>
             </motion.div>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.2 }}
-              className={`p-6 rounded-2xl border text-center ${isDarkMode ? 'bg-card-dark border-border-dark' : 'bg-card-light border-border-light'}`}
+              className={`p-6 rounded-2xl border text-center ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
             >
-              <MessageSquare className="text-primary-blue mx-auto mb-4" size={32} />
-              <h3 className={`font-bold mb-2 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Live Chat</h3>
-              <p className={`text-sm opacity-70 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Available 24/7</p>
+              <MessageSquare className="text-[#2563eb] mx-auto mb-4" size={32} />
+              <h3 className={`font-bold mb-2 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Live Chat</h3>
+              <p className={`text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Available 24/7</p>
             </motion.div>
           </div>
 
@@ -516,25 +491,25 @@ function Landing() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className={`max-w-2xl mx-auto p-8 rounded-2xl border ${isDarkMode ? 'bg-card-dark border-border-dark' : 'bg-card-light border-border-light'}`}
+            className={`max-w-2xl mx-auto p-8 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
           >
             <div className="grid gap-4">
               <input 
                 type="text" 
                 placeholder="Your Name" 
-                className={`px-4 py-3 rounded-lg border bg-transparent outline-none focus:border-primary-blue transition-colors ${isDarkMode ? 'text-text-dark border-border-dark' : 'text-text-light border-border-light'}`}
+                className={`px-4 py-3 rounded-lg border bg-transparent outline-none focus:border-[#2563eb] transition-colors ${isDarkMode ? 'text-[#f1f5f9] border-[#334155]' : 'text-[#1e293b] border-[#e2e8f0]'}`}
               />
               <input 
                 type="email" 
                 placeholder="Your Email" 
-                className={`px-4 py-3 rounded-lg border bg-transparent outline-none focus:border-primary-blue transition-colors ${isDarkMode ? 'text-text-dark border-border-dark' : 'text-text-light border-border-light'}`}
+                className={`px-4 py-3 rounded-lg border bg-transparent outline-none focus:border-[#2563eb] transition-colors ${isDarkMode ? 'text-[#f1f5f9] border-[#334155]' : 'text-[#1e293b] border-[#e2e8f0]'}`}
               />
               <textarea 
                 placeholder="Your Message" 
                 rows={4}
-                className={`px-4 py-3 rounded-lg border bg-transparent outline-none focus:border-primary-blue transition-colors resize-none ${isDarkMode ? 'text-text-dark border-border-dark' : 'text-text-light border-border-light'}`}
+                className={`px-4 py-3 rounded-lg border bg-transparent outline-none focus:border-[#2563eb] transition-colors resize-none ${isDarkMode ? 'text-[#f1f5f9] border-[#334155]' : 'text-[#1e293b] border-[#e2e8f0]'}`}
               />
-              <button className="px-8 py-3 bg-gradient-to-r from-primary-blue to-primary-purple text-white rounded-lg font-semibold hover:opacity-90 transition-opacity">
+              <button className="px-8 py-3 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white rounded-lg font-semibold hover:opacity-90 transition-opacity">
                 Send Message
               </button>
             </div>
@@ -543,46 +518,46 @@ function Landing() {
       </section>
 
       {/* Footer */}
-      <footer className={`py-12 px-4 sm:px-6 lg:px-8 border-t ${isDarkMode ? 'bg-card-dark border-border-dark' : 'bg-card-light border-border-light'}`}>
+      <footer className={`py-12 px-4 sm:px-6 lg:px-8 border-t ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}>
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-4 gap-8 mb-8">
             <div>
               <div className="flex items-center gap-2 mb-4">
-                <Target className="text-primary-blue" size={24} />
-                <span className={`text-lg font-bold bg-gradient-to-r from-primary-blue to-primary-purple bg-clip-text text-transparent`}>
+                <Target className="text-[#2563eb]" size={24} />
+                <span className="font-bold bg-gradient-to-r from-[#2563eb] to-[#7c3aed] bg-clip-text text-transparent">
                   Market Gap Finder
                 </span>
               </div>
-              <p className={`text-sm opacity-70 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
-                Data-driven platform for identifying business opportunities across Tamil Nadu.
+              <p className={`text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+                Data-driven platform to identify underserved business opportunities across Tamil Nadu.
               </p>
             </div>
             <div>
-              <h4 className={`font-bold mb-4 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Product</h4>
+              <h4 className={`font-bold mb-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Product</h4>
               <ul className="space-y-2">
-                <li><a href="#features" className={`text-sm opacity-70 hover:opacity-100 transition-opacity ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Features</a></li>
-                <li><a href="#pricing" className={`text-sm opacity-70 hover:opacity-100 transition-opacity ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Pricing</a></li>
-                <li><a href="#faq" className={`text-sm opacity-70 hover:opacity-100 transition-opacity ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>FAQ</a></li>
+                <li><a href="#features" className={`text-sm opacity-70 hover:opacity-100 transition-opacity ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Features</a></li>
+                <li><a href="#pricing" className={`text-sm opacity-70 hover:opacity-100 transition-opacity ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Pricing</a></li>
+                <li><a href="#faq" className={`text-sm opacity-70 hover:opacity-100 transition-opacity ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>FAQ</a></li>
               </ul>
             </div>
             <div>
-              <h4 className={`font-bold mb-4 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Company</h4>
+              <h4 className={`font-bold mb-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Company</h4>
               <ul className="space-y-2">
-                <li><a href="#about" className={`text-sm opacity-70 hover:opacity-100 transition-opacity ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>About</a></li>
-                <li><a href="#contact" className={`text-sm opacity-70 hover:opacity-100 transition-opacity ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Contact</a></li>
-                <li><a href="#careers" className={`text-sm opacity-70 hover:opacity-100 transition-opacity ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Careers</a></li>
+                <li><a href="#about" className={`text-sm opacity-70 hover:opacity-100 transition-opacity ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>About</a></li>
+                <li><a href="#contact" className={`text-sm opacity-70 hover:opacity-100 transition-opacity ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Contact</a></li>
+                <li><a href="#careers" className={`text-sm opacity-70 hover:opacity-100 transition-opacity ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Careers</a></li>
               </ul>
             </div>
             <div>
-              <h4 className={`font-bold mb-4 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Legal</h4>
+              <h4 className={`font-bold mb-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Legal</h4>
               <ul className="space-y-2">
-                <li><a href="#privacy" className={`text-sm opacity-70 hover:opacity-100 transition-opacity ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Privacy Policy</a></li>
-                <li><a href="#terms" className={`text-sm opacity-70 hover:opacity-100 transition-opacity ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Terms of Service</a></li>
+                <li><a href="#privacy" className={`text-sm opacity-70 hover:opacity-100 transition-opacity ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Privacy Policy</a></li>
+                <li><a href="#terms" className={`text-sm opacity-70 hover:opacity-100 transition-opacity ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Terms of Service</a></li>
               </ul>
             </div>
           </div>
-          <div className={`pt-8 border-t ${isDarkMode ? 'border-border-dark' : 'border-border-light'}`}>
-            <p className={`text-center text-sm opacity-70 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>
+          <div className={`pt-8 border-t ${isDarkMode ? 'border-[#334155]' : 'border-[#e2e8f0]'}`}>
+            <p className={`text-center text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
               © 2024 Market Gap Finder. All rights reserved.
             </p>
           </div>
