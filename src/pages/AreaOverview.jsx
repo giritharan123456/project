@@ -5,7 +5,7 @@ import { useTheme } from '../contexts/ThemeContext';
 import { 
   MapPin, Users, TrendingUp, DollarSign, Briefcase, GraduationCap,
   Building, Car, Navigation, Star, ArrowLeft, Share2, Heart, BarChart3,
-  Clock, Home, Store, Factory, Coffee, ShoppingBag, Utensils, Scissors,
+  Clock, Home, Store, Coffee, ShoppingBag, Utensils, Scissors,
   Activity, Calendar, ChevronRight, Info
 } from 'lucide-react';
 

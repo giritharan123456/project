@@ -5,7 +5,7 @@ import { useTheme } from '../contexts/ThemeContext';
 import { 
   TrendingUp, TrendingDown, Calendar, BarChart3, LineChart, 
   PieChart, Users, DollarSign, Target, ArrowLeft, Download,
-  Filter, ChevronDown, Info, Zap, AlertCircle, CheckCircle
+  Filter, ChevronDown, Info, Zap, AlertCircle, CheckCircle, Building2, Road
 } from 'lucide-react';
 
 function Forecast() {

@@ -5,7 +5,7 @@ import { useTheme } from '../contexts/ThemeContext';
 import { 
   BarChart3, Target, TrendingUp, AlertTriangle, MapPin, Users,
   DollarSign, Activity, CheckCircle, ArrowRight, PieChart, LineChart,
-  Globe, Database, Zap, Award, Clock, Eye
+  Globe, Database, Zap, Award, Clock, Eye, FileText
 } from 'lucide-react';
 
 function AnalyticsDashboard() {
