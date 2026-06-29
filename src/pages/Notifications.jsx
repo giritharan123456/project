@@ -117,17 +117,14 @@ function Notifications() {
 
   const markAsRead = (id) => {
     // Will be replaced with backend call
-    console.log('Mark as read:', id);
   };
 
   const markAllAsRead = () => {
     // Will be replaced with backend call
-    console.log('Mark all as read');
   };
 
   const deleteNotification = (id) => {
     // Will be replaced with backend call
-    console.log('Delete notification:', id);
   };
 
   return (

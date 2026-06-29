@@ -5,7 +5,7 @@ import { useTheme } from '../contexts/ThemeContext';
 import { 
   ArrowLeft, Plus, X, TrendingUp, TrendingDown, BarChart3, 
   Users, DollarSign, Target, Award, MapPin, Star, ChevronDown,
-  Filter, Search, ArrowRight, Crown
+  Filter, Search, ArrowRight, Crown, ChevronRight
 } from 'lucide-react';
 
 function Comparison() {
