@@ -25,30 +25,28 @@ import AnalyticsDashboard from './pages/AnalyticsDashboard';
 function App() {
   return (
     <AuthProvider>
-      <ThemeProvider>
-        <ToastProvider>
-          <div className="min-h-screen bg-bg-light transition-colors duration-300">
-            <Routes>
-              <Route path="/" element={<Landing />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<Signup />} />
-              <Route path="/dashboard" element={<ProtectedRoute><><Navbar /><Dashboard /></></ProtectedRoute>} />
-              <Route path="/analysis" element={<ProtectedRoute><><Navbar /><Analysis /></></ProtectedRoute>} />
-              <Route path="/reports" element={<ProtectedRoute><><Navbar /><Reports /></></ProtectedRoute>} />
-              <Route path="/about" element={<ProtectedRoute><><Navbar /><About /></></ProtectedRoute>} />
-              <Route path="/home" element={<ProtectedRoute><><Navbar /><Home /></></ProtectedRoute>} />
-              <Route path="/area-overview/:pincode" element={<ProtectedRoute><><Navbar /><AreaOverview /></></ProtectedRoute>} />
-              <Route path="/business-overview/:pincode" element={<ProtectedRoute><><Navbar /><BusinessOverview /></></ProtectedRoute>} />
-              <Route path="/ai-recommendations" element={<ProtectedRoute><><Navbar /><AIRecommendations /></></ProtectedRoute>} />
-              <Route path="/forecast" element={<ProtectedRoute><><Navbar /><Forecast /></></ProtectedRoute>} />
-              <Route path="/comparison" element={<ProtectedRoute><><Navbar /><Comparison /></></ProtectedRoute>} />
-              <Route path="/notifications" element={<ProtectedRoute><><Navbar /><Notifications /></></ProtectedRoute>} />
-              <Route path="/workspace" element={<ProtectedRoute><><Navbar /><Workspace /></></ProtectedRoute>} />
-              <Route path="/analytics" element={<ProtectedRoute><><Navbar /><AnalyticsDashboard /></></ProtectedRoute>} />
-            </Routes>
-          </div>
-        </ToastProvider>
-      </ThemeProvider>
+      <ToastProvider>
+        <div className="min-h-screen bg-bg-light transition-colors duration-300">
+          <Routes>
+            <Route path="/" element={<Landing />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/dashboard" element={<ProtectedRoute><><Navbar /><Dashboard /></></ProtectedRoute>} />
+            <Route path="/analysis" element={<ProtectedRoute><><Navbar /><Analysis /></></ProtectedRoute>} />
+            <Route path="/reports" element={<ProtectedRoute><><Navbar /><Reports /></></ProtectedRoute>} />
+            <Route path="/about" element={<ProtectedRoute><><Navbar /><About /></></ProtectedRoute>} />
+            <Route path="/home" element={<ProtectedRoute><><Navbar /><Home /></></ProtectedRoute>} />
+            <Route path="/area-overview/:pincode" element={<ProtectedRoute><><Navbar /><AreaOverview /></></ProtectedRoute>} />
+            <Route path="/business-overview/:pincode" element={<ProtectedRoute><><Navbar /><BusinessOverview /></></ProtectedRoute>} />
+            <Route path="/ai-recommendations" element={<ProtectedRoute><><Navbar /><AIRecommendations /></></ProtectedRoute>} />
+            <Route path="/forecast" element={<ProtectedRoute><><Navbar /><Forecast /></></ProtectedRoute>} />
+            <Route path="/comparison" element={<ProtectedRoute><><Navbar /><Comparison /></></ProtectedRoute>} />
+            <Route path="/notifications" element={<ProtectedRoute><><Navbar /><Notifications /></></ProtectedRoute>} />
+            <Route path="/workspace" element={<ProtectedRoute><><Navbar /><Workspace /></></ProtectedRoute>} />
+            <Route path="/analytics" element={<ProtectedRoute><><Navbar /><AnalyticsDashboard /></></ProtectedRoute>} />
+          </Routes>
+        </div>
+      </ToastProvider>
     </AuthProvider>
   );
 }
