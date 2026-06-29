@@ -6,7 +6,7 @@ import {
   Search, BarChart3, TrendingUp, MapPin, Users, Zap, 
   CheckCircle, Star, MessageSquare, Mail, Phone, ArrowRight,
   Play, ChevronDown, Menu, X, Mic, Target, Lightbulb, Shield,
-  Globe, Clock, Award, Heart, ArrowUpRight
+  Globe, Clock, Award, Heart, ArrowUpRight, Sun, Moon
 } from 'lucide-react';
 
 function Landing() {
