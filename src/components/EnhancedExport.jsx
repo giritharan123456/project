@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 function EnhancedExport({ data, selectedDistrict, businessCategories }) {
   const { isDarkMode } = useTheme();
-  const [exportFormat, setExportFormat] = useState('csv');
   const [isExporting, setIsExporting] = useState(false);
   const [showOptions, setShowOptions] = useState(false);
 
@@ -12,16 +13,7 @@ function EnhancedExport({ data, selectedDistrict, businessCategories }) {
     setIsExporting(true);
 
     try {
-      switch (exportFormat) {
-        case 'csv':
-          await exportToCSV();
-          break;
-        case 'json':
-          await exportToJSON();
-          break;
-        default:
-          await exportToCSV();
-      }
+      await exportToPDF();
     } catch (error) {
       // Export failed silently
     } finally {
@@ -29,110 +21,73 @@ function EnhancedExport({ data, selectedDistrict, businessCategories }) {
     }
   };
 
-  const exportToCSV = async () => {
+  const exportToPDF = async () => {
     if (!data || data.length === 0) {
       return;
     }
 
     try {
-      let headers = ['Pincode', 'Area', 'District', 'Population', 'Growth Rate', 'Income Level', 'Urban Development'];
+      const doc = new jsPDF();
+      
+      // Title
+      doc.setFontSize(20);
+      doc.setTextColor(102, 126, 234);
+      doc.text('Market Gap Analysis Report', 14, 22);
+      
+      // Metadata
+      doc.setFontSize(12);
+      doc.setTextColor(100, 100, 100);
+      doc.text(`District: ${selectedDistrict}`, 14, 32);
+      doc.text(`Export Date: ${new Date().toLocaleDateString()}`, 14, 40);
+      doc.text(`Total Pincodes: ${data.length}`, 14, 48);
 
+      // Table headers
+      const headers = ['Pincode', 'Area', 'District', 'Population', 'Growth %', 'Income Level'];
       businessCategories.forEach(cat => {
-        headers.push(`${cat.name} Competitors`);
-        headers.push(`${cat.name} Demand Score`);
-        headers.push(`${cat.name} Market Gap Score`);
+        headers.push(`${cat.name} Gap`);
       });
 
-      let csvRows = [headers.join(',')];
-
-      data.forEach(pincode => {
+      // Table data
+      const tableData = data.map(pincode => {
         const row = [
           pincode.pincode,
           pincode.area,
           pincode.district,
-          pincode.population,
-          pincode.populationGrowth,
-          pincode.incomeLevel,
-          pincode.urbanDevelopment
+          pincode.population.toLocaleString(),
+          `${pincode.populationGrowth}%`,
+          pincode.incomeLevel
         ];
-
         businessCategories.forEach(cat => {
-          row.push((pincode.competitors && pincode.competitors[cat.name]) || 0);
-          row.push((pincode.demandScores && pincode.demandScores[cat.name]) || 0);
           row.push((pincode.marketGapScores && pincode.marketGapScores[cat.name]) || 0);
         });
-
-        csvRows.push(row.join(','));
+        return row;
       });
 
-      let csvContent = csvRows.join('\n');
-      downloadFile(csvContent, `market-gap-analysis-${selectedDistrict}.csv`, 'text/csv');
-    } catch (error) {
-      // CSV export error
-    }
-  };
-
-  const exportToJSON = async () => {
-    if (!data || data.length === 0) {
-      return;
-    }
-
-    try {
-      const jsonData = {
-        metadata: {
-          district: selectedDistrict,
-          exportDate: new Date().toISOString(),
-          totalPincodes: data.length,
-          businessCategories: businessCategories.map(cat => cat.name)
+      // Generate table
+      autoTable(doc, {
+        head: [headers],
+        body: tableData,
+        startY: 55,
+        styles: {
+          fontSize: 8,
+          cellPadding: 3,
         },
-        data: data.map(pincode => ({
-          pincode: pincode.pincode,
-          area: pincode.area,
-          district: pincode.district,
-          population: pincode.population,
-          populationGrowth: pincode.populationGrowth,
-          incomeLevel: pincode.incomeLevel,
-          urbanDevelopment: pincode.urbanDevelopment,
-          competitors: pincode.competitors,
-          demandScores: pincode.demandScores,
-          marketGapScores: pincode.marketGapScores
-        }))
-      };
+        headStyles: {
+          fillColor: [102, 126, 234],
+          textColor: 255,
+          fontStyle: 'bold',
+        },
+        alternateRowStyles: {
+          fillColor: [245, 247, 250],
+        },
+      });
 
-      const jsonContent = JSON.stringify(jsonData, null, 2);
-      downloadFile(jsonContent, `market-gap-analysis-${selectedDistrict}.json`, 'application/json');
+      // Save PDF
+      doc.save(`market-gap-analysis-${selectedDistrict}.pdf`);
     } catch (error) {
-      // JSON export error
+      // PDF export error
     }
   };
-
-  const downloadFile = (content, filename, mimeType) => {
-    try {
-      const isText = mimeType.includes('text') || mimeType.includes('csv');
-      const blobContent = isText ? ['\ufeff', content] : [content];
-      
-      const blob = new Blob(blobContent, { type: `${mimeType};charset=utf-8` });
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = filename;
-      link.style.display = 'none';
-      document.body.appendChild(link);
-      link.click();
-      
-      setTimeout(() => {
-        document.body.removeChild(link);
-        window.URL.revokeObjectURL(url);
-      }, 100);
-    } catch (error) {
-      // Download failed
-    }
-  };
-
-  const formatOptions = [
-    { value: 'csv', label: 'CSV', icon: '📊', description: 'Comma-separated values' },
-    { value: 'json', label: 'JSON', icon: '🔧', description: 'Structured data format' }
-  ];
 
   return (
     <div className={`p-6 rounded-xl border mb-6 transition-all duration-300 ${isDarkMode ? 'bg-card-dark border-border-dark shadow-[0_4px_6px_-1px_rgba(0,0,0,0.3),0_2px_4px_-1px_rgba(0,0,0,0.2)]' : 'bg-card-light border-border-light shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-1px_rgba(0,0,0,0.06)]'}`}>
@@ -154,23 +109,6 @@ function EnhancedExport({ data, selectedDistrict, businessCategories }) {
       >
         <div className="space-y-6">
           <div>
-            <h4 className={`text-sm font-semibold mb-3 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Select Format</h4>
-            <div className="grid grid-cols-2 gap-4">
-              {formatOptions.map(format => (
-                <div
-                  key={format.value}
-                  className={`p-4 rounded-lg border cursor-pointer transition-all duration-300 ${exportFormat === format.value ? 'bg-gradient-to-r from-primary-blue to-primary-purple text-white border-transparent' : `${isDarkMode ? 'bg-bg-dark border-border-dark text-text-dark hover:border-primary-blue' : 'bg-bg-light border-border-light text-text-light hover:border-primary-blue'}`}`}
-                  onClick={() => setExportFormat(format.value)}
-                >
-                  <span className="text-2xl block mb-2">{format.icon}</span>
-                  <span className="block font-semibold">{format.label}</span>
-                  <span className="block text-xs opacity-70 mt-1">{format.description}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div>
             <h4 className={`text-sm font-semibold mb-3 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Export Summary</h4>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <div className={`p-3 rounded-lg border ${isDarkMode ? 'bg-bg-dark border-border-dark' : 'bg-bg-light border-border-light'}`}>
@@ -187,7 +125,7 @@ function EnhancedExport({ data, selectedDistrict, businessCategories }) {
               </div>
               <div className={`p-3 rounded-lg border ${isDarkMode ? 'bg-bg-dark border-border-dark' : 'bg-bg-light border-border-light'}`}>
                 <span className={`block text-xs opacity-70 ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>Format</span>
-                <span className={`block font-semibold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>{exportFormat.toUpperCase()}</span>
+                <span className={`block font-semibold ${isDarkMode ? 'text-text-dark' : 'text-text-light'}`}>PDF</span>
               </div>
             </div>
           </div>
@@ -199,7 +137,7 @@ function EnhancedExport({ data, selectedDistrict, businessCategories }) {
         onClick={handleExport}
         disabled={isExporting || !data || data.length === 0}
       >
-        {isExporting ? 'Exporting...' : `Export as ${exportFormat.toUpperCase()}`}
+        {isExporting ? 'Exporting...' : 'Export as PDF'}
       </button>
     </div>
   );
