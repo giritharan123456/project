@@ -8,5 +8,8 @@ export default defineConfig({
     setupFiles: ['./src/__tests__/setup.js'],
     globals: true,
     exclude: ['node_modules/**', 'backend/**'],
+    env: {
+      VITE_API_URL: 'http://localhost:5000/api',
+    },
   },
 });
