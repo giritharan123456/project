@@ -6,5 +6,17 @@ export default defineConfig({
   server: {
     port: 3000,
     open: true
+  },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom', 'react-router-dom'],
+          charts: ['recharts', 'html2canvas'],
+          icons: ['lucide-react'],
+          anim: ['framer-motion']
+        }
+      }
+    }
   }
 });

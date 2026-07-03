@@ -8,12 +8,18 @@ const {
   guestLogin,
   googleCallback,
   getUserProfile,
-  updateUserProfile
+  updateUserProfile,
+  forgotPassword,
+  resetPassword
 } = require('../controllers/authController');
 
 router.post('/register', registerUser);
 router.post('/login', loginUser);
 router.post('/guest', guestLogin);
+
+// Password reset routes
+router.post('/forgot-password', forgotPassword);
+router.post('/reset-password/:token', resetPassword);
 
 // Google OAuth routes
 router.get('/google', (req, res, next) => {

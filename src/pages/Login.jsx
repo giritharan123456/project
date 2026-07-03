@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams, Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 
 function Login() {
@@ -11,24 +11,28 @@ function Login() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [formData, setFormData] = useState({
-    email: '',
+    email: localStorage.getItem('rememberedEmail') || '',
     password: '',
     name: '',
     confirmPassword: ''
   });
+  const [rememberMe, setRememberMe] = useState(!!localStorage.getItem('rememberedEmail'));
 
   useEffect(() => {
-    // Handle Google OAuth callback
     const token = searchParams.get('token');
     if (token) {
       handleGoogleCallback(token);
       navigate('/dashboard');
     }
+    // Load saved email if "Remember me" was checked
+    const savedEmail = localStorage.getItem('rememberedEmail');
+    if (savedEmail) {
+      setFormData(prev => ({ ...prev, email: savedEmail }));
+    }
   }, [searchParams, handleGoogleCallback, navigate]);
 
   const handleGoogleSignIn = () => {
-    // Show error message since Google OAuth is not configured
-    setError('Google OAuth is not configured. Please use email/password login or guest access.');
+    window.location.href = `${import.meta.env.VITE_API_URL}/auth/google`;
   };
 
   const handleGuestAccess = async () => {
@@ -54,8 +58,12 @@ function Login() {
     
     try {
       if (isLogin) {
-        // Handle login
         if (formData.email && formData.password) {
+          if (rememberMe) {
+            localStorage.setItem('rememberedEmail', formData.email);
+          } else {
+            localStorage.removeItem('rememberedEmail');
+          }
           const result = await login(formData.email, formData.password);
           if (result.success) {
             navigate('/dashboard');
@@ -217,10 +225,10 @@ function Login() {
           {isLogin && (
             <div className="flex justify-between items-center text-sm">
               <label className="flex items-center gap-2 cursor-pointer text-[#666]">
-                <input type="checkbox" className="w-4 h-4 cursor-pointer" />
+                <input type="checkbox" className="w-4 h-4 cursor-pointer" checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)} />
                 <span>Remember me</span>
               </label>
-              <a href="#" className="text-[#667eea] no-underline font-semibold transition-colors duration-300 hover:text-[#764ba2]">Forgot password?</a>
+              <Link to="/forgot-password" className="text-[#667eea] no-underline font-semibold transition-colors duration-300 hover:text-[#764ba2]">Forgot password?</Link>
             </div>
           )}
 

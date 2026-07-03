@@ -32,6 +32,8 @@ const CategoryExplorer = lazy(() => import('./pages/CategoryExplorer'));
 const AreaLeaderboard = lazy(() => import('./pages/AreaLeaderboard'));
 const CategoryPincodeMatrix = lazy(() => import('./pages/CategoryPincodeMatrix'));
 const InvestmentEstimator = lazy(() => import('./pages/InvestmentEstimator'));
+const ForgotPassword = lazy(() => import('./pages/ForgotPassword'));
+const ResetPassword = lazy(() => import('./pages/ResetPassword'));
 const AdminDashboard = lazy(() => import('./pages/AdminDashboard'));
 const DistrictManagement = lazy(() => import('./pages/admin/DistrictManagement'));
 const AreaManagement = lazy(() => import('./pages/admin/AreaManagement'));
@@ -53,6 +55,8 @@ function App() {
                   <Route path="/login" element={<Login />} />
                   <Route path="/admin-login" element={<AdminLogin />} />
                   <Route path="/signup" element={<Signup />} />
+                  <Route path="/forgot-password" element={<ForgotPassword />} />
+                  <Route path="/reset-password/:token" element={<ResetPassword />} />
                   <Route path="/dashboard" element={<ProtectedRoute><><Navbar /><Dashboard /></></ProtectedRoute>} />
                   <Route path="/analysis" element={<ProtectedRoute><><Navbar /><Analysis /></></ProtectedRoute>} />
                   <Route path="/reports" element={<ProtectedRoute><><Navbar /><Reports /></></ProtectedRoute>} />

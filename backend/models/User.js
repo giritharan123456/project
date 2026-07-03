@@ -45,6 +45,12 @@ const userSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Area'
   }],
+  resetPasswordToken: {
+    type: String
+  },
+  resetPasswordExpire: {
+    type: Date
+  },
   createdAt: {
     type: Date,
     default: Date.now
@@ -67,6 +73,15 @@ userSchema.pre('save', async function() {
 // Method to compare password
 userSchema.methods.matchPassword = async function(enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
+};
+
+// Generate and hash password reset token
+userSchema.methods.getResetPasswordToken = function() {
+  const crypto = require('crypto');
+  const resetToken = crypto.randomBytes(20).toString('hex');
+  this.resetPasswordToken = crypto.createHash('sha256').update(resetToken).digest('hex');
+  this.resetPasswordExpire = Date.now() + 60 * 60 * 1000;
+  return resetToken;
 };
 
 module.exports = mongoose.model('User', userSchema);

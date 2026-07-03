@@ -73,6 +73,20 @@ export const authAPI = {
       body: JSON.stringify(userData),
     });
   },
+
+  forgotPassword: async ({ email }) => {
+    return apiCall('/auth/forgot-password', {
+      method: 'POST',
+      body: JSON.stringify({ email }),
+    });
+  },
+
+  resetPassword: async (token, { password }) => {
+    return apiCall(`/auth/reset-password/${token}`, {
+      method: 'POST',
+      body: JSON.stringify({ password }),
+    });
+  },
 };
 
 // Districts API
