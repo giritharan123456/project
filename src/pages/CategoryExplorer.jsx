@@ -4,6 +4,7 @@ import { useTheme } from '../contexts/ThemeContext';
 import { useDistrict } from '../contexts/DistrictContext';
 import { explorerAPI } from '../services/api';
 import { Link } from 'react-router-dom';
+import Pagination from '../components/Pagination';
 
 function CategoryExplorer() {
   const { isDarkMode } = useTheme();
@@ -12,8 +13,13 @@ function CategoryExplorer() {
   const [loading, setLoading] = useState(true);
   const [sortBy, setSortBy] = useState('gap');
   const [filterDistrict, setFilterDistrict] = useState(selectedDistrict || '');
+  const [page, setPage] = useState(1);
+  const perPage = 8;
 
   const b = (light, dark) => isDarkMode ? dark : light;
+
+  const paginatedCategories = categories.slice(0, page * perPage);
+  const totalPages = Math.ceil(categories.length / perPage);
 
   useEffect(() => {
     loadCategories();
@@ -21,6 +27,7 @@ function CategoryExplorer() {
 
   const loadCategories = async () => {
     setLoading(true);
+    setPage(1);
     try {
       const params = { sortBy };
       if (filterDistrict) params.district = filterDistrict;
@@ -68,7 +75,7 @@ function CategoryExplorer() {
           <div className="flex justify-center py-20"><div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#2563eb]"></div></div>
         ) : (
           <div className="grid gap-4">
-            {categories.map((cat, i) => (
+            {paginatedCategories.map((cat, i) => (
               <motion.div key={cat._id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.03 }}
                 className={`rounded-xl border p-5 ${b('bg-white border-gray-200', 'bg-[#1e293b] border-[#334155]')}`}>
                 <div className="flex flex-col lg:flex-row lg:items-center gap-4">
@@ -110,6 +117,9 @@ function CategoryExplorer() {
               </motion.div>
             ))}
           </div>
+        )}
+        {!loading && categories.length > perPage && (
+          <Pagination page={page} totalPages={totalPages} onPageChange={setPage} isDarkMode={isDarkMode} />
         )}
       </div>
     </div>

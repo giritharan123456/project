@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
+import { useSearchParams } from 'react-router-dom';
 import { useTheme } from '../contexts/ThemeContext';
 import { useDistrict } from '../contexts/DistrictContext';
 import { usePincode } from '../contexts/PincodeContext';
@@ -32,16 +33,20 @@ import AdvancedForecasting from '../components/AdvancedForecasting';
 import OpportunityHeatMap from '../components/OpportunityHeatMap';
 import AnalyticsPanel from '../components/AnalyticsPanel';
 import EnhancedExport from '../components/EnhancedExport';
+import RecentlyViewed from '../components/RecentlyViewed';
 
 function Dashboard() {
   const { isDarkMode } = useTheme();
   const { selectedDistrict, setSelectedDistrict, districts, setDistricts } = useDistrict();
   const { selectedPincode, setSelectedPincode } = usePincode();
-  const [searchPincode, setSearchPincode] = useState('');
+  const [searchParams] = useSearchParams();
+  const [searchPincode, setSearchPincode] = useState(searchParams.get('search') || '');
   const [areas, setAreas] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [recentSearches, setRecentSearches] = useState([]);
+  const [recentSearches, setRecentSearches] = useState(() => {
+    try { return JSON.parse(localStorage.getItem('recentSearches') || '[]'); } catch { return []; }
+  });
   const [selectedBusinessCategory, setSelectedBusinessCategory] = useState('all');
   const [searchError, setSearchError] = useState(null);
   const [searchLoading, setSearchLoading] = useState(false);
@@ -128,12 +133,15 @@ function Dashboard() {
     }
 
     if (pincode && !recentSearches.includes(pincode)) {
-      setRecentSearches([pincode, ...recentSearches.slice(0, 4)]);
+      const updated = [pincode, ...recentSearches.slice(0, 4)];
+      setRecentSearches(updated);
+      localStorage.setItem('recentSearches', JSON.stringify(updated));
     }
   };
 
   const handleClearRecentSearches = () => {
     setRecentSearches([]);
+    localStorage.removeItem('recentSearches');
   };
 
   const handleFilter = (category) => {
@@ -158,7 +166,9 @@ function Dashboard() {
     [pincodeData, currentDistrictName, selectedPincode, searchPincode]
   );
 
-  const displayData = selectedPincode ? filteredPincodeData : filteredPincodeData;
+  const displayData = searchPincode
+    ? filteredPincodeData.filter(p => p.pincode.includes(searchPincode) || p.areaName?.toLowerCase().includes(searchPincode.toLowerCase()))
+    : selectedPincode ? filteredPincodeData.filter(p => p.pincode === selectedPincode) : filteredPincodeData;
 
   const categorySourceArea = useMemo(() =>
     selectedPincode
@@ -359,6 +369,15 @@ function Dashboard() {
             <BusinessInsights
               pincodeData={displayData}
             />
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.6 }}
+            className="mb-4"
+          >
+            <RecentlyViewed isDarkMode={isDarkMode} />
           </motion.div>
 
           <motion.div

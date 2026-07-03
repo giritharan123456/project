@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
 import { useDistrict } from '../contexts/DistrictContext';
 import { explorerAPI } from '../services/api';
+import Pagination from '../components/Pagination';
 
 function CategoryPincodeMatrix() {
   const { isDarkMode } = useTheme();
@@ -10,8 +11,13 @@ function CategoryPincodeMatrix() {
   const [matrix, setMatrix] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filterDistrict, setFilterDistrict] = useState(selectedDistrict || '');
+  const [page, setPage] = useState(1);
+  const perPage = 15;
 
   const b = (light, dark) => isDarkMode ? dark : light;
+
+  const paginatedMatrix = matrix.slice(0, page * perPage);
+  const totalPages = Math.ceil(matrix.length / perPage);
 
   useEffect(() => {
     loadMatrix();
@@ -19,6 +25,7 @@ function CategoryPincodeMatrix() {
 
   const loadMatrix = async () => {
     setLoading(true);
+    setPage(1);
     try {
       const params = {};
       if (filterDistrict) params.district = filterDistrict;
@@ -73,7 +80,7 @@ function CategoryPincodeMatrix() {
                 </tr>
               </thead>
               <tbody>
-                {matrix.map((row, i) => {
+                {paginatedMatrix.map((row, i) => {
                   const catNames = Object.keys(row.categories || {});
                   return (
                     <motion.tr key={row.pincode} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: i * 0.02 }}
@@ -97,6 +104,9 @@ function CategoryPincodeMatrix() {
               </tbody>
             </table>
           </div>
+        )}
+        {!loading && matrix.length > perPage && (
+          <Pagination page={page} totalPages={totalPages} onPageChange={setPage} isDarkMode={isDarkMode} />
         )}
       </div>
     </div>

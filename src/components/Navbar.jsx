@@ -1,4 +1,4 @@
-import React, { memo, useState, useEffect, useRef } from 'react';
+import React, { memo, useState, useEffect, useRef, useCallback } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useTheme } from '../contexts/ThemeContext';
 import { useAuth } from '../contexts/AuthContext';
@@ -25,10 +25,17 @@ function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
   const [searchQuery, setSearchQuery] = useState('');
+  const [searchSuggestions, setSearchSuggestions] = useState([]);
+  const debounceTimer = useRef(null);
+  const [showSuggestions, setShowSuggestions] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showMobileNav, setShowMobileNav] = useState(false);
   const [notifCount, setNotifCount] = useState(0);
+  const [notifDropdown, setNotifDropdown] = useState([]);
+  const [showNotifDropdown, setShowNotifDropdown] = useState(false);
   const userMenuRef = useRef(null);
+  const notifRef = useRef(null);
+  const searchRef = useRef(null);
 
   const isAdmin = user?.role === 'admin';
 
@@ -36,7 +43,7 @@ function Navbar() {
     const fetchNotifCount = async () => {
       try {
         const res = await notificationsAPI.getAll({ limit: 1 });
-        if (res.success && res.unreadCount) setNotifCount(res.unreadCount);
+        if (res.success) setNotifCount(res.unreadCount || 0);
       } catch (err) { console.error('Failed to fetch notifications:', err); }
     };
     if (user) fetchNotifCount();
@@ -44,13 +51,27 @@ function Navbar() {
 
   useEffect(() => {
     const handleClickOutside = (e) => {
-      if (userMenuRef.current && !userMenuRef.current.contains(e.target)) {
-        setShowUserMenu(false);
-      }
+      if (userMenuRef.current && !userMenuRef.current.contains(e.target)) setShowUserMenu(false);
+      if (notifRef.current && !notifRef.current.contains(e.target)) setShowNotifDropdown(false);
+      if (searchRef.current && !searchRef.current.contains(e.target)) setShowSuggestions(false);
     };
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+
+  useEffect(() => {
+    if (debounceTimer.current) clearTimeout(debounceTimer.current);
+    if (searchQuery.trim().length < 2) { setSearchSuggestions([]); setShowSuggestions(false); return; }
+    debounceTimer.current = setTimeout(async () => {
+      try {
+        const { areasAPI } = await import('../services/api');
+        const res = await areasAPI.getAll({ search: searchQuery.trim(), limit: 5 });
+        setSearchSuggestions(res.data || []);
+        setShowSuggestions(true);
+      } catch { setSearchSuggestions([]); }
+    }, 300);
+    return () => { if (debounceTimer.current) clearTimeout(debounceTimer.current); };
+  }, [searchQuery]);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -86,12 +107,13 @@ function Navbar() {
           </Link>
 
           {/* Search Bar - Hidden on mobile */}
-          <form onSubmit={handleSearch} className="hidden md:flex flex-1 max-w-2xl mx-4">
+          <form onSubmit={handleSearch} className="hidden md:flex flex-1 max-w-2xl mx-4 relative" ref={searchRef}>
             <div className="flex w-full rounded-lg overflow-hidden border focus-within:ring-2 focus-within:ring-[#2563eb]/40 transition-shadow">
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
+                onFocus={() => searchSuggestions.length > 0 && setShowSuggestions(true)}
                 placeholder="Search pincode, area, or category..."
                 className={`flex-1 px-4 py-2 text-sm outline-none border-none ${b('bg-gray-50 text-gray-900 placeholder-gray-400', 'bg-[#1e293b] text-gray-100 placeholder-gray-500')}`}
               />
@@ -99,6 +121,18 @@ function Navbar() {
                 Search
               </button>
             </div>
+            {showSuggestions && searchSuggestions.length > 0 && (
+              <div className={`absolute top-full left-0 right-0 mt-1 rounded-xl shadow-xl border overflow-hidden z-50 ${b('bg-white border-gray-200', 'bg-[#1e293b] border-[#334155]')}`}>
+                {searchSuggestions.map((s, i) => (
+                  <button key={i} type="button" onClick={() => { navigate(`/dashboard?search=${s.pincode}`); setSearchQuery(''); setShowSuggestions(false); }}
+                    className={`flex items-center gap-3 w-full px-4 py-2.5 text-sm text-left transition-colors ${b('hover:bg-gray-50 text-gray-700', 'hover:bg-[#0f172a] text-gray-300')}`}>
+                    <span className="text-xs opacity-50">📍</span>
+                    <span className="font-medium">{s.name || s.areaName}</span>
+                    <span className="text-xs opacity-50 ml-auto">{s.pincode}</span>
+                  </button>
+                ))}
+              </div>
+            )}
           </form>
 
           {/* Right Actions */}
@@ -114,14 +148,45 @@ function Navbar() {
             </button>
 
             {/* Notifications */}
-            <Link to="/notifications" className={`relative p-2 rounded-lg ${b('hover:bg-gray-100', 'hover:bg-[#1e293b]')}`}>
-              <span className="text-lg">🔔</span>
-              {notifCount > 0 && (
-                <span className="absolute -top-0.5 -right-0.5 w-4 h-4 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center">
-                  {notifCount > 9 ? '9+' : notifCount}
-                </span>
-              )}
-            </Link>
+            <div className="relative" ref={notifRef}>
+              <button onClick={async () => {
+                if (showNotifDropdown) { setShowNotifDropdown(false); return; }
+                try {
+                  const res = await notificationsAPI.getAll({ limit: 5 });
+                  if (res.success) setNotifDropdown(res.data || []);
+                } catch { setNotifDropdown([]); }
+                setShowNotifDropdown(true);
+              }} className={`relative p-2 rounded-lg ${b('hover:bg-gray-100', 'hover:bg-[#1e293b]')}`}>
+                <span className="text-lg">🔔</span>
+                {notifCount > 0 && (
+                  <span className="absolute -top-0.5 -right-0.5 w-4 h-4 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center">
+                    {notifCount > 9 ? '9+' : notifCount}
+                  </span>
+                )}
+              </button>
+              <AnimatePresence>
+                {showNotifDropdown && (
+                  <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}
+                    className={`absolute right-0 mt-2 w-72 rounded-xl shadow-xl border overflow-hidden z-50 ${b('bg-white border-gray-200', 'bg-[#1e293b] border-[#334155]')}`}>
+                    <div className={`px-4 py-3 border-b flex items-center justify-between ${b('border-gray-100', 'border-[#334155]')}`}>
+                      <p className={`text-sm font-semibold ${b('text-gray-900', 'text-white')}`}>Notifications</p>
+                      <Link to="/notifications" onClick={() => setShowNotifDropdown(false)} className="text-xs text-[#2563eb]">View all</Link>
+                    </div>
+                    <div className="max-h-64 overflow-y-auto">
+                      {notifDropdown.length === 0 ? (
+                        <p className={`px-4 py-6 text-center text-xs ${b('text-gray-400', 'text-gray-500')}`}>No notifications yet</p>
+                      ) : notifDropdown.map((n, i) => (
+                        <div key={n._id || i} className={`px-4 py-3 border-b text-sm ${!n.read ? b('bg-blue-50/50', 'bg-blue-900/10') : ''} ${b('border-gray-100', 'border-[#334155]')}`}>
+                          <p className={`font-medium ${b('text-gray-800', 'text-gray-200')}`}>{n.title}</p>
+                          <p className={`text-xs mt-0.5 ${b('text-gray-500', 'text-gray-400')}`}>{n.message}</p>
+                          <p className={`text-[10px] mt-1 ${b('text-gray-400', 'text-gray-500')}`}>{n.createdAt ? new Date(n.createdAt).toLocaleDateString() : ''}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
 
             {/* User Menu */}
             {user ? (

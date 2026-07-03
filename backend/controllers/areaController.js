@@ -83,11 +83,17 @@ const getAreaByPincode = async (req, res) => {
 // @access  Public
 const getAllAreas = async (req, res) => {
   try {
-    const { district, limit } = req.query;
+    const { district, limit, search } = req.query;
     let query = {};
     
     if (district) {
       query.district = district;
+    }
+    if (search) {
+      query.$or = [
+        { name: { $regex: search, $options: 'i' } },
+        { pincode: { $regex: search, $options: 'i' } },
+      ];
     }
 
     const areas = await Area.find(query)

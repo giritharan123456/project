@@ -111,7 +111,18 @@ function InvestmentEstimator() {
         {estimate && (
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
             className={`rounded-xl border p-6 ${b('bg-white border-gray-200', 'bg-[#1e293b] border-[#334155]')}`}>
-            <h2 className={`text-lg font-bold mb-4 ${b('text-gray-900', 'text-white')}`}>Investment Estimate Breakdown</h2>
+            <div className="flex items-center justify-between mb-4">
+              <h2 className={`text-lg font-bold ${b('text-gray-900', 'text-white')}`}>Investment Estimate Breakdown</h2>
+              <button onClick={() => {
+                const text = `Investment Estimate\nCategory: ${categories.find(c => c._id === selectedCategory)?.name || ''}\nMin: ${formatCurrency(estimate.minTotal)}\nMax: ${formatCurrency(estimate.maxTotal)}\nMultiplier: ${estimate.locationMultiplier?.toFixed(2)}x\n\nComponents:\n${(estimate.breakdown || []).map(i => `${i.label}: ${formatCurrency(i.min)} - ${formatCurrency(i.max)}`).join('\n')}`;
+                const blob = new Blob([text], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a'); a.href = url; a.download = 'investment-estimate.txt'; a.click();
+                URL.revokeObjectURL(url);
+              }} className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg transition-colors ${b('bg-gray-100 text-gray-700 hover:bg-gray-200', 'bg-[#0f172a] text-gray-300 hover:bg-[#0f172a]/80')}`}>
+                <span>📥</span> Export
+              </button>
+            </div>
             <div className="grid md:grid-cols-2 gap-6 mb-6">
               <div className={`p-4 rounded-lg ${b('bg-gray-50', 'bg-[#0f172a]')}`}>
                 <p className={`text-xs uppercase tracking-wider mb-1 ${b('text-gray-500', 'text-gray-400')}`}>Estimated Range</p>
