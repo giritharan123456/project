@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary-blue: #2563eb;
+  --primary-purple: #7c3aed;
+  --warning: #f59e0b;
+  --success: #10b981;
+  --danger: #ef4444;
+  --bg-dark: #0f172a;
+  --bg-light: #f8fafc;
+  --card-dark: #1e293b;
+  --card-light: #ffffff;
+  --text-dark: #f1f5f9;
+  --text-light: #1e293b;
+  --primary-gradient: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+}

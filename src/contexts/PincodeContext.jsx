@@ -1,0 +1,46 @@
+import React, { createContext, useContext, useState, useEffect } from 'react';
+
+const PincodeContext = createContext(null);
+
+export const PincodeProvider = ({ children }) => {
+  const [selectedPincode, setSelectedPincode] = useState(null);
+  const [pincodes, setPincodes] = useState([]);
+
+  // Load selected pincode from localStorage on mount
+  useEffect(() => {
+    const storedPincode = localStorage.getItem('selectedPincode');
+    if (storedPincode) {
+      setSelectedPincode(storedPincode);
+    }
+  }, []);
+
+  // Save selected pincode to localStorage whenever it changes
+  useEffect(() => {
+    if (selectedPincode) {
+      localStorage.setItem('selectedPincode', selectedPincode);
+    } else {
+      localStorage.removeItem('selectedPincode');
+    }
+  }, [selectedPincode]);
+
+  const value = {
+    selectedPincode,
+    setSelectedPincode,
+    pincodes,
+    setPincodes
+  };
+
+  return (
+    <PincodeContext.Provider value={value}>
+      {children}
+    </PincodeContext.Provider>
+  );
+};
+
+export const usePincode = () => {
+  const context = useContext(PincodeContext);
+  if (!context) {
+    throw new Error('usePincode must be used within a PincodeProvider');
+  }
+  return context;
+};
