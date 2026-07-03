@@ -1,7 +1,6 @@
 const Content = require('../models/Content');
 const Area = require('../models/Area');
 const District = require('../models/District');
-const censusService = require('../services/censusService');
 
 // @desc    Get landing page content
 // @route   GET /api/content/landing
@@ -27,8 +26,8 @@ const getLandingContent = async (req, res) => {
         totalHouseholds += Math.floor((area.population || 0) / 4); // Estimate households
       });
       
-      // Calculate entrepreneurs using algorithmic formula based on real census data
-      totalEntrepreneurs = censusService.calculateEntrepreneurs(totalPopulation, totalHouseholds);
+      // Calculate entrepreneurs using algorithmic formula based on demographic data
+      totalEntrepreneurs = Math.floor(totalHouseholds * 0.15);
       
       // Calculate stats from real database data
       content = {

@@ -4,7 +4,6 @@ const District = require('./models/District');
 const BusinessCategory = require('./models/BusinessCategory');
 const Area = require('./models/Area');
 
-
 dotenv.config();
 
 const districtsData = [
@@ -38,176 +37,145 @@ const businessCategoriesData = [
   { name: 'Bakery', demand: 70, supply: 28, gap: 42, description: 'Bakery and confectionery', minInvestment: 300000, maxInvestment: 1500000 }
 ];
 
-const areasData = [
-  {
-    pincode: '600100', name: 'T. Nagar', districtName: 'Chennai',
-    coordinates: { lat: 13.0418, lng: 80.2341 }, population: 120000,
-    populationGrowth: 2.5, incomeLevel: 'High', urbanDevelopment: 85, searchTrends: 82,
-    competitors: { Pharmacy: 4, Supermarket: 6, Restaurant: 18, 'Coaching Centre': 5, 'Fitness Center': 3, 'Diagnostic Lab': 2, Café: 8, 'Salon & Spa': 4 },
-    demandScores: { Pharmacy: 92, Supermarket: 89, Restaurant: 95, 'Coaching Centre': 78, 'Fitness Center': 70, 'Diagnostic Lab': 65, Café: 88, 'Salon & Spa': 72 },
-    marketGapScores: { Pharmacy: 88, Supermarket: 83, Restaurant: 77, 'Coaching Centre': 73, 'Fitness Center': 67, 'Diagnostic Lab': 63, Café: 80, 'Salon & Spa': 68 }
-  },
-  {
-    pincode: '600040', name: 'Anna Nagar', districtName: 'Chennai',
-    coordinates: { lat: 13.0850, lng: 80.2101 }, population: 95000,
-    populationGrowth: 2.0, incomeLevel: 'High', urbanDevelopment: 82, searchTrends: 78,
-    competitors: { Pharmacy: 3, Supermarket: 5, Restaurant: 14, 'Coaching Centre': 4, 'Fitness Center': 2, 'Diagnostic Lab': 1, Café: 6, 'Salon & Spa': 3 },
-    demandScores: { Pharmacy: 88, Supermarket: 85, Restaurant: 90, 'Coaching Centre': 82, 'Fitness Center': 72, 'Diagnostic Lab': 68, Café: 82, 'Salon & Spa': 70 },
-    marketGapScores: { Pharmacy: 85, Supermarket: 80, Restaurant: 76, 'Coaching Centre': 78, 'Fitness Center': 70, 'Diagnostic Lab': 67, Café: 76, 'Salon & Spa': 67 }
-  },
-  {
-    pincode: '600017', name: 'Thousand Lights', districtName: 'Chennai',
-    coordinates: { lat: 13.0574, lng: 80.2581 }, population: 78000,
-    populationGrowth: 1.8, incomeLevel: 'Medium', urbanDevelopment: 78, searchTrends: 75,
-    competitors: { Pharmacy: 2, Supermarket: 3, Restaurant: 10, 'Coaching Centre': 3, Café: 5, 'Diagnostic Lab': 1 },
-    demandScores: { Pharmacy: 80, Supermarket: 78, Restaurant: 85, 'Coaching Centre': 75, Café: 80, 'Diagnostic Lab': 62 },
-    marketGapScores: { Pharmacy: 78, Supermarket: 75, Restaurant: 75, 'Coaching Centre': 72, Café: 75, 'Diagnostic Lab': 61 }
-  },
-  {
-    pincode: '641035', name: 'Gandhipuram', districtName: 'Coimbatore',
-    coordinates: { lat: 11.0168, lng: 76.9558 }, population: 110000,
-    populationGrowth: 3.2, incomeLevel: 'High', urbanDevelopment: 80, searchTrends: 80,
-    competitors: { Pharmacy: 5, Supermarket: 6, Restaurant: 16, 'Coaching Centre': 4, 'Fitness Center': 3, Café: 7, 'Electronics Store': 2 },
-    demandScores: { Pharmacy: 90, Supermarket: 88, Restaurant: 92, 'Coaching Centre': 80, 'Fitness Center': 74, Café: 85, 'Electronics Store': 72 },
-    marketGapScores: { Pharmacy: 85, Supermarket: 82, Restaurant: 76, 'Coaching Centre': 76, 'Fitness Center': 71, Café: 78, 'Electronics Store': 70 }
-  },
-  {
-    pincode: '641002', name: 'RS Puram', districtName: 'Coimbatore',
-    coordinates: { lat: 11.0022, lng: 76.9625 }, population: 72000,
-    populationGrowth: 2.8, incomeLevel: 'Medium', urbanDevelopment: 75, searchTrends: 72,
-    competitors: { Pharmacy: 3, Supermarket: 4, Restaurant: 10, 'Coaching Centre': 2, Café: 5, 'Diagnostic Lab': 1 },
-    demandScores: { Pharmacy: 82, Supermarket: 80, Restaurant: 85, 'Coaching Centre': 72, Café: 78, 'Diagnostic Lab': 60 },
-    marketGapScores: { Pharmacy: 79, Supermarket: 76, Restaurant: 75, 'Coaching Centre': 70, Café: 73, 'Diagnostic Lab': 59 }
-  },
-  {
-    pincode: '625020', name: 'KK Nagar', districtName: 'Madurai',
-    coordinates: { lat: 9.9299, lng: 78.1170 }, population: 85000,
-    populationGrowth: 2.2, incomeLevel: 'Medium', urbanDevelopment: 72, searchTrends: 68,
-    competitors: { Pharmacy: 3, Supermarket: 4, Restaurant: 8, 'Coaching Centre': 2, 'Fitness Center': 1, Café: 3 },
-    demandScores: { Pharmacy: 78, Supermarket: 76, Restaurant: 82, 'Coaching Centre': 74, 'Fitness Center': 65, Café: 72 },
-    marketGapScores: { Pharmacy: 75, Supermarket: 72, Restaurant: 74, 'Coaching Centre': 72, 'Fitness Center': 64, Café: 69 }
-  },
-  {
-    pincode: '620018', name: 'Srirangam', districtName: 'Tiruchirappalli',
-    coordinates: { lat: 10.8627, lng: 78.6917 }, population: 68000,
-    populationGrowth: 1.9, incomeLevel: 'Medium', urbanDevelopment: 68, searchTrends: 65,
-    competitors: { Pharmacy: 2, Supermarket: 3, Restaurant: 6, 'Coaching Centre': 3, Café: 2 },
-    demandScores: { Pharmacy: 75, Supermarket: 72, Restaurant: 78, 'Coaching Centre': 70, Café: 68 },
-    marketGapScores: { Pharmacy: 73, Supermarket: 69, Restaurant: 72, 'Coaching Centre': 67, Café: 66 }
-  },
-  {
-    pincode: '636004', name: 'Fairlands', districtName: 'Salem',
-    coordinates: { lat: 11.6643, lng: 78.1460 }, population: 55000,
-    populationGrowth: 2.5, incomeLevel: 'Medium', urbanDevelopment: 65, searchTrends: 62,
-    competitors: { Pharmacy: 2, Supermarket: 3, Restaurant: 5, 'Coaching Centre': 1, Café: 2 },
-    demandScores: { Pharmacy: 72, Supermarket: 70, Restaurant: 75, 'Coaching Centre': 68, Café: 65 },
-    marketGapScores: { Pharmacy: 70, Supermarket: 67, Restaurant: 70, 'Coaching Centre': 67, Café: 63 }
-  },
-  {
-    pincode: '638001', name: 'Brough Road', districtName: 'Erode',
-    coordinates: { lat: 11.3410, lng: 77.7172 }, population: 48000,
-    populationGrowth: 2.0, incomeLevel: 'Medium', urbanDevelopment: 62, searchTrends: 60,
-    competitors: { Pharmacy: 2, Supermarket: 2, Restaurant: 4, 'Coaching Centre': 1, 'Diagnostic Lab': 1 },
-    demandScores: { Pharmacy: 68, Supermarket: 66, Restaurant: 72, 'Coaching Centre': 65, 'Diagnostic Lab': 58 },
-    marketGapScores: { Pharmacy: 66, Supermarket: 64, Restaurant: 68, 'Coaching Centre': 64, 'Diagnostic Lab': 57 }
-  },
-  {
-    pincode: '600028', name: 'Guindy', districtName: 'Chennai',
-    coordinates: { lat: 13.0067, lng: 80.2206 }, population: 62000,
-    populationGrowth: 2.3, incomeLevel: 'High', urbanDevelopment: 80, searchTrends: 76,
-    competitors: { Pharmacy: 2, Supermarket: 3, Restaurant: 8, 'Fitness Center': 2, Café: 4, 'Clinic': 1, Bakery: 2 },
-    demandScores: { Pharmacy: 82, Supermarket: 80, Restaurant: 86, 'Fitness Center': 72, Café: 80, 'Clinic': 75, Bakery: 68 },
-    marketGapScores: { Pharmacy: 80, Supermarket: 77, Restaurant: 78, 'Fitness Center': 70, Café: 76, 'Clinic': 74, Bakery: 66 }
-  },
-  {
-    pincode: '641046', name: 'Peelamedu', districtName: 'Coimbatore',
-    coordinates: { lat: 11.0241, lng: 76.9934 }, population: 58000,
-    populationGrowth: 3.5, incomeLevel: 'Medium', urbanDevelopment: 74, searchTrends: 70,
-    competitors: { Pharmacy: 2, Supermarket: 3, Restaurant: 7, 'Coaching Centre': 3, 'Fitness Center': 1, Café: 3, 'Electronics Store': 1 },
-    demandScores: { Pharmacy: 76, Supermarket: 74, Restaurant: 80, 'Coaching Centre': 78, 'Fitness Center': 66, Café: 74, 'Electronics Store': 65 },
-    marketGapScores: { Pharmacy: 74, Supermarket: 71, Restaurant: 73, 'Coaching Centre': 75, 'Fitness Center': 65, Café: 71, 'Electronics Store': 64 }
-  },
-  {
-    pincode: '625008', name: 'Anna Nagar', districtName: 'Madurai',
-    coordinates: { lat: 9.9342, lng: 78.1372 }, population: 42000,
-    populationGrowth: 1.7, incomeLevel: 'Medium', urbanDevelopment: 66, searchTrends: 62,
-    competitors: { Pharmacy: 2, Supermarket: 2, Restaurant: 5, 'Coaching Centre': 2, Café: 2 },
-    demandScores: { Pharmacy: 70, Supermarket: 68, Restaurant: 74, 'Coaching Centre': 70, Café: 66 },
-    marketGapScores: { Pharmacy: 68, Supermarket: 66, Restaurant: 69, 'Coaching Centre': 68, Café: 64 }
-  },
-  {
-    pincode: '620002', name: 'Tennur', districtName: 'Tiruchirappalli',
-    coordinates: { lat: 10.8150, lng: 78.6960 }, population: 45000,
-    populationGrowth: 1.5, incomeLevel: 'Medium', urbanDevelopment: 64, searchTrends: 60,
-    competitors: { Pharmacy: 2, Supermarket: 2, Restaurant: 5, 'Coaching Centre': 2, Bakery: 1 },
-    demandScores: { Pharmacy: 68, Supermarket: 66, Restaurant: 72, 'Coaching Centre': 67, Bakery: 60 },
-    marketGapScores: { Pharmacy: 66, Supermarket: 64, Restaurant: 67, 'Coaching Centre': 65, Bakery: 59 }
-  }
+const allCategories = businessCategoriesData.map(c => c.name);
+
+const districtConfig = [
+  { name: 'Ariyalur', pincodeBase: 621700, lat: 11.14, lng: 79.08, urbanBase: 40, popBase: 35000, incomeBase: 'Medium', areas: ['Ariyalur Town', 'Udayarpalayam', 'Sendurai', 'Andimadam', 'Jayankondam', 'T. Palur', 'Elaiyur', 'Kunnam', 'Meensuruti', 'Vilandai'] },
+  { name: 'Chengalpattu', pincodeBase: 603100, lat: 12.69, lng: 79.98, urbanBase: 55, popBase: 55000, incomeBase: 'Medium', areas: ['Chengalpattu Town', 'Tambaram', 'Maraimalai Nagar', 'Guduvanchery', 'Urapakkam', 'Padappai', 'Oragadam', 'Sriperumbudur', 'Mamallapuram', 'Tirukazhukundram'] },
+  { name: 'Chennai', pincodeBase: 600001, lat: 13.08, lng: 80.27, urbanBase: 92, popBase: 120000, incomeBase: 'High', areas: ['T. Nagar', 'Anna Nagar', 'Thousand Lights', 'Guindy', 'Adyar', 'Velachery', 'Chromepet', 'Porur', 'Ambattur', 'Thoraipakkam'] },
+  { name: 'Coimbatore', pincodeBase: 641001, lat: 11.02, lng: 76.96, urbanBase: 88, popBase: 110000, incomeBase: 'High', areas: ['Gandhipuram', 'RS Puram', 'Peelamedu', 'Saibaba Colony', 'Singanallur', 'Podanur', 'Kuniyamuthur', 'Kurichi', 'Sukrawar Pettai', 'Ramanathapuram'] },
+  { name: 'Cuddalore', pincodeBase: 607001, lat: 11.75, lng: 79.75, urbanBase: 50, popBase: 45000, incomeBase: 'Medium', areas: ['Cuddalore Town', 'Vadalur', 'Neyveli', 'Kattumannarkoil', 'Panruti', 'Kurinjipadi', 'Tittagudi', 'Veppur', 'Mangalampettai', 'Srimushnam'] },
+  { name: 'Dharmapuri', pincodeBase: 636700, lat: 12.13, lng: 78.16, urbanBase: 42, popBase: 32000, incomeBase: 'Medium', areas: ['Dharmapuri Town', 'Harur', 'Pappireddipatti', 'Palacode', 'Pennagaram', 'Kadathur', 'Marandahalli', 'Bargur', 'Morappur', 'Theerthamalai'] },
+  { name: 'Dindigul', pincodeBase: 624001, lat: 10.35, lng: 77.95, urbanBase: 52, popBase: 48000, incomeBase: 'Medium', areas: ['Dindigul Town', 'Palani', 'Kodaikanal', 'Vedasandur', 'Natham', 'Nilakottai', 'Oddanchatram', 'Athalur', 'Batlagundu', 'Vadamadurai'] },
+  { name: 'Erode', pincodeBase: 638001, lat: 11.34, lng: 77.72, urbanBase: 60, popBase: 50000, incomeBase: 'Medium', areas: ['Brough Road', 'Perundurai', 'Gobichettipalayam', 'Sathyamangalam', 'Bhavani', 'Kangeyam', 'Punjaipuliampatti', 'Nasiyanur', 'Modakurichi', 'Kodumudi'] },
+  { name: 'Kallakurichi', pincodeBase: 606200, lat: 11.74, lng: 78.96, urbanBase: 38, popBase: 30000, incomeBase: 'Low', areas: ['Kallakurichi Town', 'Sankarapuram', 'Ulundurpettai', 'Tirukoilur', 'Rishivandiyam', 'Chinnasalem', 'Kachirampatti', 'Kalrayan Hills', 'Thenur', 'Moongilthuraipattu'] },
+  { name: 'Kancheepuram', pincodeBase: 631500, lat: 12.84, lng: 79.70, urbanBase: 55, popBase: 52000, incomeBase: 'Medium', areas: ['Kancheepuram Town', 'Kanchipuram', 'Walajabad', 'Uthiramerur', 'Sriperumbudur', 'Acharapakkam', 'Kattankulathur', 'Poonamallee', 'Kundrathur', 'Mangadu'] },
+  { name: 'Kanniyakumari', pincodeBase: 629001, lat: 8.09, lng: 77.55, urbanBase: 58, popBase: 42000, incomeBase: 'Medium', areas: ['Nagercoil', 'Kanniyakumari', 'Thuckalay', 'Kuzhithurai', 'Padmanabhapuram', 'Colachel', 'Kallukootam', 'Vencode', 'Eraniel', 'Marthandam'] },
+  { name: 'Karur', pincodeBase: 639001, lat: 10.96, lng: 78.08, urbanBase: 48, popBase: 38000, incomeBase: 'Medium', areas: ['Karur Town', 'Kulithalai', 'Pugalur', 'Karurpettai', 'Thanthoni', 'Kadavur', 'Krishnarayapuram', 'Nangavaram', 'Aravakurichi', 'Manmangalam'] },
+  { name: 'Krishnagiri', pincodeBase: 635001, lat: 12.52, lng: 78.21, urbanBase: 45, popBase: 35000, incomeBase: 'Medium', areas: ['Krishnagiri Town', 'Hosur', 'Rayakottai', 'Denkanikottai', 'Bargur', 'Uthangarai', 'Kelamangalam', 'Mathur', 'Shoolagiri', 'Samalpatti'] },
+  { name: 'Madurai', pincodeBase: 625001, lat: 9.92, lng: 78.12, urbanBase: 82, popBase: 100000, incomeBase: 'High', areas: ['KK Nagar', 'Anna Nagar', 'Madurai Town', 'Tirumangalam', 'Thirupparankundram', 'Pudur', 'Villapuram', 'Simmakkal', 'Kochadai', 'Sathamangalam'] },
+  { name: 'Mayiladuthurai', pincodeBase: 609001, lat: 11.10, lng: 79.65, urbanBase: 42, popBase: 32000, incomeBase: 'Medium', areas: ['Mayiladuthurai Town', 'Sirkazhi', 'Tharangambadi', 'Kuthalam', 'Kodangi', 'Poompuhar', 'Vaitheeswaran Koil', 'Nangur', 'Kadambur', 'Erukkur'] },
+  { name: 'Nagapattinam', pincodeBase: 611001, lat: 10.77, lng: 79.84, urbanBase: 40, popBase: 30000, incomeBase: 'Low', areas: ['Nagapattinam Town', 'Kilvelur', 'Thirukkuvalai', 'Velankanni', 'Vedaranyam', 'Sikkal', 'Karaikal', 'Mayiladuthurai', 'Kollidam', 'Poraiyar'] },
+  { name: 'Namakkal', pincodeBase: 637001, lat: 11.22, lng: 78.17, urbanBase: 48, popBase: 38000, incomeBase: 'Medium', areas: ['Namakkal Town', 'Tiruchengode', 'Rasipuram', 'Paramathi', 'Velur', 'Sendamangalam', 'Kolli Hills', 'Pallipalayam', 'Kumarapalayam', 'Elachipalayam'] },
+  { name: 'The Nilgiris', pincodeBase: 643001, lat: 11.41, lng: 76.69, urbanBase: 52, popBase: 28000, incomeBase: 'Medium', areas: ['Ooty', 'Coonoor', 'Kotagiri', 'Gudalur', 'Wellington', 'Aruvankadu', 'Hulikal', 'Ketti', 'Mettupalayam', 'Naduvattam'] },
+  { name: 'Perambalur', pincodeBase: 621212, lat: 11.24, lng: 78.88, urbanBase: 38, popBase: 28000, incomeBase: 'Low', areas: ['Perambalur Town', 'Thuraiyur', 'Veppanthattai', 'Chettikulam', 'Kunnam', 'Alathur', 'Ladapuram', 'Agalur', 'Arumbavur', 'Eraiyur'] },
+  { name: 'Pudukkottai', pincodeBase: 622001, lat: 10.38, lng: 78.82, urbanBase: 40, popBase: 32000, incomeBase: 'Low', areas: ['Pudukkottai Town', 'Aranthangi', 'Thirumayam', 'Ponnamaravathi', 'Karambakudi', 'Gandarvakottai', 'Alangudi', 'Kulathur', 'Annavasal', 'Kirantur'] },
+  { name: 'Ramanathapuram', pincodeBase: 623501, lat: 9.37, lng: 78.84, urbanBase: 38, popBase: 30000, incomeBase: 'Low', areas: ['Ramanathapuram Town', 'Paramakudi', 'Rameswaram', 'Keelakarai', 'Mandapam', 'Sayalgudi', 'Mudukulathur', 'Kamuthi', 'Bogalur', 'Thiruvadanai'] },
+  { name: 'Ranipet', pincodeBase: 632401, lat: 12.93, lng: 79.34, urbanBase: 48, popBase: 38000, incomeBase: 'Medium', areas: ['Ranipet Town', 'Walajapet', 'Arakkonam', 'Sholinghur', 'Nemili', 'Kaveripakkam', 'Melvisharam', 'Tiruvallur', 'Pallikonda', 'Vilapakkam'] },
+  { name: 'Salem', pincodeBase: 636001, lat: 11.66, lng: 78.15, urbanBase: 70, popBase: 75000, incomeBase: 'High', areas: ['Fairlands', 'Salem Town', 'Attur', 'Mettur', 'Omalur', 'Yercaud', 'Tharamangalam', 'Edappadi', 'Valapady', 'Konganapuram'] },
+  { name: 'Sivagangai', pincodeBase: 630561, lat: 9.85, lng: 78.48, urbanBase: 42, popBase: 32000, incomeBase: 'Low', areas: ['Sivagangai Town', 'Karaikudi', 'Devakottai', 'Tirupathur', 'Manamadurai', 'Kalayarkoil', 'Ilaiyankudi', 'Kallal', 'Singampunari', 'Kanadukathan'] },
+  { name: 'Tenkasi', pincodeBase: 627801, lat: 8.96, lng: 77.31, urbanBase: 42, popBase: 35000, incomeBase: 'Medium', areas: ['Tenkasi Town', 'Puliyangudi', 'Sankarankovil', 'Sivagiri', 'Narthamalai', 'Vasudevanallur', 'Surandai', 'Veerakeralampudur', 'Kadayanallur', 'Achampatti'] },
+  { name: 'Thanjavur', pincodeBase: 613001, lat: 10.79, lng: 79.14, urbanBase: 58, popBase: 55000, incomeBase: 'Medium', areas: ['Thanjavur Town', 'Kumbakonam', 'Pattukkottai', 'Thiruvaiyaru', 'Orathanadu', 'Papanasam', 'Ayyampettai', 'Aduthurai', 'Swamimalai', 'Budalur'] },
+  { name: 'Theni', pincodeBase: 625531, lat: 10.01, lng: 77.48, urbanBase: 48, popBase: 38000, incomeBase: 'Medium', areas: ['Theni Town', 'Bodinayakanur', 'Andipatti', 'Cumbum', 'Gudalur', 'Chinnamanur', 'Uthamapalayam', 'Periyakulam', 'Devadanapatti', 'Kambam'] },
+  { name: 'Thiruvallur', pincodeBase: 602001, lat: 13.14, lng: 79.91, urbanBase: 52, popBase: 48000, incomeBase: 'Medium', areas: ['Thiruvallur Town', 'Poonamallee', 'Avadi', 'Pattabiram', 'Tiruttani', 'Pallipatu', 'Gunavathy', 'Kadambathur', 'Sevvapet', 'Pulicat'] },
+  { name: 'Thiruvarur', pincodeBase: 610001, lat: 10.77, lng: 79.64, urbanBase: 40, popBase: 30000, incomeBase: 'Low', areas: ['Thiruvarur Town', 'Mannargudi', 'Needamangalam', 'Tirutturaipundi', 'Muthupet', 'Koradacheri', 'Nannilam', 'Kudavasal', 'Valangaiman', 'Peralam'] },
+  { name: 'Tiruchirappalli', pincodeBase: 620001, lat: 10.81, lng: 78.69, urbanBase: 75, popBase: 90000, incomeBase: 'High', areas: ['Srirangam', 'Tennur', 'Tiruchirappalli Town', 'Thuvakudi', 'K.K. Nagar', 'Ponmalai', 'Kajamalai', 'Crawford', 'Woraiyur', 'Samayapuram'] },
+  { name: 'Tirunelveli', pincodeBase: 627001, lat: 8.73, lng: 77.70, urbanBase: 65, popBase: 65000, incomeBase: 'Medium', areas: ['Tirunelveli Town', 'Palayamkottai', 'Tenkasi', 'Ambasamudram', 'Sankarankovil', 'Valliyoor', 'Nanguneri', 'Cheranmahadevi', 'Kalakkad', 'Manur'] },
+  { name: 'Tirupathur', pincodeBase: 635601, lat: 12.49, lng: 78.58, urbanBase: 40, popBase: 30000, incomeBase: 'Low', areas: ['Tirupathur Town', 'Vaniyambadi', 'Ambur', 'Gudiyatham', 'Pernambut', 'Natrampalli', 'Alangayam', 'Madhanur', 'Odugathur', 'Jolarpet'] },
+  { name: 'Tiruppur', pincodeBase: 641601, lat: 11.10, lng: 77.34, urbanBase: 65, popBase: 65000, incomeBase: 'Medium', areas: ['Tiruppur Town', 'Avnashi', 'Kangeyam', 'Dharapuram', 'Udumalaipettai', 'Palladam', 'Mulanur', 'Vellakoil', 'Kaniyur', 'Vijayamangalam'] },
+  { name: 'Tiruvannamalai', pincodeBase: 606601, lat: 12.22, lng: 79.07, urbanBase: 48, popBase: 42000, incomeBase: 'Medium', areas: ['Tiruvannamalai Town', 'Arni', 'Chengam', 'Polur', 'Vandavasi', 'Cheyyar', 'Jamunamarathur', 'Arani', 'Kannamangalam', 'Vembakkam'] },
+  { name: 'Thoothukudi', pincodeBase: 628001, lat: 8.78, lng: 78.13, urbanBase: 58, popBase: 52000, incomeBase: 'Medium', areas: ['Thoothukudi Town', 'Kovilpatti', 'Tiruchendur', 'Kayalpattinam', 'Srivaikuntam', 'Eral', 'Pudur', 'Ottapidaram', 'Sathankulam', 'Nazareth'] },
+  { name: 'Vellore', pincodeBase: 632001, lat: 12.92, lng: 79.13, urbanBase: 62, popBase: 58000, incomeBase: 'Medium', areas: ['Vellore Town', 'Katpadi', 'Gudiyatham', 'Ambur', 'Tirupattur', 'Arcot', 'Walajapet', 'Pallikonda', 'Pernambut', 'Odugathur'] },
+  { name: 'Viluppuram', pincodeBase: 605601, lat: 11.94, lng: 79.49, urbanBase: 42, popBase: 35000, incomeBase: 'Low', areas: ['Viluppuram Town', 'Tindivanam', 'Gingee', 'Vikravandi', 'Vanur', 'Marakkanam', 'Ulundurpettai', 'Arakandanallur', 'Mugaiyur', 'Chithamur'] },
+  { name: 'Virudhunagar', pincodeBase: 626001, lat: 9.58, lng: 77.96, urbanBase: 48, popBase: 40000, incomeBase: 'Medium', areas: ['Virudhunagar Town', 'Sivakasi', 'Rajapalayam', 'Sattur', 'Srivilliputhur', 'Aruppukottai', 'Kariapatti', 'Tiruchuli', 'Nattarsankottai', 'Vembakottai'] }
 ];
+
+const calculateScores = (area) => {
+  const gaps = area.marketGapScores ? Object.fromEntries(area.marketGapScores) : {};
+  const demands = area.demandScores ? Object.fromEntries(area.demandScores) : {};
+  const gapValues = Object.values(gaps);
+  const demandValues = Object.values(demands);
+  const avgGap = gapValues.length ? gapValues.reduce((s, v) => s + v, 0) / gapValues.length : 0;
+  const avgDemand = demandValues.length ? demandValues.reduce((s, v) => s + v, 0) / demandValues.length : 0;
+  const incomeScore = area.incomeLevel === 'High' ? 85 : area.incomeLevel === 'Medium' ? 60 : 35;
+  const growthScore = Math.min((area.populationGrowth || 0) * 10, 100);
+  area.feasibilityScore = Math.round((avgDemand * 0.35 + incomeScore * 0.25 + growthScore * 0.25 + (area.urbanDevelopment || 50) * 0.15) * 10) / 10;
+  area.opportunityScore = Math.round((avgGap * 0.4 + avgDemand * 0.3 + growthScore * 0.2 + incomeScore * 0.1) * 10) / 10;
+};
+
+const generateAreasForDistrict = (config, districtId) => {
+  const basePincode = config.pincodeBase;
+  const areas = [];
+
+  config.areas.forEach((areaName, idx) => {
+    const pincode = String(basePincode + idx + 1);
+    const urbanDev = Math.min(95, Math.max(20, config.urbanBase + Math.floor(Math.random() * 16 - 8)));
+    const popVariation = Math.floor(Math.random() * 20000) - 10000;
+    const population = Math.max(15000, config.popBase + popVariation);
+    const growthRate = Math.round((0.5 + (urbanDev / 100) * 2.5) * 10) / 10;
+    const incomeOptions = urbanDev >= 70 ? ['High'] : urbanDev >= 40 ? ['Medium', 'High'] : ['Low', 'Medium'];
+    const incomeLevel = config.incomeBase === 'High' ? 'High' : incomeOptions[Math.floor(Math.random() * incomeOptions.length)];
+    const latOffset = (Math.random() * 0.2) - 0.1;
+    const lngOffset = (Math.random() * 0.2) - 0.1;
+    const categoryCount = Math.min(allCategories.length, Math.floor(urbanDev / 15) + 4);
+    const selectedCats = allCategories.slice(0, categoryCount);
+    const competitors = {};
+    const demandScores = {};
+    const marketGapScores = {};
+    const incomeMultiplier = incomeLevel === 'High' ? 1.3 : incomeLevel === 'Medium' ? 1.0 : 0.7;
+
+    selectedCats.forEach((cat, catIdx) => {
+      const count = Math.max(1, Math.floor((population / 8000) * (urbanDev / 30) * ((catIdx + 1) * 0.8)));
+      competitors[cat] = count;
+      const demand = Math.min(95, Math.max(40, Math.floor((population / 800) * incomeMultiplier * (urbanDev / 40) * (1 + (catIdx * 0.05)))));
+      demandScores[cat] = demand;
+      const gap = Math.max(0, Math.min(95, demand - (count * 2) + Math.floor(Math.random() * 8 - 4)));
+      marketGapScores[cat] = gap;
+    });
+
+    areas.push({
+      pincode, name: areaName, district: districtId,
+      coordinates: { lat: Math.round((config.lat + latOffset) * 10000) / 10000, lng: Math.round((config.lng + lngOffset) * 10000) / 10000 },
+      population, populationGrowth: growthRate, incomeLevel, urbanDevelopment: urbanDev,
+      searchTrends: Math.round(urbanDev * 0.8 + Math.random() * 10 + 5),
+      competitors, demandScores, marketGapScores
+    });
+  });
+
+  return areas;
+};
 
 const seedDatabase = async () => {
   try {
     await mongoose.connect(process.env.MONGODB_URI);
     console.log('MongoDB Connected');
 
-    // Clear existing data
     await District.deleteMany();
     await Area.deleteMany();
     await BusinessCategory.deleteMany();
     console.log('Cleared existing data');
 
-    // Insert districts
     const districts = await District.insertMany(districtsData);
     console.log(`Inserted ${districts.length} districts`);
 
-    // Create a name-to-id mapping for district references
     const districtMap = {};
     for (const d of districts) {
       districtMap[d.name] = d._id;
     }
 
-    // Insert business categories
     const categories = await BusinessCategory.insertMany(businessCategoriesData);
     console.log(`Inserted ${categories.length} business categories`);
 
-    // Build area documents with district ObjectId references
-    const areaDocs = areasData.map(a => ({
-      pincode: a.pincode,
-      name: a.name,
-      district: districtMap[a.districtName],
-      coordinates: a.coordinates,
-      population: a.population,
-      populationGrowth: a.populationGrowth,
-      incomeLevel: a.incomeLevel,
-      urbanDevelopment: a.urbanDevelopment,
-      searchTrends: a.searchTrends,
-      competitors: a.competitors,
-      demandScores: a.demandScores,
-      marketGapScores: a.marketGapScores
-    }));
-
-    const insertAreas = async (docs) => {
-      const result = [];
-      for (const d of docs) {
-        const area = new Area(d);
-        const gaps = area.marketGapScores ? Object.fromEntries(area.marketGapScores) : {};
-        const demands = area.demandScores ? Object.fromEntries(area.demandScores) : {};
-        const gapValues = Object.values(gaps);
-        const demandValues = Object.values(demands);
-        const avgGap = gapValues.length ? gapValues.reduce((s, v) => s + v, 0) / gapValues.length : 0;
-        const avgDemand = demandValues.length ? demandValues.reduce((s, v) => s + v, 0) / demandValues.length : 0;
-        const incomeScore = area.incomeLevel === 'High' ? 85 : area.incomeLevel === 'Medium' ? 60 : 35;
-        const growthScore = Math.min((area.populationGrowth || 0) * 10, 100);
-        area.feasibilityScore = Math.round((avgDemand * 0.35 + incomeScore * 0.25 + growthScore * 0.25 + (area.urbanDevelopment || 50) * 0.15) * 10) / 10;
-        area.opportunityScore = Math.round((avgGap * 0.4 + avgDemand * 0.3 + growthScore * 0.2 + incomeScore * 0.1) * 10) / 10;
-        await area.save();
-        result.push(area);
+    let totalAreas = 0;
+    for (const config of districtConfig) {
+      const districtId = districtMap[config.name];
+      if (!districtId) {
+        console.log(`Warning: No district ID for ${config.name}`);
+        continue;
       }
-      return result;
-    };
-    const areas = await insertAreas(areaDocs);
-    console.log(`Inserted ${areas.length} areas with calculated scores`);
+      const areaDocs = generateAreasForDistrict(config, districtId);
+      const areas = [];
+      for (const d of areaDocs) {
+        const area = new Area(d);
+        calculateScores(area);
+        await area.save();
+        areas.push(area);
+      }
+      totalAreas += areas.length;
+      console.log(`  ${config.name}: ${areas.length} areas`);
+    }
 
+    console.log(`\nInserted ${totalAreas} areas with calculated scores`);
     console.log('Database seeded successfully!');
     process.exit(0);
   } catch (error) {
