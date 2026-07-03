@@ -128,7 +128,7 @@ const guestLogin = async (req, res) => {
 // @access  Public
 const googleCallback = (req, res) => {
   try {
-    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3002';
+    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
 
     if (!req.user) {
       return res.redirect(`${frontendUrl}/login?error=oauth_failed`);
@@ -140,7 +140,7 @@ const googleCallback = (req, res) => {
     // Redirect to frontend with token
     res.redirect(`${frontendUrl}/login?token=${token}`);
   } catch (error) {
-    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3002';
+    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
     res.redirect(`${frontendUrl}/login?error=server_error`);
   }
 };

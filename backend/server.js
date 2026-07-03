@@ -19,7 +19,7 @@ app.use(passport.initialize());
 
 app.use(helmet());
 
-const corsOrigin = process.env.FRONTEND_URL || 'http://localhost:3002';
+const corsOrigin = process.env.FRONTEND_URL || 'http://localhost:5173';
 app.use(cors({
   origin: corsOrigin,
   credentials: true,
@@ -39,7 +39,8 @@ app.use(limiter);
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 20,
-  message: { success: false, message: 'Too many login attempts, please try again later.' }
+  message: { success: false, message: 'Too many login attempts, please try again later.' },
+  legacyHeaders: false,
 });
 app.use('/api/auth/login', authLimiter);
 app.use('/api/auth/register', authLimiter);

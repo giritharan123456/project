@@ -6,6 +6,10 @@ const districtSchema = new mongoose.Schema({
     required: true,
     unique: true
   },
+  state: {
+    type: String,
+    default: 'Tamil Nadu'
+  },
   headquarters: {
     type: String,
     required: false

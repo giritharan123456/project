@@ -99,7 +99,7 @@ const getSearchSuggestions = async (req, res) => {
         id: s._id,
         name: s.name,
         pincode: s.pincode,
-        district: s.district.name
+        district: s.district?.name || 'Unknown'
       }))
     });
   } catch (error) {

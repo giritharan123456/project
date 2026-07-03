@@ -126,7 +126,7 @@ function Navbar() {
                   <button key={i} type="button" onClick={() => { navigate(`/dashboard?search=${s.pincode}`); setSearchQuery(''); setShowSuggestions(false); }}
                     className={`flex items-center gap-3 w-full px-4 py-2.5 text-sm text-left transition-colors ${b('hover:bg-gray-50 text-gray-700', 'hover:bg-[#0f172a] text-gray-300')}`}>
                     <span className="text-xs opacity-50">📍</span>
-                    <span className="font-medium">{s.name || s.areaName}</span>
+                    <span className="font-medium">{s.name}</span>
                     <span className="text-xs opacity-50 ml-auto">{s.pincode}</span>
                   </button>
                 ))}

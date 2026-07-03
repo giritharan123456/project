@@ -34,9 +34,9 @@ router.get('/google', (req, res, next) => {
 
 router.get('/google/callback', (req, res, next) => {
   if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
-    return res.redirect(`${process.env.FRONTEND_URL || 'http://localhost:3002'}/login?error=google_oauth_not_configured`);
+    return res.redirect(`${process.env.FRONTEND_URL || 'http://localhost:5173'}/login?error=google_oauth_not_configured`);
   }
-  passport.authenticate('google', { failureRedirect: `${process.env.FRONTEND_URL || 'http://localhost:3002'}/login?error=google_auth_failed` }, googleCallback)(req, res, next);
+  passport.authenticate('google', { failureRedirect: `${process.env.FRONTEND_URL || 'http://localhost:5173'}/login?error=google_auth_failed` }, googleCallback)(req, res, next);
 });
 
 router.get('/profile', protect, getUserProfile);

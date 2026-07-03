@@ -20,20 +20,22 @@ const getForecastData = async (req, res) => {
       const years = timeframe === '10years' ? 10 : 5;
       const growthRate = area.populationGrowth / 100;
       
+      const districtName = area.district?.name || 'Unknown';
+      const currentPop = area.population || 1;
       const forecast = {
         area: area.name,
         pincode: area.pincode,
-        district: area.district.name,
-        currentPopulation: area.population,
+        district: districtName,
+        currentPopulation: currentPop,
         projections: []
       };
 
       for (let year = 1; year <= years; year++) {
-        const projectedPopulation = Math.round(area.population * Math.pow(1 + growthRate, year));
+        const projectedPopulation = Math.round(currentPop * Math.pow(1 + growthRate, year));
         forecast.projections.push({
           year: new Date().getFullYear() + year,
           population: projectedPopulation,
-          growth: Math.round((projectedPopulation - area.population) / area.population * 100)
+          growth: Math.round((projectedPopulation - currentPop) / currentPop * 100)
         });
       }
 
@@ -65,18 +67,20 @@ const getForecastByArea = async (req, res) => {
     const years = timeframe === '10years' ? 10 : 5;
     const growthRate = area.populationGrowth / 100;
     
+    const districtName = area.district?.name || 'Unknown';
+    const currentPop = area.population || 1;
     const forecast = {
       area: area.name,
       pincode: area.pincode,
-      district: area.district.name,
-      currentPopulation: area.population,
+      district: districtName,
+      currentPopulation: currentPop,
       currentDemandScores: area.demandScores,
       currentMarketGapScores: area.marketGapScores,
       projections: []
     };
 
     for (let year = 1; year <= years; year++) {
-      const projectedPopulation = Math.round(area.population * Math.pow(1 + growthRate, year));
+      const projectedPopulation = Math.round(currentPop * Math.pow(1 + growthRate, year));
       const projectedDemand = {};
       const projectedGap = {};
       
@@ -91,7 +95,7 @@ const getForecastByArea = async (req, res) => {
       forecast.projections.push({
         year: new Date().getFullYear() + year,
         population: projectedPopulation,
-        growth: Math.round((projectedPopulation - area.population) / area.population * 100),
+        growth: Math.round((projectedPopulation - currentPop) / currentPop * 100),
         demandScores: projectedDemand,
         marketGapScores: projectedGap
       });
@@ -117,15 +121,16 @@ const getForecastByDistrict = async (req, res) => {
     const years = timeframe === '10years' ? 10 : 5;
     const forecastData = areas.map(area => {
       const growthRate = area.populationGrowth / 100;
+      const currentPop = area.population || 1;
       const forecast = {
         area: area.name,
         pincode: area.pincode,
-        currentPopulation: area.population,
+        currentPopulation: currentPop,
         projections: []
       };
 
       for (let year = 1; year <= years; year++) {
-        const projectedPopulation = Math.round(area.population * Math.pow(1 + growthRate, year));
+        const projectedPopulation = Math.round(currentPop * Math.pow(1 + growthRate, year));
         forecast.projections.push({
           year: new Date().getFullYear() + year,
           population: projectedPopulation

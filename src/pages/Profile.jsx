@@ -37,20 +37,21 @@ function Profile() {
   }, [user]);
 
   useEffect(() => {
-    if (activeTab === 'favorites') {
-      loadFavorites();
-    }
-  }, [activeTab]);
+    const loadFavorites = async () => {
+      if (activeTab !== 'favorites') return;
+      setFavLoading(true);
+      try {
+        const res = await workspaceAPI.getFavorites();
+        if (res.success) setFavorites(res.data || []);
+      } catch (err) {
+        console.error('Failed to load favorites:', err.message);
+      } finally {
+        setFavLoading(false);
+      }
+    };
 
-  const loadFavorites = async () => {
-    setFavLoading(true);
-    try {
-      const res = await workspaceAPI.getFavorites();
-      if (res.success) setFavorites(res.data || []);
-    } catch (err) { console.error('Failed to load favorites:', err); } finally {
-      setFavLoading(false);
-    }
-  };
+    loadFavorites();
+  }, [activeTab]);
 
   const handleUpdateProfile = async (e) => {
     e.preventDefault();

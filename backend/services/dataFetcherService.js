@@ -58,7 +58,7 @@ class DataFetcherService {
 
     let districtDoc = await District.findOne({ name: 'Chennai' });
     if (!districtDoc) {
-      districtDoc = await District.create({ name: 'Chennai', state: 'Tamil Nadu' });
+      districtDoc = await District.create({ name: 'Chennai' });
     }
 
     return {

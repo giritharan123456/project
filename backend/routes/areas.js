@@ -30,9 +30,9 @@ const optionalAuth = async (req, res, next) => {
 };
 
 router.get('/', getAllAreas);
-router.get('/:id', getAreaById);
 router.get('/pincode/:pincode', optionalAuth, getAreaByPincode);
 router.get('/district/:districtId', getAreasByDistrict);
+router.get('/:id', getAreaById);
 router.post('/', protect, admin, createArea);
 router.put('/:id', protect, admin, updateArea);
 router.delete('/:id', protect, admin, deleteArea);

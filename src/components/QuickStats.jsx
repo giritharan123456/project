@@ -3,7 +3,6 @@ import { useTheme } from '../contexts/ThemeContext';
 import { motion } from 'framer-motion';
 import { MapPin, Building, Users, Target } from 'lucide-react';
 import AnimatedCounter from './AnimatedCounter';
-import EmptyState from './EmptyState';
 import { averageOfValues, NO_DATA_LABEL } from '../utils/dataUtils';
 
 const QuickStats = ({ pincodeData, selectedDistrict }) => {
