@@ -16,7 +16,7 @@ function CategoryPincodeMatrix() {
 
   const b = (light, dark) => isDarkMode ? dark : light;
 
-  const paginatedMatrix = matrix.slice(0, page * perPage);
+  const paginatedMatrix = matrix.slice((page - 1) * perPage, page * perPage);
   const totalPages = Math.ceil(matrix.length / perPage);
 
   useEffect(() => {

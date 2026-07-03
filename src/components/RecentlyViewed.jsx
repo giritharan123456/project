@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Clock, X } from 'lucide-react';
+import { Clock } from 'lucide-react';
 
 function RecentlyViewed({ isDarkMode }) {
   const [items, setItems] = React.useState(() => {

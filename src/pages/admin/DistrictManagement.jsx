@@ -43,13 +43,10 @@ const DistrictManagement = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log('Submitting district data:', formData);
       if (editingDistrict) {
-        const response = await adminAPI.updateDistrict(editingDistrict._id, formData);
-        console.log('Update response:', response);
+        await adminAPI.updateDistrict(editingDistrict._id, formData);
       } else {
-        const response = await adminAPI.createDistrict(formData);
-        console.log('Create response:', response);
+        await adminAPI.createDistrict(formData);
       }
       setShowModal(false);
       setEditingDistrict(null);

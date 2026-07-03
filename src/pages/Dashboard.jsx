@@ -47,6 +47,13 @@ function Dashboard() {
   const [recentSearches, setRecentSearches] = useState(() => {
     try { return JSON.parse(localStorage.getItem('recentSearches') || '[]'); } catch { return []; }
   });
+
+  useEffect(() => {
+    const searchVal = searchParams.get('search');
+    if (searchVal && searchVal !== searchPincode) {
+      setSearchPincode(searchVal);
+    }
+  }, [searchParams]);
   const [selectedBusinessCategory, setSelectedBusinessCategory] = useState('all');
   const [searchError, setSearchError] = useState(null);
   const [searchLoading, setSearchLoading] = useState(false);
@@ -132,10 +139,13 @@ function Dashboard() {
       setSearchLoading(false);
     }
 
-    if (pincode && !recentSearches.includes(pincode)) {
-      const updated = [pincode, ...recentSearches.slice(0, 4)];
-      setRecentSearches(updated);
-      localStorage.setItem('recentSearches', JSON.stringify(updated));
+    if (pincode) {
+      setRecentSearches(prev => {
+        if (prev.includes(pincode)) return prev;
+        const updated = [pincode, ...prev.slice(0, 4)];
+        localStorage.setItem('recentSearches', JSON.stringify(updated));
+        return updated;
+      });
     }
   };
 
@@ -167,7 +177,7 @@ function Dashboard() {
   );
 
   const displayData = searchPincode
-    ? filteredPincodeData.filter(p => p.pincode.includes(searchPincode) || p.areaName?.toLowerCase().includes(searchPincode.toLowerCase()))
+    ? filteredPincodeData.filter(p => p.pincode.includes(searchPincode) || p.area?.toLowerCase().includes(searchPincode.toLowerCase()))
     : selectedPincode ? filteredPincodeData.filter(p => p.pincode === selectedPincode) : filteredPincodeData;
 
   const categorySourceArea = useMemo(() =>

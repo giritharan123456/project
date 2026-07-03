@@ -1,8 +1,8 @@
-import React, { memo, useState, useEffect, useRef, useCallback } from 'react';
+import React, { memo, useState, useEffect, useRef } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useTheme } from '../contexts/ThemeContext';
 import { useAuth } from '../contexts/AuthContext';
-import { notificationsAPI } from '../services/api';
+import { notificationsAPI, areasAPI } from '../services/api';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const navLinks = [
@@ -64,7 +64,6 @@ function Navbar() {
     if (searchQuery.trim().length < 2) { setSearchSuggestions([]); setShowSuggestions(false); return; }
     debounceTimer.current = setTimeout(async () => {
       try {
-        const { areasAPI } = await import('../services/api');
         const res = await areasAPI.getAll({ search: searchQuery.trim(), limit: 5 });
         setSearchSuggestions(res.data || []);
         setShowSuggestions(true);

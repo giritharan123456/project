@@ -18,7 +18,7 @@ function CategoryExplorer() {
 
   const b = (light, dark) => isDarkMode ? dark : light;
 
-  const paginatedCategories = categories.slice(0, page * perPage);
+  const paginatedCategories = categories.slice((page - 1) * perPage, page * perPage);
   const totalPages = Math.ceil(categories.length / perPage);
 
   useEffect(() => {

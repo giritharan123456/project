@@ -38,13 +38,10 @@ const BusinessCategoryManagement = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log('Submitting category data:', formData);
       if (editingCategory) {
-        const response = await adminAPI.updateBusinessCategory(editingCategory._id, formData);
-        console.log('Update response:', response);
+        await adminAPI.updateBusinessCategory(editingCategory._id, formData);
       } else {
-        const response = await adminAPI.createBusinessCategory(formData);
-        console.log('Create response:', response);
+        await adminAPI.createBusinessCategory(formData);
       }
       setShowModal(false);
       setEditingCategory(null);

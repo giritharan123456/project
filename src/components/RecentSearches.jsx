@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTheme } from '../contexts/ThemeContext';
 import { motion } from 'framer-motion';
-import { Clock, X } from 'lucide-react';
+import { Clock } from 'lucide-react';
 
 const RecentSearches = ({ searches, onSearch, onClear }) => {
   const { isDarkMode } = useTheme();
