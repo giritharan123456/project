@@ -178,9 +178,9 @@ const DistrictManagement = () => {
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{district.name}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{district.population?.toLocaleString()}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{district.area?.toLocaleString()}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{district.urbanizationRate}%</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{Number(district.urbanizationRate || 0).toFixed(2)}%</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">₹{district.averageIncome?.toLocaleString()}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{district.literacyRate}%</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{Number(district.literacyRate || 0).toFixed(2)}%</td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                       <button
                         onClick={() => handleEdit(district)}

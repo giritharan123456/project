@@ -1,31 +1,44 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useTheme } from '../contexts/ThemeContext';
-import { MessageCircle, X, Send, Bot } from 'lucide-react';
+import { MessageCircle, X, Send, Bot, User } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { aiAPI } from '../services/api';
 
 const FloatingAIChat = () => {
   const { isDarkMode } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([
-    { id: 1, text: 'Hi! I\'m your AI assistant. How can I help you find market opportunities today?', isBot: true }
+    { id: 1, text: 'Hi! I\'m your MarketVision AI assistant. Ask me about market opportunities, population stats, top areas, or district info.', isBot: true }
   ]);
+  const [loading, setLoading] = useState(false);
+  const messagesEndRef = useRef(null);
 
-  const handleSendMessage = () => {
-    if (message.trim()) {
-      setMessages([...messages, { id: messages.length + 1, text: message, isBot: false }]);
-      setMessage('');
-      
-      // Simulate bot response
-      setTimeout(() => {
-        setMessages(prev => [...prev, { 
-          id: prev.length + 1, 
-          text: 'I\'m analyzing market data for you. This feature will be connected to backend AI when ready.', 
-          isBot: true 
-        }]);
-      }, 1000);
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
+
+  const handleSendMessage = async () => {
+    const msg = message.trim();
+    if (!msg || loading) return;
+
+    const userMsg = { id: Date.now(), text: msg, isBot: false };
+    setMessages(prev => [...prev, userMsg]);
+    setMessage('');
+    setLoading(true);
+
+    try {
+      const res = await aiAPI.chat(msg);
+      const reply = res.data?.response || 'Sorry, I could not process that request.';
+      setMessages(prev => [...prev, { id: Date.now() + 1, text: reply, isBot: true }]);
+    } catch {
+      setMessages(prev => [...prev, { id: Date.now() + 1, text: 'Connection error. Please try again.', isBot: true }]);
+    } finally {
+      setLoading(false);
     }
   };
+
+  const suggestions = ['Best opportunities', 'Population stats', 'Top districts', 'Market demand'];
 
   return (
     <>
@@ -35,9 +48,9 @@ const FloatingAIChat = () => {
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
         onClick={() => setIsOpen(true)}
-        className={`fixed bottom-8 right-8 p-4 rounded-full shadow-lg z-50 transition-all bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white`}
+        className="fixed bottom-6 right-6 p-3.5 rounded-full shadow-lg z-50 bg-gradient-to-r from-blue-600 to-violet-600 text-white"
       >
-        <MessageCircle size={24} />
+        <MessageCircle size={22} />
       </motion.button>
 
       <AnimatePresence>
@@ -46,86 +59,92 @@ const FloatingAIChat = () => {
             initial={{ opacity: 0, y: 20, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.9 }}
-            className={`fixed bottom-24 right-8 w-96 max-w-[calc(100vw-2rem)] rounded-2xl shadow-2xl z-50 ${
-              isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'
-            } border`}
+            className={`fixed bottom-20 right-6 w-80 max-w-[calc(100vw-3rem)] rounded-2xl shadow-2xl z-50 flex flex-col overflow-hidden border ${
+              isDarkMode ? 'bg-[#1e293b] border-[#475569]' : 'bg-white border-slate-200'
+            }`}
+            style={{ maxHeight: 'calc(100vh - 120px)' }}
           >
-            <div className={`p-4 border-b flex items-center justify-between ${
-              isDarkMode ? 'border-[#334155]' : 'border-[#e2e8f0]'
-            }`}>
-              <div className="flex items-center gap-3">
-                <div className={`p-2 rounded-full ${
-                  isDarkMode ? 'bg-[#2563eb]/20' : 'bg-[#2563eb]/10'
-                }`}>
-                  <Bot size={20} className="text-[#2563eb]" />
+            {/* Header */}
+            <div className={`px-4 py-3 flex items-center justify-between border-b ${isDarkMode ? 'border-[#475569]' : 'border-slate-200'}`}>
+              <div className="flex items-center gap-2">
+                <div className={`p-1.5 rounded-lg ${isDarkMode ? 'bg-blue-900/40' : 'bg-blue-50'}`}>
+                  <Bot size={16} className="text-blue-600" />
                 </div>
                 <div>
-                  <h3 className={`font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
-                    AI Assistant
-                  </h3>
-                  <p className="text-xs opacity-70">Online</p>
+                  <h3 className={`text-sm font-bold ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>AI Assistant</h3>
+                  <p className={`text-[10px] ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Ask anything about market data</p>
                 </div>
               </div>
-              <button
-                onClick={() => setIsOpen(false)}
-                className={`p-2 rounded-lg transition-colors ${
-                  isDarkMode 
-                    ? 'hover:bg-white/10 text-[#f1f5f9]' 
-                    : 'hover:bg-black/10 text-[#1e293b]'
-                }`}
-              >
-                <X size={20} />
+              <button onClick={() => setIsOpen(false)} className={`p-1.5 rounded-lg ${isDarkMode ? 'hover:bg-white/10 text-slate-400' : 'hover:bg-slate-100 text-slate-500'}`}>
+                <X size={16} />
               </button>
             </div>
 
-            <div className="h-80 overflow-y-auto p-4 space-y-4">
+            {/* Messages */}
+            <div className="flex-1 overflow-y-auto p-3 space-y-2.5" style={{ maxHeight: '320px' }}>
               {messages.map((msg) => (
-                <motion.div
-                  key={msg.id}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className={`flex ${msg.isBot ? 'justify-start' : 'justify-end'}`}
-                >
-                  <div className={`max-w-[80%] p-3 rounded-2xl ${
-                    msg.isBot
-                      ? isDarkMode 
-                        ? 'bg-white/10 text-[#f1f5f9]' 
-                        : 'bg-black/5 text-[#1e293b]'
-                      : 'bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white'
-                  }`}>
-                    <p className="text-sm">{msg.text}</p>
+                <div key={msg.id} className={`flex ${msg.isBot ? 'justify-start' : 'justify-end'}`}>
+                  <div className={`flex items-start gap-1.5 max-w-[85%] ${msg.isBot ? '' : 'flex-row-reverse'}`}>
+                    <div className={`p-1 rounded-md flex-shrink-0 mt-0.5 ${msg.isBot ? (isDarkMode ? 'bg-blue-900/40' : 'bg-blue-50') : (isDarkMode ? 'bg-violet-900/40' : 'bg-violet-50')}`}>
+                      {msg.isBot ? <Bot size={12} className="text-blue-500" /> : <User size={12} className="text-violet-500" />}
+                    </div>
+                    <div className={`px-3 py-2 rounded-xl text-xs leading-relaxed whitespace-pre-line ${
+                      msg.isBot
+                        ? isDarkMode ? 'bg-[#0f172a] text-slate-200' : 'bg-slate-100 text-slate-700'
+                        : 'bg-gradient-to-r from-blue-600 to-violet-600 text-white'
+                    }`}>
+                      {msg.text}
+                    </div>
                   </div>
-                </motion.div>
+                </div>
               ))}
+              {loading && (
+                <div className="flex justify-start">
+                  <div className={`px-3 py-2 rounded-xl text-xs ${isDarkMode ? 'bg-[#0f172a] text-slate-400' : 'bg-slate-100 text-slate-500'}`}>
+                    <span className="animate-pulse">Thinking...</span>
+                  </div>
+                </div>
+              )}
+              <div ref={messagesEndRef} />
             </div>
 
-            <div className={`p-4 border-t flex gap-2 ${
-              isDarkMode ? 'border-[#334155]' : 'border-[#e2e8f0]'
-            }`}>
+            {/* Quick suggestions */}
+            {messages.length <= 1 && (
+              <div className="px-3 pb-2 flex flex-wrap gap-1">
+                {suggestions.map(s => (
+                  <button key={s} onClick={() => { setMessage(s); }}
+                    className={`px-2 py-1 rounded-lg text-[10px] font-bold transition-colors ${
+                      isDarkMode ? 'bg-[#0f172a] text-slate-400 hover:text-white' : 'bg-slate-100 text-slate-500 hover:text-slate-800'
+                    }`}>
+                    {s}
+                  </button>
+                ))}
+              </div>
+            )}
+
+            {/* Input */}
+            <div className={`px-3 pb-3 flex gap-2`}>
               <input
                 type="text"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+                onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
                 placeholder="Ask about market opportunities..."
-                className={`flex-1 px-4 py-2 rounded-xl outline-none transition-colors ${
-                  isDarkMode 
-                    ? 'bg-white/5 text-[#f1f5f9] placeholder:text-white/50 border border-white/10 focus:border-[#2563eb]' 
-                    : 'bg-black/5 text-[#1e293b] placeholder:text-black/50 border border-black/10 focus:border-[#2563eb]'
+                disabled={loading}
+                className={`flex-1 px-3 py-2 rounded-xl text-xs outline-none transition-colors ${
+                  isDarkMode ? 'bg-[#0f172a] text-white placeholder:text-slate-500 border border-[#475569] focus:border-blue-500' : 'bg-slate-50 text-slate-800 placeholder:text-slate-400 border border-slate-200 focus:border-blue-500'
                 }`}
               />
               <button
                 onClick={handleSendMessage}
-                disabled={!message.trim()}
+                disabled={!message.trim() || loading}
                 className={`p-2 rounded-xl transition-all ${
-                  message.trim()
-                    ? 'bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white'
-                    : isDarkMode
-                      ? 'bg-white/10 text-white/50'
-                      : 'bg-black/10 text-black/50'
+                  message.trim() && !loading
+                    ? 'bg-gradient-to-r from-blue-600 to-violet-600 text-white'
+                    : isDarkMode ? 'bg-[#0f172a] text-slate-600' : 'bg-slate-100 text-slate-400'
                 }`}
               >
-                <Send size={20} />
+                <Send size={14} />
               </button>
             </div>
           </motion.div>

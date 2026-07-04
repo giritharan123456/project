@@ -29,7 +29,7 @@ app.use(cors({
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 200,
+  max: 1000,
   standardHeaders: true,
   legacyHeaders: false,
   message: { success: false, message: 'Too many requests, please try again later.' }
@@ -63,6 +63,8 @@ app.use('/api/analytics', require('./routes/analytics'));
 app.use('/api/workspace', require('./routes/workspace'));
 app.use('/api/content', require('./routes/content'));
 app.use('/api/explorer', require('./routes/explorer'));
+app.use('/api/ai', require('./routes/ai'));
+app.use('/api/history', require('./routes/history'));
 
 app.use(require('./middleware/errorHandler'));
 

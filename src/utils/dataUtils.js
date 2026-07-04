@@ -60,7 +60,7 @@ export function transformAreaToPincodeData(area) {
     // Algorithmic formula: growth based on urban development and search trends
     const growthFactor = (urbanDevelopment / 100) * 2;
     const trendFactor = searchTrends ? (searchTrends / 100) * 0.5 : 0;
-    populationGrowth = Math.max(0, Math.min(10, (growthFactor + trendFactor) * 2.5)); // Cap between 0-10%
+    populationGrowth = Math.round(Math.max(0, Math.min(10, (growthFactor + trendFactor) * 2.5)) * 100) / 100;
   }
 
   return {
@@ -111,4 +111,12 @@ export function averageOfValues(obj) {
 /** Check if pincodeData array has any usable records */
 export function hasAreaData(pincodeData) {
   return Array.isArray(pincodeData) && pincodeData.length > 0;
+}
+
+/** Round a number to 2 decimal places (avoids floating-point display like 64.39999999%) */
+export function round2(value) {
+  if (value === null || value === undefined || value === '') return value;
+  const num = Number(value);
+  if (isNaN(num)) return value;
+  return Math.round(num * 100) / 100;
 }

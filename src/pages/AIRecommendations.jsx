@@ -106,7 +106,7 @@ function AIRecommendations() {
       
       // Generate dynamic advantages based on real data
       const advantages = [];
-      if (populationGrowth > 2) advantages.push(`Growing population (+${populationGrowth}% YoY)`);
+      if (populationGrowth > 2) advantages.push(`Growing population (+${Number(populationGrowth).toFixed(2)}% YoY)`);
       if (urbanDevelopment > 60) advantages.push('Developed infrastructure');
       if (avgDemand > 70) advantages.push('High market demand');
       if (avgCompetition < 5) advantages.push('Low competition');
@@ -121,7 +121,7 @@ function AIRecommendations() {
       
       // Generate future demand projection based on population growth
       const futureDemandPercent = Math.round(populationGrowth * 1.5);
-      const futureDemand = `Projected growth (+${futureDemandPercent}% YoY)`;
+      const futureDemand = `Projected growth (+${Number(futureDemandPercent).toFixed(2)}% YoY)`;
       
       // Generate alternative business ideas based on market gaps
       const alternativeIdeas = [];
@@ -213,7 +213,7 @@ function AIRecommendations() {
             'Initial setup required',
             'Market conditions vary'
           ],
-          futureDemand: `Projected growth (+${Math.round(populationGrowth * 1.2)}% YoY)`,
+          futureDemand: `Projected growth (+${Number(Math.round(populationGrowth * 1.2)).toFixed(2)}% YoY)`,
           alternativeIdeas: []
         });
       });
@@ -317,7 +317,7 @@ function AIRecommendations() {
               <div className="flex items-center gap-4">
                 <div className="text-center">
                   <div className="text-4xl font-extrabold bg-gradient-to-r from-[#2563eb] to-[#7c3aed] bg-clip-text text-transparent">
-                    {topRecommendation.successProbability}%
+                    {Number(topRecommendation.successProbability).toFixed(2)}%
                   </div>
                   <p className={`text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                     Success Probability
@@ -468,7 +468,7 @@ function AIRecommendations() {
                   <div className="flex justify-between">
                     <span className={`text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Success Rate</span>
                     <span className={`text-sm font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
-                      {recommendation.successProbability}%
+                      {Number(recommendation.successProbability).toFixed(2)}%
                     </span>
                   </div>
                   <div className="flex justify-between">

@@ -3,12 +3,13 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
 import { useAuth } from '../contexts/AuthContext';
-import { workspaceAPI, authAPI } from '../services/api';
+import { workspaceAPI, authAPI, historyAPI } from '../services/api';
 import { useToast } from '../contexts/ToastContext';
 
 const tabs = [
   { id: 'profile', label: 'My Profile', icon: '👤' },
   { id: 'favorites', label: 'My Favorites', icon: '⭐' },
+  { id: 'history', label: 'Search History', icon: '🕐' },
   { id: 'settings', label: 'Settings', icon: '⚙️' },
   { id: 'password', label: 'Change Password', icon: '🔑' },
 ];
@@ -28,6 +29,8 @@ function Profile() {
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [history, setHistory] = useState([]);
+  const [historyLoading, setHistoryLoading] = useState(false);
 
   useEffect(() => {
     if (user) {
@@ -35,6 +38,32 @@ function Profile() {
       setEmail(user.email || '');
     }
   }, [user]);
+
+  useEffect(() => {
+    const loadHistory = async () => {
+      if (activeTab !== 'history') return;
+      setHistoryLoading(true);
+      try {
+        const res = await historyAPI.getHistory();
+        if (res.success) setHistory(res.data || []);
+      } catch (err) {
+        // silent
+      } finally {
+        setHistoryLoading(false);
+      }
+    };
+    loadHistory();
+  }, [activeTab]);
+
+  const clearHistory = async () => {
+    try {
+      await historyAPI.clearHistory();
+      setHistory([]);
+      toast.success('Search history cleared');
+    } catch (err) {
+      toast.error('Failed to clear history');
+    }
+  };
 
   useEffect(() => {
     const loadFavorites = async () => {
@@ -196,6 +225,58 @@ function Profile() {
                           </div>
                           <span className={b('text-gray-400', 'text-gray-500')}>→</span>
                         </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Search History */}
+              {activeTab === 'history' && tabContent(
+                <div>
+                  <div className="flex items-center justify-between mb-4">
+                    <h2 className={`text-lg font-bold ${b('text-gray-900', 'text-white')}`}>Search History</h2>
+                    {history.length > 0 && (
+                      <button onClick={clearHistory}
+                        className={`text-xs px-3 py-1.5 rounded-lg font-medium transition-colors ${
+                          b('text-red-600 hover:bg-red-50', 'text-red-400 hover:bg-red-900/20')
+                        }`}>
+                        Clear All
+                      </button>
+                    )}
+                  </div>
+                  {historyLoading ? (
+                    <div className="flex items-center justify-center py-12">
+                      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#2563eb]"></div>
+                    </div>
+                  ) : history.length === 0 ? (
+                    <div className={`text-center py-12 ${b('text-gray-500', 'text-gray-400')}`}>
+                      <p className="text-4xl mb-3">🕐</p>
+                      <p className="font-medium mb-1">No search history</p>
+                      <p className="text-sm">Your recent searches will appear here</p>
+                    </div>
+                  ) : (
+                    <div className="space-y-2">
+                      {history.map((item, i) => (
+                        <div key={item._id || i}
+                          className={`flex items-center gap-3 p-3 rounded-lg border transition-colors ${
+                            b('bg-white border-gray-200 hover:bg-gray-50', 'bg-[#0f172a] border-[#334155] hover:bg-[#0f172a]/80')
+                          }`}>
+                          <span className="text-lg">
+                            {item.type === 'pincode' ? '📍' : item.type === 'district' ? '🗺️' : item.type === 'category' ? '📊' : '🔍'}
+                          </span>
+                          <div className="flex-1 min-w-0">
+                            <p className={`text-sm font-medium truncate ${b('text-gray-900', 'text-white')}`}>{item.query}</p>
+                            <div className="flex items-center gap-2 text-xs">
+                              {item.district && <span className={b('text-gray-500', 'text-gray-400')}>{item.district}</span>}
+                              {item.pincode && <span className={b('text-gray-500', 'text-gray-400')}>{item.pincode}</span>}
+                              {item.category && <span className={b('text-gray-500', 'text-gray-400')}>{item.category}</span>}
+                              <span className={b('text-gray-400', 'text-gray-500')}>
+                                {new Date(item.createdAt).toLocaleDateString()} {new Date(item.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
                       ))}
                     </div>
                   )}

@@ -13,7 +13,7 @@ function AdvancedForecasting({ pincodeData, businessCategories }) {
 
     try {
       let reportContent = `
-MARKET GAP FORECASTING REPORT
+MARKETVISION AI - MARKET GAP FORECASTING REPORT
 Generated: ${new Date().toLocaleDateString()}
 
 FORECAST SUMMARY
@@ -39,7 +39,7 @@ PINCODE DETAILS
         reportContent += `
 ${index + 1}. ${pincode.area} (${pincode.pincode})
    Population: ${pincode.population.toLocaleString()}
-   Growth Rate: ${pincode.populationGrowth}%
+   Growth Rate: ${Number(pincode.populationGrowth || 0).toFixed(2)}%
    Income Level: ${pincode.incomeLevel}
    Urban Development: ${pincode.urbanDevelopment}
 
@@ -160,8 +160,8 @@ ${index + 1}. ${pincode.area} (${pincode.pincode})
   const COLORS = ['#2563eb', '#7c3aed', '#db2777', '#ea580c'];
 
   return (
-    <div className={`p-6 rounded-xl border mb-6 transition-all duration-300 ${isDarkMode ? 'bg-[#1e293b] border-[#334155] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.3),0_2px_4px_-1px_rgba(0,0,0,0.2)]' : 'bg-[#ffffff] border-[#e2e8f0] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-1px_rgba(0,0,0,0.06)]'}`}>
-      <div className="flex justify-between items-center mb-6">
+    <div className={`p-3 rounded-xl border mb-1 transition-all duration-300 ${isDarkMode ? 'bg-[#1e293b] border-[#475569] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.3),0_2px_4px_-1px_rgba(0,0,0,0.2)]' : 'bg-white border-slate-200 shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-1px_rgba(0,0,0,0.06)]'}`}>
+      <div className="flex justify-between items-center mb-2">
         <h3 className={`text-xl font-bold bg-gradient-to-r from-[#2563eb] to-[#7c3aed] bg-clip-text text-transparent ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>📈 Advanced Forecasting & Trend Analysis</h3>
         <div className="flex gap-2">
           <select className={`px-3 py-2 border-2 rounded-lg ${isDarkMode ? 'bg-[#0f172a] border-[#334155] text-[#f1f5f9]' : 'bg-[#f8fafc] border-[#e2e8f0] text-[#1e293b]'}`}>
@@ -173,15 +173,15 @@ ${index + 1}. ${pincode.area} (${pincode.pincode})
         </div>
       </div>
 
-      <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-6">
+      <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-0">
         <motion.div
-          className={`p-4 rounded-lg border ${isDarkMode ? 'bg-[#0f172a] border-[#334155]' : 'bg-[#f8fafc] border-[#e2e8f0]'}`}
+          className={`p-3 rounded-lg border ${isDarkMode ? 'bg-[#0f172a] border-[#334155]' : 'bg-[#f8fafc] border-[#e2e8f0]'}`}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
         >
-          <h4 className={`text-sm font-semibold mb-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Population & Demand Forecast</h4>
-          <ResponsiveContainer width="100%" height={250}>
+          <h4 className={`text-base font-semibold mb-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Population & Demand Forecast</h4>
+          <ResponsiveContainer width="100%" height={300}>
             <AreaChart data={forecastData}>
               <defs>
                 <linearGradient id="colorPopulation" x1="0" y1="0" x2="0" y2="1">
@@ -193,9 +193,9 @@ ${index + 1}. ${pincode.area} (${pincode.pincode})
                   <stop offset="95%" stopColor="#7c3aed" stopOpacity={0}/>
                 </linearGradient>
               </defs>
-              <CartesianGrid strokeDasharray="3 3" stroke={isDarkMode ? '#334155' : '#e0e0e0'} />
-              <XAxis dataKey="month" tick={{ fill: isDarkMode ? '#f1f5f9' : '#000', fontSize: 12 }} />
-              <YAxis tick={{ fill: isDarkMode ? '#f1f5f9' : '#000', fontSize: 12 }} />
+              <CartesianGrid strokeDasharray="3 3" stroke={isDarkMode ? '#475569' : '#cbd5e1'} vertical={false} />
+              <XAxis dataKey="month" tick={{ fontSize: 11, fontWeight: 700, fill: isDarkMode ? '#e2e8f0' : '#1e293b' }} axisLine={{ stroke: isDarkMode ? '#64748b' : '#94a3b8' }} tickLine={false} />
+              <YAxis tick={{ fontSize: 11, fontWeight: 700, fill: isDarkMode ? '#e2e8f0' : '#1e293b' }} axisLine={{ stroke: isDarkMode ? '#64748b' : '#94a3b8' }} tickLine={false} />
               <Tooltip
                 contentStyle={{
                   background: isDarkMode ? '#1e293b' : '#ffffff',
@@ -205,7 +205,7 @@ ${index + 1}. ${pincode.area} (${pincode.pincode})
                   color: isDarkMode ? '#f1f5f9' : '#000'
                 }}
               />
-              <Legend />
+              <Legend wrapperStyle={{ fontSize: 12, fontWeight: 700, paddingTop: 8 }} formatter={(value) => <span style={{ color: isDarkMode ? '#e2e8f0' : '#1e293b', fontWeight: 800 }}>{value}</span>} />
               <Area type="monotone" dataKey="population" stroke="#2563eb" fill="url(#colorPopulation)" name="Population" />
               <Area type="monotone" dataKey="demand" stroke="#7c3aed" fill="url(#colorDemand)" name="Demand" />
             </AreaChart>
@@ -213,17 +213,17 @@ ${index + 1}. ${pincode.area} (${pincode.pincode})
         </motion.div>
 
         <motion.div
-          className={`p-4 rounded-lg border ${isDarkMode ? 'bg-[#0f172a] border-[#334155]' : 'bg-[#f8fafc] border-[#e2e8f0]'}`}
+          className={`p-3 rounded-lg border ${isDarkMode ? 'bg-[#0f172a] border-[#334155]' : 'bg-[#f8fafc] border-[#e2e8f0]'}`}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
-          <h4 className={`text-sm font-semibold mb-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Market Gap Trend</h4>
-          <ResponsiveContainer width="100%" height={250}>
+          <h4 className={`text-base font-semibold mb-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Market Gap Trend</h4>
+          <ResponsiveContainer width="100%" height={300}>
             <LineChart data={forecastData}>
-              <CartesianGrid strokeDasharray="3 3" stroke={isDarkMode ? '#334155' : '#e0e0e0'} />
-              <XAxis dataKey="month" tick={{ fill: isDarkMode ? '#f1f5f9' : '#000', fontSize: 12 }} />
-              <YAxis tick={{ fill: isDarkMode ? '#f1f5f9' : '#000', fontSize: 12 }} />
+              <CartesianGrid strokeDasharray="3 3" stroke={isDarkMode ? '#475569' : '#cbd5e1'} vertical={false} />
+              <XAxis dataKey="month" tick={{ fontSize: 11, fontWeight: 700, fill: isDarkMode ? '#e2e8f0' : '#1e293b' }} axisLine={{ stroke: isDarkMode ? '#64748b' : '#94a3b8' }} tickLine={false} />
+              <YAxis tick={{ fontSize: 11, fontWeight: 700, fill: isDarkMode ? '#e2e8f0' : '#1e293b' }} axisLine={{ stroke: isDarkMode ? '#64748b' : '#94a3b8' }} tickLine={false} />
               <Tooltip
                 contentStyle={{
                   background: isDarkMode ? '#1e293b' : '#ffffff',
@@ -233,7 +233,7 @@ ${index + 1}. ${pincode.area} (${pincode.pincode})
                   color: isDarkMode ? '#f1f5f9' : '#000'
                 }}
               />
-              <Legend />
+              <Legend wrapperStyle={{ fontSize: 12, fontWeight: 700, paddingTop: 8 }} formatter={(value) => <span style={{ color: isDarkMode ? '#e2e8f0' : '#1e293b', fontWeight: 800 }}>{value}</span>} />
               <Line type="monotone" dataKey="marketGap" stroke="#db2777" strokeWidth={3} name="Market Gap" dot={{ fill: '#db2777', strokeWidth: 2, r: 4 }} />
             </LineChart>
           </ResponsiveContainer>
@@ -241,17 +241,17 @@ ${index + 1}. ${pincode.area} (${pincode.pincode})
       </div>
 
       <motion.div
-        className={`p-4 rounded-lg border mt-6 ${isDarkMode ? 'bg-[#0f172a] border-[#334155]' : 'bg-[#f8fafc] border-[#e2e8f0]'}`}
+        className={`p-3 rounded-lg border mt-1 ${isDarkMode ? 'bg-[#0f172a] border-[#334155]' : 'bg-[#f8fafc] border-[#e2e8f0]'}`}
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.3 }}
       >
-        <h4 className={`text-sm font-semibold mb-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Quarterly Trend Analysis</h4>
+        <h4 className={`text-base font-semibold mb-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Quarterly Trend Analysis</h4>
         <ResponsiveContainer width="100%" height={250}>
           <LineChart data={trendAnalysis}>
-            <CartesianGrid strokeDasharray="3 3" stroke={isDarkMode ? '#334155' : '#e0e0e0'} />
-            <XAxis dataKey="quarter" tick={{ fill: isDarkMode ? '#f1f5f9' : '#000', fontSize: 12 }} />
-            <YAxis tick={{ fill: isDarkMode ? '#f1f5f9' : '#000', fontSize: 12 }} />
+            <CartesianGrid strokeDasharray="3 3" stroke={isDarkMode ? '#475569' : '#cbd5e1'} vertical={false} />
+            <XAxis dataKey="quarter" tick={{ fontSize: 11, fontWeight: 700, fill: isDarkMode ? '#e2e8f0' : '#1e293b' }} axisLine={{ stroke: isDarkMode ? '#64748b' : '#94a3b8' }} tickLine={false} />
+            <YAxis tick={{ fontSize: 11, fontWeight: 700, fill: isDarkMode ? '#e2e8f0' : '#1e293b' }} axisLine={{ stroke: isDarkMode ? '#64748b' : '#94a3b8' }} tickLine={false} />
             <Tooltip
               contentStyle={{
                 background: isDarkMode ? '#1e293b' : '#ffffff',
@@ -261,8 +261,8 @@ ${index + 1}. ${pincode.area} (${pincode.pincode})
                 color: isDarkMode ? '#f1f5f9' : '#000'
               }}
             />
-            <Legend />
-            <Line type="monotone" dataKey="marketGap" stroke="#2563eb" strokeWidth={2} name="Market Gap" />
+              <Legend wrapperStyle={{ fontSize: 12, fontWeight: 700, paddingTop: 8 }} formatter={(value) => <span style={{ color: isDarkMode ? '#e2e8f0' : '#1e293b', fontWeight: 800 }}>{value}</span>} />
+              <Line type="monotone" dataKey="marketGap" stroke="#2563eb" strokeWidth={2} name="Market Gap" />
             <Line type="monotone" dataKey="demand" stroke="#16a34a" strokeWidth={2} name="Demand" />
             <Line type="monotone" dataKey="competition" stroke="#ea580c" strokeWidth={2} name="Competition" />
           </LineChart>
@@ -270,21 +270,21 @@ ${index + 1}. ${pincode.area} (${pincode.pincode})
       </motion.div>
 
       <motion.div
-        className={`p-4 rounded-lg border mt-6 ${isDarkMode ? 'bg-[#0f172a] border-[#334155]' : 'bg-[#f8fafc] border-[#e2e8f0]'}`}
+        className={`p-3 rounded-lg border mt-1 ${isDarkMode ? 'bg-[#0f172a] border-[#334155]' : 'bg-[#f8fafc] border-[#e2e8f0]'}`}
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.4 }}
       >
-        <h4 className={`text-sm font-semibold mb-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Category-wise Forecast</h4>
-        <div className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-4">
+        <h4 className={`text-base font-semibold mb-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Category-wise Forecast</h4>
+        <div className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-2">
           {categoryForecast.map((cat, index) => (
             <div key={index} className={`p-3 rounded-lg border ${isDarkMode ? 'bg-[#0f172a] border-[#334155]' : 'bg-[#f8fafc] border-[#e2e8f0]'}`}>
               <h5 className={`font-bold mb-3 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{cat.category}</h5>
-              <ResponsiveContainer width="100%" height={180}>
+              <ResponsiveContainer width="100%" height={220}>
                 <LineChart data={cat.data}>
-                  <CartesianGrid strokeDasharray="3 3" stroke={isDarkMode ? '#334155' : '#e0e0e0'} />
-                  <XAxis dataKey="month" tick={{ fill: isDarkMode ? '#f1f5f9' : '#000', fontSize: 10 }} />
-                  <YAxis tick={{ fill: isDarkMode ? '#f1f5f9' : '#000', fontSize: 10 }} />
+                  <CartesianGrid strokeDasharray="3 3" stroke={isDarkMode ? '#475569' : '#cbd5e1'} vertical={false} />
+                  <XAxis dataKey="month" tick={{ fontSize: 11, fontWeight: 700, fill: isDarkMode ? '#e2e8f0' : '#1e293b' }} axisLine={{ stroke: isDarkMode ? '#64748b' : '#94a3b8' }} tickLine={false} />
+                  <YAxis tick={{ fontSize: 11, fontWeight: 700, fill: isDarkMode ? '#e2e8f0' : '#1e293b' }} axisLine={{ stroke: isDarkMode ? '#64748b' : '#94a3b8' }} tickLine={false} />
                   <Tooltip
                     contentStyle={{
                       background: isDarkMode ? '#1e293b' : '#ffffff',

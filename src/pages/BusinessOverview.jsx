@@ -55,37 +55,19 @@ function BusinessOverview() {
     fetchArea();
   }, [routePincode]);
 
-  if (!routePincode || loading) {
-    return (
-      <div className={`min-h-[calc(100vh-70px)] p-6 flex items-center justify-center ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
-        <p className={isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}>
-          {loading ? 'Loading business data from backend...' : 'No pincode specified.'}
-        </p>
-      </div>
-    );
-  }
-
-  if (error || !apiArea) {
-    return (
-      <div className={`min-h-[calc(100vh-70px)] p-6 ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
-        <EmptyState type={error ? 'error' : 'noData'} message={error || NO_DATA_LABEL} actionText="Go to Dashboard" onAction={() => window.location.href = '/dashboard'} />
-      </div>
-    );
-  }
-
-  const competitors = toPlainObject(apiArea.competitors);
+  const competitors = apiArea ? toPlainObject(apiArea.competitors) : {};
   const totalBusinesses = Object.values(competitors).reduce((sum, v) => sum + (Number(v) || 0), 0);
-  const avgGap = averageOfValues(toPlainObject(apiArea.marketGapScores));
+  const avgGap = apiArea ? averageOfValues(toPlainObject(apiArea.marketGapScores)) : null;
 
   const businessData = {
     totalBusinesses: totalBusinesses || null,
     competitorDensity: totalBusinesses > 100 ? 'High' : totalBusinesses > 50 ? 'Medium' : totalBusinesses > 0 ? 'Low' : NO_DATA_LABEL,
     marketSaturation: avgGap != null ? Math.max(0, Math.min(100, 100 - avgGap)) : null,
-    businessTrend: apiArea.populationGrowth != null && apiArea.populationGrowth > 2 ? 'Growing' : apiArea.populationGrowth != null ? 'Stable' : NO_DATA_LABEL,
+    businessTrend: apiArea?.populationGrowth != null && apiArea.populationGrowth > 2 ? 'Growing' : apiArea?.populationGrowth != null ? 'Stable' : NO_DATA_LABEL,
     popularCategories: Object.entries(competitors).map(([name, count]) => ({
       name,
       count: Number(count) || 0,
-      growth: apiArea.populationGrowth ?? null,
+      growth: apiArea?.populationGrowth ?? null,
       icon: categoryIcons[name] || Store,
     })),
   };
@@ -111,6 +93,24 @@ function BusinessOverview() {
     });
     return gen;
   }, [businessData.popularCategories]);
+
+  if (!routePincode || loading) {
+    return (
+      <div className={`min-h-[calc(100vh-70px)] p-6 flex items-center justify-center ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
+        <p className={isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}>
+          {loading ? 'Loading business data from backend...' : 'No pincode specified.'}
+        </p>
+      </div>
+    );
+  }
+
+  if (error || !apiArea) {
+    return (
+      <div className={`min-h-[calc(100vh-70px)] p-6 ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
+        <EmptyState type={error ? 'error' : 'noData'} message={error || NO_DATA_LABEL} actionText="Go to Dashboard" onAction={() => window.location.href = '/dashboard'} />
+      </div>
+    );
+  }
 
   // 'All' is a UI filter option, not hardcoded data
   const categories = ['All', ...businessData.popularCategories.map(c => c.name)];
@@ -168,21 +168,28 @@ function BusinessOverview() {
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {[
-            { icon: Store, label: 'Total Businesses', value: businessData.totalBusinesses ?? NO_DATA_LABEL, color: 'text-blue-500' },
-            { icon: BarChart3, label: 'Competitor Density', value: businessData.competitorDensity, color: 'text-purple-500' },
-            { icon: PieChart, label: 'Market Saturation', value: `${businessData.marketSaturation}%`, color: 'text-orange-500' },
-            { icon: TrendingUp, label: 'Business Trend', value: businessData.businessTrend, color: 'text-green-500' }
+            { icon: Store, label: 'Total Businesses', value: businessData.totalBusinesses ?? NO_DATA_LABEL, color: 'text-blue-500', bgLight: 'bg-blue-50', bgDark: 'bg-blue-900/20' },
+            { icon: BarChart3, label: 'Competitor Density', value: businessData.competitorDensity, color: 'text-violet-500', bgLight: 'bg-violet-50', bgDark: 'bg-violet-900/20' },
+            { icon: PieChart, label: 'Market Saturation', value: `${Number(businessData.marketSaturation || 0).toFixed(2)}%`, color: 'text-amber-500', bgLight: 'bg-amber-50', bgDark: 'bg-amber-900/20' },
+            { icon: TrendingUp, label: 'Business Trend', value: businessData.businessTrend, color: 'text-emerald-500', bgLight: 'bg-emerald-50', bgDark: 'bg-emerald-900/20' }
           ].map((stat, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 + (index * 0.1) }}
-              className={`p-6 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
+              whileHover={{ y: -4 }}
+              className={`p-5 rounded-2xl border-2 transition-all duration-300 hover:shadow-lg ${
+                isDarkMode 
+                  ? 'bg-[#1e293b] border-[#334155] hover:border-[#2563eb]/40' 
+                  : 'bg-white border-[#e2e8f0] hover:border-[#2563eb]/40 hover:shadow-md'
+              }`}
             >
-              <stat.icon className={`${stat.color} mb-3`} size={24} />
-              <p className={`text-sm opacity-70 mb-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{stat.label}</p>
-              <p className={`text-2xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+              <div className={`inline-flex p-2.5 rounded-xl mb-3 ${isDarkMode ? stat.bgDark : stat.bgLight}`}>
+                <stat.icon className={stat.color} size={22} />
+              </div>
+              <p className={`text-xs font-medium mb-1 uppercase tracking-wide ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>{stat.label}</p>
+              <p className={`text-2xl font-extrabold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                 {stat.value}
               </p>
             </motion.div>
@@ -220,7 +227,7 @@ function BusinessOverview() {
                     {category.count}
                   </span>
                   <TrendingUp className="text-green-500" size={14} />
-                  <span className="text-xs text-green-500">{category.growth}%</span>
+                  <span className="text-xs text-green-500">{Number(category.growth || 0).toFixed(2)}%</span>
                 </div>
               </motion.div>
             ))}
@@ -435,7 +442,7 @@ function BusinessOverview() {
                   High Market Saturation
                 </h4>
                 <p className={`text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
-                  This area has {businessData.marketSaturation}% market saturation. Consider exploring nearby areas with lower competition for better business opportunities.
+                  This area has {Number(businessData.marketSaturation || 0).toFixed(2)}% market saturation. Consider exploring nearby areas with lower competition for better business opportunities.
                 </p>
               </div>
             </div>

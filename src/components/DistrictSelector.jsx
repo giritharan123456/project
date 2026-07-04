@@ -1,26 +1,36 @@
 import React from 'react';
 import { useTheme } from '../contexts/ThemeContext';
 import { useDistrict } from '../contexts/DistrictContext';
+import { ChevronDown } from 'lucide-react';
 
 function DistrictSelector({ districts }) {
   const { isDarkMode } = useTheme();
   const { selectedDistrict, setSelectedDistrict } = useDistrict();
-  
+
   return (
-    <div className={`p-6 rounded-xl border transition-all duration-300 ${isDarkMode ? 'bg-[#1e293b] border-[#334155] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.3),0_2px_4px_-1px_rgba(0,0,0,0.2)]' : 'bg-[#ffffff] border-[#e2e8f0] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-1px_rgba(0,0,0,0.06)]'}`}>
-      <label htmlFor="district-select" className={`block text-sm font-semibold mb-3 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Select District:</label>
-      <select 
-        id="district-select"
-        value={selectedDistrict ?? ''}
-        onChange={(e) => setSelectedDistrict(e.target.value)}
-        className={`w-full p-3 border-2 rounded-xl text-base transition-all duration-300 outline-none cursor-pointer ${isDarkMode ? 'bg-[#0f172a] border-[#334155] text-[#f1f5f9] focus:border-[#2563eb] focus:shadow-[0_0_0_3px_rgba(37,99,235,0.1)]' : 'bg-[#f8fafc] border-[#e2e8f0] text-[#1e293b] focus:border-[#2563eb] focus:shadow-[0_0_0_3px_rgba(37,99,235,0.1)]'}`}
-      >
-        {districts.map(district => (
-          <option key={district._id || district} value={district._id || district}>
-            {district.name || district}
-          </option>
-        ))}
-      </select>
+    <div className="relative">
+      <label htmlFor="district-select" className={`block text-[10px] font-extrabold uppercase tracking-wider mb-1 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
+        District
+      </label>
+      <div className="relative">
+        <select
+          id="district-select"
+          value={selectedDistrict ?? ''}
+          onChange={(e) => setSelectedDistrict(e.target.value)}
+          className={`w-full appearance-none px-3 py-2 pr-8 border-2 rounded-lg text-sm font-medium transition-all duration-200 outline-none cursor-pointer ${
+            isDarkMode
+              ? 'bg-[#0f172a] border-[#475569] text-white focus:border-blue-500'
+              : 'bg-slate-50 border-slate-200 text-slate-800 focus:border-blue-500'
+          }`}
+        >
+          {districts.map(district => (
+            <option key={district._id || district} value={district._id || district}>
+              {district.name || district}
+            </option>
+          ))}
+        </select>
+        <ChevronDown size={14} className={`absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`} />
+      </div>
     </div>
   );
 }

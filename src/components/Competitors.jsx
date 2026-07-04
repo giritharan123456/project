@@ -1,53 +1,59 @@
 import React, { useState } from 'react';
 import { useTheme } from '../contexts/ThemeContext';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, Legend, ResponsiveContainer, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar } from 'recharts';
-import { AlertTriangle, TrendingUp, ChevronDown, ChevronUp } from 'lucide-react';
+import { AlertTriangle, TrendingUp, ChevronDown, ChevronUp, Swords } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+
+const CustomTooltip = ({ active, payload, label }) => {
+  if (!active || !payload) return null;
+  return (
+    <div className="bg-white dark:bg-[#1e293b] p-3 rounded-lg shadow-xl border border-gray-200 dark:border-[#334155]">
+      <p className="font-semibold text-sm mb-1">{label}</p>
+      {payload.map((entry, i) => (
+        <p key={i} className="text-xs" style={{ color: entry.color }}>
+          {entry.name}: <span className="font-bold">{entry.value}</span>
+        </p>
+      ))}
+    </div>
+  );
+};
 
 const Competitors = ({ pincodeData }) => {
   const { isDarkMode } = useTheme();
   const [expandedInsight, setExpandedInsight] = useState(null);
   const [error, setError] = useState(null);
+  const b = (dark, light) => isDarkMode ? dark : light;
 
-  const toggleInsight = (id) => {
-    setExpandedInsight(expandedInsight === id ? null : id);
-  };
+  const axisDark = { fontSize: 13, fontWeight: 700, fill: '#e2e8f0' };
+  const axisLight = { fontSize: 13, fontWeight: 700, fill: '#1e293b' };
+  const getAxis = () => isDarkMode ? axisDark : axisLight;
+  const gridStroke = isDarkMode ? '#475569' : '#cbd5e1';
+  const axisLine = { stroke: isDarkMode ? '#64748b' : '#94a3b8' };
+  const labelStyle = { fontSize: 12, fontWeight: 700, fill: isDarkMode ? '#e2e8f0' : '#1e293b' };
 
-  // Generate dynamic competitor data based on pincode data
+  const toggleInsight = (id) => setExpandedInsight(expandedInsight === id ? null : id);
+
   const generateCompetitorData = (data) => {
     try {
-      if (!data || !Array.isArray(data) || data.length === 0) {
-        return null;
-      }
-
+      if (!data || !Array.isArray(data) || data.length === 0) return null;
       const area = data[0];
-      if (!area || typeof area !== 'object') {
-        return null;
-      }
+      if (!area || typeof area !== 'object') return null;
 
       const competitors = area.competitors || {};
       const demandScores = area.demandScores || {};
       const marketGapScores = area.marketGapScores || {};
 
-      // Ensure competitors, demandScores, and marketGapScores are objects
       if (typeof competitors !== 'object' || competitors === null) return null;
       if (typeof demandScores !== 'object' || demandScores === null) return null;
       if (typeof marketGapScores !== 'object' || marketGapScores === null) return null;
 
-      // Check if there's any actual data to work with
-      const hasCompetitors = Object.keys(competitors).length > 0;
-      const hasDemandScores = Object.keys(demandScores).length > 0;
-      const hasMarketGapScores = Object.keys(marketGapScores).length > 0;
+      const hasData = Object.keys(competitors).length > 0 || Object.keys(demandScores).length > 0 || Object.keys(marketGapScores).length > 0;
+      if (!hasData) return null;
 
-      if (!hasCompetitors && !hasDemandScores && !hasMarketGapScores) {
-        return null;
-      }
-
-      // Calculate market share based on competitor counts
       const totalCompetitors = Object.values(competitors).reduce((sum, val) => sum + (Number(val) || 0), 0) || 1;
       const yourShare = Math.max(20, 100 - totalCompetitors * 10);
       const competitorAShare = Math.min(40, totalCompetitors * 15);
-      const competitorBShare = 100 - yourShare - competitorAShare;
+      const competitorBShare = Math.max(5, 100 - yourShare - competitorAShare);
 
       const barData = [
         { name: 'Your Business', 'Market Share': yourShare, 'Digital Presence': Math.min(90, yourShare + 20) },
@@ -55,7 +61,6 @@ const Competitors = ({ pincodeData }) => {
         { name: 'Competitor B', 'Market Share': competitorBShare, 'Digital Presence': Math.min(50, competitorBShare + 15) }
       ];
 
-      // Generate radar data based on market gap and demand
       const avgGap = Object.values(marketGapScores).reduce((sum, val) => sum + (Number(val) || 0), 0) / (Object.keys(marketGapScores).length || 1);
       const avgDemand = Object.values(demandScores).reduce((sum, val) => sum + (Number(val) || 0), 0) / (Object.keys(demandScores).length || 1);
 
@@ -67,41 +72,30 @@ const Competitors = ({ pincodeData }) => {
         { subject: 'Support', A: Math.min(95, avgGap + 25), B: Math.min(50, avgGap - 20), fullMark: 100 }
       ];
 
-      // Generate insights based on actual data
       const insights = [];
       const categories = Object.keys(competitors);
-      
       if (categories.length > 0) {
-        const highestCompetition = categories.reduce((max, cat) => 
-          (competitors[cat] || 0) > (competitors[max] || 0) ? cat : max, categories[0]);
-        
+        const highestCompetition = categories.reduce((max, cat) => (competitors[cat] || 0) > (competitors[max] || 0) ? cat : max, categories[0]);
         insights.push({
-          id: 1,
-          icon: AlertTriangle,
-          color: '#f59e0b',
+          id: 1, icon: AlertTriangle, color: '#f59e0b',
           title: `High Competition in ${highestCompetition}`,
           description: 'Consider differentiation strategy',
-          rationale: `Analysis shows ${competitors[highestCompetition]} competitors in ${highestCompetition} category. Market gap score is ${marketGapScores[highestCompetition]}.`,
-          action: `Focus on underserved categories with higher gap scores like ${categories.find(c => marketGapScores[c] > 70) || 'available categories'}.`
+          rationale: `${competitors[highestCompetition]} competitors in ${highestCompetition}. Gap score: ${marketGapScores[highestCompetition]}.`,
+          action: `Focus on underserved categories like ${categories.find(c => marketGapScores[c] > 70) || 'available categories'}.`
         });
 
-        const lowestCompetition = categories.reduce((min, cat) => 
-          (competitors[cat] || 0) < (competitors[min] || 0) ? cat : min, categories[0]);
-        
+        const lowestCompetition = categories.reduce((min, cat) => (competitors[cat] || 0) < (competitors[min] || 0) ? cat : min, categories[0]);
         insights.push({
-          id: 2,
-          icon: TrendingUp,
-          color: '#10b981',
+          id: 2, icon: TrendingUp, color: '#10b981',
           title: `Low Competition in ${lowestCompetition}`,
           description: 'Opportunity for market entry',
-          rationale: `${lowestCompetition} has only ${competitors[lowestCompetition]} competitors with demand score of ${demandScores[lowestCompetition]}.`,
-          action: `Launch targeted marketing campaign for ${lowestCompetition} services to capture market share quickly.`
+          rationale: `Only ${competitors[lowestCompetition]} competitors. Demand: ${demandScores[lowestCompetition]}.`,
+          action: `Launch targeted marketing for ${lowestCompetition} services.`
         });
       }
 
       return { barData, radarData, insights };
     } catch (error) {
-      console.error('Error generating competitor data:', error);
       return null;
     }
   };
@@ -113,189 +107,107 @@ const Competitors = ({ pincodeData }) => {
     radarData = result?.radarData;
     insights = result?.insights;
   } catch (err) {
-    console.error('Error in Competitors component:', err);
     setError('Failed to load competitor data');
   }
 
-  if (error) {
+  if (error || !barData || !radarData) {
     return (
-      <div className={`w-full p-6 rounded-xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}>
-        <div className="text-center py-12">
-          <p className="text-red-500 mb-2">{error}</p>
-          <p className={`${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
-            Please try selecting a different pincode
-          </p>
-        </div>
-      </div>
-    );
-  }
-
-  if (!barData || !radarData) {
-    return (
-      <div className={`w-full p-6 rounded-xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}>
-        <div className="text-center py-12">
-          <p className={`${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
-            Please select a pincode to view competitor analysis
-          </p>
-        </div>
+      <div className="text-center py-12">
+        <Swords size={40} className={`mx-auto mb-3 ${b('text-gray-600', 'text-gray-400')}`} />
+        <p className={`text-sm ${b('text-gray-400', 'text-gray-500')}`}>
+          {error || 'Select a pincode to view competitor analysis'}
+        </p>
       </div>
     );
   }
 
   return (
-    <div className="w-full">
-      <div className="mb-8">
-        <h2 className="text-3xl font-bold mb-2 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] bg-clip-text text-transparent">
-          Competitor Intelligence
-        </h2>
-        <p className={`text-base opacity-80 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
-          AI-driven analysis of your top competitors and market positioning.
-        </p>
+    <div>
+      {/* Header */}
+      <div className="flex items-center gap-2 mb-2">
+        <Swords size={22} className="text-violet-500" />
+        <h3 className={`text-xl font-bold ${b('text-[#f1f5f9]', 'text-[#1e293b]')}`}>Competitor Intelligence</h3>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.3 }}
-          className={`p-6 rounded-xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
-        >
-          <h3 className="text-xl font-semibold mb-6">Market Share vs Engagement</h3>
-          <div className="h-[300px] w-full">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={barData} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke={isDarkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'} vertical={false} />
-                <XAxis dataKey="name" stroke={isDarkMode ? '#f1f5f9' : '#1e293b'} />
-                <YAxis stroke={isDarkMode ? '#f1f5f9' : '#1e293b'} />
-                <RechartsTooltip 
-                  contentStyle={{ 
-                    backgroundColor: isDarkMode ? '#1e293b' : '#ffffff',
-                    borderColor: isDarkMode ? '#334155' : '#e2e8f0',
-                    color: isDarkMode ? '#f1f5f9' : '#1e293b',
-                    borderRadius: '8px'
-                  }} 
-                />
-                <Legend />
-                <Bar dataKey="Market Share" fill="#2563eb" radius={[4, 4, 0, 0]} />
-                <Bar dataKey="Digital Presence" fill="#7c3aed" radius={[4, 4, 0, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-        </motion.div>
+      {/* Charts Grid */}
+      <div className="grid grid-cols-1 gap-2 mb-2">
+        {/* Bar Chart */}
+        <div className={`rounded-xl border p-3 ${isDarkMode ? 'border-[#334155] bg-[#0f172a]/50' : 'border-[#e2e8f0] bg-gray-50'}`}>
+          <h4 className={`text-sm font-bold uppercase tracking-wide mb-3 ${b('text-gray-400', 'text-gray-500')}`}>
+            Market Share vs Digital Presence
+          </h4>
+          <ResponsiveContainer width="100%" height={280}>
+            <BarChart data={barData} barCategoryGap="25%" margin={{ top: 8, right: 15, left: 5, bottom: 5 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke={gridStroke} vertical={false} />
+              <XAxis dataKey="name" tick={getAxis()} axisLine={axisLine} tickLine={false} />
+              <YAxis tick={getAxis()} axisLine={axisLine} tickLine={false} label={{ value: '%', angle: -90, position: 'insideLeft', offset: 5, style: labelStyle }} />
+              <RechartsTooltip content={<CustomTooltip />} />
+              <Legend wrapperStyle={{ fontSize: 12, fontWeight: 700, paddingTop: 8 }} formatter={(value) => <span style={{ color: isDarkMode ? '#e2e8f0' : '#1e293b', fontWeight: 800 }}>{value}</span>} />
+              <Bar dataKey="Market Share" fill="#667eea" radius={[4, 4, 0, 0]} />
+              <Bar dataKey="Digital Presence" fill="#764ba2" radius={[4, 4, 0, 0]} />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
 
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.3, delay: 0.1 }}
-          className={`p-6 rounded-xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
-        >
-          <h3 className="text-xl font-semibold mb-6">Competitive Strengths Matrix</h3>
-          <div className="h-[300px] w-full">
-            <ResponsiveContainer width="100%" height="100%">
-              <RadarChart cx="50%" cy="50%" outerRadius="70%" data={radarData}>
-                <PolarGrid stroke={isDarkMode ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.2)'} />
-                <PolarAngleAxis dataKey="subject" stroke={isDarkMode ? '#f1f5f9' : '#1e293b'} />
-                <PolarRadiusAxis angle={30} domain={[0, 100]} stroke={isDarkMode ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.5)'} />
-                <Radar name="Your Business" dataKey="A" stroke="#2563eb" fill="#2563eb" fillOpacity={0.5} />
-                <Radar name="Competitor A" dataKey="B" stroke="#f59e0b" fill="#f59e0b" fillOpacity={0.5} />
-                <Legend />
-                <RechartsTooltip 
-                  contentStyle={{ 
-                    backgroundColor: isDarkMode ? '#1e293b' : '#ffffff',
-                    borderColor: isDarkMode ? '#334155' : '#e2e8f0',
-                    color: isDarkMode ? '#f1f5f9' : '#1e293b',
-                    borderRadius: '8px'
-                  }} 
-                />
-              </RadarChart>
-            </ResponsiveContainer>
-          </div>
-        </motion.div>
+        {/* Radar Chart */}
+        <div className={`rounded-xl border p-3 ${isDarkMode ? 'border-[#334155] bg-[#0f172a]/50' : 'border-[#e2e8f0] bg-gray-50'}`}>
+          <h4 className={`text-sm font-bold uppercase tracking-wide mb-3 ${b('text-gray-400', 'text-gray-500')}`}>
+            Competitive Strengths Matrix
+          </h4>
+          <ResponsiveContainer width="100%" height={300}>
+            <RadarChart cx="50%" cy="50%" outerRadius="70%" data={radarData}>
+              <PolarGrid stroke={gridStroke} />
+              <PolarAngleAxis dataKey="subject" tick={{ fontSize: 12, fontWeight: 700, fill: isDarkMode ? '#e2e8f0' : '#1e293b' }} />
+              <PolarRadiusAxis angle={30} domain={[0, 100]} tick={{ fontSize: 10, fontWeight: 700, fill: isDarkMode ? '#e2e8f0' : '#1e293b' }} />
+              <Radar name="Your Business" dataKey="A" stroke="#667eea" fill="#667eea" fillOpacity={0.4} strokeWidth={2} />
+              <Radar name="Competitor" dataKey="B" stroke="#f59e0b" fill="#f59e0b" fillOpacity={0.3} strokeWidth={2} />
+              <Legend wrapperStyle={{ fontSize: 12, fontWeight: 700, paddingTop: 8 }} formatter={(value) => <span style={{ color: isDarkMode ? '#e2e8f0' : '#1e293b', fontWeight: 800 }}>{value}</span>} />
+              <RechartsTooltip content={<CustomTooltip />} />
+            </RadarChart>
+          </ResponsiveContainer>
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3, delay: 0.2 }}
-          className={`p-6 rounded-xl border cursor-pointer transition-all duration-300 ${isDarkMode ? 'bg-[#1e293b] border-[#334155] hover:border-[#2563eb]' : 'bg-[#ffffff] border-[#e2e8f0] hover:border-[#2563eb]'}`}
-          onClick={() => toggleInsight(1)}
-        >
-          <div className="flex items-start justify-between">
-            <div className="flex items-center gap-4">
-              <div className="p-3 rounded-full" style={{ backgroundColor: 'rgba(245, 158, 11, 0.1)' }}>
-                <AlertTriangle size={24} style={{ color: '#f59e0b' }} />
-              </div>
-              <div>
-                <h4 className="text-lg font-semibold">Competitor A has Low Customer Satisfaction</h4>
-                <p className="text-sm opacity-70 mt-1">Exploit weakness with premium service</p>
-              </div>
-            </div>
-            {expandedInsight === 1 ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
-          </div>
-          <AnimatePresence>
-            {expandedInsight === 1 && (
-              <motion.div
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: 'auto', opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                transition={{ duration: 0.3 }}
-                className="overflow-hidden"
-              >
-                <div className="pt-6 mt-4 border-t" style={{ borderColor: isDarkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)' }}>
-                  <h5 className="font-semibold mb-2">AI Rationale & Action Plan:</h5>
-                  <p className="text-sm opacity-80 leading-relaxed">
-                    Recent sentiment analysis across Google Reviews and Yelp indicates that Competitor A struggles with post-sale support and overall service quality. Their average rating has dropped by 0.6 stars in the last quarter.
-                    <br/><br/>
-                    <strong>Recommended Action:</strong> Launch a targeted marketing campaign highlighting your premium customer support tiers. Introduce a "Switch & Save" offer combined with a "Satisfaction Guarantee" to capture their frustrated customer base.
-                  </p>
+      {/* Insights */}
+      {insights && insights.length > 0 && (
+        <div className="space-y-3">
+          <h4 className={`text-sm font-bold uppercase tracking-wide ${b('text-gray-400', 'text-gray-500')}`}>
+            AI Insights
+          </h4>
+          {insights.map(insight => (
+            <motion.div
+              key={insight.id}
+              className={`rounded-xl border-2 overflow-hidden cursor-pointer transition-all duration-300 ${
+                isDarkMode ? 'bg-[#0f172a] border-[#334155] hover:border-[#2563eb]/40' : 'bg-white border-[#e2e8f0] hover:border-[#2563eb]/40'
+              }`}
+              onClick={() => toggleInsight(insight.id)}
+            >
+              <div className="p-4 flex items-start justify-between">
+                <div className="flex items-start gap-3">
+                  <div className="p-2 rounded-lg" style={{ backgroundColor: `${insight.color}15` }}>
+                    <insight.icon size={18} style={{ color: insight.color }} />
+                  </div>
+                  <div>
+                    <h5 className={`text-sm font-bold ${b('text-gray-200', 'text-gray-700')}`}>{insight.title}</h5>
+                    <p className={`text-xs mt-0.5 ${b('text-gray-400', 'text-gray-500')}`}>{insight.description}</p>
+                  </div>
                 </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3, delay: 0.3 }}
-          className={`p-6 rounded-xl border cursor-pointer transition-all duration-300 ${isDarkMode ? 'bg-[#1e293b] border-[#334155] hover:border-[#2563eb]' : 'bg-[#ffffff] border-[#e2e8f0] hover:border-[#2563eb]'}`}
-          onClick={() => toggleInsight(2)}
-        >
-          <div className="flex items-start justify-between">
-            <div className="flex items-center gap-4">
-              <div className="p-3 rounded-full" style={{ backgroundColor: 'rgba(16, 185, 129, 0.1)' }}>
-                <TrendingUp size={24} style={{ color: '#10b981' }} />
+                {expandedInsight === insight.id ? <ChevronUp size={16} className={b('text-gray-400', 'text-gray-500')} /> : <ChevronDown size={16} className={b('text-gray-400', 'text-gray-500')} />}
               </div>
-              <div>
-                <h4 className="text-lg font-semibold">Dominant Digital Presence</h4>
-                <p className="text-sm opacity-70 mt-1">Leverage social channels to siphon traffic</p>
-              </div>
-            </div>
-            {expandedInsight === 2 ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
-          </div>
-          <AnimatePresence>
-            {expandedInsight === 2 && (
-              <motion.div
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: 'auto', opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                transition={{ duration: 0.3 }}
-                className="overflow-hidden"
-              >
-                <div className="pt-6 mt-4 border-t" style={{ borderColor: isDarkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)' }}>
-                  <h5 className="font-semibold mb-2">AI Rationale & Action Plan:</h5>
-                  <p className="text-sm opacity-80 leading-relaxed">
-                    Your business currently holds an 80% engagement rate on digital platforms compared to Competitor B's 40%. You have a strong visual brand that resonates well with the local demographic.
-                    <br/><br/>
-                    <strong>Recommended Action:</strong> Initiate hyper-local geofenced social media ads around Competitor B's physical locations. Use dynamic content that showcases your superior digital booking experience and exclusive online discounts to redirect foot traffic to your channels.
-                  </p>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </motion.div>
-      </div>
+              <AnimatePresence>
+                {expandedInsight === insight.id && (
+                  <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.3 }} className="overflow-hidden">
+                    <div className={`px-4 pb-4 pt-2 border-t ${isDarkMode ? 'border-[#334155]' : 'border-[#e2e8f0]'}`}>
+                      <p className={`text-xs leading-relaxed ${b('text-gray-300', 'text-gray-600')}`}>{insight.rationale}</p>
+                      <p className={`text-xs mt-2 font-semibold ${b('text-blue-400', 'text-blue-600')}`}>{insight.action}</p>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid } from 'recharts';
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend } from 'recharts';
 import { useTheme } from '../contexts/ThemeContext';
 
 function AnalyticsPanel({ pincodeData, businessCategories, selectedDistrict }) {
@@ -17,7 +17,7 @@ function AnalyticsPanel({ pincodeData, businessCategories, selectedDistrict }) {
 
     try {
       let reportContent = `
-MARKET GAP ANALYSIS REPORT
+MARKETVISION AI - MARKET GAP ANALYSIS REPORT
 District: ${selectedDistrict}
 Generated: ${new Date().toLocaleDateString()}
 
@@ -35,7 +35,7 @@ DETAILED ANALYSIS
         reportContent += `
 ${index + 1}. ${pincode.area} (${pincode.pincode})
    Population: ${pincode.population.toLocaleString()}
-   Growth Rate: ${pincode.populationGrowth}%
+   Growth Rate: ${Number(pincode.populationGrowth || 0).toFixed(2)}%
    Income Level: ${pincode.incomeLevel}
    Urban Development: ${pincode.urbanDevelopment}
 
@@ -84,7 +84,7 @@ ${index + 1}. ${pincode.area} (${pincode.pincode})
     return Object.entries(categoryCounts).map(([category, count]) => ({
       category,
       count,
-      percentage: totalCategorySlots > 0 ? ((count / totalCategorySlots) * 100).toFixed(1) : '0.0'
+      percentage: totalCategorySlots > 0 ? ((count / totalCategorySlots) * 100).toFixed(2) : '0.00'
     })).sort((a, b) => b.count - a.count);
   };
 
@@ -184,8 +184,8 @@ ${index + 1}. ${pincode.area} (${pincode.pincode})
   const districtComparison = calculateDistrictComparison();
 
   return (
-    <div className={`p-6 rounded-xl border mb-6 transition-all duration-300 ${isDarkMode ? 'bg-[#1e293b] border-[#334155] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.3),0_2px_4px_-1px_rgba(0,0,0,0.2)]' : 'bg-[#ffffff] border-[#e2e8f0] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-1px_rgba(0,0,0,0.06)]'}`}>
-      <div className="flex justify-between items-center mb-6">
+    <div className={`p-3 rounded-xl border mb-1 transition-all duration-300 ${isDarkMode ? 'bg-[#1e293b] border-[#475569]' : 'bg-white border-slate-200'}`}>
+      <div className="flex justify-between items-center mb-4">
         <h3 className={`text-xl font-bold bg-gradient-to-r from-[#2563eb] to-[#7c3aed] bg-clip-text text-transparent ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>📊 Professional Analytics Dashboard</h3>
         <div className="flex gap-2">
           <button className={`px-4 py-2 border-2 rounded-lg transition-all duration-300 ${isDarkMode ? 'bg-[#0f172a] border-[#334155] text-[#f1f5f9] hover:border-[#2563eb]' : 'bg-[#f8fafc] border-[#e2e8f0] text-[#1e293b] hover:border-[#2563eb]'}`} onClick={handleExportReport}>📥 Export Report</button>
@@ -193,15 +193,15 @@ ${index + 1}. ${pincode.area} (${pincode.pincode})
         </div>
       </div>
 
-      <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-6">
+      <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-2">
         <motion.div
-          className={`p-4 rounded-lg border ${isDarkMode ? 'bg-[#0f172a] border-[#334155]' : 'bg-[#f8fafc] border-[#e2e8f0]'}`}
+          className={`p-3 rounded-lg border ${isDarkMode ? 'bg-[#0f172a] border-[#334155]' : 'bg-[#f8fafc] border-[#e2e8f0]'}`}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
         >
-          <h4 className={`text-sm font-semibold mb-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Category Distribution</h4>
-          <ResponsiveContainer width="100%" height={200}>
+          <h4 className={`text-base font-semibold mb-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Category Distribution</h4>
+          <ResponsiveContainer width="100%" height={260}>
             <PieChart>
               <Pie
                 data={categoryDistribution}
@@ -209,9 +209,11 @@ ${index + 1}. ${pincode.area} (${pincode.pincode})
                 cy="50%"
                 labelLine={false}
                 label={({ category, percentage }) => `${category}: ${percentage}%`}
+                labelLine={{ stroke: isDarkMode ? '#94a3b8' : '#64748b', strokeWidth: 1 }}
                 outerRadius={70}
                 fill="#8884d8"
                 dataKey="count"
+                style={{ fontSize: 12, fontWeight: 700 }}
               >
                 {categoryDistribution.map((entry, index) => (
                   <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
@@ -231,17 +233,17 @@ ${index + 1}. ${pincode.area} (${pincode.pincode})
         </motion.div>
 
         <motion.div
-          className={`p-4 rounded-lg border ${isDarkMode ? 'bg-[#0f172a] border-[#334155]' : 'bg-[#f8fafc] border-[#e2e8f0]'}`}
+          className={`p-3 rounded-lg border ${isDarkMode ? 'bg-[#0f172a] border-[#334155]' : 'bg-[#f8fafc] border-[#e2e8f0]'}`}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
-          <h4 className={`text-sm font-semibold mb-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Performance Metrics</h4>
+          <h4 className={`text-base font-semibold mb-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Performance Metrics</h4>
           <div className="space-y-4">
             {performanceMetrics.map((metric, index) => (
               <div key={index}>
                 <div className="flex justify-between mb-2">
-                  <span className={`text-xs font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{metric.name}</span>
+                  <span className={`text-sm font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{metric.name}</span>
                   <span className="text-sm font-bold" style={{ color: metric.color }}>
                     {metric.value}%
                   </span>
@@ -265,73 +267,82 @@ ${index + 1}. ${pincode.area} (${pincode.pincode})
       </div>
 
       <motion.div
-        className={`p-4 rounded-lg border mt-6 ${isDarkMode ? 'bg-[#0f172a] border-[#334155]' : 'bg-[#f8fafc] border-[#e2e8f0]'}`}
+        className={`p-3 rounded-lg border mt-3 ${isDarkMode ? 'bg-[#0f172a] border-[#334155]' : 'bg-[#f8fafc] border-[#e2e8f0]'}`}
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.3 }}
       >
-        <h4 className={`text-sm font-semibold mb-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>District Comparison</h4>
-        <ResponsiveContainer width="100%" height={250}>
-          <BarChart data={districtComparison}>
-            <CartesianGrid strokeDasharray="3 3" stroke={isDarkMode ? '#334155' : '#e0e0e0'} />
+        <h4 className={`text-base font-bold mb-2 ${isDarkMode ? 'text-gray-200' : 'text-gray-700'}`}>District Comparison</h4>
+          <ResponsiveContainer width="100%" height={300}>
+          <BarChart data={districtComparison} margin={{ top: 8, right: 15, left: 5, bottom: 5 }}>
+            <CartesianGrid strokeDasharray="3 3" stroke={isDarkMode ? '#475569' : '#cbd5e1'} vertical={false} />
             <XAxis 
               dataKey="district" 
-              tick={{ fill: isDarkMode ? '#f1f5f9' : '#000', fontSize: 12 }}
-              angle={-45}
+              tick={{ fontSize: 11, fontWeight: 700, fill: isDarkMode ? '#e2e8f0' : '#1e293b' }}
+              axisLine={{ stroke: isDarkMode ? '#64748b' : '#94a3b8' }}
+              tickLine={false}
+              angle={-40}
               textAnchor="end"
-              height={80}
+              height={60}
+              interval={0}
             />
-            <YAxis tick={{ fill: isDarkMode ? '#f1f5f9' : '#000', fontSize: 12 }} />
+            <YAxis 
+              tick={{ fontSize: 11, fontWeight: 700, fill: isDarkMode ? '#e2e8f0' : '#1e293b' }}
+              axisLine={{ stroke: isDarkMode ? '#64748b' : '#94a3b8' }}
+              tickLine={false}
+            />
             <Tooltip
               contentStyle={{
-                background: isDarkMode ? '#1e293b' : '#ffffff',
-                border: `1px solid ${isDarkMode ? '#334155' : '#e0e0e0'}`,
+                background: '#ffffff',
+                border: '2px solid #cbd5e1',
                 borderRadius: '8px',
                 fontSize: '12px',
-                color: isDarkMode ? '#f1f5f9' : '#000'
+                fontWeight: 700,
+                color: '#1e293b'
               }}
             />
-            <Bar dataKey="avgGap" fill="#2563eb" name="Avg Gap" radius={[4, 4, 0, 0]} />
-            <Bar dataKey="totalPopulation" fill="#7c3aed" name="Population (K)" radius={[4, 4, 0, 0]} />
-            <Bar dataKey="avgGrowth" fill="#16a34a" name="Growth %" radius={[4, 4, 0, 0]} />
+            <Bar dataKey="avgGap" fill="#2563eb" name="Avg Gap" radius={[3, 3, 0, 0]} />
+            <Bar dataKey="totalPopulation" fill="#7c3aed" name="Population (K)" radius={[3, 3, 0, 0]} />
+            <Bar dataKey="avgGrowth" fill="#10b981" name="Growth %" radius={[3, 3, 0, 0]} />
+            <Legend wrapperStyle={{ fontSize: 12, fontWeight: 700, paddingTop: 8 }} formatter={(value) => <span style={{ color: isDarkMode ? '#e2e8f0' : '#1e293b', fontWeight: 800 }}>{value}</span>} />
           </BarChart>
         </ResponsiveContainer>
       </motion.div>
 
       <motion.div
-        className={`p-4 rounded-lg border mt-6 ${isDarkMode ? 'bg-[#0f172a] border-[#334155]' : 'bg-[#f8fafc] border-[#e2e8f0]'}`}
+        className={`p-3 rounded-lg border mt-3 ${isDarkMode ? 'bg-[#0f172a] border-[#334155]' : 'bg-[#f8fafc] border-[#e2e8f0]'}`}
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.4 }}
       >
-        <h4 className={`text-sm font-semibold mb-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Key Insights Summary</h4>
-        <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-4">
+        <h4 className={`text-base font-semibold mb-2 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Key Insights Summary</h4>
+        <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-2">
           <div className={`p-3 rounded-lg border ${isDarkMode ? 'bg-[#0f172a] border-[#334155]' : 'bg-[#f8fafc] border-[#e2e8f0]'}`}>
             <div className="text-2xl mb-2">🎯</div>
             <div>
-              <h5 className={`font-bold text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Top Performing District</h5>
-              <p className={`text-xs opacity-70 mt-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Highest market gap opportunities based on analysis</p>
+              <h5 className={`font-bold text-base ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Top Performing District</h5>
+              <p className={`text-sm opacity-70 mt-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Highest market gap opportunities based on analysis</p>
             </div>
           </div>
           <div className={`p-3 rounded-lg border ${isDarkMode ? 'bg-[#0f172a] border-[#334155]' : 'bg-[#f8fafc] border-[#e2e8f0]'}`}>
             <div className="text-2xl mb-2">📈</div>
             <div>
-              <h5 className={`font-bold text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Growth Trend</h5>
-              <p className={`text-xs opacity-70 mt-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Population growth rate analysis by district</p>
+              <h5 className={`font-bold text-base ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Growth Trend</h5>
+              <p className={`text-sm opacity-70 mt-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Population growth rate analysis by district</p>
             </div>
           </div>
           <div className={`p-3 rounded-lg border ${isDarkMode ? 'bg-[#0f172a] border-[#334155]' : 'bg-[#f8fafc] border-[#e2e8f0]'}`}>
             <div className="text-2xl mb-2">💡</div>
             <div>
-              <h5 className={`font-bold text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Opportunity Category</h5>
-              <p className={`text-xs opacity-70 mt-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Supermarket category shows highest underserved demand</p>
+              <h5 className={`font-bold text-base ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Opportunity Category</h5>
+              <p className={`text-sm opacity-70 mt-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Supermarket category shows highest underserved demand</p>
             </div>
           </div>
           <div className={`p-3 rounded-lg border ${isDarkMode ? 'bg-[#0f172a] border-[#334155]' : 'bg-[#f8fafc] border-[#e2e8f0]'}`}>
             <div className="text-2xl mb-2">⚡</div>
             <div>
-              <h5 className={`font-bold text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Data Coverage</h5>
-              <p className={`text-xs opacity-70 mt-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>100% coverage across all major districts</p>
+              <h5 className={`font-bold text-base ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Data Coverage</h5>
+              <p className={`text-sm opacity-70 mt-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>100% coverage across all major districts</p>
             </div>
           </div>
         </div>

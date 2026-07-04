@@ -3,18 +3,24 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 const DistrictContext = createContext();
 
 export const DistrictProvider = ({ children }) => {
-  const [selectedDistrict, setSelectedDistrict] = useState(null);
+  const [selectedDistrict, setSelectedDistrict] = useState(() => {
+    try {
+      return localStorage.getItem('selectedDistrict') || null;
+    } catch {
+      return null;
+    }
+  });
   const [districts, setDistricts] = useState([]);
 
-  // Load selected district from localStorage on mount
   useEffect(() => {
-    const savedDistrict = localStorage.getItem('selectedDistrict');
-    if (savedDistrict) {
-      setSelectedDistrict(savedDistrict);
+    if (districts.length > 0 && selectedDistrict) {
+      const validDistrict = districts.find(d => d._id === selectedDistrict);
+      if (!validDistrict) {
+        setSelectedDistrict(districts[0]._id);
+      }
     }
-  }, []);
+  }, [districts, selectedDistrict]);
 
-  // Save selected district to localStorage whenever it changes
   useEffect(() => {
     if (selectedDistrict) {
       localStorage.setItem('selectedDistrict', selectedDistrict);

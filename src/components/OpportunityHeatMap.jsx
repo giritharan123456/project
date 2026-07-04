@@ -76,8 +76,8 @@ function OpportunityHeatMap({ pincodeData, selectedDistrict }) {
   };
 
   return (
-    <div className={`p-6 rounded-xl border mb-6 transition-all duration-300 ${isDarkMode ? 'bg-[#1e293b] border-[#334155] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.3),0_2px_4px_-1px_rgba(0,0,0,0.2)]' : 'bg-[#ffffff] border-[#e2e8f0] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-1px_rgba(0,0,0,0.06)]'}`}>
-      <div className="flex justify-between items-center mb-6">
+    <div className={`p-3 rounded-xl border mb-1 transition-all duration-300 ${isDarkMode ? 'bg-[#1e293b] border-[#334155] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.3),0_2px_4px_-1px_rgba(0,0,0,0.2)]' : 'bg-[#ffffff] border-[#e2e8f0] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-1px_rgba(0,0,0,0.06)]'}`}>
+      <div className="flex justify-between items-center mb-2">
         <h3 className={`text-xl font-bold bg-gradient-to-r from-[#2563eb] to-[#7c3aed] bg-clip-text text-transparent ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>🗺️ Opportunity Heat Map</h3>
         <div className="flex gap-2">
           <select 
@@ -159,7 +159,7 @@ function OpportunityHeatMap({ pincodeData, selectedDistrict }) {
             <div className="flex justify-between">
               <span className={`text-xs opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Growth Rate</span>
               <span className={`text-sm font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
-                {hoveredPincode.growth != null ? `${hoveredPincode.growth}%` : NO_DATA_LABEL}
+                {hoveredPincode.growth != null ? `${Number(hoveredPincode.growth).toFixed(2)}%` : NO_DATA_LABEL}
               </span>
             </div>
             <div className="flex justify-between">

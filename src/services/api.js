@@ -390,3 +390,31 @@ export const contentAPI = {
   },
 };
 
+// AI Chat API
+export const aiAPI = {
+  chat: async (message) => {
+    return apiCall('/ai/chat', {
+      method: 'POST',
+      body: JSON.stringify({ message }),
+    });
+  },
+};
+
+// Search History API
+export const historyAPI = {
+  getHistory: async (page = 1, limit = 20) => {
+    return apiCall(`/history?page=${page}&limit=${limit}`);
+  },
+
+  addSearch: async (data) => {
+    return apiCall('/history', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  },
+
+  clearHistory: async () => {
+    return apiCall('/history', { method: 'DELETE' });
+  },
+};
+

@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { useTheme } from '../contexts/ThemeContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, X } from 'lucide-react';
+import { historyAPI } from '../services/api';
 
-function SearchBar({ onSearch, placeholder = "Search by area or pincode...", suggestions = [] }) {
+function SearchBar({ onSearch, placeholder = "Search by area or pincode...", suggestions = [], district, category }) {
   const { isDarkMode } = useTheme();
   const [searchTerm, setSearchTerm] = useState('');
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -12,21 +13,37 @@ function SearchBar({ onSearch, placeholder = "Search by area or pincode...", sug
     suggestion.toLowerCase().includes(searchTerm.toLowerCase())
   ).slice(0, 5);
 
+  const saveToHistory = (query, resultCount) => {
+    if (!query || !query.trim()) return;
+    const isPincode = /^\d{5,6}$/.test(query.trim());
+    historyAPI.addSearch({
+      query: query.trim(),
+      type: isPincode ? 'pincode' : 'general',
+      district: district || '',
+      category: category || '',
+      resultCount: resultCount || 0,
+    }).catch(() => {});
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (searchTerm.trim()) {
+      saveToHistory(searchTerm, 0);
+    }
     onSearch(searchTerm);
     setShowSuggestions(false);
   };
 
   const handleSuggestionClick = (suggestion) => {
     setSearchTerm(suggestion);
+    saveToHistory(suggestion, 0);
     onSearch(suggestion);
     setShowSuggestions(false);
   };
 
   return (
-    <div className={`p-6 rounded-xl border mb-6 transition-all duration-300 relative ${isDarkMode ? 'bg-[#1e293b] border-[#334155] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.3),0_2px_4px_-1px_rgba(0,0,0,0.2)]' : 'bg-[#ffffff] border-[#e2e8f0] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-1px_rgba(0,0,0,0.06)]'}`}>
-      <form onSubmit={handleSubmit} className="flex gap-3">
+    <div className="relative">
+      <form onSubmit={handleSubmit} className="flex gap-2">
         <div className="flex-1 relative">
           <input
             type="text"
@@ -38,49 +55,56 @@ function SearchBar({ onSearch, placeholder = "Search by area or pincode...", sug
             }}
             onFocus={() => setShowSuggestions(searchTerm.length > 0)}
             onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
-            className={`w-full p-3 pl-10 border-2 rounded-xl text-base transition-all duration-300 outline-none ${isDarkMode ? 'bg-[#0f172a] border-[#334155] text-[#f1f5f9] focus:border-[#2563eb] focus:shadow-[0_0_0_3px_rgba(37,99,235,0.1)] placeholder:text-[#f1f5f9]/50' : 'bg-[#f8fafc] border-[#e2e8f0] text-[#1e293b] focus:border-[#2563eb] focus:shadow-[0_0_0_3px_rgba(37,99,235,0.1)] placeholder:text-[#1e293b]/50'}`}
+            className={`w-full px-3 py-2 pl-9 border-2 rounded-lg text-sm transition-all duration-200 outline-none ${
+              isDarkMode
+                ? 'bg-[#0f172a] border-[#475569] text-white focus:border-blue-500 placeholder:text-slate-500'
+                : 'bg-slate-50 border-slate-200 text-slate-800 focus:border-blue-500 placeholder:text-slate-400'
+            }`}
           />
-          <Search className={`absolute left-3 top-1/2 -translate-y-1/2 ${isDarkMode ? 'text-[#f1f5f9]/50' : 'text-[#1e293b]/50'}`} size={18} />
-          
+          <Search className={`absolute left-3 top-1/2 -translate-y-1/2 ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`} size={15} />
           {searchTerm && (
             <button
               type="button"
-              onClick={() => {
-                setSearchTerm('');
-                setShowSuggestions(false);
-              }}
-              className={`absolute right-3 top-1/2 -translate-y-1/2 transition-colors ${isDarkMode ? 'text-[#f1f5f9]/50 hover:text-[#f1f5f9]' : 'text-[#1e293b]/50 hover:text-[#1e293b]'}`}
+              onClick={() => { setSearchTerm(''); setShowSuggestions(false); }}
+              className={`absolute right-2.5 top-1/2 -translate-y-1/2 ${isDarkMode ? 'text-slate-500 hover:text-white' : 'text-slate-400 hover:text-slate-700'}`}
             >
-              <X size={16} />
+              <X size={14} />
             </button>
           )}
-          
           <AnimatePresence>
             {showSuggestions && filteredSuggestions.length > 0 && (
               <motion.div
-                initial={{ opacity: 0, y: -10 }}
+                initial={{ opacity: 0, y: -5 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                className={`absolute top-full left-0 right-0 mt-2 rounded-xl border shadow-lg z-50 max-h-60 overflow-y-auto ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
+                exit={{ opacity: 0, y: -5 }}
+                className={`absolute top-full left-0 right-0 mt-1 rounded-lg border shadow-xl z-50 max-h-48 overflow-y-auto ${
+                  isDarkMode ? 'bg-[#1e293b] border-[#475569]' : 'bg-white border-slate-200'
+                }`}
               >
                 {filteredSuggestions.map((suggestion, index) => (
-                  <motion.button
+                  <button
                     key={index}
                     type="button"
                     onClick={() => handleSuggestionClick(suggestion)}
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.05 }}
-                    className={`w-full text-left px-4 py-3 transition-colors ${isDarkMode ? 'text-[#f1f5f9] hover:bg-white/10' : 'text-[#1e293b] hover:bg-black/5'}`}
+                    className={`w-full text-left px-3 py-2 text-sm transition-colors ${
+                      isDarkMode ? 'text-white hover:bg-white/10' : 'text-slate-800 hover:bg-slate-50'
+                    }`}
                   >
                     {suggestion}
-                  </motion.button>
+                  </button>
                 ))}
               </motion.div>
             )}
           </AnimatePresence>
         </div>
-        <button type="submit" className="px-6 py-3 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white border-none rounded-xl text-base font-semibold cursor-pointer transition-all duration-300 shadow-[0_4px_15px_rgba(102,126,234,0.3)] hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(102,126,234,0.4)] active:translate-y-0">
+        <button
+          type="submit"
+          className={`px-4 py-2 rounded-lg text-sm font-bold transition-all duration-200 flex-shrink-0 ${
+            isDarkMode
+              ? 'bg-blue-600 text-white hover:bg-blue-500'
+              : 'bg-blue-600 text-white hover:bg-blue-700'
+          }`}
+        >
           Search
         </button>
       </form>

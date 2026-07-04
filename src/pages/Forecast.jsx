@@ -70,30 +70,30 @@ function Forecast() {
         year3: Math.round(population * Math.pow(1 + populationGrowth / 100, 3)),
         year5: Math.round(population * Math.pow(1 + populationGrowth / 100, 5)),
         year10: Math.round(population * Math.pow(1 + populationGrowth / 100, 10)),
-        growthRate: populationGrowth
+        growthRate: Math.round(populationGrowth * 100) / 100
       },
       demand: {
-        current: avgDemand,
-        year1: Math.min(100, avgDemand * (1 + 0.03)),
-        year3: Math.min(100, avgDemand * (1 + 0.09)),
-        year5: Math.min(100, avgDemand * (1 + 0.15)),
-        year10: Math.min(100, avgDemand * (1 + 0.25)),
+        current: Math.round(avgDemand * 100) / 100,
+        year1: Math.round(Math.min(100, avgDemand * (1 + 0.03)) * 100) / 100,
+        year3: Math.round(Math.min(100, avgDemand * (1 + 0.09)) * 100) / 100,
+        year5: Math.round(Math.min(100, avgDemand * (1 + 0.15)) * 100) / 100,
+        year10: Math.round(Math.min(100, avgDemand * (1 + 0.25)) * 100) / 100,
         growthRate: 3
       },
       competition: {
-        current: avgCompetition,
-        year1: avgCompetition * (1 + 0.05),
-        year3: avgCompetition * (1 + 0.15),
-        year5: avgCompetition * (1 + 0.25),
-        year10: avgCompetition * (1 + 0.40),
+        current: Math.round(avgCompetition * 100) / 100,
+        year1: Math.round(avgCompetition * (1 + 0.05) * 100) / 100,
+        year3: Math.round(avgCompetition * (1 + 0.15) * 100) / 100,
+        year5: Math.round(avgCompetition * (1 + 0.25) * 100) / 100,
+        year10: Math.round(avgCompetition * (1 + 0.40) * 100) / 100,
         growthRate: 5
       },
       revenue: {
-        current: (avgDemand - avgCompetition) * 0.1,
-        year1: (avgDemand * 1.03 - avgCompetition * 1.05) * 0.1,
-        year3: (avgDemand * 1.09 - avgCompetition * 1.15) * 0.1,
-        year5: (avgDemand * 1.15 - avgCompetition * 1.25) * 0.1,
-        year10: (avgDemand * 1.25 - avgCompetition * 1.40) * 0.1,
+        current: Math.round((avgDemand - avgCompetition) * 0.1 * 100) / 100,
+        year1: Math.round((avgDemand * 1.03 - avgCompetition * 1.05) * 0.1 * 100) / 100,
+        year3: Math.round((avgDemand * 1.09 - avgCompetition * 1.15) * 0.1 * 100) / 100,
+        year5: Math.round((avgDemand * 1.15 - avgCompetition * 1.25) * 0.1 * 100) / 100,
+        year10: Math.round((avgDemand * 1.25 - avgCompetition * 1.40) * 0.1 * 100) / 100,
         growthRate: 7
       }
     };
@@ -113,25 +113,25 @@ function Forecast() {
       { 
         trend: 'Population Growth', 
         impact: populationGrowth > 2 ? 'Positive' : 'Neutral', 
-        confidence: Math.min(90, 60 + populationGrowth * 10), 
+        confidence: Math.round(Math.min(90, 60 + populationGrowth * 10) * 100) / 100, 
         icon: Users 
       },
       { 
         trend: 'Commercial Development', 
         impact: urbanDev > 60 ? 'Positive' : 'Neutral', 
-        confidence: urbanDev, 
+        confidence: Math.round(urbanDev * 100) / 100, 
         icon: Building2 
       },
       { 
         trend: 'Infrastructure Expansion', 
         impact: urbanDev > 50 ? 'Positive' : 'Neutral', 
-        confidence: Math.min(80, urbanDev + 10), 
+        confidence: Math.round(Math.min(80, urbanDev + 10) * 100) / 100, 
         icon: Road 
       },
       { 
         trend: 'Competition Increase', 
         impact: 'Negative', 
-        confidence: Math.min(70, 50 + urbanDev * 0.3), 
+        confidence: Math.round(Math.min(70, 50 + urbanDev * 0.3) * 100) / 100, 
         icon: TrendingUp 
       },
       { 
@@ -280,10 +280,10 @@ function Forecast() {
         {/* Forecast Summary Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {[
-            { icon: Users, label: 'Population Forecast', current: forecastData.population.current.toLocaleString(), future: forecastData.population.year5.toLocaleString(), growth: `+${forecastData.population.growthRate}%`, color: 'text-blue-500' },
-            { icon: Target, label: 'Demand Forecast', current: `${forecastData.demand.current}%`, future: `${forecastData.demand.year5}%`, growth: `+${forecastData.demand.growthRate}%`, color: 'text-green-500' },
-            { icon: TrendingUp, label: 'Competition Forecast', current: `${forecastData.competition.current}%`, future: `${forecastData.competition.year5}%`, growth: `+${forecastData.competition.growthRate}%`, color: 'text-orange-500' },
-            { icon: DollarSign, label: 'Revenue Forecast', current: `₹${forecastData.revenue.current}L`, future: `₹${forecastData.revenue.year5}L`, growth: `+${forecastData.revenue.growthRate}%`, color: 'text-purple-500' }
+            { icon: Users, label: 'Population Forecast', current: forecastData.population.current.toLocaleString(), future: forecastData.population.year5.toLocaleString(), growth: `+${Number(forecastData.population.growthRate).toFixed(2)}%`, color: 'text-blue-500' },
+            { icon: Target, label: 'Demand Forecast', current: `${Number(forecastData.demand.current).toFixed(2)}%`, future: `${Number(forecastData.demand.year5).toFixed(2)}%`, growth: `+${Number(forecastData.demand.growthRate).toFixed(2)}%`, color: 'text-green-500' },
+            { icon: TrendingUp, label: 'Competition Forecast', current: `${Number(forecastData.competition.current).toFixed(2)}%`, future: `${Number(forecastData.competition.year5).toFixed(2)}%`, growth: `+${Number(forecastData.competition.growthRate).toFixed(2)}%`, color: 'text-orange-500' },
+            { icon: DollarSign, label: 'Revenue Forecast', current: `₹${Number(forecastData.revenue.current).toFixed(2)}L`, future: `₹${Number(forecastData.revenue.year5).toFixed(2)}L`, growth: `+${Number(forecastData.revenue.growthRate).toFixed(2)}%`, color: 'text-purple-500' }
           ].map((forecast, index) => (
             <motion.div
               key={index}
@@ -353,7 +353,7 @@ function Forecast() {
               <div className="flex justify-between mb-2">
                 <span className={`text-sm font-medium ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Demand Growth</span>
                 <span className={`text-sm font-medium ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
-                  {forecastData.demand.current}% → {forecastData.demand.year5}%
+                  {Number(forecastData.demand.current).toFixed(2)}% → {Number(forecastData.demand.year5).toFixed(2)}%
                 </span>
               </div>
               <div className="relative h-8 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
@@ -370,7 +370,7 @@ function Forecast() {
               <div className="flex justify-between mb-2">
                 <span className={`text-sm font-medium ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Competition Growth</span>
                 <span className={`text-sm font-medium ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
-                  {forecastData.competition.current}% → {forecastData.competition.year5}%
+                  {Number(forecastData.competition.current).toFixed(2)}% → {Number(forecastData.competition.year5).toFixed(2)}%
                 </span>
               </div>
               <div className="relative h-8 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">

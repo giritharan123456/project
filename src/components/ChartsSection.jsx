@@ -1,22 +1,31 @@
 import React from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, PieChart, Pie, Cell, ResponsiveContainer, LineChart, Line } from 'recharts';
 import { useTheme } from '../contexts/ThemeContext';
+import { BarChart3, TrendingUp, PieChart as PieIcon, Activity } from 'lucide-react';
 import EmptyState from './EmptyState';
 import { averageOfValues, toPlainObject } from '../utils/dataUtils';
 
-// UI styling colors for charts - not hardcoded data
-const COLORS = ['#667eea', '#764ba2', '#f39c12', '#27ae60', '#e74c3c', '#3498db', '#9b59b6', '#1abc9c'];
+const COLORS = ['#2563eb', '#7c3aed', '#f59e0b', '#10b981', '#ef4444', '#06b6d4', '#8b5cf6', '#ec4899'];
+
+const CustomTooltip = ({ active, payload, label }) => {
+  if (!active || !payload) return null;
+  return (
+    <div className="p-3 rounded-lg shadow-2xl border-2" style={{ background: '#ffffff', borderColor: '#cbd5e1' }}>
+      <p className="font-bold text-sm text-gray-900 mb-1">{label}</p>
+      {payload.map((entry, i) => (
+        <p key={i} className="text-xs font-bold" style={{ color: entry.color }}>
+          {entry.name}: {typeof entry.value === 'number' ? entry.value.toFixed(1) : entry.value}
+        </p>
+      ))}
+    </div>
+  );
+};
 
 function ChartsSection({ businessCategories, selectedCategory, pincodeData }) {
   const { isDarkMode } = useTheme();
 
   if (!pincodeData || pincodeData.length === 0 || businessCategories.length === 0) {
-    return (
-      <EmptyState
-        type="noData"
-        message="No chart data available. Search a pincode on the dashboard to load census and market data."
-      />
-    );
+    return <EmptyState type="noData" message="No chart data available." />;
   }
 
   const filteredCategories = selectedCategory === 'all'
@@ -29,108 +38,137 @@ function ChartsSection({ businessCategories, selectedCategory, pincodeData }) {
     const growth = pincode.populationGrowth ?? 0;
     return {
       name: pincode.pincode,
-      currentDemand: avgDemand ?? 0,
-      projectedDemand: avgDemand !== null ? avgDemand + (growth * 2) : 0,
-      populationGrowth: growth,
-      searchTrends: pincode.searchTrends ?? 0
+      currentDemand: Math.round((avgDemand ?? 0) * 10) / 10,
+      projectedDemand: avgDemand !== null ? Math.round((avgDemand + (growth * 2)) * 10) / 10 : 0,
     };
   }).filter(d => d.currentDemand > 0 || d.projectedDemand > 0);
 
   const gapDistribution = pincodeData.flatMap(pincode =>
     Object.entries(toPlainObject(pincode.marketGapScores)).map(([category, score]) => ({
-      category,
-      score: Number(score)
+      category, score: Number(score)
     }))
   ).reduce((acc, { category, score }) => {
-    if (!isNaN(score)) {
-      if (!acc[category]) acc[category] = 0;
-      acc[category] += score;
-    }
+    if (!isNaN(score)) { acc[category] = (acc[category] || 0) + score; }
     return acc;
   }, {});
 
   const gapChartData = Object.entries(gapDistribution).map(([category, score]) => ({
-    name: category,
+    name: category.length > 14 ? category.slice(0, 12) + '…' : category,
+    fullName: category,
     score: Math.round(score / pincodeData.length)
   }));
 
   if (filteredCategories.length === 0 && forecastData.length === 0 && gapChartData.length === 0) {
-    return (
-      <EmptyState
-        type="noData"
-        message="No chart data available for the selected area."
-      />
-    );
+    return <EmptyState type="noData" message="No chart data for selected area." />;
   }
 
+  // HIGH CONTRAST axis styling — always dark and bold
+  const axisDark = { fontSize: 13, fontWeight: 700, fill: '#e2e8f0' };
+  const axisLight = { fontSize: 13, fontWeight: 700, fill: '#1e293b' };
+  const getAxis = () => isDarkMode ? axisDark : axisLight;
+  const xAxisDark = { fontSize: 13, fontWeight: 800, fill: '#e2e8f0' };
+  const xAxisLight = { fontSize: 13, fontWeight: 800, fill: '#1e293b' };
+  const getXAxis = () => isDarkMode ? xAxisDark : xAxisLight;
+
+  const labelDark = (text) => ({
+    value: text, angle: -90, position: 'insideLeft', offset: 5,
+    style: { fontSize: 12, fontWeight: 700, fill: isDarkMode ? '#e2e8f0' : '#1e293b' }
+  });
+
+  const gridStroke = isDarkMode ? '#475569' : '#cbd5e1';
+  const axisLine = { stroke: isDarkMode ? '#64748b' : '#94a3b8' };
+
   return (
-    <div className="grid grid-cols-[repeat(auto-fit,minmax(400px,1fr))] gap-6">
-      <div className={`p-7 rounded-xl border transition-all duration-300 ${isDarkMode ? 'bg-[#1e293b] border-[#334155] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.3),0_2px_4px_-1px_rgba(0,0,0,0.2)] hover:-translate-y-1 hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),0_4px_6px_-2px_rgba(0,0,0,0.05)]' : 'bg-[#ffffff] border-[#e2e8f0] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-1px_rgba(0,0,0,0.06)] hover:-translate-y-1 hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),0_4px_6px_-2px_rgba(0,0,0,0.05)]'}`}>
-        <h3 className={`text-lg font-semibold mb-5 text-center bg-gradient-to-r from-[#2563eb] to-[#7c3aed] bg-clip-text text-transparent ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Demand vs Supply Analysis</h3>
-        <ResponsiveContainer width="100%" height={300}>
-          <BarChart data={filteredCategories}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <Bar dataKey="demand" fill="#667eea" name="Demand" />
-            <Bar dataKey="supply" fill="#764ba2" name="Supply" />
-            <Bar dataKey="gap" fill="#e74c3c" name="Gap" />
-          </BarChart>
-        </ResponsiveContainer>
+    <div className="space-y-0">
+      {/* Demand vs Supply */}
+      <div className={`rounded-xl border overflow-hidden ${isDarkMode ? 'bg-[#1e293b] border-[#475569]' : 'bg-white border-slate-200'}`}>
+        <div className={`px-4 py-2.5 border-b flex items-center gap-2 ${isDarkMode ? 'border-[#475569] bg-[#0f172a]/60' : 'border-slate-200 bg-slate-50'}`}>
+          <BarChart3 size={16} className="text-blue-600" />
+          <span className={`text-base font-extrabold ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>Demand vs Supply Analysis</span>
+        </div>
+        <div className="p-3">
+          <ResponsiveContainer width="100%" height={300}>
+            <BarChart data={filteredCategories} barGap={2} barCategoryGap="18%" margin={{ top: 8, right: 15, left: 5, bottom: 5 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke={gridStroke} vertical={false} />
+              <XAxis dataKey="name" tick={{ ...getXAxis(), fontSize: 12 }} axisLine={axisLine} tickLine={false} angle={-25} textAnchor="end" height={45} interval={0} />
+              <YAxis tick={getAxis()} axisLine={axisLine} tickLine={false} label={labelDark('Score')} />
+              <Tooltip content={<CustomTooltip />} />
+              <Legend wrapperStyle={{ fontSize: 13, fontWeight: 700, paddingTop: 6 }} formatter={(value) => <span style={{ color: isDarkMode ? '#e2e8f0' : '#1e293b', fontWeight: 800, fontSize: 13 }}>{value}</span>} />
+              <Bar dataKey="demand" fill="#2563eb" name="Demand" radius={[3, 3, 0, 0]} />
+              <Bar dataKey="supply" fill="#7c3aed" name="Supply" radius={[3, 3, 0, 0]} />
+              <Bar dataKey="gap" fill="#ef4444" name="Gap" radius={[3, 3, 0, 0]} />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
       </div>
 
-      <div className={`p-7 rounded-xl border transition-all duration-300 ${isDarkMode ? 'bg-[#1e293b] border-[#334155] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.3),0_2px_4px_-1px_rgba(0,0,0,0.2)] hover:-translate-y-1 hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),0_4px_6px_-2px_rgba(0,0,0,0.05)]' : 'bg-[#ffffff] border-[#e2e8f0] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-1px_rgba(0,0,0,0.06)] hover:-translate-y-1 hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),0_4px_6px_-2px_rgba(0,0,0,0.05)]'}`}>
-        <h3 className={`text-lg font-semibold mb-5 text-center bg-gradient-to-r from-[#2563eb] to-[#7c3aed] bg-clip-text text-transparent ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Demand Forecasting</h3>
-        <ResponsiveContainer width="100%" height={300}>
-          <LineChart data={forecastData}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <Line type="monotone" dataKey="currentDemand" stroke="#667eea" name="Current Demand" strokeWidth={2} />
-            <Line type="monotone" dataKey="projectedDemand" stroke="#27ae60" name="Projected Demand" strokeWidth={2} strokeDasharray="5 5" />
-          </LineChart>
-        </ResponsiveContainer>
+      {/* Demand Forecasting */}
+      <div className={`rounded-xl border overflow-hidden ${isDarkMode ? 'bg-[#1e293b] border-[#475569]' : 'bg-white border-slate-200'}`}>
+        <div className={`px-4 py-2.5 border-b flex items-center gap-2 ${isDarkMode ? 'border-[#475569] bg-[#0f172a]/60' : 'border-slate-200 bg-slate-50'}`}>
+          <TrendingUp size={16} className="text-emerald-600" />
+          <span className={`text-base font-extrabold ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>Demand Forecasting</span>
+        </div>
+        <div className="p-3">
+          <ResponsiveContainer width="100%" height={300}>
+            <LineChart data={forecastData} margin={{ top: 8, right: 15, left: 5, bottom: 5 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke={gridStroke} vertical={false} />
+              <XAxis dataKey="name" tick={{ ...getXAxis(), fontSize: 12 }} axisLine={axisLine} tickLine={false} label={{ value: 'Pincode', position: 'insideBottom', offset: -2, style: { fontSize: 12, fontWeight: 700, fill: isDarkMode ? '#e2e8f0' : '#1e293b' } }} interval={0} angle={-30} textAnchor="end" height={40} />
+              <YAxis tick={getAxis()} axisLine={axisLine} tickLine={false} label={labelDark('Demand Score')} />
+              <Tooltip content={<CustomTooltip />} />
+              <Legend wrapperStyle={{ fontSize: 13, fontWeight: 700, paddingTop: 6 }} formatter={(value) => <span style={{ color: isDarkMode ? '#e2e8f0' : '#1e293b', fontWeight: 800, fontSize: 13 }}>{value}</span>} />
+              <Line type="monotone" dataKey="currentDemand" stroke="#2563eb" name="Current Demand" strokeWidth={2.5} dot={{ r: 4, fill: '#2563eb', strokeWidth: 2, stroke: '#fff' }} activeDot={{ r: 7 }} />
+              <Line type="monotone" dataKey="projectedDemand" stroke="#10b981" name="Projected Demand" strokeWidth={2.5} strokeDasharray="8 4" dot={{ r: 4, fill: '#10b981', strokeWidth: 2, stroke: '#fff' }} />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
       </div>
 
-      <div className={`p-7 rounded-xl border transition-all duration-300 ${isDarkMode ? 'bg-[#1e293b] border-[#334155] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.3),0_2px_4px_-1px_rgba(0,0,0,0.2)] hover:-translate-y-1 hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),0_4px_6px_-2px_rgba(0,0,0,0.05)]' : 'bg-[#ffffff] border-[#e2e8f0] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-1px_rgba(0,0,0,0.06)] hover:-translate-y-1 hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),0_4px_6px_-2px_rgba(0,0,0,0.05)]'}`}>
-        <h3 className={`text-lg font-semibold mb-5 text-center bg-gradient-to-r from-[#2563eb] to-[#7c3aed] bg-clip-text text-transparent ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Market Gap Score Distribution</h3>
-        <ResponsiveContainer width="100%" height={300}>
-          <BarChart data={gapChartData}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <Bar dataKey="score" fill="#e74c3c" name="Avg Market Gap Score" />
-          </BarChart>
-        </ResponsiveContainer>
+      {/* Market Gap Distribution */}
+      <div className={`rounded-xl border overflow-hidden ${isDarkMode ? 'bg-[#1e293b] border-[#475569]' : 'bg-white border-slate-200'}`}>
+        <div className={`px-4 py-2.5 border-b flex items-center gap-2 ${isDarkMode ? 'border-[#475569] bg-[#0f172a]/60' : 'border-slate-200 bg-slate-50'}`}>
+          <Activity size={16} className="text-red-600" />
+          <span className={`text-base font-extrabold ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>Market Gap Score by Category</span>
+        </div>
+        <div className="p-3">
+          <ResponsiveContainer width="100%" height={300}>
+            <BarChart data={gapChartData} barCategoryGap="22%" margin={{ top: 8, right: 15, left: 5, bottom: 5 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke={gridStroke} vertical={false} />
+              <XAxis dataKey="name" tick={{ ...getXAxis(), fontSize: 12 }} axisLine={axisLine} tickLine={false} angle={-35} textAnchor="end" height={50} interval={0} />
+              <YAxis tick={getAxis()} axisLine={axisLine} tickLine={false} label={labelDark('Avg Score')} />
+              <Tooltip content={<CustomTooltip />} />
+              <Legend wrapperStyle={{ fontSize: 13, fontWeight: 700, paddingTop: 6 }} formatter={(value) => <span style={{ color: isDarkMode ? '#e2e8f0' : '#1e293b', fontWeight: 800, fontSize: 13 }}>{value}</span>} />
+              <Bar dataKey="score" name="Avg Market Gap" radius={[3, 3, 0, 0]}>
+                {gapChartData.map((_, index) => (
+                  <Cell key={index} fill={COLORS[index % COLORS.length]} />
+                ))}
+              </Bar>
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
       </div>
 
-      <div className={`p-7 rounded-xl border transition-all duration-300 ${isDarkMode ? 'bg-[#1e293b] border-[#334155] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.3),0_2px_4px_-1px_rgba(0,0,0,0.2)] hover:-translate-y-1 hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),0_4px_6px_-2px_rgba(0,0,0,0.05)]' : 'bg-[#ffffff] border-[#e2e8f0] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-1px_rgba(0,0,0,0.06)] hover:-translate-y-1 hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),0_4px_6px_-2px_rgba(0,0,0,0.05)]'}`}>
-        <h3 className={`text-lg font-semibold mb-5 text-center bg-gradient-to-r from-[#2563eb] to-[#7c3aed] bg-clip-text text-transparent ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Business Category Gap Share</h3>
-        <ResponsiveContainer width="100%" height={300}>
-          <PieChart>
-            <Pie
-              data={gapChartData}
-              cx="50%"
-              cy="50%"
-              labelLine={false}
-              label={({ name, score }) => `${name}: ${score}`}
-              outerRadius={80}
-              fill="#8884d8"
-              dataKey="score"
-            >
-              {gapChartData.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-              ))}
-            </Pie>
-            <Tooltip />
-          </PieChart>
-        </ResponsiveContainer>
+      {/* Pie Chart */}
+      <div className={`rounded-xl border overflow-hidden ${isDarkMode ? 'bg-[#1e293b] border-[#475569]' : 'bg-white border-slate-200'}`}>
+        <div className={`px-4 py-2.5 border-b flex items-center gap-2 ${isDarkMode ? 'border-[#475569] bg-[#0f172a]/60' : 'border-slate-200 bg-slate-50'}`}>
+          <PieIcon size={16} className="text-violet-600" />
+          <span className={`text-base font-extrabold ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>Category Gap Share</span>
+        </div>
+        <div className="p-3">
+          <ResponsiveContainer width="100%" height={320}>
+            <PieChart>
+              <Pie data={gapChartData} cx="50%" cy="50%" outerRadius={85} innerRadius={35} paddingAngle={2} dataKey="score">
+                {gapChartData.map((_, index) => (
+                  <Cell key={index} fill={COLORS[index % COLORS.length]} stroke={isDarkMode ? '#1e293b' : '#ffffff'} strokeWidth={2} />
+                ))}
+              </Pie>
+              <Tooltip content={<CustomTooltip />} />
+              <Legend
+                wrapperStyle={{ fontSize: 13, fontWeight: 700, paddingTop: 4 }}
+                formatter={(value) => <span style={{ color: isDarkMode ? '#e2e8f0' : '#1e293b', fontWeight: 800, fontSize: 13 }}>{value}</span>}
+              />
+            </PieChart>
+          </ResponsiveContainer>
+        </div>
       </div>
     </div>
   );

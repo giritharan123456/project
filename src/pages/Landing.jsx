@@ -57,7 +57,7 @@ function Landing() {
             <div className="flex items-center gap-2">
               <Target className="text-[#2563eb]" size={32} />
               <span className="text-xl font-bold bg-gradient-to-r from-[#2563eb] to-[#7c3aed] bg-clip-text text-transparent">
-                Market Gap Finder
+                MarketVision AI
               </span>
             </div>
             
@@ -80,10 +80,7 @@ function Landing() {
                 Login
               </Link>
               <Link to="/signup" className="px-4 py-2 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white rounded-lg font-medium hover:opacity-90 transition-opacity">
-                Sign Up
-              </Link>
-              <Link to="/admin-login" className="px-4 py-2 bg-gradient-to-r from-[#f59e0b] to-[#d97706] text-white rounded-lg font-medium hover:opacity-90 transition-opacity">
-                Admin
+                Sign Up Free
               </Link>
             </div>
 
@@ -111,8 +108,7 @@ function Landing() {
               <a href="#contact" className={`text-sm font-medium ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Contact</a>
               <div className="flex gap-2 pt-4 border-t">
                 <Link to="/login" className="flex-1 px-4 py-2 rounded-lg font-medium text-center border">Login</Link>
-                <Link to="/signup" className="flex-1 px-4 py-2 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white rounded-lg font-medium text-center">Sign Up</Link>
-                <Link to="/admin-login" className="flex-1 px-4 py-2 bg-gradient-to-r from-[#f59e0b] to-[#d97706] text-white rounded-lg font-medium text-center">Admin</Link>
+                <Link to="/signup" className="flex-1 px-4 py-2 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white rounded-lg font-medium text-center">Sign Up Free</Link>
               </div>
             </div>
           </motion.div>

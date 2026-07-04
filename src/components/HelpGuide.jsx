@@ -65,7 +65,7 @@ const HelpGuide = () => {
             >
               <div className="flex justify-between items-center mb-6">
                 <h2 className={`text-2xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
-                  How to Use Market Gap Finder
+                  How to Use MarketVision AI
                 </h2>
                 <button
                   onClick={() => setIsOpen(false)}

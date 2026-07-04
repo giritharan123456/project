@@ -11,7 +11,7 @@ const RecentSearches = ({ searches, onSearch, onClear }) => {
   }
 
   return (
-    <div className={`p-4 rounded-xl border mb-4 ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}>
+    <div className={`p-3 rounded-xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}>
       <div className="flex justify-between items-center mb-3">
         <h4 className={`text-sm font-semibold flex items-center gap-2 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
           <Clock size={16} />

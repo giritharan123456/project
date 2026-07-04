@@ -10,11 +10,11 @@ const QuickStats = ({ pincodeData, selectedDistrict }) => {
 
   if (!pincodeData || pincodeData.length === 0) {
     return (
-      <div className={`p-6 rounded-xl border mb-6 ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}>
-        <h3 className={`text-lg font-semibold mb-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+      <div className={`p-4 rounded-xl border-2 ${isDarkMode ? 'bg-[#1e293b] border-[#475569]' : 'bg-white border-slate-200'}`}>
+        <h3 className={`text-xs font-extrabold uppercase tracking-wider mb-2 ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
           Quick Overview — {selectedDistrict || 'Select a district'}
         </h3>
-        <p className={`text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+        <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
           Select a district to view market gap statistics
         </p>
       </div>
@@ -67,11 +67,11 @@ const QuickStats = ({ pincodeData, selectedDistrict }) => {
   ];
 
   return (
-    <div className={`p-6 rounded-xl border mb-6 ${isDarkMode ? 'bg-[#1e293b] border-[#334155] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.3),0_2px_4px_-1px_rgba(0,0,0,0.2)]' : 'bg-[#ffffff] border-[#e2e8f0] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-1px_rgba(0,0,0,0.06)]'}`}>
-      <h3 className={`text-lg font-semibold mb-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+    <div className={`p-4 rounded-xl border-2 ${isDarkMode ? 'bg-[#1e293b] border-[#475569]' : 'bg-white border-slate-200'}`}>
+      <h3 className={`text-xs font-extrabold uppercase tracking-wider mb-3 ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
         Quick Overview — {selectedDistrict || NO_DATA_LABEL}
       </h3>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 gap-2">
         {stats.map((stat, index) => {
           const Icon = stat.icon;
           return (
@@ -81,11 +81,11 @@ const QuickStats = ({ pincodeData, selectedDistrict }) => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
               whileHover={{ scale: 1.05, y: -5 }}
-              className={`p-4 rounded-xl bg-gradient-to-br ${stat.color} text-white shadow-lg`}
+              className={`p-3 rounded-xl bg-gradient-to-br ${stat.color} text-white shadow-md`}
             >
-              <Icon size={24} className="mb-2 opacity-90" />
-              <p className="text-sm opacity-90 mb-1">{stat.label}</p>
-              <p className="text-2xl font-bold">
+              <Icon size={20} className="mb-1.5 opacity-90" />
+              <p className="text-[10px] opacity-80 mb-0.5 uppercase tracking-wide">{stat.label}</p>
+              <p className="text-xl font-bold">
                 {stat.noData ? (
                   <span className="text-sm font-normal opacity-90">{NO_DATA_LABEL}</span>
                 ) : (

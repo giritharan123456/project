@@ -53,7 +53,13 @@ function Comparison() {
         }));
         
         // Filter by selected district
-        const filteredAreas = allAreas.filter(area => area.district === districtName);
+        const filteredAreas = allAreas.filter(area => area.district === districtName).map(area => ({
+          ...area,
+          score: Math.round(area.score * 100) / 100,
+          competition: Math.round(area.competition * 100) / 100,
+          demand: Math.round(area.demand * 100) / 100,
+          populationGrowth: Math.round(area.populationGrowth * 100) / 100
+        }));
         setAvailableAreas(filteredAreas);
         
         // If selectedPincode is set, prioritize it in comparison
@@ -187,7 +193,7 @@ function Comparison() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 mb-6"
         >
           {selectedAreas.map((area, index) => {
             const isWinner = area.id === winner.id;
@@ -197,7 +203,7 @@ function Comparison() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 + (index * 0.1) }}
-                className={`p-6 rounded-2xl border-2 relative ${isWinner ? 'border-yellow-500 bg-yellow-50 dark:bg-yellow-900/20' : isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
+                className={`p-4 rounded-xl border-2 relative ${isWinner ? 'border-yellow-500 bg-yellow-50 dark:bg-yellow-900/20' : isDarkMode ? 'bg-[#1e293b] border-[#475569]' : 'bg-white border-slate-200'}`}
               >
                 {isWinner && (
                   <div className="absolute -top-3 -right-3 w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center">
@@ -222,7 +228,7 @@ function Comparison() {
 
                 <div className="text-center mb-4">
                   <div className={`text-4xl font-extrabold ${isWinner ? 'text-yellow-600 dark:text-yellow-400' : 'bg-gradient-to-r from-[#2563eb] to-[#7c3aed] bg-clip-text text-transparent'}`}>
-                    {area.score}
+                    {Number(area.score || 0).toFixed(2)}
                   </div>
                   <p className={`text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                     Market Score
@@ -239,13 +245,13 @@ function Comparison() {
                   <div className="flex justify-between items-center">
                     <span className={`text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Competition</span>
                     <span className={`text-sm font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
-                      {area.competition}%
+                       {Number(area.competition || 0).toFixed(2)}%
                     </span>
                   </div>
                   <div className="flex justify-between items-center">
                     <span className={`text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Demand</span>
                     <span className={`text-sm font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
-                      {area.demand}%
+                       {Number(area.demand || 0).toFixed(2)}%
                     </span>
                   </div>
                 </div>
@@ -259,24 +265,26 @@ function Comparison() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
-          className={`p-6 rounded-2xl border mb-8 ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
+          className={`p-4 rounded-xl border-2 mb-6 ${isDarkMode ? 'bg-[#1e293b] border-[#475569]' : 'bg-white border-slate-200'}`}
         >
-          <div className="flex items-center gap-3 mb-6">
-            <BarChart3 className="text-[#2563eb]" size={24} />
-            <h3 className={`text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+          <div className="flex items-center gap-3 mb-4">
+            <BarChart3 className="text-blue-600" size={20} />
+            <h3 className={`text-base font-extrabold ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>
               Detailed Comparison
             </h3>
           </div>
 
-          <div className="overflow-x-auto">
-            <table className="w-full">
+          <div className="overflow-x-auto rounded-lg border-2 ${isDarkMode ? 'border-[#475569]' : 'border-slate-200'}">
+            <table className="w-full border-collapse">
               <thead>
-                <tr className={`border-b ${isDarkMode ? 'border-[#334155]' : 'border-[#e2e8f0]'}`}>
-                  <th className={`text-left p-4 font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Metric</th>
+                <tr className={isDarkMode ? 'bg-[#0f172a]' : 'bg-slate-100'}>
+                  <th className={`text-left p-3 text-[10px] font-extrabold uppercase tracking-wider ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>Metric</th>
                   {selectedAreas.map(area => (
-                    <th key={area.id} className={`text-center p-4 font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
-                      {area.name}
-                      {area.id === winner.id && <Crown className="inline ml-1 text-yellow-500" size={16} />}
+                    <th key={area.id} className={`text-center p-3 text-[10px] font-extrabold uppercase tracking-wider ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
+                      <div className="flex items-center justify-center gap-1">
+                        {area.name}
+                        {area.id === winner.id && <Crown className="text-yellow-500" size={14} />}
+                      </div>
                     </th>
                   ))}
                 </tr>
@@ -291,11 +299,13 @@ function Comparison() {
                   { label: 'Competition', icon: Target, isHigherBetter: false, key: 'competition' },
                   { label: 'Income Level', icon: DollarSign, isHigherBetter: true, key: 'incomeValue' }
                 ].map((metric, rowIndex) => (
-                  <tr key={rowIndex} className={`border-b ${isDarkMode ? 'border-[#334155]' : 'border-[#e2e8f0]'}`}>
-                    <td className={`p-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+                  <tr key={rowIndex} className={`border-b-2 transition-colors ${isDarkMode ? 'border-[#475569] hover:bg-[#0f172a]/60' : 'border-slate-200 hover:bg-slate-50'}`}>
+                    <td className={`p-3 ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>
                       <div className="flex items-center gap-2">
-                        <metric.icon className="text-[#2563eb]" size={16} />
-                        {metric.label}
+                        <div className={`p-1 rounded ${isDarkMode ? 'bg-[#0f172a]' : 'bg-blue-50'}`}>
+                          <metric.icon className="text-blue-600" size={14} />
+                        </div>
+                        <span className="text-sm font-semibold">{metric.label}</span>
                       </div>
                     </td>
                     {selectedAreas.map((area, colIndex) => {
@@ -307,20 +317,24 @@ function Comparison() {
                                        metric.key === 'incomeValue' ? area.incomeValue :
                                        area.competition;
                       const displayValue = metric.key === 'population' ? (area.population || 0).toLocaleString() :
-                                          metric.key === 'competition' ? `${area.competition || 0}%` :
-                                          metric.key === 'demand' ? `${area.demand || 0}%` :
-                                          metric.key === 'incomeValue' ? area.incomeLevel || '-' :
-                                          rawValue != null ? rawValue : '-';
+                                           metric.key === 'competition' ? `${Number(area.competition || 0).toFixed(2)}%` :
+                                           metric.key === 'demand' ? `${Number(area.demand || 0).toFixed(2)}%` :
+                                           metric.key === 'incomeValue' ? area.incomeLevel || '-' :
+                                           rawValue != null ? rawValue : '-';
                       const numericValues = selectedAreas.map(a => Number(a[metric.key]) || 0);
                       const isBest = metric.isHigherBetter
                         ? rawValue === Math.max(...numericValues)
                         : rawValue === Math.min(...numericValues);
                       return (
-                        <td key={colIndex} className="text-center p-4">
-                          <span className={`font-semibold ${isBest && rawValue != null ? 'text-green-500' : isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+                        <td key={colIndex} className="text-center p-3">
+                          <span className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm font-extrabold ${
+                            isBest && rawValue != null 
+                              ? isDarkMode ? 'bg-emerald-900/40 text-emerald-300' : 'bg-emerald-100 text-emerald-700' 
+                              : isDarkMode ? 'text-white' : 'text-slate-800'
+                          }`}>
                             {displayValue}
+                            {isBest && rawValue != null && <Star className="text-yellow-500 fill-yellow-500" size={12} />}
                           </span>
-                          {isBest && rawValue != null && <Star className="inline ml-1 text-yellow-500 fill-yellow-500" size={14} />}
                         </td>
                       );
                     })}
@@ -381,22 +395,22 @@ function Comparison() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.7 }}
-          className={`p-6 rounded-2xl border mb-8 ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
+          className={`p-4 rounded-xl border-2 mb-6 ${isDarkMode ? 'bg-[#1e293b] border-[#475569]' : 'bg-white border-slate-200'}`}
         >
-          <div className="flex items-center gap-3 mb-6">
-            <BarChart3 className="text-[#2563eb]" size={24} />
-            <h3 className={`text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+          <div className="flex items-center gap-3 mb-4">
+            <BarChart3 className="text-blue-600" size={20} />
+            <h3 className={`text-base font-extrabold ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>
               All Areas – Sortable Table
             </h3>
-            <span className={`text-xs px-2 py-0.5 rounded-full ${isDarkMode ? 'bg-[#0f172a] text-gray-400' : 'bg-gray-100 text-gray-600'}`}>
+            <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold ${isDarkMode ? 'bg-blue-900/40 text-blue-300' : 'bg-blue-100 text-blue-700'}`}>
               {availableAreas.length} areas
             </span>
           </div>
 
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
+          <div className="overflow-x-auto rounded-lg border-2 ${isDarkMode ? 'border-[#475569]' : 'border-slate-200'}">
+            <table className="w-full text-sm border-collapse">
               <thead>
-                <tr className={`border-b ${isDarkMode ? 'border-[#334155]' : 'border-[#e2e8f0]'}`}>
+                <tr className={isDarkMode ? 'bg-[#0f172a]' : 'bg-slate-100'}>
                   {['Area', 'Pincode', 'District', 'Population', 'Growth%', 'Income', 'Opp.Score', 'Feas.Score', 'Gap Score', 'Demand'].map(col => (
                     <th key={col}
                       onClick={() => {
@@ -405,12 +419,14 @@ function Comparison() {
                         if (!key) return;
                         setSortConfig(prev => prev.key === key ? { key, dir: prev.dir === 'asc' ? 'desc' : 'asc' } : { key, dir: 'asc' });
                       }}
-                      className={`text-left p-3 font-semibold text-xs uppercase tracking-wider cursor-pointer select-none hover:opacity-80 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}
+                      className={`text-left p-3 text-[10px] font-extrabold uppercase tracking-wider cursor-pointer select-none transition-colors hover:bg-blue-50 dark:hover:bg-[#1e293b] ${isDarkMode ? 'text-slate-300 hover:text-blue-300' : 'text-slate-600 hover:text-blue-700'}`}
                     >
-                      {col}
-                      {sortConfig.key === ({ 'Area': 'name', 'Pincode': 'pincode', 'District': 'district', 'Population': 'population', 'Growth%': 'populationGrowth', 'Income': 'incomeValue', 'Opp.Score': 'opportunityScore', 'Feas.Score': 'feasibilityScore', 'Gap Score': 'score', 'Demand': 'demand' }[col]) && (
-                        <span className="ml-1">{sortConfig.dir === 'asc' ? '▲' : '▼'}</span>
-                      )}
+                      <div className="flex items-center gap-1">
+                        {col}
+                        {sortConfig.key === ({ 'Area': 'name', 'Pincode': 'pincode', 'District': 'district', 'Population': 'population', 'Growth%': 'populationGrowth', 'Income': 'incomeValue', 'Opp.Score': 'opportunityScore', 'Feas.Score': 'feasibilityScore', 'Gap Score': 'score', 'Demand': 'demand' }[col]) && (
+                          <span className="text-blue-500">{sortConfig.dir === 'asc' ? '▲' : '▼'}</span>
+                        )}
+                      </div>
                     </th>
                   ))}
                 </tr>
@@ -427,18 +443,18 @@ function Comparison() {
                   })
                   .map((area, i) => (
                     <motion.tr key={area.id} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: i * 0.01 }}
-                      className={`border-t ${isDarkMode ? 'border-[#334155] hover:bg-[#0f172a]/50' : 'border-[#e2e8f0] hover:bg-gray-50'}`}
+                      className={`border-t-2 transition-colors ${isDarkMode ? 'border-[#475569] hover:bg-[#0f172a]/60' : 'border-slate-200 hover:bg-blue-50/50'}`}
                     >
-                      <td className={`p-3 font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{area.name}</td>
-                      <td className={`p-3 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>{area.pincode}</td>
-                      <td className={`p-3 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>{area.district}</td>
-                      <td className={`p-3 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{(area.population || 0).toLocaleString()}</td>
-                      <td className={`p-3 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{area.populationGrowth || 0}%</td>
-                      <td className={`p-3 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{area.incomeLevel || '-'}</td>
-                      <td className={`p-3 font-semibold ${area.opportunityScore >= 70 ? 'text-green-500' : area.opportunityScore >= 50 ? 'text-yellow-500' : 'text-red-500'}`}>{area.opportunityScore != null ? area.opportunityScore : '-'}</td>
-                      <td className={`p-3 font-semibold ${area.feasibilityScore >= 70 ? 'text-green-500' : area.feasibilityScore >= 50 ? 'text-yellow-500' : 'text-red-500'}`}>{area.feasibilityScore != null ? area.feasibilityScore : '-'}</td>
-                      <td className={`p-3 font-semibold ${area.score >= 70 ? 'text-green-500' : area.score >= 50 ? 'text-yellow-500' : 'text-red-500'}`}>{area.score.toFixed(1)}</td>
-                      <td className={`p-3 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{area.demand.toFixed(1)}%</td>
+                      <td className={`p-3 font-bold ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>{area.name}</td>
+                      <td className={`p-3 font-medium ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>{area.pincode}</td>
+                      <td className={`p-3 font-medium ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>{area.district}</td>
+                      <td className={`p-3 font-bold ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>{(area.population || 0).toLocaleString()}</td>
+                      <td className={`p-3 font-bold ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>{Number(area.populationGrowth || 0).toFixed(2)}%</td>
+                      <td className={`p-3 font-medium ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>{area.incomeLevel || '-'}</td>
+                      <td className={`p-3 font-extrabold ${area.opportunityScore >= 70 ? 'text-emerald-500' : area.opportunityScore >= 50 ? 'text-amber-500' : 'text-red-500'}`}>{area.opportunityScore != null ? area.opportunityScore : '-'}</td>
+                      <td className={`p-3 font-extrabold ${area.feasibilityScore >= 70 ? 'text-emerald-500' : area.feasibilityScore >= 50 ? 'text-amber-500' : 'text-red-500'}`}>{area.feasibilityScore != null ? area.feasibilityScore : '-'}</td>
+                      <td className={`p-3 font-extrabold ${area.score >= 70 ? 'text-emerald-500' : area.score >= 50 ? 'text-amber-500' : 'text-red-500'}`}>{Number(area.score || 0).toFixed(2)}</td>
+                      <td className={`p-3 font-bold ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>{Number(area.demand || 0).toFixed(2)}%</td>
                     </motion.tr>
                   ))}
               </tbody>

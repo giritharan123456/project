@@ -112,24 +112,31 @@ function AnalyticsDashboard() {
         {/* Key Metrics */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {[
-            { icon: Globe, label: 'Market Coverage', value: `${marketCoverage.percentage}%`, color: 'text-blue-500', detail: `${marketCoverage.covered}/${marketCoverage.total} Districts` },
-            { icon: Database, label: 'Data Completeness', value: `${dataQuality.overall}%`, color: 'text-green-500', detail: `${dataQuality.areasWithCompleteData} complete areas` },
-            { icon: Activity, label: 'Total Areas', value: marketCoverage.totalAreas, color: 'text-purple-500', detail: 'Pincodes in database' },
-            { icon: Target, label: 'High Opportunity', value: businessOpportunities.high, color: 'text-orange-500', detail: 'Areas with gap score ≥70' }
+            { icon: Globe, label: 'Market Coverage', value: `${Number(marketCoverage.percentage || 0).toFixed(2)}%`, color: 'text-blue-500', bgLight: 'bg-blue-50', bgDark: 'bg-blue-900/20', detail: `${marketCoverage.covered}/${marketCoverage.total} Districts` },
+            { icon: Database, label: 'Data Completeness', value: `${Number(dataQuality.overall || 0).toFixed(2)}%`, color: 'text-emerald-500', bgLight: 'bg-emerald-50', bgDark: 'bg-emerald-900/20', detail: `${dataQuality.areasWithCompleteData} complete areas` },
+            { icon: Activity, label: 'Total Areas', value: marketCoverage.totalAreas, color: 'text-violet-500', bgLight: 'bg-violet-50', bgDark: 'bg-violet-900/20', detail: 'Pincodes in database' },
+            { icon: Target, label: 'High Opportunity', value: businessOpportunities.high, color: 'text-amber-500', bgLight: 'bg-amber-50', bgDark: 'bg-amber-900/20', detail: 'Areas with gap score ≥70' }
           ].map((metric, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 + (index * 0.1) }}
-              className={`p-6 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
+              whileHover={{ y: -4 }}
+              className={`p-5 rounded-2xl border-2 transition-all duration-300 hover:shadow-lg ${
+                isDarkMode 
+                  ? `bg-[#1e293b] border-[#334155] hover:border-[#2563eb]/40` 
+                  : `bg-white border-[#e2e8f0] hover:border-[#2563eb]/40 hover:shadow-md`
+              }`}
             >
-              <metric.icon className={`${metric.color} mb-3`} size={24} />
-              <p className={`text-sm opacity-70 mb-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{metric.label}</p>
-              <p className={`text-2xl font-bold mb-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+              <div className={`inline-flex p-2.5 rounded-xl mb-3 ${isDarkMode ? metric.bgDark : metric.bgLight}`}>
+                <metric.icon className={metric.color} size={22} />
+              </div>
+              <p className={`text-xs font-medium mb-1 uppercase tracking-wide ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>{metric.label}</p>
+              <p className={`text-2xl font-extrabold mb-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                 {metric.value}
               </p>
-              <p className={`text-xs opacity-50 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{metric.detail}</p>
+              <p className={`text-xs ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`}>{metric.detail}</p>
             </motion.div>
           ))}
         </div>
