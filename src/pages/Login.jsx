@@ -20,11 +20,30 @@ function Login() {
 
   useEffect(() => {
     const token = searchParams.get('token');
-    if (token) {
-      handleGoogleCallback(token);
-      navigate('/dashboard');
+    const error = searchParams.get('error');
+    
+    if (error) {
+      setError(error === 'oauth_failed' ? 'Google sign-in failed. Please try again.' : 
+               error === 'google_oauth_not_configured' ? 'Google sign-in is not configured.' :
+               error === 'google_auth_failed' ? 'Google authentication failed.' :
+               'An error occurred during sign-in.');
+      return;
     }
-    // Load saved email if "Remember me" was checked
+    
+    if (token) {
+      setLoading(true);
+      handleGoogleCallback(token).then(result => {
+        if (result?.success) {
+          navigate('/dashboard');
+        } else {
+          setError(result?.message || 'Failed to complete Google sign-in');
+        }
+      }).catch(() => {
+        setError('Failed to complete Google sign-in');
+      }).finally(() => setLoading(false));
+      return;
+    }
+    
     const savedEmail = localStorage.getItem('rememberedEmail');
     if (savedEmail) {
       setFormData(prev => ({ ...prev, email: savedEmail }));

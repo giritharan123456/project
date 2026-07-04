@@ -5,11 +5,12 @@ const rateLimit = require('express-rate-limit');
 const morgan = require('morgan');
 const dotenv = require('dotenv');
 const path = require('path');
+
+dotenv.config({ path: path.join(__dirname, '.env') });
+
 const connectDB = require('./config/database');
 const passport = require('./config/passport');
 const logger = require('./utils/logger');
-
-dotenv.config({ path: path.join(__dirname, '.env') });
 
 const app = express();
 
