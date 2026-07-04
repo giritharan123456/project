@@ -15,7 +15,7 @@ const CATEGORIES = [
 
 function About() {
   const { isDarkMode } = useTheme();
-  const { selectedDistrict, districts } = useDistrict();
+  const { selectedDistrict, districts, setDistricts } = useDistrict();
   const [content, setContent] = useState(null);
   const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState({ districts: 0, areas: 0, categories: CATEGORIES.length });
@@ -34,10 +34,15 @@ function About() {
         }
 
         const totalAreas = areasRes.status === 'fulfilled' ? (areasRes.value.data?.length || areasRes.value.count || 0) : 0;
-        const totalDistricts = districtsRes.status === 'fulfilled' ? (districtsRes.value.data?.length || districtsRes.value.count || 0) : districts.length;
+        const districtList = districtsRes.status === 'fulfilled' ? (districtsRes.value.data || []) : [];
+        const totalDistricts = districtList.length || districts.length;
+
+        if (districtList.length > 0 && districts.length === 0) {
+          setDistricts(districtList);
+        }
 
         setStats({
-          districts: totalDistricts || content?.stats?.districts || districts.length,
+          districts: totalDistricts,
           areas: totalAreas || content?.stats?.areas || 0,
           categories: CATEGORIES.length
         });
