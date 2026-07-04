@@ -94,7 +94,7 @@ function BusinessInsights({ pincodeData }) {
   const getAxis = () => isDarkMode ? axisDark : axisLight;
   const gridStroke = isDarkMode ? '#475569' : '#cbd5e1';
   const axisLine = { stroke: isDarkMode ? '#64748b' : '#94a3b8' };
-  const labelStyle = { fontSize: 12, fontWeight: 700, fill: isDarkMode ? '#e2e8f0' : '#1e293b' };
+  const labelStyle = { fontSize: 13, fontWeight: 700, fill: isDarkMode ? '#e2e8f0' : '#1e293b' };
 
   const tabs = [
     { key: 'opportunity', label: 'Opportunity', icon: <TrendingUp size={14} /> },
@@ -136,11 +136,11 @@ function BusinessInsights({ pincodeData }) {
               Category Opportunity Scores
             </h4>
             <div className={`rounded-xl border p-3 mb-3 ${isDarkMode ? 'border-[#334155] bg-[#0f172a]/50' : 'border-[#e2e8f0] bg-gray-50'}`}>
-              <ResponsiveContainer width="100%" height={300}>
+              <ResponsiveContainer width="100%" height={340}>
                 <BarChart data={opportunityData} barCategoryGap="20%" margin={{ top: 8, right: 15, left: 5, bottom: 5 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke={gridStroke} vertical={false} />
-                  <XAxis dataKey="category" tick={{ ...getAxis(), fontSize: 12, fontWeight: 800 }} axisLine={axisLine} tickLine={false} angle={-40} textAnchor="end" height={60} interval={0} />
-                  <YAxis tick={getAxis()} axisLine={axisLine} tickLine={false} label={{ value: 'Score', angle: -90, position: 'insideLeft', offset: 5, style: labelStyle }} />
+                  <XAxis dataKey="category" tick={{ ...getAxis(), fontSize: 13, fontWeight: 800 }} axisLine={axisLine} tickLine={false} angle={-40} textAnchor="end" height={65} interval={0} />
+                  <YAxis tick={getAxis()} axisLine={axisLine} tickLine={false} label={{ value: 'Score', angle: -90, position: 'insideLeft', offset: 5, style: { ...labelStyle, fontSize: 13 } }} />
                   <Tooltip content={<CustomTooltip />} />
                   <Bar dataKey="opportunityScore" name="Opportunity Score" fill="#667eea" radius={[4, 4, 0, 0]} />
                 </BarChart>
@@ -187,11 +187,11 @@ function BusinessInsights({ pincodeData }) {
               Area Competition Levels
             </h4>
             <div className={`rounded-xl border p-3 mb-3 ${isDarkMode ? 'border-[#334155] bg-[#0f172a]/50' : 'border-[#e2e8f0] bg-gray-50'}`}>
-              <ResponsiveContainer width="100%" height={300}>
+              <ResponsiveContainer width="100%" height={340}>
                 <BarChart data={competitionData} barCategoryGap="20%" margin={{ top: 8, right: 15, left: 5, bottom: 5 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke={gridStroke} vertical={false} />
-                  <XAxis dataKey="area" tick={{ ...getAxis(), fontSize: 12, fontWeight: 800 }} axisLine={axisLine} tickLine={false} angle={-40} textAnchor="end" height={60} interval={0} />
-                  <YAxis tick={getAxis()} axisLine={axisLine} tickLine={false} label={{ value: 'Count', angle: -90, position: 'insideLeft', offset: 5, style: labelStyle }} />
+                  <XAxis dataKey="area" tick={{ ...getAxis(), fontSize: 13, fontWeight: 800 }} axisLine={axisLine} tickLine={false} angle={-40} textAnchor="end" height={65} interval={0} />
+                  <YAxis tick={getAxis()} axisLine={axisLine} tickLine={false} label={{ value: 'Count', angle: -90, position: 'insideLeft', offset: 5, style: { ...labelStyle, fontSize: 13 } }} />
                   <Tooltip content={<CustomTooltip />} />
                   <Bar dataKey="competitors" name="Competitors" fill="#764ba2" radius={[4, 4, 0, 0]} />
                 </BarChart>
@@ -224,14 +224,18 @@ function BusinessInsights({ pincodeData }) {
               Demand Distribution
             </h4>
             <div className={`rounded-xl border p-3 mb-3 ${isDarkMode ? 'border-[#334155] bg-[#0f172a]/50' : 'border-[#e2e8f0] bg-gray-50'}`}>
-              <ResponsiveContainer width="100%" height={300}>
+              <ResponsiveContainer width="100%" height={340}>
                 <PieChart>
-                  <Pie data={demandDistribution} cx="50%" cy="50%" innerRadius={50} outerRadius={90} paddingAngle={3} dataKey="value">
+                  <Pie data={demandDistribution} cx="50%" cy="50%" innerRadius={55} outerRadius={110} paddingAngle={3} dataKey="value">
                     {demandDistribution.map((_, index) => (
                       <Cell key={index} fill={COLORS[index % COLORS.length]} stroke={isDarkMode ? '#1e293b' : '#ffffff'} strokeWidth={2} />
                     ))}
                   </Pie>
                   <Tooltip content={<CustomTooltip />} />
+                  <Legend
+                    wrapperStyle={{ fontSize: 13, fontWeight: 700, paddingTop: 8 }}
+                    formatter={(value) => <span style={{ color: isDarkMode ? '#e2e8f0' : '#1e293b', fontWeight: 800, fontSize: 13 }}>{value}</span>}
+                  />
                 </PieChart>
               </ResponsiveContainer>
             </div>

@@ -200,23 +200,21 @@ ${index + 1}. ${pincode.area} (${pincode.pincode})
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
         >
-          <h4 className={`text-base font-semibold mb-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Category Distribution</h4>
-          <ResponsiveContainer width="100%" height={260}>
+          <h4 className={`text-base font-semibold mb-2 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Category Distribution</h4>
+          <ResponsiveContainer width="100%" height={320}>
             <PieChart>
               <Pie
                 data={categoryDistribution}
                 cx="50%"
                 cy="50%"
-                labelLine={false}
-                label={({ category, percentage }) => `${category}: ${percentage}%`}
-                labelLine={{ stroke: isDarkMode ? '#94a3b8' : '#64748b', strokeWidth: 1 }}
-                outerRadius={70}
+                outerRadius={100}
+                innerRadius={40}
+                paddingAngle={2}
                 fill="#8884d8"
                 dataKey="count"
-                style={{ fontSize: 12, fontWeight: 700 }}
               >
                 {categoryDistribution.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} stroke={isDarkMode ? '#1e293b' : '#ffffff'} strokeWidth={2} />
                 ))}
               </Pie>
               <Tooltip
@@ -224,9 +222,13 @@ ${index + 1}. ${pincode.area} (${pincode.pincode})
                   background: isDarkMode ? '#1e293b' : '#ffffff',
                   border: `1px solid ${isDarkMode ? '#334155' : '#e0e0e0'}`,
                   borderRadius: '8px',
-                  fontSize: '12px',
+                  fontSize: '13px',
                   color: isDarkMode ? '#f1f5f9' : '#000'
                 }}
+              />
+              <Legend
+                wrapperStyle={{ fontSize: 13, fontWeight: 700, paddingTop: 8 }}
+                formatter={(value) => <span style={{ color: isDarkMode ? '#e2e8f0' : '#1e293b', fontWeight: 800, fontSize: 13 }}>{value}</span>}
               />
             </PieChart>
           </ResponsiveContainer>
@@ -273,21 +275,21 @@ ${index + 1}. ${pincode.area} (${pincode.pincode})
         transition={{ duration: 0.5, delay: 0.3 }}
       >
         <h4 className={`text-base font-bold mb-2 ${isDarkMode ? 'text-gray-200' : 'text-gray-700'}`}>District Comparison</h4>
-          <ResponsiveContainer width="100%" height={300}>
+          <ResponsiveContainer width="100%" height={340}>
           <BarChart data={districtComparison} margin={{ top: 8, right: 15, left: 5, bottom: 5 }}>
             <CartesianGrid strokeDasharray="3 3" stroke={isDarkMode ? '#475569' : '#cbd5e1'} vertical={false} />
             <XAxis 
               dataKey="district" 
-              tick={{ fontSize: 11, fontWeight: 700, fill: isDarkMode ? '#e2e8f0' : '#1e293b' }}
+              tick={{ fontSize: 13, fontWeight: 700, fill: isDarkMode ? '#e2e8f0' : '#1e293b' }}
               axisLine={{ stroke: isDarkMode ? '#64748b' : '#94a3b8' }}
               tickLine={false}
               angle={-40}
               textAnchor="end"
-              height={60}
+              height={65}
               interval={0}
             />
             <YAxis 
-              tick={{ fontSize: 11, fontWeight: 700, fill: isDarkMode ? '#e2e8f0' : '#1e293b' }}
+              tick={{ fontSize: 13, fontWeight: 700, fill: isDarkMode ? '#e2e8f0' : '#1e293b' }}
               axisLine={{ stroke: isDarkMode ? '#64748b' : '#94a3b8' }}
               tickLine={false}
             />
@@ -296,7 +298,7 @@ ${index + 1}. ${pincode.area} (${pincode.pincode})
                 background: '#ffffff',
                 border: '2px solid #cbd5e1',
                 borderRadius: '8px',
-                fontSize: '12px',
+                fontSize: '13px',
                 fontWeight: 700,
                 color: '#1e293b'
               }}
@@ -304,7 +306,7 @@ ${index + 1}. ${pincode.area} (${pincode.pincode})
             <Bar dataKey="avgGap" fill="#2563eb" name="Avg Gap" radius={[3, 3, 0, 0]} />
             <Bar dataKey="totalPopulation" fill="#7c3aed" name="Population (K)" radius={[3, 3, 0, 0]} />
             <Bar dataKey="avgGrowth" fill="#10b981" name="Growth %" radius={[3, 3, 0, 0]} />
-            <Legend wrapperStyle={{ fontSize: 12, fontWeight: 700, paddingTop: 8 }} formatter={(value) => <span style={{ color: isDarkMode ? '#e2e8f0' : '#1e293b', fontWeight: 800 }}>{value}</span>} />
+            <Legend wrapperStyle={{ fontSize: 13, fontWeight: 700, paddingTop: 8 }} formatter={(value) => <span style={{ color: isDarkMode ? '#e2e8f0' : '#1e293b', fontWeight: 800, fontSize: 13 }}>{value}</span>} />
           </BarChart>
         </ResponsiveContainer>
       </motion.div>

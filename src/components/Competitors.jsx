@@ -29,7 +29,7 @@ const Competitors = ({ pincodeData }) => {
   const getAxis = () => isDarkMode ? axisDark : axisLight;
   const gridStroke = isDarkMode ? '#475569' : '#cbd5e1';
   const axisLine = { stroke: isDarkMode ? '#64748b' : '#94a3b8' };
-  const labelStyle = { fontSize: 12, fontWeight: 700, fill: isDarkMode ? '#e2e8f0' : '#1e293b' };
+  const labelStyle = { fontSize: 13, fontWeight: 700, fill: isDarkMode ? '#e2e8f0' : '#1e293b' };
 
   const toggleInsight = (id) => setExpandedInsight(expandedInsight === id ? null : id);
 
@@ -136,13 +136,13 @@ const Competitors = ({ pincodeData }) => {
           <h4 className={`text-sm font-bold uppercase tracking-wide mb-3 ${b('text-gray-400', 'text-gray-500')}`}>
             Market Share vs Digital Presence
           </h4>
-          <ResponsiveContainer width="100%" height={280}>
+          <ResponsiveContainer width="100%" height={340}>
             <BarChart data={barData} barCategoryGap="25%" margin={{ top: 8, right: 15, left: 5, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" stroke={gridStroke} vertical={false} />
               <XAxis dataKey="name" tick={getAxis()} axisLine={axisLine} tickLine={false} />
-              <YAxis tick={getAxis()} axisLine={axisLine} tickLine={false} label={{ value: '%', angle: -90, position: 'insideLeft', offset: 5, style: labelStyle }} />
+              <YAxis tick={getAxis()} axisLine={axisLine} tickLine={false} label={{ value: '%', angle: -90, position: 'insideLeft', offset: 5, style: { ...labelStyle, fontSize: 13 } }} />
               <RechartsTooltip content={<CustomTooltip />} />
-              <Legend wrapperStyle={{ fontSize: 12, fontWeight: 700, paddingTop: 8 }} formatter={(value) => <span style={{ color: isDarkMode ? '#e2e8f0' : '#1e293b', fontWeight: 800 }}>{value}</span>} />
+              <Legend wrapperStyle={{ fontSize: 13, fontWeight: 700, paddingTop: 8 }} formatter={(value) => <span style={{ color: isDarkMode ? '#e2e8f0' : '#1e293b', fontWeight: 800, fontSize: 13 }}>{value}</span>} />
               <Bar dataKey="Market Share" fill="#667eea" radius={[4, 4, 0, 0]} />
               <Bar dataKey="Digital Presence" fill="#764ba2" radius={[4, 4, 0, 0]} />
             </BarChart>
@@ -154,14 +154,14 @@ const Competitors = ({ pincodeData }) => {
           <h4 className={`text-sm font-bold uppercase tracking-wide mb-3 ${b('text-gray-400', 'text-gray-500')}`}>
             Competitive Strengths Matrix
           </h4>
-          <ResponsiveContainer width="100%" height={300}>
-            <RadarChart cx="50%" cy="50%" outerRadius="70%" data={radarData}>
+          <ResponsiveContainer width="100%" height={360}>
+            <RadarChart cx="50%" cy="50%" outerRadius="72%" data={radarData}>
               <PolarGrid stroke={gridStroke} />
-              <PolarAngleAxis dataKey="subject" tick={{ fontSize: 12, fontWeight: 700, fill: isDarkMode ? '#e2e8f0' : '#1e293b' }} />
-              <PolarRadiusAxis angle={30} domain={[0, 100]} tick={{ fontSize: 10, fontWeight: 700, fill: isDarkMode ? '#e2e8f0' : '#1e293b' }} />
+              <PolarAngleAxis dataKey="subject" tick={{ fontSize: 13, fontWeight: 700, fill: isDarkMode ? '#e2e8f0' : '#1e293b' }} />
+              <PolarRadiusAxis angle={30} domain={[0, 100]} tick={{ fontSize: 11, fontWeight: 700, fill: isDarkMode ? '#e2e8f0' : '#1e293b' }} />
               <Radar name="Your Business" dataKey="A" stroke="#667eea" fill="#667eea" fillOpacity={0.4} strokeWidth={2} />
               <Radar name="Competitor" dataKey="B" stroke="#f59e0b" fill="#f59e0b" fillOpacity={0.3} strokeWidth={2} />
-              <Legend wrapperStyle={{ fontSize: 12, fontWeight: 700, paddingTop: 8 }} formatter={(value) => <span style={{ color: isDarkMode ? '#e2e8f0' : '#1e293b', fontWeight: 800 }}>{value}</span>} />
+              <Legend wrapperStyle={{ fontSize: 13, fontWeight: 700, paddingTop: 8 }} formatter={(value) => <span style={{ color: isDarkMode ? '#e2e8f0' : '#1e293b', fontWeight: 800, fontSize: 13 }}>{value}</span>} />
               <RechartsTooltip content={<CustomTooltip />} />
             </RadarChart>
           </ResponsiveContainer>
