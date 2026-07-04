@@ -95,11 +95,11 @@ function AreaLeaderboard() {
                     <div className="text-right flex gap-4">
                       <div>
                         <p className={`text-[10px] uppercase tracking-wider ${b('text-gray-400', 'text-gray-500')}`}>Opportunity</p>
-                        <p className={`text-lg font-bold ${getScoreColor(area.opportunityScore)}`}>{area.opportunityScore}</p>
+                         <p className={`text-lg font-bold ${getScoreColor(area.opportunityScore)}`}>{Number(area.opportunityScore).toFixed(2)}</p>
                       </div>
                       <div>
                         <p className={`text-[10px] uppercase tracking-wider ${b('text-gray-400', 'text-gray-500')}`}>Feasibility</p>
-                        <p className={`text-lg font-bold ${getScoreColor(area.feasibilityScore)}`}>{area.feasibilityScore}</p>
+                         <p className={`text-lg font-bold ${getScoreColor(area.feasibilityScore)}`}>{Number(area.feasibilityScore).toFixed(2)}</p>
                       </div>
                     </div>
                   </div>
