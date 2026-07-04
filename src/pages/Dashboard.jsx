@@ -157,11 +157,8 @@ function Dashboard() {
 
         <div className="max-w-[1600px] mx-auto px-2 md:px-4 py-0">
 
-          {/* ═══ ROW 1: KPIs ═══ */}
-          <HeroBanner pincodeData={displayData} selectedDistrict={currentDistrictName} />
-
-          {/* ═══ ROW 2: Search + Filters ═══ */}
-          <motion.div {...fadeIn(0.05)} className={`${card} p-2.5`}>
+          {/* ═══ ROW 1: LOCATION + FILTERS (Customer first asks "Where am I?") ═══ */}
+          <motion.div {...fadeIn(0.02)} className={`${card} p-2.5`}>
             <div className="flex flex-col md:flex-row items-stretch md:items-center gap-2">
               <div className="w-full md:w-48 flex-shrink-0">
                 <DistrictSelector districts={districts} />
@@ -193,6 +190,11 @@ function Dashboard() {
             )}
           </motion.div>
 
+          {/* ═══ ROW 2: KPIs (Customer asks "What's the big picture?") ═══ */}
+          <motion.div {...fadeIn(0.05)}>
+            <HeroBanner pincodeData={displayData} selectedDistrict={currentDistrictName} />
+          </motion.div>
+
           {!hasAreaData(displayData) && !loading && (
             <motion.div {...fadeIn(0.1)}>
               <EmptyState type="noData" message="Select a district and search a pincode to view market opportunities." />
@@ -202,52 +204,52 @@ function Dashboard() {
           {hasAreaData(displayData) && (
           <>
 
-          {/* ═══ ROW 3: Executive Summary + Top Performers ═══ */}
+          {/* ═══ ROW 3: KEY INSIGHTS (Customer asks "What should I know now?") ═══ */}
           <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-0 -mt-px">
-            <motion.div {...fadeIn(0.1)}>
+            <motion.div {...fadeIn(0.08)}>
               <ExecutiveSummary pincodeData={displayData} />
             </motion.div>
-            <motion.div {...fadeIn(0.12)}>
+            <motion.div {...fadeIn(0.1)}>
               <TopPerformers pincodeData={displayData} />
             </motion.div>
           </div>
 
-          {/* ═══ ROW 4: Map ═══ */}
-          <motion.div {...fadeIn(0.14)}>
+          {/* ═══ ROW 4: MAP (Customer asks "Show me on a map") ═══ */}
+          <motion.div {...fadeIn(0.12)}>
             <div className={card}><MapSection pincodeData={displayData} selectedDistrict={currentDistrictName} /></div>
           </motion.div>
 
-          {/* ═══ ROW 5: Charts + Insights ═══ */}
+          {/* ═══ ROW 5: CHARTS (Customer asks "What do the charts say?") ═══ */}
+          <motion.div {...fadeIn(0.15)}>
+            <div className={card}><ChartsSection businessCategories={businessCategories} selectedCategory={selectedBusinessCategory} pincodeData={displayData} /></div>
+          </motion.div>
+
+          {/* ═══ ROW 6: INSIGHTS + COMPETITION (Customer asks "What business insights? Who's competing?") ═══ */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 -mt-px">
             <motion.div {...fadeIn(0.18)}>
-              <div className={`${card} h-full`}><ChartsSection businessCategories={businessCategories} selectedCategory={selectedBusinessCategory} pincodeData={displayData} /></div>
-            </motion.div>
-            <motion.div {...fadeIn(0.2)}>
               <div className={`${card} h-full`}><BusinessInsights pincodeData={displayData} /></div>
             </motion.div>
-          </div>
-
-          {/* ═══ ROW 6: Competition + Forecast ═══ */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 -mt-px">
-            <motion.div {...fadeIn(0.24)}>
+            <motion.div {...fadeIn(0.2)}>
               <div className={`${card} h-full`}><Competitors pincodeData={displayData} /></div>
             </motion.div>
-            <motion.div {...fadeIn(0.26)}>
-              <div className={`${card} h-full`}><AdvancedForecasting pincodeData={displayData} businessCategories={businessCategories} /></div>
-            </motion.div>
           </div>
 
-          {/* ═══ ROW 7: HeatMap + Analytics ═══ */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 -mt-px">
-            <motion.div {...fadeIn(0.28)}>
-              <div className={`${card} h-full`}><OpportunityHeatMap pincodeData={displayData} selectedDistrict={currentDistrictName} /></div>
-            </motion.div>
-            <motion.div {...fadeIn(0.3)}>
-              <div className={`${card} h-full`}><AnalyticsPanel pincodeData={displayData} businessCategories={businessCategories} selectedDistrict={currentDistrictName} /></div>
-            </motion.div>
-          </div>
+          {/* ═══ ROW 7: HEATMAP (Customer asks "Show me the heatmap") ═══ */}
+          <motion.div {...fadeIn(0.23)}>
+            <div className={card}><OpportunityHeatMap pincodeData={displayData} selectedDistrict={currentDistrictName} /></div>
+          </motion.div>
 
-          {/* ═══ ROW 8: Export ═══ */}
+          {/* ═══ ROW 8: FORECASTING (Customer asks "What about the future?") ═══ */}
+          <motion.div {...fadeIn(0.26)}>
+            <div className={card}><AdvancedForecasting pincodeData={displayData} businessCategories={businessCategories} /></div>
+          </motion.div>
+
+          {/* ═══ ROW 9: ANALYTICS (Customer asks "Give me detailed analytics") ═══ */}
+          <motion.div {...fadeIn(0.29)}>
+            <div className={card}><AnalyticsPanel pincodeData={displayData} businessCategories={businessCategories} selectedDistrict={currentDistrictName} /></div>
+          </motion.div>
+
+          {/* ═══ ROW 10: EXPORT (Customer asks "I want to download/report this") ═══ */}
           <motion.div {...fadeIn(0.32)}>
             <div className={card}><EnhancedExport data={displayData} selectedDistrict={currentDistrictName} businessCategories={businessCategories} /></div>
           </motion.div>
