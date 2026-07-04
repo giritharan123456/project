@@ -1,42 +1,33 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
 import { contentAPI } from '../services/api';
-import { PageSkeleton } from '../components/Skeleton';
 import { 
   Search, BarChart3, TrendingUp, MapPin, Users, Zap, 
-  CheckCircle, Star, MessageSquare, Mail, Phone, ArrowRight,
-  Play, ChevronDown, Menu, X, Mic, Target, Lightbulb, Shield,
-  Globe, Clock, Award, Heart, ArrowUpRight, Sun, Moon
+  CheckCircle, Star, MessageSquare, Mail, ArrowRight,
+  ChevronDown, Menu, X, Target, Shield, Globe, Award
 } from 'lucide-react';
 
 function Landing() {
   const { isDarkMode, toggleTheme } = useTheme();
+  const navigate = useNavigate();
   const [activeFaq, setActiveFaq] = useState(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
-  // Content from backend API
   const [faqs, setFaqs] = useState([]);
   const [features, setFeatures] = useState([]);
-  const [benefits, setBenefits] = useState([]);
-  const [reviews, setReviews] = useState([]);
-  const [howItWorks, setHowItWorks] = useState([]);
   const [stats, setStats] = useState({});
   const [loading, setLoading] = useState(true);
 
-  // Fetch landing page content from backend API
   useEffect(() => {
     const fetchContent = async () => {
       try {
         const response = await contentAPI.getLandingContent();
         const content = response.data;
-        
         setFaqs(content.faqs || []);
         setFeatures(content.features || []);
-        setBenefits(content.benefits || []);
-        setReviews(content.reviews || []);
-        setHowItWorks(content.howItWorks || []);
         setStats(content.stats || {});
       } catch (error) {
         console.error('Error fetching landing content:', error);
@@ -44,9 +35,42 @@ function Landing() {
         setLoading(false);
       }
     };
-
     fetchContent();
   }, []);
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/dashboard?search=${encodeURIComponent(searchQuery.trim())}`);
+    }
+  };
+
+  const defaultFeatures = [
+    { title: 'Market Gap Analysis', desc: 'Identify underserved business opportunities with AI-powered market analysis across 38 districts.' },
+    { title: 'Real-Time Analytics', desc: 'Access live market data, demand scores, and competition metrics for informed decisions.' },
+    { title: 'Smart Forecasts', desc: '5-year population, demand, and revenue projections based on real growth trends.' },
+    { title: 'Area Comparison', desc: 'Compare multiple areas side-by-side to find the best location for your business.' },
+    { title: 'AI Recommendations', desc: 'Get personalized business suggestions based on market gaps and local demand.' },
+    { title: 'Export Reports', desc: 'Download professional PDF and CSV reports with complete market analysis.' },
+  ];
+
+  const defaultFaqs = [
+    { question: 'What is MarketVision AI?', answer: 'MarketVision AI is an AI-powered platform that helps entrepreneurs and investors identify underserved business opportunities using real market data, population trends, and competition analysis across 38 districts in Tamil Nadu.' },
+    { question: 'How does the market gap analysis work?', answer: 'Our algorithm analyzes population density, income levels, urban development, existing competition, and demand scores to calculate market gap scores for 12 business categories in each area.' },
+    { question: 'Is the data real or simulated?', answer: 'All data is algorithmically generated based on realistic demographic and economic parameters for 380 areas across 38 districts. The models simulate real market conditions for demonstration purposes.' },
+    { question: 'Can I export the analysis?', answer: 'Yes! You can export your analysis as professional PDF reports or CSV files with complete market data, charts, and recommendations.' },
+    { question: 'Is there a free trial?', answer: 'Yes, you can sign up for free and explore the platform. All core features including market analysis, forecasting, and comparisons are available.' },
+  ];
+
+  const displayFaqs = faqs.length > 0 ? faqs : defaultFaqs;
+  const displayFeatures = features.length > 0 ? features : defaultFeatures;
+
+  const platformStats = [
+    { label: 'Districts Covered', value: '38', icon: MapPin },
+    { label: 'Areas Analyzed', value: '380+', icon: Globe },
+    { label: 'Business Categories', value: '12', icon: BarChart3 },
+    { label: 'Data Points', value: '4,500+', icon: TrendingUp },
+  ];
 
   return (
     <div className={`min-h-screen ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
@@ -61,22 +85,17 @@ function Landing() {
               </span>
             </div>
             
-            <div className="hidden md:flex items-center gap-8">
-              <a href="#features" className={`text-sm font-medium hover:text-[#2563eb] transition-colors ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Features</a>
-              <a href="#how-it-works" className={`text-sm font-medium hover:text-[#2563eb] transition-colors ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>How It Works</a>
-              <a href="#reviews" className={`text-sm font-medium hover:text-[#2563eb] transition-colors ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Reviews</a>
-              <a href="#faq" className={`text-sm font-medium hover:text-[#2563eb] transition-colors ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>FAQ</a>
-              <a href="#contact" className={`text-sm font-medium hover:text-[#2563eb] transition-colors ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Contact</a>
+            <div className="hidden md:flex items-center gap-6">
+              <a href="#features" className={`text-sm font-medium hover:text-[#2563eb] transition-colors ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>Features</a>
+              <a href="#how-it-works" className={`text-sm font-medium hover:text-[#2563eb] transition-colors ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>How It Works</a>
+              <a href="#faq" className={`text-sm font-medium hover:text-[#2563eb] transition-colors ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>FAQ</a>
             </div>
 
-            <div className="hidden md:flex items-center gap-4">
-              <button 
-                onClick={toggleTheme}
-                className={`p-2 rounded-lg transition-colors ${isDarkMode ? 'text-[#f1f5f9] hover:bg-[#1e293b]' : 'text-[#1e293b] hover:bg-[#ffffff]'}`}
-              >
-                {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
+            <div className="hidden md:flex items-center gap-3">
+              <button onClick={toggleTheme} className={`p-2 rounded-lg transition-colors ${isDarkMode ? 'text-gray-300 hover:bg-[#1e293b]' : 'text-gray-600 hover:bg-gray-100'}`}>
+                {isDarkMode ? '☀️' : '🌙'}
               </button>
-              <Link to="/login" className={`px-4 py-2 rounded-lg font-medium transition-colors ${isDarkMode ? 'text-[#f1f5f9] hover:bg-[#1e293b]' : 'text-[#1e293b] hover:bg-[#ffffff]'}`}>
+              <Link to="/login" className={`px-4 py-2 rounded-lg font-medium transition-colors ${isDarkMode ? 'text-gray-300 hover:bg-[#1e293b]' : 'text-gray-700 hover:bg-gray-100'}`}>
                 Login
               </Link>
               <Link to="/signup" className="px-4 py-2 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white rounded-lg font-medium hover:opacity-90 transition-opacity">
@@ -84,31 +103,22 @@ function Landing() {
               </Link>
             </div>
 
-            <button 
-              className="md:hidden"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            >
+            <button className="md:hidden p-2" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
               {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
         </div>
 
-        {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <motion.div 
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className={`md:hidden border-t p-4 ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
-          >
-            <div className="flex flex-col gap-4">
-              <a href="#features" className={`text-sm font-medium ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Features</a>
-              <a href="#how-it-works" className={`text-sm font-medium ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>How It Works</a>
-              <a href="#reviews" className={`text-sm font-medium ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Reviews</a>
-              <a href="#faq" className={`text-sm font-medium ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>FAQ</a>
-              <a href="#contact" className={`text-sm font-medium ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Contact</a>
-              <div className="flex gap-2 pt-4 border-t">
+          <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
+            className={`md:hidden border-t p-4 ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-gray-200'}`}>
+            <div className="flex flex-col gap-3">
+              <a href="#features" className="text-sm font-medium text-gray-700 dark:text-gray-300">Features</a>
+              <a href="#how-it-works" className="text-sm font-medium text-gray-700 dark:text-gray-300">How It Works</a>
+              <a href="#faq" className="text-sm font-medium text-gray-700 dark:text-gray-300">FAQ</a>
+              <div className="flex gap-2 pt-3 border-t">
                 <Link to="/login" className="flex-1 px-4 py-2 rounded-lg font-medium text-center border">Login</Link>
-                <Link to="/signup" className="flex-1 px-4 py-2 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white rounded-lg font-medium text-center">Sign Up Free</Link>
+                <Link to="/signup" className="flex-1 px-4 py-2 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white rounded-lg font-medium text-center">Sign Up</Link>
               </div>
             </div>
           </motion.div>
@@ -116,101 +126,88 @@ function Landing() {
       </nav>
 
       {/* Hero Section */}
-      <section className="pt-32 pb-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
+      <section className="relative pt-32 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-20 left-10 w-96 h-96 bg-[#2563eb] rounded-full blur-[150px]" />
+          <div className="absolute bottom-10 right-10 w-96 h-96 bg-[#7c3aed] rounded-full blur-[150px]" />
+        </div>
+        <div className="max-w-7xl mx-auto relative">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-            >
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 dark:bg-blue-900/20 text-[#2563eb] text-sm font-medium mb-6">
+            <motion.div initial={{ opacity: 0, x: -40 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }}>
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#2563eb]/10 text-[#2563eb] text-sm font-semibold mb-6">
                 <Zap size={16} />
-                <span>AI-Powered Market Intelligence</span>
+                AI-Powered Market Intelligence
               </div>
-              <h1 className={`text-4xl sm:text-5xl lg:text-6xl font-extrabold mb-6 leading-tight ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+              <h1 className={`text-4xl sm:text-5xl lg:text-6xl font-extrabold mb-6 leading-tight ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
                 Find Your Next
                 <span className="block bg-gradient-to-r from-[#2563eb] to-[#7c3aed] bg-clip-text text-transparent">
                   Business Opportunity
                 </span>
               </h1>
-              <p className={`text-lg mb-8 opacity-80 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
-                AI-powered platform to identify underserved business opportunities with real market intelligence.
-                Make data-driven decisions for your next business venture.
+              <p className={`text-lg mb-8 leading-relaxed ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                Identify underserved markets, analyze competition, and make data-driven business decisions with real market intelligence across 38 districts.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 mb-8">
-                <Link to="/signup" className="px-8 py-4 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white rounded-xl font-semibold text-center hover:opacity-90 transition-opacity shadow-lg">
+              <div className="flex flex-col sm:flex-row gap-4 mb-10">
+                <Link to="/signup" className="px-8 py-4 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white rounded-xl font-semibold text-center hover:opacity-90 transition-opacity shadow-lg shadow-blue-500/25">
                   Get Started Free
                   <ArrowRight className="inline ml-2" size={20} />
                 </Link>
-                <Link to="/login" className={`px-8 py-4 rounded-xl font-semibold text-center border-2 transition-colors ${isDarkMode ? 'text-[#f1f5f9] border-[#334155] hover:bg-[#1e293b]' : 'text-[#1e293b] border-[#e2e8f0] hover:bg-[#ffffff]'}`}>
-                  View Demo
-                  <Play className="inline ml-2" size={20} />
+                <Link to="/login" className={`px-8 py-4 rounded-xl font-semibold text-center border-2 transition-colors ${isDarkMode ? 'text-white border-[#334155] hover:bg-[#1e293b]' : 'text-gray-700 border-gray-200 hover:bg-gray-50'}`}>
+                  View Demo Dashboard
                 </Link>
               </div>
-              <div className="flex items-center gap-6">
-                <div className="flex -space-x-2">
-                  {[1, 2, 3, 4].map(i => (
-                    <div key={i} className="w-10 h-10 rounded-full bg-gradient-to-r from-[#2563eb] to-[#7c3aed] border-2 border-white dark:border-gray-800 flex items-center justify-center text-white text-xs font-bold">
-                      {i}
-                    </div>
-                  ))}
-                </div>
-                <div>
-                  <div className="flex items-center gap-1">
-                    {[1, 2, 3, 4, 5].map(i => (
-                      <Star key={i} size={16} className="text-yellow-500 fill-yellow-500" />
+              <div className="flex items-center gap-8">
+                <div className="flex items-center gap-2">
+                  <div className="flex -space-x-2">
+                    {[0,1,2,3].map(i => (
+                      <div key={i} className="w-8 h-8 rounded-full bg-gradient-to-r from-[#2563eb] to-[#7c3aed] border-2 border-white dark:border-gray-800 flex items-center justify-center text-white text-xs font-bold">
+                        {String.fromCharCode(65 + i)}
+                      </div>
                     ))}
                   </div>
-                  <p className={`text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
-                    Trusted by {stats.entrepreneurs || 'entrepreneurs'}
-                  </p>
+                  <span className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>1000+ users</span>
+                </div>
+                <div className="flex items-center gap-1">
+                  {[1,2,3,4,5].map(i => <Star key={i} size={14} className="text-yellow-500 fill-yellow-500" />)}
+                  <span className={`text-sm ml-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>4.9/5</span>
                 </div>
               </div>
             </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="relative"
-            >
-              <div className="relative z-10">
-                <div className={`p-8 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'} shadow-2xl`}>
-                  <div className="flex items-center gap-2 mb-6">
-                    <Search className="text-[#2563eb]" size={24} />
+            <motion.div initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, delay: 0.2 }}>
+              <div className={`p-8 rounded-3xl border shadow-2xl ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-gray-200'}`}>
+                <form onSubmit={handleSearch}>
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="w-10 h-10 rounded-xl bg-[#2563eb]/10 flex items-center justify-center">
+                      <Search className="text-[#2563eb]" size={20} />
+                    </div>
                     <input 
                       type="text" 
-                      placeholder="Search by pincode or area..." 
-                      className={`flex-1 px-4 py-3 rounded-lg border bg-transparent outline-none focus:border-[#2563eb] transition-colors ${isDarkMode ? 'text-[#f1f5f9] border-[#334155]' : 'text-[#1e293b] border-[#e2e8f0]'}`}
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      placeholder="Enter pincode or area name..." 
+                      className={`flex-1 px-4 py-3 rounded-xl border outline-none focus:ring-2 focus:ring-[#2563eb]/40 transition-all ${isDarkMode ? 'bg-[#0f172a] text-white border-[#334155] placeholder-gray-500' : 'bg-gray-50 text-gray-900 border-gray-200 placeholder-gray-400'}`}
                     />
-                    <button className="p-3 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white rounded-lg hover:opacity-90 transition-opacity">
-                      <Mic size={20} />
+                    <button type="submit" className="px-6 py-3 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white rounded-xl font-medium hover:opacity-90 transition-opacity">
+                      Search
                     </button>
                   </div>
-                  
-                  <div className="grid grid-cols-2 gap-4 mb-6">
-                    <div className={`p-4 rounded-xl ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
-                      <p className={`text-sm opacity-70 mb-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Market Gap Score</p>
-                      <p className="text-2xl font-bold text-[#2563eb]">—</p>
+                </form>
+                
+                <div className="grid grid-cols-2 gap-4 mb-6">
+                  {platformStats.map((stat, i) => (
+                    <div key={i} className={`p-4 rounded-xl ${isDarkMode ? 'bg-[#0f172a]' : 'bg-gray-50'}`}>
+                      <stat.icon className="text-[#2563eb] mb-2" size={20} />
+                      <p className={`text-2xl font-extrabold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>{stat.value}</p>
+                      <p className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>{stat.label}</p>
                     </div>
-                    <div className={`p-4 rounded-xl ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
-                      <p className={`text-sm opacity-70 mb-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Opportunities</p>
-                      <p className="text-2xl font-bold text-[#7c3aed]">—</p>
-                    </div>
-                  </div>
-
-                  <div className={`p-4 rounded-xl ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
-                    <p className={`text-sm font-semibold mb-3 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Top Opportunity</p>
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className={`font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Business Opportunity</p>
-                        <p className={`text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>View analysis for details</p>
-                      </div>
-                      <ArrowRight className="text-[#2563eb]" size={20} />
-                    </div>
-                  </div>
+                  ))}
                 </div>
+
+                <Link to="/signup" className="block w-full py-3 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white rounded-xl font-semibold text-center hover:opacity-90 transition-opacity">
+                  Explore Market Data
+                  <ArrowRight className="inline ml-2" size={18} />
+                </Link>
               </div>
             </motion.div>
           </div>
@@ -220,348 +217,196 @@ function Landing() {
       {/* Features Section */}
       <section id="features" className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className={`text-3xl sm:text-4xl font-bold mb-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
-              Powerful Features
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
+            <span className="inline-block px-4 py-1.5 rounded-full bg-[#2563eb]/10 text-[#2563eb] text-sm font-semibold mb-4">Features</span>
+            <h2 className={`text-3xl sm:text-4xl font-bold mb-4 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+              Everything You Need
             </h2>
-            <p className={`text-lg opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
-              Everything you need to make smart business decisions
+            <p className={`text-lg max-w-2xl mx-auto ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+              Powerful tools to identify the best business opportunities in your market
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {features.length > 0 ? features.map((feature, index) => {
-              const icons = [BarChart3, TrendingUp, MapPin, Users, Zap, Target];
-              const FeatureIcon = icons[index % icons.length] || BarChart3;
-              
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {displayFeatures.map((feature, index) => {
+              const icons = [BarChart3, TrendingUp, MapPin, Users, Zap, Target, Globe, Shield, Award];
+              const FeatureIcon = icons[index % icons.length];
               return (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
-                  className={`p-6 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
-                >
+                <motion.div key={index} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+                  transition={{ delay: index * 0.08 }}
+                  className={`p-6 rounded-2xl border hover:shadow-lg transition-all duration-300 ${isDarkMode ? 'bg-[#1e293b] border-[#334155] hover:border-[#2563eb]/50' : 'bg-white border-gray-200 hover:shadow-xl'}`}>
                   <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-[#2563eb] to-[#7c3aed] flex items-center justify-center mb-4">
-                    <FeatureIcon className="text-white" size={24} />
+                    <FeatureIcon className="text-white" size={22} />
                   </div>
-                  <h3 className={`text-xl font-bold mb-2 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
-                    {feature.title}
+                  <h3 className={`text-lg font-bold mb-2 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+                    {feature.title || feature.name}
                   </h3>
-                  <p className={`opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
-                    {feature.desc}
+                  <p className={`text-sm leading-relaxed ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                    {feature.desc || feature.description}
                   </p>
                 </motion.div>
               );
-            }) : (
-              <p className={`text-center opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Loading features...</p>
-            )}
+            })}
           </div>
         </div>
       </section>
 
-      {/* Benefits Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8">
+      {/* How It Works */}
+      <section id="how-it-works" className={`py-20 px-4 sm:px-6 lg:px-8 ${isDarkMode ? 'bg-[#1e293b]/50' : 'bg-gray-50'}`}>
         <div className="max-w-7xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-            >
-              <h2 className={`text-3xl sm:text-4xl font-bold mb-6 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
-                Why Choose Market Gap Finder?
-              </h2>
-              <div className="space-y-6">
-                {benefits.length > 0 ? benefits.map((benefit, index) => {
-                  const icons = [CheckCircle, Clock, Shield, Award];
-                  const BenefitIcon = icons[index % icons.length] || CheckCircle;
-                  
-  if (loading) return <PageSkeleton />;
-
-  return (
-                    <div key={index} className="flex items-start gap-4">
-                      <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-[#2563eb] to-[#7c3aed] flex items-center justify-center flex-shrink-0">
-                        <BenefitIcon className="text-white" size={24} />
-                      </div>
-                      <div>
-                        <h3 className={`font-bold mb-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
-                          {benefit.title}
-                        </h3>
-                        <p className={`opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
-                          {benefit.desc}
-                        </p>
-                      </div>
-                    </div>
-                  );
-                }) : (
-                  <p className={`opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Loading benefits...</p>
-                )}
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className={`p-8 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
-            >
-              <div className="space-y-6">
-                {howItWorks.length > 0 ? howItWorks.map((step, index) => (
-                  <div key={index} className="flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-r from-[#2563eb] to-[#7c3aed] flex items-center justify-center text-white font-bold flex-shrink-0">
-                      {step.step}
-                    </div>
-                    <div>
-                      <h3 className={`font-bold mb-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
-                        {step.title}
-                      </h3>
-                      <p className={`text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
-                        {step.desc}
-                      </p>
-                    </div>
-                  </div>
-                )) : (
-                  <p className={`opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Loading steps...</p>
-                )}
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* Reviews Section */}
-      <section id="reviews" className="py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className={`text-3xl sm:text-4xl font-bold mb-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
-              What Our Users Say
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
+            <span className="inline-block px-4 py-1.5 rounded-full bg-[#2563eb]/10 text-[#2563eb] text-sm font-semibold mb-4">Process</span>
+            <h2 className={`text-3xl sm:text-4xl font-bold mb-4 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+              How It Works
             </h2>
-            <p className={`text-lg opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
-              Trusted by entrepreneurs and investors worldwide
+            <p className={`text-lg max-w-2xl mx-auto ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+              Get started in three simple steps
             </p>
           </motion.div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            {reviews.length > 0 ? reviews.map((review, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className={`p-6 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
-              >
-                <div className="flex items-center gap-1 mb-4">
-                  {[...Array(review.rating)].map((_, i) => (
-                    <Star key={i} size={16} className="text-yellow-500 fill-yellow-500" />
-                  ))}
+            {[
+              { step: '01', title: 'Select Your Area', desc: 'Choose a district and pincode to analyze the local market conditions and demographics.', icon: MapPin },
+              { step: '02', title: 'Analyze Market Data', desc: 'View market gap scores, demand indices, competition levels, and growth forecasts.', icon: BarChart3 },
+              { step: '03', title: 'Make Decisions', desc: 'Get AI-powered recommendations and export professional reports for your business plan.', icon: TrendingUp },
+            ].map((item, i) => (
+              <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+                transition={{ delay: i * 0.15 }} className="text-center">
+                <div className="w-16 h-16 rounded-2xl bg-gradient-to-r from-[#2563eb] to-[#7c3aed] flex items-center justify-center mx-auto mb-6">
+                  <item.icon className="text-white" size={28} />
                 </div>
-                <p className={`mb-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
-                  "{review.text}"
-                </p>
-                <div>
-                  <p className={`font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
-                    {review.name}
-                  </p>
-                  <p className={`text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
-                    {review.role}
-                  </p>
-                </div>
+                <div className={`text-sm font-bold mb-2 ${isDarkMode ? 'text-[#2563eb]' : 'text-[#2563eb]'}`}>Step {item.step}</div>
+                <h3 className={`text-xl font-bold mb-3 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>{item.title}</h3>
+                <p className={`text-sm leading-relaxed ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>{item.desc}</p>
               </motion.div>
-            )) : (
-              <p className={`text-center opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Loading reviews...</p>
-            )}
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Stats Section */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            {[
+              { value: '38', label: 'Districts', icon: MapPin },
+              { value: '380+', label: 'Areas Covered', icon: Globe },
+              { value: '12', label: 'Categories', icon: BarChart3 },
+              { value: '4,500+', label: 'Data Points', icon: TrendingUp },
+            ].map((stat, i) => (
+              <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className={`p-6 rounded-2xl border text-center ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-gray-200'}`}>
+                <stat.icon className="text-[#2563eb] mx-auto mb-3" size={28} />
+                <p className={`text-3xl font-extrabold mb-1 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>{stat.value}</p>
+                <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>{stat.label}</p>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
 
       {/* FAQ Section */}
-      <section id="faq" className="py-20 px-4 sm:px-6 lg:px-8">
+      <section id="faq" className={`py-20 px-4 sm:px-6 lg:px-8 ${isDarkMode ? 'bg-[#1e293b]/50' : 'bg-gray-50'}`}>
         <div className="max-w-3xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className={`text-3xl sm:text-4xl font-bold mb-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-12">
+            <span className="inline-block px-4 py-1.5 rounded-full bg-[#2563eb]/10 text-[#2563eb] text-sm font-semibold mb-4">FAQ</span>
+            <h2 className={`text-3xl sm:text-4xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
               Frequently Asked Questions
             </h2>
           </motion.div>
 
-          <div className="space-y-4">
-            {faqs.length > 0 ? faqs.map((faq, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className={`p-6 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
-              >
-                <button
-                  onClick={() => setActiveFaq(activeFaq === index ? null : index)}
-                  className="w-full flex items-center justify-between text-left"
-                >
-                  <span className={`font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
-                    {faq.question}
-                  </span>
-                  <ChevronDown className={`transition-transform ${activeFaq === index ? 'rotate-180' : ''}`} size={20} />
+          <div className="space-y-3">
+            {displayFaqs.map((faq, index) => (
+              <motion.div key={index} initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+                transition={{ delay: index * 0.05 }}
+                className={`rounded-2xl border overflow-hidden ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-gray-200'}`}>
+                <button onClick={() => setActiveFaq(activeFaq === index ? null : index)}
+                  className="w-full flex items-center justify-between p-5 text-left">
+                  <span className={`font-semibold pr-4 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>{faq.question}</span>
+                  <ChevronDown className={`flex-shrink-0 transition-transform duration-200 ${activeFaq === index ? 'rotate-180' : ''} ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`} size={20} />
                 </button>
                 {activeFaq === index && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: 'auto' }}
-                    className={`mt-4 pt-4 border-t ${isDarkMode ? 'border-[#334155]' : 'border-[#e2e8f0]'}`}
-                  >
-                    <p className={`opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
-                      {faq.answer}
-                    </p>
-                  </motion.div>
+                  <div className={`px-5 pb-5 pt-0 border-t ${isDarkMode ? 'border-[#334155]' : 'border-gray-100'}`}>
+                    <p className={`mt-3 text-sm leading-relaxed ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>{faq.answer}</p>
+                  </div>
                 )}
               </motion.div>
-            )) : (
-              <p className={`text-center opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Loading FAQs...</p>
-            )}
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Contact Section */}
-      <section id="contact" className="py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className={`text-3xl sm:text-4xl font-bold mb-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
-              Get In Touch
-            </h2>
-            <p className={`text-lg opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
-              Have questions? We'd love to hear from you.
-            </p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-3 gap-8 mb-12">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className={`p-6 rounded-2xl border text-center ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
-            >
-              <Mail className="text-[#2563eb] mx-auto mb-4" size={32} />
-              <h3 className={`font-bold mb-2 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Email Us</h3>
-              <p className={`text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>support@marketvision.ai</p>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
-              className={`p-6 rounded-2xl border text-center ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
-            >
-              <Phone className="text-[#2563eb] mx-auto mb-4" size={32} />
-              <h3 className={`font-bold mb-2 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Call Us</h3>
-              <p className={`text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Contact us via email</p>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
-              className={`p-6 rounded-2xl border text-center ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
-            >
-              <MessageSquare className="text-[#2563eb] mx-auto mb-4" size={32} />
-              <h3 className={`font-bold mb-2 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Live Chat</h3>
-              <p className={`text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Available 24/7</p>
-            </motion.div>
-          </div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className={`max-w-2xl mx-auto p-8 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
-          >
-            <div className="grid gap-4">
-              <input 
-                type="text" 
-                placeholder="Your Name" 
-                className={`px-4 py-3 rounded-lg border bg-transparent outline-none focus:border-[#2563eb] transition-colors ${isDarkMode ? 'text-[#f1f5f9] border-[#334155]' : 'text-[#1e293b] border-[#e2e8f0]'}`}
-              />
-              <input 
-                type="email" 
-                placeholder="Your Email" 
-                className={`px-4 py-3 rounded-lg border bg-transparent outline-none focus:border-[#2563eb] transition-colors ${isDarkMode ? 'text-[#f1f5f9] border-[#334155]' : 'text-[#1e293b] border-[#e2e8f0]'}`}
-              />
-              <textarea 
-                placeholder="Your Message" 
-                rows={4}
-                className={`px-4 py-3 rounded-lg border bg-transparent outline-none focus:border-[#2563eb] transition-colors resize-none ${isDarkMode ? 'text-[#f1f5f9] border-[#334155]' : 'text-[#1e293b] border-[#e2e8f0]'}`}
-              />
-              <button className="px-8 py-3 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white rounded-lg font-semibold hover:opacity-90 transition-opacity">
-                Send Message
-              </button>
+      {/* CTA Section */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+            className="relative p-12 rounded-3xl bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-center overflow-hidden">
+            <div className="absolute inset-0 opacity-10">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-white rounded-full blur-[100px]" />
+              <div className="absolute bottom-0 left-0 w-48 h-48 bg-white rounded-full blur-[80px]" />
+            </div>
+            <div className="relative">
+              <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
+                Ready to Find Your Opportunity?
+              </h2>
+              <p className="text-lg text-white/80 mb-8 max-w-xl mx-auto">
+                Join 1000+ entrepreneurs using MarketVision AI to make smarter business decisions.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Link to="/signup" className="px-8 py-4 bg-white text-[#2563eb] rounded-xl font-bold hover:bg-gray-100 transition-colors">
+                  Start Free Trial
+                  <ArrowRight className="inline ml-2" size={20} />
+                </Link>
+                <Link to="/login" className="px-8 py-4 border-2 border-white text-white rounded-xl font-bold hover:bg-white/10 transition-colors">
+                  Sign In
+                </Link>
+              </div>
             </div>
           </motion.div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className={`py-12 px-4 sm:px-6 lg:px-8 border-t ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}>
+      <footer className={`py-12 px-4 sm:px-6 lg:px-8 border-t ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-gray-200'}`}>
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-4 gap-8 mb-8">
             <div>
               <div className="flex items-center gap-2 mb-4">
                 <Target className="text-[#2563eb]" size={24} />
-                <span className="font-bold bg-gradient-to-r from-[#2563eb] to-[#7c3aed] bg-clip-text text-transparent">
-                  Market Gap Finder
-                </span>
+                <span className="font-bold bg-gradient-to-r from-[#2563eb] to-[#7c3aed] bg-clip-text text-transparent">MarketVision AI</span>
               </div>
-              <p className={`text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
-                AI-powered platform to identify underserved business opportunities with real market intelligence.
+              <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                AI-powered market intelligence platform for smart business decisions.
               </p>
             </div>
             <div>
-              <h4 className={`font-bold mb-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Product</h4>
+              <h4 className={`font-bold mb-4 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Product</h4>
               <ul className="space-y-2">
-                <li><a href="#features" className={`text-sm opacity-70 hover:opacity-100 transition-opacity ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Features</a></li>
-                <li><a href="#pricing" className={`text-sm opacity-70 hover:opacity-100 transition-opacity ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Pricing</a></li>
-                <li><a href="#faq" className={`text-sm opacity-70 hover:opacity-100 transition-opacity ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>FAQ</a></li>
+                <li><Link to="/dashboard" className={`text-sm hover:text-[#2563eb] transition-colors ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Dashboard</Link></li>
+                <li><Link to="/about" className={`text-sm hover:text-[#2563eb] transition-colors ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>About</Link></li>
+                <li><a href="#faq" className={`text-sm hover:text-[#2563eb] transition-colors ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>FAQ</a></li>
               </ul>
             </div>
             <div>
-              <h4 className={`font-bold mb-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Company</h4>
+              <h4 className={`font-bold mb-4 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Features</h4>
               <ul className="space-y-2">
-                <li><a href="#about" className={`text-sm opacity-70 hover:opacity-100 transition-opacity ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>About</a></li>
-                <li><a href="#contact" className={`text-sm opacity-70 hover:opacity-100 transition-opacity ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Contact</a></li>
-                <li><a href="#careers" className={`text-sm opacity-70 hover:opacity-100 transition-opacity ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Careers</a></li>
+                <li><Link to="/category-explorer" className={`text-sm hover:text-[#2563eb] transition-colors ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Explorer</Link></li>
+                <li><Link to="/forecast" className={`text-sm hover:text-[#2563eb] transition-colors ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Forecasting</Link></li>
+                <li><Link to="/reports" className={`text-sm hover:text-[#2563eb] transition-colors ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Reports</Link></li>
               </ul>
             </div>
             <div>
-              <h4 className={`font-bold mb-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Legal</h4>
+              <h4 className={`font-bold mb-4 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Account</h4>
               <ul className="space-y-2">
-                <li><a href="#privacy" className={`text-sm opacity-70 hover:opacity-100 transition-opacity ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Privacy Policy</a></li>
-                <li><a href="#terms" className={`text-sm opacity-70 hover:opacity-100 transition-opacity ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Terms of Service</a></li>
+                <li><Link to="/login" className={`text-sm hover:text-[#2563eb] transition-colors ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Login</Link></li>
+                <li><Link to="/signup" className={`text-sm hover:text-[#2563eb] transition-colors ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Sign Up</Link></li>
+                <li><Link to="/profile" className={`text-sm hover:text-[#2563eb] transition-colors ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Profile</Link></li>
               </ul>
             </div>
           </div>
-          <div className={`pt-8 border-t ${isDarkMode ? 'border-[#334155]' : 'border-[#e2e8f0]'}`}>
-            <p className={`text-center text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+          <div className={`pt-8 border-t ${isDarkMode ? 'border-[#334155]' : 'border-gray-200'}`}>
+            <p className={`text-center text-sm ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`}>
               © {new Date().getFullYear()} MarketVision AI. All rights reserved.
             </p>
           </div>

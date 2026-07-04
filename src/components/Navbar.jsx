@@ -211,9 +211,6 @@ function Navbar() {
                         <Link to="/profile" onClick={closeMenus} className={`flex items-center gap-3 px-4 py-2.5 text-sm ${b('text-gray-700 hover:bg-gray-50', 'text-gray-300 hover:bg-[#0f172a]')}`}><span>👤</span> My Profile</Link>
                         <Link to="/workspace" onClick={closeMenus} className={`flex items-center gap-3 px-4 py-2.5 text-sm ${b('text-gray-700 hover:bg-gray-50', 'text-gray-300 hover:bg-[#0f172a]')}`}><span>⭐</span> My Favorites</Link>
                         <Link to="/notifications" onClick={closeMenus} className={`flex items-center gap-3 px-4 py-2.5 text-sm ${b('text-gray-700 hover:bg-gray-50', 'text-gray-300 hover:bg-[#0f172a]')}`}><span>🔔</span> Notifications</Link>
-                        {isAdmin && (
-                          <Link to="/admin" onClick={closeMenus} className={`flex items-center gap-3 px-4 py-2.5 text-sm ${b('text-amber-600 hover:bg-amber-50', 'text-amber-400 hover:bg-[#0f172a]')}`}><span>⚙️</span> Admin Panel</Link>
-                        )}
                         <hr className={`my-1 ${b('border-gray-100', 'border-[#334155]')}`} />
                         <button onClick={() => { closeMenus(); handleLogout(); }} className={`flex items-center gap-3 px-4 py-2.5 text-sm w-full text-left ${b('text-red-600 hover:bg-red-50', 'text-red-400 hover:bg-[#0f172a]')}`}><span>🚪</span> Logout</button>
                       </div>
