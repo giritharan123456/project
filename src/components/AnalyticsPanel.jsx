@@ -316,34 +316,98 @@ ${index + 1}. ${pincode.area} (${pincode.pincode})
       >
         <h4 className={`text-base font-semibold mb-2 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Key Insights Summary</h4>
         <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-2">
-          <div className={`p-3 rounded-lg border ${isDarkMode ? 'bg-[#0f172a] border-[#334155]' : 'bg-[#f8fafc] border-[#e2e8f0]'}`}>
-            <div className="text-2xl mb-2">🎯</div>
-            <div>
-              <h5 className={`font-bold text-base ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Top Performing District</h5>
-              <p className={`text-sm opacity-70 mt-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Highest market gap opportunities based on analysis</p>
-            </div>
-          </div>
-          <div className={`p-3 rounded-lg border ${isDarkMode ? 'bg-[#0f172a] border-[#334155]' : 'bg-[#f8fafc] border-[#e2e8f0]'}`}>
-            <div className="text-2xl mb-2">📈</div>
-            <div>
-              <h5 className={`font-bold text-base ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Growth Trend</h5>
-              <p className={`text-sm opacity-70 mt-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Population growth rate analysis by district</p>
-            </div>
-          </div>
-          <div className={`p-3 rounded-lg border ${isDarkMode ? 'bg-[#0f172a] border-[#334155]' : 'bg-[#f8fafc] border-[#e2e8f0]'}`}>
-            <div className="text-2xl mb-2">💡</div>
-            <div>
-              <h5 className={`font-bold text-base ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Opportunity Category</h5>
-              <p className={`text-sm opacity-70 mt-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Supermarket category shows highest underserved demand</p>
-            </div>
-          </div>
-          <div className={`p-3 rounded-lg border ${isDarkMode ? 'bg-[#0f172a] border-[#334155]' : 'bg-[#f8fafc] border-[#e2e8f0]'}`}>
-            <div className="text-2xl mb-2">⚡</div>
-            <div>
-              <h5 className={`font-bold text-base ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Data Coverage</h5>
-              <p className={`text-sm opacity-70 mt-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>100% coverage across all major districts</p>
-            </div>
-          </div>
+          {(() => {
+            if (!pincodeData || pincodeData.length === 0) {
+              return <p className={`text-sm ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>No data available</p>;
+            }
+
+            // 1. Top district by avg gap score
+            const districtScores = {};
+            pincodeData.forEach(p => {
+              const d = p.district || 'Unknown';
+              if (!districtScores[d]) districtScores[d] = { total: 0, count: 0 };
+              const gap = Object.values(p.marketGapScores || {}).reduce((s, v) => s + (Number(v) || 0), 0) / (Object.keys(p.marketGapScores || {}).length || 1);
+              districtScores[d].total += gap;
+              districtScores[d].count += 1;
+            });
+            const topDistrict = Object.entries(districtScores)
+              .map(([name, data]) => ({ name, avg: data.total / data.count }))
+              .sort((a, b) => b.avg - a.avg)[0];
+
+            // 2. Growth trend
+            const avgGrowth = pincodeData.reduce((sum, p) => sum + (Number(p.populationGrowth) || 0), 0) / pincodeData.length;
+            const growingAreas = pincodeData.filter(p => (Number(p.populationGrowth) || 0) > 1.5).length;
+
+            // 3. Top opportunity category
+            const catDemand = {};
+            pincodeData.forEach(p => {
+              Object.entries(p.demandScores || {}).forEach(([cat, score]) => {
+                if (!catDemand[cat]) catDemand[cat] = { demand: 0, supply: 0, count: 0 };
+                catDemand[cat].demand += Number(score) || 0;
+                catDemand[cat].count += 1;
+              });
+              Object.entries(p.marketGapScores || {}).forEach(([cat, score]) => {
+                if (!catDemand[cat]) catDemand[cat] = { demand: 0, supply: 0, count: 0 };
+                catDemand[cat].supply += Number(score) || 0;
+              });
+            });
+            const topCategory = Object.entries(catDemand)
+              .map(([name, data]) => ({ name, gap: data.demand / data.count }))
+              .sort((a, b) => b.gap - a.gap)[0];
+
+            // 4. Data coverage
+            const withCompleteData = pincodeData.filter(p =>
+              p.population > 0 &&
+              Object.keys(p.marketGapScores || {}).length > 0 &&
+              Object.keys(p.demandScores || {}).length > 0
+            ).length;
+            const coverage = ((withCompleteData / pincodeData.length) * 100).toFixed(2);
+
+            return (
+              <>
+                <div className={`p-3 rounded-lg border ${isDarkMode ? 'bg-[#0f172a] border-[#334155]' : 'bg-[#f8fafc] border-[#e2e8f0]'}`}>
+                  <div className="text-2xl mb-2">🎯</div>
+                  <div>
+                    <h5 className={`font-bold text-base ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Top District</h5>
+                    <p className={`text-sm mt-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+                      <span className="font-bold">{topDistrict?.name || 'N/A'}</span>
+                      <span className={`opacity-70`}> — Avg Gap: {Number(topDistrict?.avg || 0).toFixed(2)}</span>
+                    </p>
+                  </div>
+                </div>
+                <div className={`p-3 rounded-lg border ${isDarkMode ? 'bg-[#0f172a] border-[#334155]' : 'bg-[#f8fafc] border-[#e2e8f0]'}`}>
+                  <div className="text-2xl mb-2">📈</div>
+                  <div>
+                    <h5 className={`font-bold text-base ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Growth Trend</h5>
+                    <p className={`text-sm mt-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+                      <span className="font-bold">{avgGrowth.toFixed(2)}%</span>
+                      <span className={`opacity-70`}> avg growth — {growingAreas} fast-growing areas</span>
+                    </p>
+                  </div>
+                </div>
+                <div className={`p-3 rounded-lg border ${isDarkMode ? 'bg-[#0f172a] border-[#334155]' : 'bg-[#f8fafc] border-[#e2e8f0]'}`}>
+                  <div className="text-2xl mb-2">💡</div>
+                  <div>
+                    <h5 className={`font-bold text-base ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Top Opportunity</h5>
+                    <p className={`text-sm mt-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+                      <span className="font-bold">{topCategory?.name || 'N/A'}</span>
+                      <span className={`opacity-70`}> — Demand Score: {Number(topCategory?.gap || 0).toFixed(2)}</span>
+                    </p>
+                  </div>
+                </div>
+                <div className={`p-3 rounded-lg border ${isDarkMode ? 'bg-[#0f172a] border-[#334155]' : 'bg-[#f8fafc] border-[#e2e8f0]'}`}>
+                  <div className="text-2xl mb-2">⚡</div>
+                  <div>
+                    <h5 className={`font-bold text-base ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Data Coverage</h5>
+                    <p className={`text-sm mt-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+                      <span className="font-bold">{coverage}%</span>
+                      <span className={`opacity-70`}> — {withCompleteData}/{pincodeData.length} areas complete</span>
+                    </p>
+                  </div>
+                </div>
+              </>
+            );
+          })()}
         </div>
       </motion.div>
 
