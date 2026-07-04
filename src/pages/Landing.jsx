@@ -465,7 +465,7 @@ function Landing() {
             >
               <Mail className="text-[#2563eb] mx-auto mb-4" size={32} />
               <h3 className={`font-bold mb-2 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Email Us</h3>
-              <p className={`text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>support@marketgapfinder.com</p>
+              <p className={`text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>support@marketvision.ai</p>
             </motion.div>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -476,7 +476,7 @@ function Landing() {
             >
               <Phone className="text-[#2563eb] mx-auto mb-4" size={32} />
               <h3 className={`font-bold mb-2 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Call Us</h3>
-              <p className={`text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>+91 98765 43210</p>
+              <p className={`text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Contact us via email</p>
             </motion.div>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
