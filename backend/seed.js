@@ -102,7 +102,7 @@ const generateAreasForDistrict = (config, districtId) => {
     const urbanDev = Math.min(95, Math.max(20, config.urbanBase + Math.floor(Math.random() * 16 - 8)));
     const popVariation = Math.floor(Math.random() * 20000) - 10000;
     const population = Math.max(15000, config.popBase + popVariation);
-    const growthRate = Math.round((0.5 + (urbanDev / 100) * 2.5) * 10) / 10;
+    const growthRate = Math.round((0.5 + (urbanDev / 100) * 2.5 + (Math.random() * 1.2 - 0.6)) * 10) / 10;
     const incomeOptions = urbanDev >= 70 ? ['High'] : urbanDev >= 40 ? ['Medium', 'High'] : ['Low', 'Medium'];
     const incomeLevel = config.incomeBase === 'High' ? 'High' : incomeOptions[Math.floor(Math.random() * incomeOptions.length)];
     const latOffset = (Math.random() * 0.2) - 0.1;
@@ -115,9 +115,9 @@ const generateAreasForDistrict = (config, districtId) => {
     const incomeMultiplier = incomeLevel === 'High' ? 1.3 : incomeLevel === 'Medium' ? 1.0 : 0.7;
 
     selectedCats.forEach((cat, catIdx) => {
-      const count = Math.max(1, Math.floor((population / 8000) * (urbanDev / 30) * ((catIdx + 1) * 0.8)));
+      const count = Math.max(1, Math.floor((population / 15000) * (urbanDev / 40) * ((catIdx + 1) * 0.5) * (0.5 + Math.random() * 1.0)));
       competitors[cat] = count;
-      const demand = Math.min(95, Math.max(40, Math.floor((population / 800) * incomeMultiplier * (urbanDev / 40) * (1 + (catIdx * 0.05)))));
+      const demand = Math.min(95, Math.max(40, Math.floor((population / 1000) * incomeMultiplier * (urbanDev / 50) * (0.6 + Math.random() * 0.8))));
       demandScores[cat] = demand;
       const gap = Math.max(0, Math.min(95, demand - (count * 2) + Math.floor(Math.random() * 8 - 4)));
       marketGapScores[cat] = gap;
