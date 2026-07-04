@@ -62,6 +62,10 @@ function Forecast() {
     const populationGrowth = Number(area.populationGrowth) || 0;
     const avgDemand = Object.values(area.demandScores || {}).reduce((sum, val) => sum + (Number(val) || 0), 0) / (Object.keys(area.demandScores || {}).length || 1);
     const avgCompetition = Object.values(area.competitors || {}).reduce((sum, val) => sum + (Number(val) || 0), 0) / (Object.keys(area.competitors || {}).length || 1);
+    const urbanDev = Number(area.urbanDevelopment) || 50;
+    const demandGrowthRate = Math.round(Math.max(1, Math.min(8, populationGrowth * 0.5 + urbanDev * 0.05)) * 100) / 100;
+    const compGrowthRate = Math.round(Math.max(1, Math.min(10, urbanDev * 0.08 + 1)) * 100) / 100;
+    const revGrowthRate = Math.round(Math.max(1, Math.min(12, demandGrowthRate * 1.5)) * 100) / 100;
 
     return {
       population: {
@@ -74,27 +78,27 @@ function Forecast() {
       },
       demand: {
         current: Math.round(avgDemand * 100) / 100,
-        year1: Math.round(Math.min(100, avgDemand * (1 + 0.03)) * 100) / 100,
-        year3: Math.round(Math.min(100, avgDemand * (1 + 0.09)) * 100) / 100,
-        year5: Math.round(Math.min(100, avgDemand * (1 + 0.15)) * 100) / 100,
-        year10: Math.round(Math.min(100, avgDemand * (1 + 0.25)) * 100) / 100,
-        growthRate: 3
+        year1: Math.round(Math.min(100, avgDemand * (1 + demandGrowthRate / 100)) * 100) / 100,
+        year3: Math.round(Math.min(100, avgDemand * Math.pow(1 + demandGrowthRate / 100, 3)) * 100) / 100,
+        year5: Math.round(Math.min(100, avgDemand * Math.pow(1 + demandGrowthRate / 100, 5)) * 100) / 100,
+        year10: Math.round(Math.min(100, avgDemand * Math.pow(1 + demandGrowthRate / 100, 10)) * 100) / 100,
+        growthRate: demandGrowthRate
       },
       competition: {
         current: Math.round(avgCompetition * 100) / 100,
-        year1: Math.round(avgCompetition * (1 + 0.05) * 100) / 100,
-        year3: Math.round(avgCompetition * (1 + 0.15) * 100) / 100,
-        year5: Math.round(avgCompetition * (1 + 0.25) * 100) / 100,
-        year10: Math.round(avgCompetition * (1 + 0.40) * 100) / 100,
-        growthRate: 5
+        year1: Math.round(avgCompetition * (1 + compGrowthRate / 100) * 100) / 100,
+        year3: Math.round(avgCompetition * Math.pow(1 + compGrowthRate / 100, 3) * 100) / 100,
+        year5: Math.round(avgCompetition * Math.pow(1 + compGrowthRate / 100, 5) * 100) / 100,
+        year10: Math.round(avgCompetition * Math.pow(1 + compGrowthRate / 100, 10) * 100) / 100,
+        growthRate: compGrowthRate
       },
       revenue: {
         current: Math.round((avgDemand - avgCompetition) * 0.1 * 100) / 100,
-        year1: Math.round((avgDemand * 1.03 - avgCompetition * 1.05) * 0.1 * 100) / 100,
-        year3: Math.round((avgDemand * 1.09 - avgCompetition * 1.15) * 0.1 * 100) / 100,
-        year5: Math.round((avgDemand * 1.15 - avgCompetition * 1.25) * 0.1 * 100) / 100,
-        year10: Math.round((avgDemand * 1.25 - avgCompetition * 1.40) * 0.1 * 100) / 100,
-        growthRate: 7
+        year1: Math.round((avgDemand * (1 + demandGrowthRate / 100) - avgCompetition * (1 + compGrowthRate / 100)) * 0.1 * 100) / 100,
+        year3: Math.round((avgDemand * Math.pow(1 + demandGrowthRate / 100, 3) - avgCompetition * Math.pow(1 + compGrowthRate / 100, 3)) * 0.1 * 100) / 100,
+        year5: Math.round((avgDemand * Math.pow(1 + demandGrowthRate / 100, 5) - avgCompetition * Math.pow(1 + compGrowthRate / 100, 5)) * 0.1 * 100) / 100,
+        year10: Math.round((avgDemand * Math.pow(1 + demandGrowthRate / 100, 10) - avgCompetition * Math.pow(1 + compGrowthRate / 100, 10)) * 0.1 * 100) / 100,
+        growthRate: revGrowthRate
       }
     };
   };
@@ -137,7 +141,7 @@ function Forecast() {
       { 
         trend: 'Consumer Spending', 
         impact: incomeLevel === 'High' ? 'Positive' : incomeLevel === 'Medium' ? 'Neutral' : 'Negative', 
-        confidence: incomeLevel === 'High' ? 85 : incomeLevel === 'Medium' ? 70 : 55, 
+        confidence: Math.round(Math.min(90, Math.max(40, (incomeLevel === 'High' ? 85 : incomeLevel === 'Medium' ? 65 : 45) + populationGrowth * 2)) * 100) / 100, 
         icon: DollarSign 
       }
     ];

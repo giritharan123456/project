@@ -128,7 +128,7 @@ function Analysis() {
             </h1>
           </div>
           <p className={`text-lg opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
-            {districtName} — {currentDistrict?.state || 'Tamil Nadu'} — {pincodeData.length} area{pincodeData.length !== 1 ? 's' : ''} analyzed
+            {districtName} — {currentDistrict?.state || '—'} — {pincodeData.length} area{pincodeData.length !== 1 ? 's' : ''} analyzed
           </p>
         </motion.div>
 
