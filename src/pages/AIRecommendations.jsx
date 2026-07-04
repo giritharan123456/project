@@ -57,6 +57,12 @@ function AIRecommendations() {
     if (!area) return null;
 
     try {
+      // Calculate all metrics dynamically from real data
+      const population = Number(area.population) || 0;
+      const populationGrowth = Number(area.populationGrowth) || 0;
+      const incomeLevel = area.incomeLevel || 'Low';
+      const urbanDevelopment = Number(area.urbanDevelopment) || 0;
+
       // Calculate best business category using multi-factor scoring
       const marketGapScores = area.marketGapScores || {};
       const competitors = area.competitors || {};
@@ -85,12 +91,6 @@ function AIRecommendations() {
       });
       
       const highestGap = marketGapScores[bestCategory] || 0;
-
-      // Calculate all metrics dynamically from real data
-      const population = Number(area.population) || 0;
-      const populationGrowth = Number(area.populationGrowth) || 0;
-      const incomeLevel = area.incomeLevel || 'Low';
-      const urbanDevelopment = Number(area.urbanDevelopment) || 0;
       
       // Calculate investment based on population and income level
       const baseInvestment = population * 0.05; // Base investment per person
