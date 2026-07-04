@@ -32,9 +32,9 @@ function Analysis() {
           analyticsAPI.getOverview(),
           explorerAPI.getCategories({ district: selectedDistrict }),
         ]);
-        if (areasRes.status === 'fulfilled') setAreas(areasRes.value.data?.data || []);
-        if (analyticsRes.status === 'fulfilled') setAnalyticsData(analyticsRes.value.data?.data || null);
-        if (catsRes.status === 'fulfilled') setCategories(catsRes.value.data?.categories || []);
+        if (areasRes.status === 'fulfilled') setAreas(areasRes.value?.data || []);
+        if (analyticsRes.status === 'fulfilled') setAnalyticsData(analyticsRes.value?.data || null);
+        if (catsRes.status === 'fulfilled') setCategories(catsRes.value?.categories || []);
       } catch { /* silent */ } finally { setLoading(false); }
     };
     fetchAll();
