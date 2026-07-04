@@ -34,8 +34,8 @@ Generated: ${new Date().toLocaleDateString()}
 FORECAST SUMMARY
 ===============
 Total Pincodes Analyzed: ${pincodeData.length}
-Total Population: ${pincodeData.reduce((sum, p) => sum + p.population, 0).toLocaleString()}
-Average Growth Rate: ${(pincodeData.reduce((sum, p) => sum + p.populationGrowth, 0) / pincodeData.length).toFixed(2)}%
+Total Population: ${pincodeData.reduce((sum, p) => sum + (Number(p.population) || 0), 0).toLocaleString()}
+Average Growth Rate: ${(pincodeData.reduce((sum, p) => sum + (Number(p.populationGrowth) || 0), 0) / (pincodeData.length || 1)).toFixed(2)}%
 
 BUSINESS CATEGORIES
 ==================

@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
+import { workspaceAPI } from '../services/api';
 import { 
   User, Heart, Clock, FileText, MapPin, BarChart3, Settings,
   Bell, Moon, Sun, ChevronRight, Search, Plus, X, Calendar,
@@ -11,31 +12,61 @@ import {
 function Workspace() {
   const { isDarkMode, toggleTheme } = useTheme();
   const [activeTab, setActiveTab] = useState('profile');
+  const [loading, setLoading] = useState(true);
 
-  // Data will be fetched from backend API
   const [userProfile, setUserProfile] = useState({
     name: 'User',
-    email: 'user@example.com',
+    email: '',
     avatar: 'U',
-    memberSince: 'January 2024',
+    memberSince: '',
     plan: 'Free'
   });
   const [favoriteLocations, setFavoriteLocations] = useState([]);
-  const [savedComparisons, setSavedComparisons] = useState([]);
-  const [savedReports, setSavedReports] = useState([]);
   const [searchHistory, setSearchHistory] = useState([]);
-  const [recentlyViewed, setRecentlyViewed] = useState([]);
 
-  // UI configuration - should come from backend API
-  const [tabs, setTabs] = useState([
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        if (!token) { setLoading(false); return; }
+        
+        const [profileRes, favsRes, historyRes] = await Promise.allSettled([
+          workspaceAPI.getProfile(),
+          workspaceAPI.getFavorites(),
+          workspaceAPI.getSearchHistory()
+        ]);
+        
+        if (profileRes.status === 'fulfilled' && profileRes.value?.data) {
+          const p = profileRes.value.data;
+          setUserProfile({
+            name: p.name || 'User',
+            email: p.email || '',
+            avatar: (p.name || 'U').charAt(0).toUpperCase(),
+            memberSince: p.createdAt ? new Date(p.createdAt).toLocaleDateString('en-US', { month: 'long', year: 'numeric' }) : '',
+            plan: p.plan || 'Free'
+          });
+        }
+        if (favsRes.status === 'fulfilled' && favsRes.value?.data) {
+          setFavoriteLocations(favsRes.value.data);
+        }
+        if (historyRes.status === 'fulfilled' && historyRes.value?.data) {
+          setSearchHistory(historyRes.value.data);
+        }
+      } catch (err) {
+        console.error('Workspace fetch error:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+
+  const tabs = [
     { id: 'profile', label: 'Profile', icon: User },
     { id: 'favorites', label: 'Favorites', icon: Heart },
-    { id: 'comparisons', label: 'Comparisons', icon: BarChart3 },
-    { id: 'reports', label: 'Reports', icon: FileText },
     { id: 'history', label: 'Search History', icon: Clock },
-    { id: 'recent', label: 'Recently Viewed', icon: Eye },
     { id: 'settings', label: 'Settings', icon: Settings }
-  ]);
+  ];
 
   return (
     <div className={`min-h-[calc(100vh-70px)] p-6 transition-colors duration-300 ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>

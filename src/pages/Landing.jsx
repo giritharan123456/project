@@ -192,11 +192,11 @@ function Landing() {
                   <div className="grid grid-cols-2 gap-4 mb-6">
                     <div className={`p-4 rounded-xl ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
                       <p className={`text-sm opacity-70 mb-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Market Gap Score</p>
-                      <p className="text-2xl font-bold text-[#2563eb]">92%</p>
+                      <p className="text-2xl font-bold text-[#2563eb]">—</p>
                     </div>
                     <div className={`p-4 rounded-xl ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
                       <p className={`text-sm opacity-70 mb-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Opportunities</p>
-                      <p className="text-2xl font-bold text-[#7c3aed]">156</p>
+                      <p className="text-2xl font-bold text-[#7c3aed]">—</p>
                     </div>
                   </div>
 
@@ -562,7 +562,7 @@ function Landing() {
           </div>
           <div className={`pt-8 border-t ${isDarkMode ? 'border-[#334155]' : 'border-[#e2e8f0]'}`}>
             <p className={`text-center text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
-              © 2024 Market Gap Finder. All rights reserved.
+              © {new Date().getFullYear()} MarketVision AI. All rights reserved.
             </p>
           </div>
         </div>

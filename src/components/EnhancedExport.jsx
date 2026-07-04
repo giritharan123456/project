@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
 import { useTheme } from '../contexts/ThemeContext';
+import { useDistrict } from '../contexts/DistrictContext';
 import { Download, FileSpreadsheet } from 'lucide-react';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 
 function EnhancedExport({ data, selectedDistrict, businessCategories, leaderboardData }) {
   const { isDarkMode } = useTheme();
+  const { districts } = useDistrict();
   const [isExporting, setIsExporting] = useState(false);
+  
+  const districtName = districts.find(d => d._id === selectedDistrict)?.name || 'All Districts';
 
   const handleExport = async () => {
     setIsExporting(true);
@@ -36,7 +40,7 @@ function EnhancedExport({ data, selectedDistrict, businessCategories, leaderboar
       // Metadata
       doc.setFontSize(12);
       doc.setTextColor(100, 100, 100);
-      doc.text(`District: ${selectedDistrict}`, 14, 32);
+      doc.text(`District: ${districtName}`, 14, 32);
       doc.text(`Export Date: ${new Date().toLocaleDateString()}`, 14, 40);
       doc.text(`Total Pincodes: ${data.length}`, 14, 48);
 
@@ -59,7 +63,7 @@ function EnhancedExport({ data, selectedDistrict, businessCategories, leaderboar
           pincode.feasibilityScore != null ? pincode.feasibilityScore : '-',
         ];
         businessCategories.forEach(cat => {
-          row.push((pincode.marketGapScores && pincode.marketGapScores[cat.name]) || 0);
+          row.push((pincode.marketGapScores && pincode.marketGapScores[cat.name] != null) ? Number(pincode.marketGapScores[cat.name]).toFixed(2) : '0.00');
         });
         return row;
       });
