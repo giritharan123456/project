@@ -4,15 +4,15 @@ import { motion } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
 import { useDistrict } from '../contexts/DistrictContext';
 import { usePincode } from '../contexts/PincodeContext';
-import { areasAPI, districtsAPI } from '../services/api';
+import { areasAPI } from '../services/api';
 import EmptyState from '../components/EmptyState';
 import { averageOfValues } from '../utils/dataUtils';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import {
-  FileText, Download, BarChart3, MapPin, Users, Calendar,
+  FileText, Download, BarChart3, MapPin, Users,
   TrendingUp, Target, DollarSign, ArrowLeft, ChevronRight,
-  AlertTriangle, CheckCircle, Building2, Zap
+  AlertTriangle, CheckCircle, Zap, Shield
 } from 'lucide-react';
 
 function Reports() {
@@ -21,7 +21,6 @@ function Reports() {
   const { selectedPincode } = usePincode();
   const [loading, setLoading] = useState(false);
   const [areaData, setAreaData] = useState(null);
-  const [allAreas, setAllAreas] = useState([]);
   const [error, setError] = useState(null);
   const [exporting, setExporting] = useState(false);
 
@@ -34,15 +33,12 @@ function Reports() {
       try {
         setLoading(true);
         setError(null);
-        const [areaRes, allRes] = await Promise.allSettled([
-          areasAPI.getByPincode(selectedPincode),
-          selectedDistrict ? areasAPI.getAll({ district: selectedDistrict, limit: 500 }) : Promise.resolve({ data: [] }),
-        ]);
-        if (areaRes.status === 'fulfilled') setAreaData(areaRes.value.data || null);
-        if (areaRes.status === 'fulfilled' && !areaRes.value.data) {
+        const areaRes = await areasAPI.getByPincode(selectedPincode);
+        if (areaRes.data) {
+          setAreaData(areaRes.data);
+        } else {
           setError(`Data for pincode ${selectedPincode} not found.`);
         }
-        if (allRes.status === 'fulfilled') setAllAreas(allRes.value.data?.data || []);
       } catch (err) {
         setError(err.message || 'Failed to load report data.');
       } finally {
@@ -50,7 +46,7 @@ function Reports() {
       }
     };
     fetchData();
-  }, [selectedPincode, selectedDistrict]);
+  }, [selectedPincode]);
 
   const areaStats = useMemo(() => {
     if (!areaData) return null;
@@ -67,7 +63,8 @@ function Reports() {
     })).sort((a, b) => b.gap - a.gap);
     const bestCategory = categories[0] || null;
     const riskCategories = categories.filter(c => c.competitors > 8);
-    return { avgGap, avgDemand, totalCompetitors, categories, bestCategory, riskCategories };
+    const highOppCategories = categories.filter(c => c.gap >= 70 && c.competitors < 5);
+    return { avgGap, avgDemand, totalCompetitors, categories, bestCategory, riskCategories, highOppCategories };
   }, [areaData]);
 
   const handleExportPDF = async () => {
@@ -110,9 +107,10 @@ function Reports() {
         doc.text('Category Breakdown', 14, doc.lastAutoTable.finalY + 15);
         autoTable(doc, {
           startY: doc.lastAutoTable.finalY + 20,
-          head: [['Category', 'Gap Score', 'Demand', 'Competitors']],
+          head: [['Category', 'Gap Score', 'Demand', 'Competitors', 'Status']],
           body: areaStats.categories.map(c => [
-            c.name, Number(c.gap).toFixed(2), Number(c.demand).toFixed(2), c.competitors
+            c.name, Number(c.gap).toFixed(2), Number(c.demand).toFixed(2), c.competitors,
+            c.gap >= 70 && c.competitors < 5 ? 'High Opportunity' : c.competitors > 8 ? 'Saturated' : 'Moderate'
           ]),
           styles: { fontSize: 10 },
           headStyles: { fillColor: [37, 99, 235] },
@@ -141,9 +139,10 @@ function Reports() {
     rows.push(['Avg Demand', Number(areaStats.avgDemand).toFixed(2)]);
     rows.push(['Total Competitors', areaStats.totalCompetitors]);
     rows.push([]);
-    rows.push(['Category', 'Gap Score', 'Demand', 'Competitors']);
+    rows.push(['Category', 'Gap Score', 'Demand', 'Competitors', 'Status']);
     areaStats.categories.forEach(c => {
-      rows.push([c.name, Number(c.gap).toFixed(2), Number(c.demand).toFixed(2), c.competitors]);
+      rows.push([c.name, Number(c.gap).toFixed(2), Number(c.demand).toFixed(2), c.competitors,
+        c.gap >= 70 && c.competitors < 5 ? 'High Opportunity' : c.competitors > 8 ? 'Saturated' : 'Moderate']);
     });
     const csv = rows.map(r => r.join(',')).join('\n');
     const blob = new Blob([csv], { type: 'text/csv' });
@@ -169,7 +168,7 @@ function Reports() {
         <div className="max-w-7xl mx-auto flex items-center justify-center min-h-[400px]">
           <div className="text-center">
             <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-[#2563eb] mx-auto mb-4"></div>
-            <p className={`${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Loading report data...</p>
+            <p className={`font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Generating report for {selectedPincode}...</p>
           </div>
         </div>
       </div>
@@ -188,10 +187,9 @@ function Reports() {
 
   return (
     <div className={`min-h-[calc(100vh-70px)] p-6 md:p-10 transition-colors duration-300 ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto space-y-6">
 
-        {/* Header */}
-        <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
+        <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }}>
           <Link to="/dashboard" className={`inline-flex items-center gap-2 mb-4 font-medium hover:text-[#2563eb] transition-colors ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
             <ArrowLeft size={20} /> Back to Dashboard
           </Link>
@@ -218,9 +216,8 @@ function Reports() {
           </div>
         </motion.div>
 
-        {/* Area Overview KPIs */}
         {areaStats && (
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
               { icon: Users, label: 'Population', value: (areaData.population || 0).toLocaleString(), color: 'text-blue-500' },
               { icon: TrendingUp, label: 'Growth Rate', value: `${Number(areaData.populationGrowth || 0).toFixed(2)}%`, color: 'text-green-500' },
@@ -237,18 +234,69 @@ function Reports() {
           </div>
         )}
 
-        {/* Category Breakdown Table */}
-        {areaStats && areaStats.categories.length > 0 && (
+        {areaStats && (
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
-            className={`p-6 rounded-2xl border mb-8 ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-[#e2e8f0]'}`}>
-            <div className="flex items-center gap-3 mb-6">
+            className={`p-6 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-[#e2e8f0]'}`}>
+            <div className="flex items-center gap-3 mb-5">
+              <Zap className="text-[#2563eb]" size={24} />
+              <h3 className={`text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Key Insights</h3>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {areaStats.bestCategory && (
+                <div className={`p-5 rounded-xl border-l-4 border-green-500 ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
+                  <div className="flex items-center gap-2 mb-2">
+                    <CheckCircle size={16} className="text-green-500" />
+                    <p className={`text-xs font-semibold uppercase ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Best Opportunity</p>
+                  </div>
+                  <p className={`font-bold text-lg ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{areaStats.bestCategory.name}</p>
+                  <p className={`text-sm mt-1 ${isDarkMode ? 'text-[#94a3b8]' : 'text-[#64748b]'}`}>Gap Score: {Number(areaStats.bestCategory.gap).toFixed(2)} | Demand: {Number(areaStats.bestCategory.demand).toFixed(2)}</p>
+                </div>
+              )}
+              <div className={`p-5 rounded-xl border-l-4 border-blue-500 ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
+                <div className="flex items-center gap-2 mb-2">
+                  <Shield size={16} className="text-blue-500" />
+                  <p className={`text-xs font-semibold uppercase ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Market Coverage</p>
+                </div>
+                <p className={`font-bold text-lg ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{areaStats.categories.length} Categories</p>
+                <p className={`text-sm mt-1 ${isDarkMode ? 'text-[#94a3b8]' : 'text-[#64748b]'}`}>{areaStats.totalCompetitors} total competitors across all categories</p>
+              </div>
+              {areaStats.riskCategories.length > 0 ? (
+                <div className={`p-5 rounded-xl border-l-4 border-orange-500 ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
+                  <div className="flex items-center gap-2 mb-2">
+                    <AlertTriangle size={16} className="text-orange-500" />
+                    <p className={`text-xs font-semibold uppercase ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Saturated Categories</p>
+                  </div>
+                  <p className={`font-bold text-lg ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{areaStats.riskCategories.length} categories</p>
+                  <p className={`text-sm mt-1 ${isDarkMode ? 'text-[#94a3b8]' : 'text-[#64748b]'}`}>{areaStats.riskCategories.slice(0, 3).map(c => c.name).join(', ')}{areaStats.riskCategories.length > 3 ? '...' : ''}</p>
+                </div>
+              ) : (
+                <div className={`p-5 rounded-xl border-l-4 border-green-500 ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
+                  <div className="flex items-center gap-2 mb-2">
+                    <CheckCircle size={16} className="text-green-500" />
+                    <p className={`text-xs font-semibold uppercase ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>No Saturated Categories</p>
+                  </div>
+                  <p className={`font-bold text-lg ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>All clear</p>
+                  <p className={`text-sm mt-1 ${isDarkMode ? 'text-[#94a3b8]' : 'text-[#64748b]'}`}>All categories have low competition</p>
+                </div>
+              )}
+            </div>
+          </motion.div>
+        )}
+
+        {areaStats && areaStats.categories.length > 0 && (
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}
+            className={`p-6 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-[#e2e8f0]'}`}>
+            <div className="flex items-center gap-3 mb-5">
               <BarChart3 className="text-[#2563eb]" size={24} />
               <h3 className={`text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Category Breakdown</h3>
+              <span className={`ml-auto text-sm font-semibold px-3 py-1 rounded-full ${isDarkMode ? 'bg-[#334155] text-[#94a3b8]' : 'bg-[#e2e8f0] text-[#64748b]'}`}>
+                {areaStats.categories.length} categories
+              </span>
             </div>
             <div className="overflow-x-auto">
               <table className="w-full text-left">
                 <thead>
-                  <tr className={`border-b ${isDarkMode ? 'border-[#334155]' : 'border-[#e2e8f0]'}`}>
+                  <tr className={`border-b-2 ${isDarkMode ? 'border-[#334155]' : 'border-[#e2e8f0]'}`}>
                     <th className={`pb-3 font-bold text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Category</th>
                     <th className={`pb-3 font-bold text-sm text-right ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Gap Score</th>
                     <th className={`pb-3 font-bold text-sm text-right ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Demand</th>
@@ -258,17 +306,17 @@ function Reports() {
                 </thead>
                 <tbody>
                   {areaStats.categories.map((cat, i) => (
-                    <tr key={i} className={`border-b ${isDarkMode ? 'border-[#334155]' : 'border-[#e2e8f0]'}`}>
+                    <tr key={i} className={`border-b ${isDarkMode ? 'border-[#334155]' : 'border-[#e2e8f0]'} last:border-b-0`}>
                       <td className={`py-3 font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{cat.name}</td>
                       <td className="py-3 text-right">
-                        <span className={`px-2 py-1 rounded-full text-xs font-bold ${
+                        <span className={`px-2.5 py-1 rounded-full text-xs font-bold ${
                           cat.gap >= 70 ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' :
                           cat.gap >= 40 ? 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400' :
                           'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'
                         }`}>{Number(cat.gap).toFixed(2)}</span>
                       </td>
-                      <td className={`py-3 text-right ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{Number(cat.demand).toFixed(2)}</td>
-                      <td className={`py-3 text-right ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{cat.competitors}</td>
+                      <td className={`py-3 text-right font-medium ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{Number(cat.demand).toFixed(2)}</td>
+                      <td className={`py-3 text-right font-medium ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{cat.competitors}</td>
                       <td className="py-3 text-right">
                         {cat.gap >= 70 && cat.competitors < 5 ? (
                           <span className="inline-flex items-center gap-1 text-green-500 text-xs font-bold"><CheckCircle size={14} /> High Opportunity</span>
@@ -286,73 +334,40 @@ function Reports() {
           </motion.div>
         )}
 
-        {/* Key Insights */}
-        {areaStats && (
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}
-            className={`p-6 rounded-2xl border mb-8 ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-[#e2e8f0]'}`}>
-            <div className="flex items-center gap-3 mb-6">
-              <Zap className="text-[#2563eb]" size={24} />
-              <h3 className={`text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Key Insights</h3>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {areaStats.bestCategory && (
-                <div className={`p-4 rounded-xl border-l-4 border-green-500 ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
-                  <p className={`text-xs font-semibold mb-1 uppercase ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Best Opportunity</p>
-                  <p className={`font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{areaStats.bestCategory.name}</p>
-                  <p className={`text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Gap: {Number(areaStats.bestCategory.gap).toFixed(2)}</p>
-                </div>
-              )}
-              <div className={`p-4 rounded-xl border-l-4 border-blue-500 ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
-                <p className={`text-xs font-semibold mb-1 uppercase ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Total Competitors</p>
-                <p className={`font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{areaStats.totalCompetitors}</p>
-                <p className={`text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Across {areaStats.categories.length} categories</p>
-              </div>
-              {areaStats.riskCategories.length > 0 && (
-                <div className={`p-4 rounded-xl border-l-4 border-orange-500 ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
-                  <p className={`text-xs font-semibold mb-1 uppercase ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Saturated Categories</p>
-                  <p className={`font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{areaStats.riskCategories.length}</p>
-                  <p className={`text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{areaStats.riskCategories.map(c => c.name).join(', ')}</p>
-                </div>
-              )}
-            </div>
-          </motion.div>
-        )}
-
-        {/* Quick Actions */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7 }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <Link to="/ai-recommendations"
-            className={`p-6 rounded-2xl border flex items-center gap-4 transition-all hover:-translate-y-1 ${isDarkMode ? 'bg-[#1e293b] border-[#334155] hover:shadow-lg' : 'bg-white border-[#e2e8f0] hover:shadow-lg'}`}>
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-[#2563eb] to-[#7c3aed] flex items-center justify-center">
-              <Zap className="text-white" size={24} />
+            className={`p-5 rounded-2xl border flex items-center gap-4 transition-all hover:-translate-y-1 hover:shadow-lg ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-[#e2e8f0]'}`}>
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-[#2563eb] to-[#7c3aed] flex items-center justify-center shrink-0">
+              <Zap className="text-white" size={22} />
             </div>
-            <div>
-              <h4 className={`font-bold mb-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>AI Insights</h4>
-              <p className={`text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Get recommendations</p>
+            <div className="min-w-0">
+              <h4 className={`font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>AI Insights</h4>
+              <p className={`text-sm opacity-70 truncate ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Get recommendations</p>
             </div>
-            <ChevronRight className={`ml-auto ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`} size={20} />
+            <ChevronRight className={`ml-auto shrink-0 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`} size={20} />
           </Link>
           <Link to="/forecast"
-            className={`p-6 rounded-2xl border flex items-center gap-4 transition-all hover:-translate-y-1 ${isDarkMode ? 'bg-[#1e293b] border-[#334155] hover:shadow-lg' : 'bg-white border-[#e2e8f0] hover:shadow-lg'}`}>
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-[#2563eb] to-[#7c3aed] flex items-center justify-center">
-              <TrendingUp className="text-white" size={24} />
+            className={`p-5 rounded-2xl border flex items-center gap-4 transition-all hover:-translate-y-1 hover:shadow-lg ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-[#e2e8f0]'}`}>
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-[#2563eb] to-[#7c3aed] flex items-center justify-center shrink-0">
+              <TrendingUp className="text-white" size={22} />
             </div>
-            <div>
-              <h4 className={`font-bold mb-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Forecast</h4>
-              <p className={`text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Future predictions</p>
+            <div className="min-w-0">
+              <h4 className={`font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Forecast</h4>
+              <p className={`text-sm opacity-70 truncate ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Future predictions</p>
             </div>
-            <ChevronRight className={`ml-auto ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`} size={20} />
+            <ChevronRight className={`ml-auto shrink-0 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`} size={20} />
           </Link>
           <Link to="/comparison"
-            className={`p-6 rounded-2xl border flex items-center gap-4 transition-all hover:-translate-y-1 ${isDarkMode ? 'bg-[#1e293b] border-[#334155] hover:shadow-lg' : 'bg-white border-[#e2e8f0] hover:shadow-lg'}`}>
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-[#2563eb] to-[#7c3aed] flex items-center justify-center">
-              <BarChart3 className="text-white" size={24} />
+            className={`p-5 rounded-2xl border flex items-center gap-4 transition-all hover:-translate-y-1 hover:shadow-lg ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-[#e2e8f0]'}`}>
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-[#2563eb] to-[#7c3aed] flex items-center justify-center shrink-0">
+              <BarChart3 className="text-white" size={22} />
             </div>
-            <div>
-              <h4 className={`font-bold mb-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Compare</h4>
-              <p className={`text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Side-by-side analysis</p>
+            <div className="min-w-0">
+              <h4 className={`font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Compare</h4>
+              <p className={`text-sm opacity-70 truncate ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Side-by-side analysis</p>
             </div>
-            <ChevronRight className={`ml-auto ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`} size={20} />
+            <ChevronRight className={`ml-auto shrink-0 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`} size={20} />
           </Link>
         </motion.div>
       </div>
