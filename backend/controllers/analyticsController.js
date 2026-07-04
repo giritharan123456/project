@@ -60,7 +60,7 @@ const getAnalyticsOverview = async (req, res) => {
         pincode: area.pincode,
         district: area.district?.name || '',
         score: avgScore,
-        growth: `+${area.populationGrowth || 0}%`
+        growth: Number(area.populationGrowth) || 0
       };
     });
 
