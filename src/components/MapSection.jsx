@@ -19,7 +19,7 @@ function MapSection({ pincodeData, selectedDistrict }) {
         return [avgLat, avgLng];
       }
     }
-    return [11.0168, 76.9558];
+    return [20.5937, 78.9629];
   };
 
   const getGapColor = (avgGapScore) => {

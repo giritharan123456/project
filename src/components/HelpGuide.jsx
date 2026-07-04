@@ -11,7 +11,7 @@ const HelpGuide = () => {
     {
       icon: MapPin,
       title: 'Select District',
-      description: 'Choose the district you want to analyze from Tamil Nadu'
+      description: 'Choose the district you want to analyze'
     },
     {
       icon: Search,

@@ -92,21 +92,9 @@ export default function WelcomeHeader() {
                     <h3 className="text-xs font-extrabold uppercase tracking-wider">Notifications</h3>
                   </div>
                   <div className="max-h-64 overflow-y-auto">
-                    {[
-                      { text: 'New high-opportunity area detected in Chennai', time: '2m ago', color: 'bg-red-500' },
-                      { text: 'Weekly report is ready for download', time: '1h ago', color: 'bg-blue-500' },
-                      { text: 'Market gap updated for Coimbatore', time: '3h ago', color: 'bg-amber-500' },
-                    ].map((n, i) => (
-                      <div key={i} className={`flex items-start gap-3 p-3 border-b transition-colors ${
-                        isDarkMode ? 'border-[#334155] hover:bg-[#0f172a]' : 'border-slate-50 hover:bg-slate-50'
-                      }`}>
-                        <div className={`w-2 h-2 rounded-full mt-1.5 flex-shrink-0 ${n.color}`} />
-                        <div className="min-w-0">
-                          <p className={`text-xs font-medium ${isDarkMode ? 'text-slate-200' : 'text-slate-700'}`}>{n.text}</p>
-                          <p className={`text-[10px] mt-0.5 ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>{n.time}</p>
-                        </div>
-                      </div>
-                    ))}
+                    <div className="p-4 text-center">
+                      <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>No new notifications</p>
+                    </div>
                   </div>
                   <button
                     onClick={() => { setShowNotif(false); navigate('/notifications'); }}

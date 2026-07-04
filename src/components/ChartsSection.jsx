@@ -39,7 +39,7 @@ function ChartsSection({ businessCategories, selectedCategory, pincodeData }) {
     return {
       name: pincode.pincode,
       currentDemand: Math.round((avgDemand ?? 0) * 100) / 100,
-      projectedDemand: avgDemand !== null ? Math.round((avgDemand + (growth * 2)) * 100) / 100 : 0,
+      projectedDemand: avgDemand !== null ? Math.round((avgDemand * (1 + (growth / 100))) * 100) / 100 : 0,
     };
   }).filter(d => d.currentDemand > 0 || d.projectedDemand > 0);
 

@@ -81,87 +81,80 @@ ${index + 1}. ${pincode.area} (${pincode.pincode})
   const generateForecastData = () => {
     if (!pincodeData || pincodeData.length === 0) return [];
 
-    // Month labels for time series display - UI labels, not hardcoded data
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    const currentYear = new Date().getFullYear();
     
-    const forecastData = months.map((month, index) => {
-      const basePopulation = pincodeData.reduce((sum, p) => sum + (Number(p.population) || 0), 0) / pincodeData.length;
-      const baseGrowth = pincodeData.reduce((sum, p) => sum + (Number(p.populationGrowth) || 0), 0) / pincodeData.length;
-      const baseDemand = pincodeData.reduce((sum, p) => {
-        const demandScores = p.demandScores || {};
-        const demandValues = Object.values(demandScores);
-        const avgDemand = demandValues.length > 0 
-          ? demandValues.reduce((s, v) => s + (Number(v) || 0), 0) / demandValues.length 
-          : 0;
-        return sum + avgDemand;
-      }, 0) / pincodeData.length;
-      
-      const growthFactor = 1 + (baseGrowth / 100) / 12;
-      const seasonalVariation = Math.sin((index / 12) * Math.PI * 2) * 0.1;
-      
+    const basePopulation = pincodeData.reduce((sum, p) => sum + (Number(p.population) || 0), 0) / pincodeData.length;
+    const avgGrowth = pincodeData.reduce((sum, p) => sum + (Number(p.populationGrowth) || 0), 0) / pincodeData.length;
+    const baseDemand = pincodeData.reduce((sum, p) => {
+      const vals = Object.values(p.demandScores || {});
+      return sum + (vals.length > 0 ? vals.reduce((s, v) => s + (Number(v) || 0), 0) / vals.length : 0);
+    }, 0) / pincodeData.length;
+    const baseGap = pincodeData.reduce((sum, p) => {
+      const vals = Object.values(p.marketGapScores || {});
+      return sum + (vals.length > 0 ? vals.reduce((s, v) => s + (Number(v) || 0), 0) / vals.length : 0);
+    }, 0) / pincodeData.length;
+
+    return months.map((month, index) => {
+      const monthlyGrowth = avgGrowth / 100 / 12;
       return {
         month,
-        population: Math.round(basePopulation * Math.pow(growthFactor, index) * (1 + seasonalVariation)) || 0,
-        demand: Math.round(baseDemand * (1 + seasonalVariation * 0.5)) || 0,
-        marketGap: Math.round(baseDemand * 0.3 * (1 + seasonalVariation * 0.3)) || 0
+        population: Math.round(basePopulation * Math.pow(1 + monthlyGrowth, index)) || 0,
+        demand: Math.round(baseDemand * (1 + (avgGrowth / 100) * (index / 12))) || 0,
+        marketGap: Math.round(baseGap * (1 + (avgGrowth / 100) * (index / 12))) || 0
       };
     });
-
-    return forecastData;
   };
 
   const generateCategoryForecast = () => {
     if (!businessCategories || businessCategories.length === 0) return [];
 
-    // Month labels for time series display - UI labels, not hardcoded data
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const avgGrowth = pincodeData?.length > 0
+      ? pincodeData.reduce((sum, p) => sum + (Number(p.populationGrowth) || 0), 0) / pincodeData.length
+      : 2;
     
     return businessCategories.slice(0, 4).map(category => {
       const baseGap = Number(category.gap) || 0;
       const baseDemand = Number(category.demand) || 0;
       
       const categoryData = months.map((month, index) => {
-        const growthFactor = 1 + (0.02 * index / 12);
-        const seasonalVariation = Math.sin((index / 12) * Math.PI * 2) * 0.15;
-        
+        const growthFactor = 1 + (avgGrowth / 100) * (index / 12);
         return {
           month,
-          [`${category.name} Gap`]: Math.round(baseGap * growthFactor * (1 + seasonalVariation)) || 0,
-          [`${category.name} Demand`]: Math.round(baseDemand * growthFactor * (1 + seasonalVariation * 0.5)) || 0
+          [`${category.name} Gap`]: Math.round(baseGap * growthFactor) || 0,
+          [`${category.name} Demand`]: Math.round(baseDemand * growthFactor) || 0
         };
       });
 
-      return {
-        category: category.name,
-        data: categoryData
-      };
+      return { category: category.name, data: categoryData };
     });
   };
 
   const generateTrendAnalysis = () => {
     if (!pincodeData || pincodeData.length === 0) return [];
 
-    // Quarter labels for time series display - UI labels, not hardcoded data
     const quarters = ['Q1', 'Q2', 'Q3', 'Q4'];
+    const avgGrowth = pincodeData.reduce((sum, p) => sum + (Number(p.populationGrowth) || 0), 0) / pincodeData.length;
+    const baseGap = pincodeData.reduce((sum, p) => {
+      const vals = Object.values(p.marketGapScores || {});
+      return sum + (vals.length > 0 ? vals.reduce((s, v) => s + (Number(v) || 0), 0) / vals.length : 0);
+    }, 0) / pincodeData.length;
+    const baseDemand = pincodeData.reduce((sum, p) => {
+      const vals = Object.values(p.demandScores || {});
+      return sum + (vals.length > 0 ? vals.reduce((s, v) => s + (Number(v) || 0), 0) / vals.length : 0);
+    }, 0) / pincodeData.length;
+    const baseCompetition = pincodeData.reduce((sum, p) => {
+      const vals = Object.values(p.competitors || {});
+      return sum + (vals.length > 0 ? vals.reduce((s, v) => s + (Number(v) || 0), 0) / vals.length : 0);
+    }, 0) / pincodeData.length;
     
     return quarters.map((quarter, index) => {
-      const baseGap = pincodeData.reduce((sum, p) => {
-        const marketGapScores = p.marketGapScores || {};
-        const gapValues = Object.values(marketGapScores);
-        const avgGap = gapValues.length > 0 
-          ? gapValues.reduce((s, v) => s + (Number(v) || 0), 0) / gapValues.length 
-          : 0;
-        return sum + avgGap;
-      }, 0) / pincodeData.length;
-      
-      const trend = 1 + (index * 0.05);
-      
+      const trend = 1 + (avgGrowth / 100) * (index / 4);
       return {
         quarter,
         marketGap: Math.round(baseGap * trend) || 0,
-        demand: Math.round(75 * trend) || 0,
-        competition: Math.round(25 * trend) || 0
+        demand: Math.round(baseDemand * trend) || 0,
+        competition: Math.round(baseCompetition * trend) || 0
       };
     });
   };
