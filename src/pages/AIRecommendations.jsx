@@ -57,24 +57,34 @@ function AIRecommendations() {
     if (!area) return null;
 
     try {
-      // Calculate best business category based on market gap scores
+      // Calculate best business category using multi-factor scoring
       const marketGapScores = area.marketGapScores || {};
       const competitors = area.competitors || {};
       const demandScores = area.demandScores || {};
       
       let bestCategory = 'General Retail';
-      let highestGap = 0;
+      let highestScore = 0;
       
       Object.entries(marketGapScores).forEach(([category, gap]) => {
         const competition = competitors[category] || 0;
         const demand = demandScores[category] || 0;
-        const adjustedGap = gap - (competition * 0.3);
         
-        if (adjustedGap > highestGap) {
-          highestGap = adjustedGap;
+        // Multi-factor scoring: demand (35%) + gap (25%) + growth (15%) + population (15%) - competition penalty (10%)
+        const gapNorm = Math.max(0, gap) / 80;
+        const demandNorm = Math.max(0, demand) / 100;
+        const compPenalty = (competition / 100) * 10;
+        const popFit = Math.min(1, population / 50000);
+        const growthNorm = Math.min(1, populationGrowth / 5);
+        
+        const score = (demandNorm * 35) + (gapNorm * 25) + (growthNorm * 15) + (popFit * 15) - compPenalty;
+        
+        if (score > highestScore) {
+          highestScore = score;
           bestCategory = category;
         }
       });
+      
+      const highestGap = marketGapScores[bestCategory] || 0;
 
       // Calculate all metrics dynamically from real data
       const population = Number(area.population) || 0;
@@ -180,7 +190,16 @@ function AIRecommendations() {
       Object.entries(marketGapScores).forEach(([category, gap]) => {
         const competition = competitors[category] || 0;
         const demand = demandScores[category] || 0;
-        const adjustedGap = gap - (competition * 0.3);
+        
+        // Same multi-factor scoring as top recommendation
+        const gapNorm = Math.max(0, gap) / 80;
+        const demandNorm = Math.max(0, demand) / 100;
+        const compPenalty = (competition / 100) * 10;
+        const popFit = Math.min(1, population / 50000);
+        const growthNorm = Math.min(1, populationGrowth / 5);
+        
+        const score = (demandNorm * 35) + (gapNorm * 25) + (growthNorm * 15) + (popFit * 15) - compPenalty;
+        const adjustedGap = score;
         
         // Calculate metrics dynamically for each category
         const baseInvestment = population * 0.04;
@@ -193,7 +212,7 @@ function AIRecommendations() {
         const expectedCustomersMin = Math.round(population * dailyCustomerRate * 0.7);
         const expectedCustomersMax = Math.round(population * dailyCustomerRate * 1.1);
         
-        const successProb = Math.min(85, Math.max(45, Math.round(55 + (adjustedGap * 0.4) - (competition * 1.5))));
+        const successProb = Math.min(85, Math.max(45, Math.round(55 + (score * 0.8) - (competition * 1.5))));
         
         const revenuePerCustomer = (demand / 100) * 90;
         const monthlyRevenueMin = Math.round(expectedCustomersMin * revenuePerCustomer * 30 / 100000);
@@ -202,13 +221,14 @@ function AIRecommendations() {
         recommendations.push({
           business: `${category} Business`,
           category: category,
+          score: score,
           investment: `₹${investmentMin}-${investmentMax} Lakhs`,
           expectedCustomers: `${expectedCustomersMin}-${expectedCustomersMax}/day`,
           expectedRevenue: `₹${monthlyRevenueMin}-${monthlyRevenueMax} Lakhs/month`,
           successProbability: successProb,
           whyRecommended: `Market gap score ${Math.round(gap)} for ${category} with demand ${Math.round(demand)}`,
           advantages: [
-            adjustedGap > 50 ? 'Good market opportunity' : 'Available market',
+            adjustedGap > 20 ? 'Good market opportunity' : 'Available market',
             demand > 60 ? 'High demand' : 'Moderate demand',
             competition < 5 ? 'Low competition' : 'Manageable competition'
           ],
@@ -222,13 +242,9 @@ function AIRecommendations() {
         });
       });
 
-      // Sort by market gap and return top 3 excluding the top recommendation
+      // Sort by score and return top 3 excluding the top recommendation
       return recommendations
-        .sort((a, b) => {
-          const gapA = marketGapScores[a.category] || 0;
-          const gapB = marketGapScores[b.category] || 0;
-          return gapB - gapA;
-        })
+        .sort((a, b) => b.score - a.score)
         .filter(rec => rec.category !== (topRecommendation?.category))
         .slice(0, 3);
     } catch (error) {

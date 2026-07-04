@@ -115,11 +115,19 @@ const generateAreasForDistrict = (config, districtId) => {
     const incomeMultiplier = incomeLevel === 'High' ? 1.3 : incomeLevel === 'Medium' ? 1.0 : 0.7;
 
     selectedCats.forEach((cat, catIdx) => {
-      const count = Math.max(1, Math.floor((population / 15000) * (urbanDev / 40) * ((catIdx + 1) * 0.5) * (0.5 + Math.random() * 1.0)));
-      competitors[cat] = count;
+      // Base demand first, then compute competition proportional to it
       const demand = Math.min(95, Math.max(40, Math.floor((population / 1000) * incomeMultiplier * (urbanDev / 50) * (0.6 + Math.random() * 0.8))));
       demandScores[cat] = demand;
-      const gap = Math.max(0, Math.min(95, demand - (count * 2) + Math.floor(Math.random() * 8 - 4)));
+      
+      // Competition proportional to demand (high demand = more competitors) + area-specific randomness
+      const demandFactor = (demand / 60) * (population / 30000) * (urbanDev / 50);
+      const categoryMultiplier = 0.6 + (catIdx % 5) * 0.08; // slight variation per category type
+      const count = Math.max(1, Math.round(demandFactor * categoryMultiplier * (0.4 + Math.random() * 1.2)));
+      competitors[cat] = count;
+      
+      // Gap = unmet demand (demand minus competition saturation)
+      const saturation = Math.min(95, count * (demand / 30));
+      const gap = Math.max(0, Math.min(95, Math.round(demand - saturation + (Math.random() * 10 - 5))));
       marketGapScores[cat] = gap;
     });
 
