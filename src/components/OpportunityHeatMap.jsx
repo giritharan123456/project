@@ -131,7 +131,7 @@ function OpportunityHeatMap({ pincodeData, selectedDistrict }) {
             <div className="flex flex-col items-center gap-1">
               <span className="text-xs font-bold text-white">{data.pincode}</span>
               <span className="text-xs text-white text-center">{data.area}</span>
-              <span className="text-sm font-bold text-white">{data.avgGap.toFixed(0)}</span>
+              <span className="text-sm font-bold text-white">{data.avgGap.toFixed(2)}</span>
             </div>
           </motion.div>
         ))}
@@ -148,7 +148,7 @@ function OpportunityHeatMap({ pincodeData, selectedDistrict }) {
           <div className="space-y-2">
             <div className="flex justify-between">
               <span className={`text-xs opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Avg Market Gap</span>
-              <span className={`text-sm font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{hoveredPincode.avgGap.toFixed(1)}</span>
+              <span className={`text-sm font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{hoveredPincode.avgGap.toFixed(2)}</span>
             </div>
             <div className="flex justify-between">
               <span className={`text-xs opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Population</span>
@@ -183,7 +183,7 @@ function OpportunityHeatMap({ pincodeData, selectedDistrict }) {
                       }}
                     ></div>
                   </div>
-                  <span className={`text-xs font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{score.toFixed(0)}</span>
+                  <span className={`text-xs font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{score.toFixed(2)}</span>
                 </div>
               ))}
             </div>
@@ -206,7 +206,7 @@ function OpportunityHeatMap({ pincodeData, selectedDistrict }) {
           <span className={`text-xs opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Avg Gap Score</span>
           <div className={`text-lg font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
             {heatmapData.length > 0
-              ? (heatmapData.reduce((sum, d) => sum + d.avgGap, 0) / heatmapData.length).toFixed(1)
+              ? (heatmapData.reduce((sum, d) => sum + d.avgGap, 0) / heatmapData.length).toFixed(2)
               : NO_DATA_LABEL}
           </div>
         </div>

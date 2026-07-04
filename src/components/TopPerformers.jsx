@@ -118,7 +118,7 @@ function TopPerformers({ pincodeData }) {
                   <td className="px-2.5 py-1.5">
                     <div className={`flex items-center gap-1 font-bold ${growthInfo.color}`}>
                       <GrowthIcon size={12} />
-                      {area.growth.toFixed(1)}%
+                      {area.growth.toFixed(2)}%
                     </div>
                   </td>
                   <td className="px-2.5 py-1.5">

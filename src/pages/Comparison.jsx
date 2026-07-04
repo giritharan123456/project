@@ -379,7 +379,7 @@ function Comparison() {
                 </div>
                 <div className="text-right">
                   <div className={`text-2xl font-bold ${index === 0 ? 'text-yellow-600 dark:text-yellow-400' : isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
-                    {area.score}
+                    {Number(area.score || 0).toFixed(2)}
                   </div>
                   <p className={`text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                     Score
@@ -451,8 +451,8 @@ function Comparison() {
                       <td className={`p-3 font-bold ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>{(area.population || 0).toLocaleString()}</td>
                       <td className={`p-3 font-bold ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>{Number(area.populationGrowth || 0).toFixed(2)}%</td>
                       <td className={`p-3 font-medium ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>{area.incomeLevel || '-'}</td>
-                      <td className={`p-3 font-extrabold ${area.opportunityScore >= 70 ? 'text-emerald-500' : area.opportunityScore >= 50 ? 'text-amber-500' : 'text-red-500'}`}>{area.opportunityScore != null ? area.opportunityScore : '-'}</td>
-                      <td className={`p-3 font-extrabold ${area.feasibilityScore >= 70 ? 'text-emerald-500' : area.feasibilityScore >= 50 ? 'text-amber-500' : 'text-red-500'}`}>{area.feasibilityScore != null ? area.feasibilityScore : '-'}</td>
+                      <td className={`p-3 font-extrabold ${area.opportunityScore >= 70 ? 'text-emerald-500' : area.opportunityScore >= 50 ? 'text-amber-500' : 'text-red-500'}`}>{area.opportunityScore != null ? Number(area.opportunityScore).toFixed(2) : '-'}</td>
+                      <td className={`p-3 font-extrabold ${area.feasibilityScore >= 70 ? 'text-emerald-500' : area.feasibilityScore >= 50 ? 'text-amber-500' : 'text-red-500'}`}>{area.feasibilityScore != null ? Number(area.feasibilityScore).toFixed(2) : '-'}</td>
                       <td className={`p-3 font-extrabold ${area.score >= 70 ? 'text-emerald-500' : area.score >= 50 ? 'text-amber-500' : 'text-red-500'}`}>{Number(area.score || 0).toFixed(2)}</td>
                       <td className={`p-3 font-bold ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>{Number(area.demand || 0).toFixed(2)}%</td>
                     </motion.tr>
@@ -553,7 +553,7 @@ function Comparison() {
                           <p className="text-sm opacity-70">{area.district} • {area.pincode}</p>
                         </div>
                         <div className="text-right">
-                          <div className="text-lg font-bold text-[#2563eb]">{area.score}</div>
+                          <div className="text-lg font-bold text-[#2563eb]">{Number(area.score || 0).toFixed(2)}</div>
                           <p className="text-xs opacity-70">Score</p>
                         </div>
                       </div>

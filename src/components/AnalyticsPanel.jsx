@@ -9,6 +9,20 @@ function AnalyticsPanel({ pincodeData, businessCategories, selectedDistrict }) {
   // UI styling colors for charts - not hardcoded data
   const COLORS = ['#2563eb', '#7c3aed', '#db2777', '#ea580c', '#16a34a', '#0891b2'];
 
+  const ChartTooltip = ({ active, payload, label }) => {
+    if (!active || !payload) return null;
+    return (
+      <div className="p-3 rounded-lg shadow-xl border" style={{ background: isDarkMode ? '#1e293b' : '#ffffff', borderColor: isDarkMode ? '#334155' : '#e0e0e0' }}>
+        <p className="font-bold text-sm mb-1" style={{ color: isDarkMode ? '#f1f5f9' : '#1e293b' }}>{label}</p>
+        {payload.map((entry, i) => (
+          <p key={i} className="text-xs font-bold" style={{ color: entry.color }}>
+            {entry.name}: {typeof entry.value === 'number' ? entry.value.toFixed(2) : entry.value}
+          </p>
+        ))}
+      </div>
+    );
+  };
+
   const handleExportReport = () => {
     if (!pincodeData || pincodeData.length === 0) {
       alert('Please select a district with data to export');
@@ -172,9 +186,9 @@ ${index + 1}. ${pincode.area} (${pincode.pincode})
       
       return {
         district,
-        avgGap: avgGap.toFixed(1),
-        totalPopulation: (totalPopulation / 1000).toFixed(0),
-        avgGrowth: avgGrowth.toFixed(1)
+        avgGap: Number(avgGap.toFixed(2)),
+        totalPopulation: Math.round(totalPopulation / 1000),
+        avgGrowth: Number(avgGrowth.toFixed(2))
       };
     });
   };
@@ -217,15 +231,7 @@ ${index + 1}. ${pincode.area} (${pincode.pincode})
                   <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} stroke={isDarkMode ? '#1e293b' : '#ffffff'} strokeWidth={2} />
                 ))}
               </Pie>
-              <Tooltip
-                contentStyle={{
-                  background: isDarkMode ? '#1e293b' : '#ffffff',
-                  border: `1px solid ${isDarkMode ? '#334155' : '#e0e0e0'}`,
-                  borderRadius: '8px',
-                  fontSize: '13px',
-                  color: isDarkMode ? '#f1f5f9' : '#000'
-                }}
-              />
+              <Tooltip content={<ChartTooltip />} />
               <Legend
                 wrapperStyle={{ fontSize: 13, fontWeight: 700, paddingTop: 8 }}
                 formatter={(value) => <span style={{ color: isDarkMode ? '#e2e8f0' : '#1e293b', fontWeight: 800, fontSize: 13 }}>{value}</span>}
@@ -293,16 +299,7 @@ ${index + 1}. ${pincode.area} (${pincode.pincode})
               axisLine={{ stroke: isDarkMode ? '#64748b' : '#94a3b8' }}
               tickLine={false}
             />
-            <Tooltip
-              contentStyle={{
-                background: '#ffffff',
-                border: '2px solid #cbd5e1',
-                borderRadius: '8px',
-                fontSize: '13px',
-                fontWeight: 700,
-                color: '#1e293b'
-              }}
-            />
+            <Tooltip content={<ChartTooltip />} />
             <Bar dataKey="avgGap" fill="#2563eb" name="Avg Gap" radius={[3, 3, 0, 0]} />
             <Bar dataKey="totalPopulation" fill="#7c3aed" name="Population (K)" radius={[3, 3, 0, 0]} />
             <Bar dataKey="avgGrowth" fill="#10b981" name="Growth %" radius={[3, 3, 0, 0]} />

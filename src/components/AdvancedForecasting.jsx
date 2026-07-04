@@ -5,6 +5,20 @@ import { useTheme } from '../contexts/ThemeContext';
 
 function AdvancedForecasting({ pincodeData, businessCategories }) {
   const { isDarkMode } = useTheme();
+
+  const ChartTooltip = ({ active, payload, label }) => {
+    if (!active || !payload) return null;
+    return (
+      <div className="p-3 rounded-lg shadow-xl border" style={{ background: isDarkMode ? '#1e293b' : '#ffffff', borderColor: isDarkMode ? '#334155' : '#e0e0e0' }}>
+        <p className="font-bold text-sm mb-1" style={{ color: isDarkMode ? '#f1f5f9' : '#1e293b' }}>{label}</p>
+        {payload.map((entry, i) => (
+          <p key={i} className="text-xs font-bold" style={{ color: entry.color }}>
+            {entry.name}: {typeof entry.value === 'number' ? entry.value.toFixed(2) : entry.value}
+          </p>
+        ))}
+      </div>
+    );
+  };
   const handleExportReport = () => {
     if (!pincodeData || pincodeData.length === 0) {
       alert('Please select a district with data to export');
@@ -196,15 +210,7 @@ ${index + 1}. ${pincode.area} (${pincode.pincode})
               <CartesianGrid strokeDasharray="3 3" stroke={isDarkMode ? '#475569' : '#cbd5e1'} vertical={false} />
               <XAxis dataKey="month" tick={{ fontSize: 13, fontWeight: 700, fill: isDarkMode ? '#e2e8f0' : '#1e293b' }} axisLine={{ stroke: isDarkMode ? '#64748b' : '#94a3b8' }} tickLine={false} />
               <YAxis tick={{ fontSize: 13, fontWeight: 700, fill: isDarkMode ? '#e2e8f0' : '#1e293b' }} axisLine={{ stroke: isDarkMode ? '#64748b' : '#94a3b8' }} tickLine={false} />
-              <Tooltip
-                contentStyle={{
-                  background: isDarkMode ? '#1e293b' : '#ffffff',
-                  border: `1px solid ${isDarkMode ? '#334155' : '#e0e0e0'}`,
-                  borderRadius: '8px',
-                  fontSize: '13px',
-                  color: isDarkMode ? '#f1f5f9' : '#000'
-                }}
-              />
+              <Tooltip content={<ChartTooltip />} />
               <Legend wrapperStyle={{ fontSize: 13, fontWeight: 700, paddingTop: 8 }} formatter={(value) => <span style={{ color: isDarkMode ? '#e2e8f0' : '#1e293b', fontWeight: 800, fontSize: 13 }}>{value}</span>} />
               <Area type="monotone" dataKey="population" stroke="#2563eb" fill="url(#colorPopulation)" name="Population" />
               <Area type="monotone" dataKey="demand" stroke="#7c3aed" fill="url(#colorDemand)" name="Demand" />
@@ -224,15 +230,7 @@ ${index + 1}. ${pincode.area} (${pincode.pincode})
               <CartesianGrid strokeDasharray="3 3" stroke={isDarkMode ? '#475569' : '#cbd5e1'} vertical={false} />
               <XAxis dataKey="month" tick={{ fontSize: 13, fontWeight: 700, fill: isDarkMode ? '#e2e8f0' : '#1e293b' }} axisLine={{ stroke: isDarkMode ? '#64748b' : '#94a3b8' }} tickLine={false} />
               <YAxis tick={{ fontSize: 13, fontWeight: 700, fill: isDarkMode ? '#e2e8f0' : '#1e293b' }} axisLine={{ stroke: isDarkMode ? '#64748b' : '#94a3b8' }} tickLine={false} />
-              <Tooltip
-                contentStyle={{
-                  background: isDarkMode ? '#1e293b' : '#ffffff',
-                  border: `1px solid ${isDarkMode ? '#334155' : '#e0e0e0'}`,
-                  borderRadius: '8px',
-                  fontSize: '13px',
-                  color: isDarkMode ? '#f1f5f9' : '#000'
-                }}
-              />
+              <Tooltip content={<ChartTooltip />} />
               <Legend wrapperStyle={{ fontSize: 13, fontWeight: 700, paddingTop: 8 }} formatter={(value) => <span style={{ color: isDarkMode ? '#e2e8f0' : '#1e293b', fontWeight: 800, fontSize: 13 }}>{value}</span>} />
               <Line type="monotone" dataKey="marketGap" stroke="#db2777" strokeWidth={3} name="Market Gap" dot={{ fill: '#db2777', strokeWidth: 2, r: 4 }} />
             </LineChart>
@@ -285,15 +283,7 @@ ${index + 1}. ${pincode.area} (${pincode.pincode})
                   <CartesianGrid strokeDasharray="3 3" stroke={isDarkMode ? '#475569' : '#cbd5e1'} vertical={false} />
                   <XAxis dataKey="month" tick={{ fontSize: 12, fontWeight: 700, fill: isDarkMode ? '#e2e8f0' : '#1e293b' }} axisLine={{ stroke: isDarkMode ? '#64748b' : '#94a3b8' }} tickLine={false} />
                   <YAxis tick={{ fontSize: 12, fontWeight: 700, fill: isDarkMode ? '#e2e8f0' : '#1e293b' }} axisLine={{ stroke: isDarkMode ? '#64748b' : '#94a3b8' }} tickLine={false} />
-                  <Tooltip
-                    contentStyle={{
-                      background: isDarkMode ? '#1e293b' : '#ffffff',
-                      border: `1px solid ${isDarkMode ? '#334155' : '#e0e0e0'}`,
-                      borderRadius: '8px',
-                      fontSize: '12px',
-                      color: isDarkMode ? '#f1f5f9' : '#000'
-                    }}
-                  />
+                  <Tooltip content={<ChartTooltip />} />
                   <Legend />
                   <Line 
                     type="monotone" 

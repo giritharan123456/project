@@ -11,7 +11,7 @@ const CustomTooltip = ({ active, payload, label }) => {
       <p className="font-semibold text-sm mb-1">{label}</p>
       {payload.map((entry, i) => (
         <p key={i} className="text-xs" style={{ color: entry.color }}>
-          {entry.name}: <span className="font-bold">{entry.value}</span>
+          {entry.name}: <span className="font-bold">{typeof entry.value === 'number' ? entry.value.toFixed(2) : entry.value}</span>
         </p>
       ))}
     </div>
@@ -61,15 +61,15 @@ const Competitors = ({ pincodeData }) => {
         { name: 'Competitor B', 'Market Share': competitorBShare, 'Digital Presence': Math.min(50, competitorBShare + 15) }
       ];
 
-      const avgGap = Object.values(marketGapScores).reduce((sum, val) => sum + (Number(val) || 0), 0) / (Object.keys(marketGapScores).length || 1);
-      const avgDemand = Object.values(demandScores).reduce((sum, val) => sum + (Number(val) || 0), 0) / (Object.keys(demandScores).length || 1);
+      const avgGap = Math.round(Object.values(marketGapScores).reduce((sum, val) => sum + (Number(val) || 0), 0) / (Object.keys(marketGapScores).length || 1) * 100) / 100;
+      const avgDemand = Math.round(Object.values(demandScores).reduce((sum, val) => sum + (Number(val) || 0), 0) / (Object.keys(demandScores).length || 1) * 100) / 100;
 
       const radarData = [
-        { subject: 'Pricing', A: Math.min(90, avgGap + 20), B: Math.min(70, avgGap - 10), fullMark: 100 },
-        { subject: 'Location', A: Math.min(95, avgDemand + 15), B: Math.min(75, avgDemand - 5), fullMark: 100 },
-        { subject: 'Quality', A: Math.min(85, avgGap + 10), B: Math.min(80, avgGap), fullMark: 100 },
-        { subject: 'Speed', A: Math.min(90, avgDemand + 10), B: Math.min(65, avgDemand - 15), fullMark: 100 },
-        { subject: 'Support', A: Math.min(95, avgGap + 25), B: Math.min(50, avgGap - 20), fullMark: 100 }
+        { subject: 'Pricing', A: Math.round((Math.min(90, avgGap + 20)) * 100) / 100, B: Math.round((Math.min(70, avgGap - 10)) * 100) / 100, fullMark: 100 },
+        { subject: 'Location', A: Math.round((Math.min(95, avgDemand + 15)) * 100) / 100, B: Math.round((Math.min(75, avgDemand - 5)) * 100) / 100, fullMark: 100 },
+        { subject: 'Quality', A: Math.round((Math.min(85, avgGap + 10)) * 100) / 100, B: Math.round((Math.min(80, avgGap)) * 100) / 100, fullMark: 100 },
+        { subject: 'Speed', A: Math.round((Math.min(90, avgDemand + 10)) * 100) / 100, B: Math.round((Math.min(65, avgDemand - 15)) * 100) / 100, fullMark: 100 },
+        { subject: 'Support', A: Math.round((Math.min(95, avgGap + 25)) * 100) / 100, B: Math.round((Math.min(50, avgGap - 20)) * 100) / 100, fullMark: 100 }
       ];
 
       const insights = [];

@@ -14,7 +14,7 @@ const CustomTooltip = ({ active, payload, label }) => {
       <p className="font-bold text-sm text-gray-900 mb-1">{label}</p>
       {payload.map((entry, i) => (
         <p key={i} className="text-xs font-bold" style={{ color: entry.color }}>
-          {entry.name}: {typeof entry.value === 'number' ? entry.value.toFixed(1) : entry.value}
+          {entry.name}: {typeof entry.value === 'number' ? entry.value.toFixed(2) : entry.value}
         </p>
       ))}
     </div>
@@ -38,8 +38,8 @@ function ChartsSection({ businessCategories, selectedCategory, pincodeData }) {
     const growth = pincode.populationGrowth ?? 0;
     return {
       name: pincode.pincode,
-      currentDemand: Math.round((avgDemand ?? 0) * 10) / 10,
-      projectedDemand: avgDemand !== null ? Math.round((avgDemand + (growth * 2)) * 10) / 10 : 0,
+      currentDemand: Math.round((avgDemand ?? 0) * 100) / 100,
+      projectedDemand: avgDemand !== null ? Math.round((avgDemand + (growth * 2)) * 100) / 100 : 0,
     };
   }).filter(d => d.currentDemand > 0 || d.projectedDemand > 0);
 
@@ -55,7 +55,7 @@ function ChartsSection({ businessCategories, selectedCategory, pincodeData }) {
   const gapChartData = Object.entries(gapDistribution).map(([category, score]) => ({
     name: category.length > 14 ? category.slice(0, 12) + '…' : category,
     fullName: category,
-    score: Math.round(score / pincodeData.length)
+    score: Math.round(score / pincodeData.length * 100) / 100
   }));
 
   if (filteredCategories.length === 0 && forecastData.length === 0 && gapChartData.length === 0) {

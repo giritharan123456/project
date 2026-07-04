@@ -155,28 +155,28 @@ function Forecast() {
         population: `${(forecast.population.year1 / 1000).toFixed(0)}K`,
         demand: `${forecast.demand.year1.toFixed(0)}%`,
         competition: `${forecast.competition.year1.toFixed(0)}%`,
-        revenue: `₹${forecast.revenue.year1.toFixed(1)}L`
+        revenue: `₹${Number(forecast.revenue.year1).toFixed(2)}L`
       },
       {
         year: '2027',
         population: `${(forecast.population.year3 / 1000).toFixed(0)}K`,
         demand: `${forecast.demand.year3.toFixed(0)}%`,
         competition: `${forecast.competition.year3.toFixed(0)}%`,
-        revenue: `₹${forecast.revenue.year3.toFixed(1)}L`
+        revenue: `₹${Number(forecast.revenue.year3).toFixed(2)}L`
       },
       {
         year: '2030',
         population: `${(forecast.population.year5 / 1000).toFixed(0)}K`,
         demand: `${forecast.demand.year5.toFixed(0)}%`,
         competition: `${forecast.competition.year5.toFixed(0)}%`,
-        revenue: `₹${forecast.revenue.year5.toFixed(1)}L`
+        revenue: `₹${Number(forecast.revenue.year5).toFixed(2)}L`
       },
       {
         year: '2035',
         population: `${(forecast.population.year10 / 1000).toFixed(0)}K`,
         demand: `${forecast.demand.year10.toFixed(0)}%`,
         competition: `${forecast.competition.year10.toFixed(0)}%`,
-        revenue: `₹${forecast.revenue.year10.toFixed(1)}L`
+        revenue: `₹${Number(forecast.revenue.year10).toFixed(2)}L`
       }
     ];
   };
@@ -387,7 +387,7 @@ function Forecast() {
               <div className="flex justify-between mb-2">
                 <span className={`text-sm font-medium ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Revenue Growth</span>
                 <span className={`text-sm font-medium ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
-                  ₹{forecastData.revenue.current}L → ₹{forecastData.revenue.year5}L
+                  ₹{Number(forecastData.revenue.current).toFixed(2)}L → ₹{Number(forecastData.revenue.year5).toFixed(2)}L
                 </span>
               </div>
               <div className="relative h-8 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">

@@ -72,7 +72,7 @@ export default function HeroBanner({ pincodeData, selectedDistrict }) {
     },
     {
       label: 'Market Gap Score',
-      value: avgGap.toFixed(1),
+      value: avgGap.toFixed(2),
       suffix: '/100',
       icon: BarChart3,
       trend: gapTrend,
@@ -81,7 +81,7 @@ export default function HeroBanner({ pincodeData, selectedDistrict }) {
     },
     {
       label: 'Demand Index',
-      value: avgDemand.toFixed(1),
+      value: avgDemand.toFixed(2),
       suffix: '/100',
       icon: Activity,
       trend: demandTrend,

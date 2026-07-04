@@ -92,7 +92,7 @@ function ExecutiveSummary({ pincodeData }) {
     if (fastGrowing && fastGrowing !== topArea) {
       topActions.push({
         action: `Target ${fastGrowing.area}`,
-        detail: `Fastest growing: ${(fastGrowing.populationGrowth || 0).toFixed(1)}%`,
+        detail: `Fastest growing: ${(fastGrowing.populationGrowth || 0).toFixed(2)}%`,
         color: 'emerald',
       });
     }

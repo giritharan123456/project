@@ -17,7 +17,7 @@ const CustomTooltip = ({ active, payload, label }) => {
       <p className="font-semibold text-sm mb-1">{label}</p>
       {payload.map((entry, i) => (
         <p key={i} className="text-xs" style={{ color: entry.color }}>
-          {entry.name}: <span className="font-bold">{entry.value}</span>
+          {entry.name}: <span className="font-bold">{typeof entry.value === 'number' ? entry.value.toFixed(2) : entry.value}</span>
         </p>
       ))}
     </div>
@@ -47,10 +47,10 @@ function BusinessInsights({ pincodeData }) {
     });
     return Object.entries(categoryOpportunities).map(([category, data]) => ({
       category,
-      avgGap: (data.totalGap / data.count).toFixed(2),
-      avgDemand: (data.avgDemand / data.count).toFixed(2),
-      avgCompetitors: (data.totalCompetitors / data.count).toFixed(2),
-      opportunityScore: ((data.totalGap / data.count) * 0.6 + (data.avgDemand / data.count) * 0.4).toFixed(2)
+      avgGap: Number((data.totalGap / data.count).toFixed(2)),
+      avgDemand: Number((data.avgDemand / data.count).toFixed(2)),
+      avgCompetitors: Number((data.totalCompetitors / data.count).toFixed(2)),
+      opportunityScore: Number(((data.totalGap / data.count) * 0.6 + (data.avgDemand / data.count) * 0.4).toFixed(2))
     })).sort((a, b) => b.opportunityScore - a.opportunityScore);
   };
 
@@ -62,7 +62,7 @@ function BusinessInsights({ pincodeData }) {
       return {
         area: (pincode.area || pincode.name || '').slice(0, 12),
         competitors: totalCompetitors,
-        marketGap: avgGap.toFixed(2),
+        marketGap: Number(avgGap.toFixed(2)),
         population: Number(pincode.population)
       };
     }).sort((a, b) => b.competitors - a.competitors).slice(0, 8);
@@ -81,7 +81,7 @@ function BusinessInsights({ pincodeData }) {
     });
     const total = pincodeData.reduce((sum, p) => sum + Object.keys(p.demandScores || {}).length, 0);
     return Object.entries(demandLevels).map(([name, value]) => ({
-      name, value, percentage: total > 0 ? ((value / total) * 100).toFixed(2) : '0.00'
+      name, value, percentage: total > 0 ? Number(((value / total) * 100).toFixed(2)) : 0
     }));
   };
 
