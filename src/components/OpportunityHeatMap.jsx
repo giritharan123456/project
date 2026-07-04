@@ -168,10 +168,9 @@ function OpportunityHeatMap({ pincodeData, selectedDistrict }) {
             <div className="flex justify-between">
               <span className={`text-xs opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Total Competitors</span>
               <span className={`text-sm font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{hoveredPincode.competitors}</span>
-        </div>
-      </div>
-      )}
-          
+            </div>
+          </div>
+
           {selectedCategory !== 'all' && (
             <div className="mt-4">
               <h5 className={`font-bold text-sm mb-2 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Category Breakdown</h5>
