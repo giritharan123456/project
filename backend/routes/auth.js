@@ -7,6 +7,7 @@ const {
   loginUser,
   guestLogin,
   googleCallback,
+  generateToken,
   getUserProfile,
   updateUserProfile,
   forgotPassword,
@@ -36,7 +37,18 @@ router.get('/google/callback', (req, res, next) => {
   if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
     return res.redirect(`${process.env.FRONTEND_URL || 'http://localhost:5173'}/login?error=google_oauth_not_configured`);
   }
-  passport.authenticate('google', { failureRedirect: `${process.env.FRONTEND_URL || 'http://localhost:5173'}/login?error=google_auth_failed` }, googleCallback)(req, res, next);
+  const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
+  passport.authenticate('google', { failureRedirect: `${frontendUrl}/login?error=google_auth_failed` }, (err, user) => {
+    if (err || !user) {
+      return res.redirect(`${frontendUrl}/login?error=oauth_failed`);
+    }
+    try {
+      const token = generateToken(user._id);
+      res.redirect(`${frontendUrl}/login?token=${token}`);
+    } catch (error) {
+      res.redirect(`${frontendUrl}/login?error=server_error`);
+    }
+  })(req, res, next);
 });
 
 router.get('/profile', protect, getUserProfile);

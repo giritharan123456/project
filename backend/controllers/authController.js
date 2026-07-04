@@ -294,6 +294,7 @@ module.exports = {
   loginUser,
   guestLogin,
   googleCallback,
+  generateToken,
   getUserProfile,
   updateUserProfile,
   forgotPassword,
