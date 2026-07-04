@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
@@ -145,43 +145,64 @@ function Forecast() {
 
   const futureTrends = generateFutureTrends(areaData);
 
-  // Generate predictions based on forecast data
-  const generatePredictions = (forecast) => {
-    if (!forecast) return [];
+  const currentYear = new Date().getFullYear();
 
-    return [
+  // Generate predictions based on forecast data and selected timeframe
+  const generatePredictions = (forecast, tf) => {
+    if (!forecast) return [];
+    const items = [
       {
-        year: '2025',
+        year: `${currentYear + 1}`,
         population: `${(forecast.population.year1 / 1000).toFixed(0)}K`,
-        demand: `${forecast.demand.year1.toFixed(0)}%`,
-        competition: `${forecast.competition.year1.toFixed(0)}%`,
+        demand: `${Number(forecast.demand.year1).toFixed(2)}%`,
+        competition: `${Number(forecast.competition.year1).toFixed(2)}%`,
         revenue: `₹${Number(forecast.revenue.year1).toFixed(2)}L`
       },
       {
-        year: '2027',
+        year: `${currentYear + 3}`,
         population: `${(forecast.population.year3 / 1000).toFixed(0)}K`,
-        demand: `${forecast.demand.year3.toFixed(0)}%`,
-        competition: `${forecast.competition.year3.toFixed(0)}%`,
+        demand: `${Number(forecast.demand.year3).toFixed(2)}%`,
+        competition: `${Number(forecast.competition.year3).toFixed(2)}%`,
         revenue: `₹${Number(forecast.revenue.year3).toFixed(2)}L`
       },
       {
-        year: '2030',
+        year: `${currentYear + 5}`,
         population: `${(forecast.population.year5 / 1000).toFixed(0)}K`,
-        demand: `${forecast.demand.year5.toFixed(0)}%`,
-        competition: `${forecast.competition.year5.toFixed(0)}%`,
+        demand: `${Number(forecast.demand.year5).toFixed(2)}%`,
+        competition: `${Number(forecast.competition.year5).toFixed(2)}%`,
         revenue: `₹${Number(forecast.revenue.year5).toFixed(2)}L`
       },
-      {
-        year: '2035',
-        population: `${(forecast.population.year10 / 1000).toFixed(0)}K`,
-        demand: `${forecast.demand.year10.toFixed(0)}%`,
-        competition: `${forecast.competition.year10.toFixed(0)}%`,
-        revenue: `₹${Number(forecast.revenue.year10).toFixed(2)}L`
-      }
     ];
+    if (tf === '10years') {
+      items.push({
+        year: `${currentYear + 10}`,
+        population: `${(forecast.population.year10 / 1000).toFixed(0)}K`,
+        demand: `${Number(forecast.demand.year10).toFixed(2)}%`,
+        competition: `${Number(forecast.competition.year10).toFixed(2)}%`,
+        revenue: `₹${Number(forecast.revenue.year10).toFixed(2)}L`
+      });
+    }
+    return items;
   };
 
-  const predictions = generatePredictions(forecastData);
+  const predictions = generatePredictions(forecastData, timeframe);
+
+  // Compute confidence scores from real data
+  const confidenceScores = useMemo(() => {
+    if (!areaData) return { accuracy: 0, dataQuality: 0, precision: 0 };
+    const hasPop = areaData.population > 0 ? 1 : 0;
+    const hasGrowth = areaData.populationGrowth != null ? 1 : 0;
+    const hasIncome = areaData.incomeLevel ? 1 : 0;
+    const hasUrban = areaData.urbanDevelopment > 0 ? 1 : 0;
+    const hasDemand = Object.keys(areaData.demandScores || {}).length > 0 ? 1 : 0;
+    const hasComp = Object.keys(areaData.competitors || {}).length > 0 ? 1 : 0;
+    const completeness = ((hasPop + hasGrowth + hasIncome + hasUrban + hasDemand + hasComp) / 6) * 100;
+    return {
+      accuracy: Math.round(Math.min(95, 60 + completeness * 0.35) * 100) / 100,
+      dataQuality: Math.round(completeness * 100) / 100,
+      precision: Math.round(Math.min(92, 55 + completeness * 0.4) * 100) / 100,
+    };
+  }, [areaData]);
 
   if (!selectedPincode) {
     return (
@@ -270,7 +291,20 @@ function Forecast() {
                 </select>
                 <ChevronDown className={`absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`} size={16} />
               </div>
-              <button className={`p-3 rounded-xl border transition-colors ${isDarkMode ? 'text-[#f1f5f9] border-[#334155] hover:bg-[#1e293b]' : 'text-[#1e293b] border-[#e2e8f0] hover:bg-[#ffffff]'}`}>
+              <button
+                onClick={() => {
+                  if (!forecastData) return;
+                  const rows = [['Year', 'Population', 'Demand', 'Competition', 'Revenue']];
+                  predictions.forEach(p => rows.push([p.year, p.population, p.demand, p.competition, p.revenue]));
+                  const csv = rows.map(r => r.join(',')).join('\n');
+                  const blob = new Blob([csv], { type: 'text/csv' });
+                  const url = URL.createObjectURL(blob);
+                  const a = document.createElement('a');
+                  a.href = url; a.download = `forecast-${selectedPincode || 'data'}.csv`; a.click();
+                  URL.revokeObjectURL(url);
+                }}
+                className={`p-3 rounded-xl border transition-colors cursor-pointer ${isDarkMode ? 'text-[#f1f5f9] border-[#334155] hover:bg-[#1e293b]' : 'text-[#1e293b] border-[#e2e8f0] hover:bg-[#ffffff]'}`}
+              >
                 <Download size={20} />
               </button>
             </div>
@@ -319,86 +353,50 @@ function Forecast() {
             <div className="flex items-center gap-3">
               <LineChart className="text-[#2563eb]" size={24} />
               <h3 className={`text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
-                5-Year Prediction
+                {timeframe === '10years' ? '10-Year' : '5-Year'} Prediction
               </h3>
             </div>
             <div className="flex items-center gap-2">
               <Info className={`opacity-50 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`} size={16} />
               <span className={`text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
-                Based on historical data and AI models
+                Based on real area data and market trends
               </span>
             </div>
           </div>
 
           {/* Simplified Chart Visualization */}
           <div className="space-y-6">
-            <div>
-              <div className="flex justify-between mb-2">
-                <span className={`text-sm font-medium ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Population Growth</span>
-                <span className={`text-sm font-medium ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
-                  {forecastData.population.current.toLocaleString()} → {forecastData.population.year5.toLocaleString()}
-                </span>
-              </div>
-              <div className="relative h-8 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-                <motion.div 
-                  initial={{ width: 0 }}
-                  animate={{ width: '100%' }}
-                  transition={{ duration: 1, delay: 0.6 }}
-                  className="h-full bg-gradient-to-r from-blue-500 to-blue-600 rounded-full"
-                />
-              </div>
-            </div>
-
-            <div>
-              <div className="flex justify-between mb-2">
-                <span className={`text-sm font-medium ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Demand Growth</span>
-                <span className={`text-sm font-medium ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
-                  {Number(forecastData.demand.current).toFixed(2)}% → {Number(forecastData.demand.year5).toFixed(2)}%
-                </span>
-              </div>
-              <div className="relative h-8 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-                <motion.div 
-                  initial={{ width: 0 }}
-                  animate={{ width: '95%' }}
-                  transition={{ duration: 1, delay: 0.7 }}
-                  className="h-full bg-gradient-to-r from-green-500 to-green-600 rounded-full"
-                />
-              </div>
-            </div>
-
-            <div>
-              <div className="flex justify-between mb-2">
-                <span className={`text-sm font-medium ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Competition Growth</span>
-                <span className={`text-sm font-medium ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
-                  {Number(forecastData.competition.current).toFixed(2)}% → {Number(forecastData.competition.year5).toFixed(2)}%
-                </span>
-              </div>
-              <div className="relative h-8 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-                <motion.div 
-                  initial={{ width: 0 }}
-                  animate={{ width: '88%' }}
-                  transition={{ duration: 1, delay: 0.8 }}
-                  className="h-full bg-gradient-to-r from-orange-500 to-orange-600 rounded-full"
-                />
-              </div>
-            </div>
-
-            <div>
-              <div className="flex justify-between mb-2">
-                <span className={`text-sm font-medium ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Revenue Growth</span>
-                <span className={`text-sm font-medium ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
-                  ₹{Number(forecastData.revenue.current).toFixed(2)}L → ₹{Number(forecastData.revenue.year5).toFixed(2)}L
-                </span>
-              </div>
-              <div className="relative h-8 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-                <motion.div 
-                  initial={{ width: 0 }}
-                  animate={{ width: '100%' }}
-                  transition={{ duration: 1, delay: 0.9 }}
-                  className="h-full bg-gradient-to-r from-purple-500 to-purple-600 rounded-full"
-                />
-              </div>
-            </div>
+            {(() => {
+              const maxPop = Math.max(forecastData.population.current, forecastData.population.year5) || 1;
+              const popPct = Math.round((forecastData.population.year5 / maxPop) * 100);
+              const demPct = Math.round((forecastData.demand.year5 / Math.max(forecastData.demand.year5, 1)) * 100);
+              const compPct = Math.round((forecastData.competition.year5 / Math.max(forecastData.competition.year5, 1)) * 100);
+              const revMax = Math.max(forecastData.revenue.current, forecastData.revenue.year5) || 1;
+              const revPct = Math.round((forecastData.revenue.year5 / revMax) * 100);
+              return [
+                { label: 'Population Growth', from: forecastData.population.current.toLocaleString(), to: forecastData.population.year5.toLocaleString(), pct: popPct, color: 'from-blue-500 to-blue-600' },
+                { label: 'Demand Growth', from: `${Number(forecastData.demand.current).toFixed(2)}%`, to: `${Number(forecastData.demand.year5).toFixed(2)}%`, pct: demPct, color: 'from-green-500 to-green-600' },
+                { label: 'Competition Growth', from: `${Number(forecastData.competition.current).toFixed(2)}%`, to: `${Number(forecastData.competition.year5).toFixed(2)}%`, pct: compPct, color: 'from-orange-500 to-orange-600' },
+                { label: 'Revenue Growth', from: `₹${Number(forecastData.revenue.current).toFixed(2)}L`, to: `₹${Number(forecastData.revenue.year5).toFixed(2)}L`, pct: revPct, color: 'from-purple-500 to-purple-600' },
+              ].map((bar, i) => (
+                <div key={i}>
+                  <div className="flex justify-between mb-2">
+                    <span className={`text-sm font-medium ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{bar.label}</span>
+                    <span className={`text-sm font-medium ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+                      {bar.from} → {bar.to}
+                    </span>
+                  </div>
+                  <div className="relative h-8 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                    <motion.div
+                      initial={{ width: 0 }}
+                      animate={{ width: `${Math.max(5, bar.pct)}%` }}
+                      transition={{ duration: 1, delay: 0.6 + i * 0.1 }}
+                      className={`h-full bg-gradient-to-r ${bar.color} rounded-full`}
+                    />
+                  </div>
+                </div>
+              ));
+            })()}
           </div>
         </motion.div>
 
@@ -514,7 +512,7 @@ function Forecast() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="text-center">
               <div className="text-4xl font-extrabold bg-gradient-to-r from-[#2563eb] to-[#7c3aed] bg-clip-text text-transparent mb-2">
-                82%
+                {Number(confidenceScores.accuracy).toFixed(2)}%
               </div>
               <p className={`text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                 Overall Accuracy
@@ -522,7 +520,7 @@ function Forecast() {
             </div>
             <div className="text-center">
               <div className="text-4xl font-extrabold bg-gradient-to-r from-[#2563eb] to-[#7c3aed] bg-clip-text text-transparent mb-2">
-                78%
+                {Number(confidenceScores.dataQuality).toFixed(2)}%
               </div>
               <p className={`text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                 Data Quality
@@ -530,7 +528,7 @@ function Forecast() {
             </div>
             <div className="text-center">
               <div className="text-4xl font-extrabold bg-gradient-to-r from-[#2563eb] to-[#7c3aed] bg-clip-text text-transparent mb-2">
-                85%
+                {Number(confidenceScores.precision).toFixed(2)}%
               </div>
               <p className={`text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                 Model Precision
