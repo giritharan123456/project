@@ -80,8 +80,8 @@ function Analysis() {
             <div className="mt-4 p-4 rounded-lg bg-blue-50 dark:bg-blue-900/20">
               <p className={`text-sm font-semibold mb-2 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Example Calculation:</p>
               <p className={`text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
-                If T. Nagar has a Pharmacy demand score of 92 and 4 competitors (competition score of 10), 
-                the Market Gap Score = 92 - 10 = 82 (High Opportunity)
+                If an area has a demand score of 85 and 3 competitors (competition score of 15),
+                the Market Gap Score = 85 - 15 = 70 (High Opportunity)
               </p>
             </div>
           </motion.div>
@@ -166,19 +166,19 @@ function Analysis() {
             </div>
             <ul className="list-none p-0 m-0 space-y-2">
               <li className={`py-2 pl-6 flex items-center gap-2 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
-                <span className="text-[#2563eb]">•</span> Census population data
+                <span className="text-[#2563eb]">•</span> Algorithmic data generation from population metrics
               </li>
               <li className={`py-2 pl-6 flex items-center gap-2 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
-                <span className="text-[#2563eb]">•</span> Google Maps business listings
+                <span className="text-[#2563eb]">•</span> Demand and supply analysis per business category
               </li>
               <li className={`py-2 pl-6 flex items-center gap-2 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
-                <span className="text-[#2563eb]">•</span> Business directories and registries
+                <span className="text-[#2563eb]">•</span> Income and demographic indicators
               </li>
               <li className={`py-2 pl-6 flex items-center gap-2 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
-                <span className="text-[#2563eb]">•</span> Demographic and income data
+                <span className="text-[#2563eb]">•</span> Urban development and search trend data
               </li>
               <li className={`py-2 pl-6 flex items-center gap-2 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
-                <span className="text-[#2563eb]">•</span> Search trend analytics
+                <span className="text-[#2563eb]">•</span> Real-time market gap scoring engine
               </li>
             </ul>
           </motion.div>
