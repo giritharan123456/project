@@ -23,7 +23,6 @@ const CustomTooltip = ({ active, payload, label }) => {
 const Competitors = ({ pincodeData }) => {
   const { isDarkMode } = useTheme();
   const [expandedInsight, setExpandedInsight] = useState(null);
-  const [error] = useState(null);
   const b = (dark, light) => isDarkMode ? dark : light;
 
   const axisDark = { fontSize: 13, fontWeight: 700, fill: '#e2e8f0' };
@@ -95,12 +94,12 @@ const Competitors = ({ pincodeData }) => {
     return { barData, insights, totalCompetitors, avgDemand, avgGap, areaCount: pincodeData.length };
   }, [pincodeData]);
 
-  if (error || !chartData) {
+  if (!chartData) {
     return (
       <div className="text-center py-12">
         <Swords size={40} className={`mx-auto mb-3 ${b('text-gray-600', 'text-gray-400')}`} />
         <p className={`text-sm ${b('text-gray-400', 'text-gray-500')}`}>
-          {error || 'No competitor data available for this district'}
+          No competitor data available for this district
         </p>
       </div>
     );
