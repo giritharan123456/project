@@ -79,8 +79,8 @@ function AIRecommendations() {
       // Calculate all metrics dynamically from real data
       const population = Number(area.population) || 0;
       const populationGrowth = Number(area.populationGrowth) || 0;
-      const incomeLevel = area.incomeLevel || 'Medium';
-      const urbanDevelopment = Number(area.urbanDevelopment) || 50;
+      const incomeLevel = area.incomeLevel || 'Low';
+      const urbanDevelopment = Number(area.urbanDevelopment) || 0;
       
       // Calculate investment based on population and income level
       const baseInvestment = population * 0.05; // Base investment per person
@@ -114,7 +114,7 @@ function AIRecommendations() {
       
       // Generate dynamic challenges based on real data
       const challenges = [];
-      if (avgCompetition > 8) advantages.push('High competition');
+      if (avgCompetition > 8) challenges.push('High competition');
       if (urbanDevelopment < 50) challenges.push('Limited infrastructure');
       if (populationGrowth < 1.5) challenges.push('Slow population growth');
       if (incomeLevel === 'Low') challenges.push('Lower purchasing power');
@@ -134,7 +134,11 @@ function AIRecommendations() {
         });
       
       if (alternativeIdeas.length === 0) {
-        alternativeIdeas.push('Service Business', 'Franchise Outlet', 'Home-based Business');
+        const topGaps = Object.entries(marketGapScores)
+          .sort((a, b) => b[1] - a[1])
+          .slice(0, 3)
+          .map(([cat]) => `${cat} Business`);
+        alternativeIdeas.push(...(topGaps.length > 0 ? topGaps : ['Service Business', 'Franchise Outlet', 'Home-based Business']));
       }
 
       return {
@@ -168,8 +172,8 @@ function AIRecommendations() {
       const demandScores = area.demandScores || {};
       const population = Number(area.population) || 0;
       const populationGrowth = Number(area.populationGrowth) || 0;
-      const incomeLevel = area.incomeLevel || 'Medium';
-      const urbanDevelopment = Number(area.urbanDevelopment) || 50;
+      const incomeLevel = area.incomeLevel || 'Low';
+      const urbanDevelopment = Number(area.urbanDevelopment) || 0;
       
       const recommendations = [];
 
@@ -504,10 +508,10 @@ function AIRecommendations() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {[
-              { icon: TrendingUp, label: 'Market Growth', value: '+23%', color: 'text-green-500' },
-              { icon: Users, label: 'Target Audience', value: '45K', color: 'text-blue-500' },
-              { icon: DollarSign, label: 'Avg. Spend', value: '₹850', color: 'text-purple-500' },
-              { icon: Target, label: 'Competition', value: 'Low', color: 'text-orange-500' }
+              { icon: TrendingUp, label: 'Market Growth', value: `+${Number(areaData.populationGrowth || 0).toFixed(2)}%`, color: 'text-green-500' },
+              { icon: Users, label: 'Population', value: `${(Number(areaData.population || 0) / 1000).toFixed(0)}K`, color: 'text-blue-500' },
+              { icon: DollarSign, label: 'Income Level', value: areaData.incomeLevel || 'Low', color: 'text-purple-500' },
+              { icon: Target, label: 'Urban Dev', value: `${Number(areaData.urbanDevelopment || 0).toFixed(2)}/100`, color: 'text-orange-500' }
             ].map((insight, index) => (
               <div key={index} className={`p-4 rounded-xl ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
                 <insight.icon className={`${insight.color} mb-2`} size={20} />
