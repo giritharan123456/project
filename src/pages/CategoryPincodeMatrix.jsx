@@ -90,13 +90,13 @@ function CategoryPincodeMatrix() {
                       <td className="px-4 py-3 whitespace-nowrap">{row.areaName || '-'}</td>
                       <td className="px-4 py-3 whitespace-nowrap">{row.district || '-'}</td>
                       <td className="px-4 py-3 text-center">
-                        <span className={`px-2 py-1 rounded-md text-xs font-semibold ${getScoreColor(row.gapScore)}`}>{row.gapScore || '-'}</span>
+                         <span className={`px-2 py-1 rounded-md text-xs font-semibold ${getScoreColor(row.gapScore)}`}>{row.gapScore != null ? Number(row.gapScore).toFixed(2) : '-'}</span>
                       </td>
                       <td className="px-4 py-3 text-center">
-                        <span className={`px-2 py-1 rounded-md text-xs font-semibold ${getScoreColor(row.demandScore)}`}>{row.demandScore || '-'}</span>
+                         <span className={`px-2 py-1 rounded-md text-xs font-semibold ${getScoreColor(row.demandScore)}`}>{row.demandScore != null ? Number(row.demandScore).toFixed(2) : '-'}</span>
                       </td>
                       <td className="px-4 py-3 text-center">
-                        <span className={`px-2 py-1 rounded-md text-xs font-semibold ${getScoreColor(row.feasibilityScore)}`}>{row.feasibilityScore || '-'}</span>
+                         <span className={`px-2 py-1 rounded-md text-xs font-semibold ${getScoreColor(row.feasibilityScore)}`}>{row.feasibilityScore != null ? Number(row.feasibilityScore).toFixed(2) : '-'}</span>
                       </td>
                     </motion.tr>
                   );
