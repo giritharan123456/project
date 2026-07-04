@@ -77,7 +77,7 @@ function Home() {
             transition={{ type: "spring", stiffness: 300 }}
           >
             <h3 className="text-xl mb-3 font-bold bg-gradient-to-r from-[#2563eb] to-[#7c3aed] bg-clip-text text-transparent">📊 Pincode Analysis</h3>
-            <p className="text-sm opacity-80 m-0 leading-relaxed">Analyze market gaps by specific pincodes across Tamil Nadu</p>
+            <p className="text-sm opacity-80 m-0 leading-relaxed">Analyze market gaps by specific pincodes across all districts</p>
           </motion.div>
           <motion.div 
             className={`p-8 rounded-2xl border backdrop-blur-xl transition-all duration-300 ${isDarkMode ? 'bg-[#1e293b] border-[#334155] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.3),0_2px_4px_-1px_rgba(0,0,0,0.2)] hover:-translate-y-2 hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),0_4px_6px_-2px_rgba(0,0,0,0.05)]' : 'bg-[#ffffff] border-[#e2e8f0] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-1px_rgba(0,0,0,0.06)] hover:-translate-y-2 hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),0_4px_6px_-2px_rgba(0,0,0,0.05)]'}`}

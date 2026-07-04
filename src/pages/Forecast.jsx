@@ -24,7 +24,6 @@ function Forecast() {
   const districtName = currentDistrict?.name || 'No district selected';
   
   const [timeframe, setTimeframe] = useState('5years');
-  const [selectedMetric, setSelectedMetric] = useState('all');
 
   useEffect(() => {
     const fetchAreaData = async () => {
@@ -62,7 +61,7 @@ function Forecast() {
     const populationGrowth = Number(area.populationGrowth) || 0;
     const avgDemand = Object.values(area.demandScores || {}).reduce((sum, val) => sum + (Number(val) || 0), 0) / (Object.keys(area.demandScores || {}).length || 1);
     const avgCompetition = Object.values(area.competitors || {}).reduce((sum, val) => sum + (Number(val) || 0), 0) / (Object.keys(area.competitors || {}).length || 1);
-    const urbanDev = Number(area.urbanDevelopment) || 50;
+    const urbanDev = Number(area.urbanDevelopment) || 0;
     const demandGrowthRate = Math.round(Math.max(1, Math.min(8, populationGrowth * 0.5 + urbanDev * 0.05)) * 100) / 100;
     const compGrowthRate = Math.round(Math.max(1, Math.min(10, urbanDev * 0.08 + 1)) * 100) / 100;
     const revGrowthRate = Math.round(Math.max(1, Math.min(12, demandGrowthRate * 1.5)) * 100) / 100;
@@ -109,9 +108,9 @@ function Forecast() {
   const generateFutureTrends = (area) => {
     if (!area) return [];
 
-    const urbanDev = Number(area.urbanDevelopment) || 50;
+    const urbanDev = Number(area.urbanDevelopment) || 0;
     const populationGrowth = Number(area.populationGrowth) || 0;
-    const incomeLevel = area.incomeLevel || 'Medium';
+    const incomeLevel = area.incomeLevel || 'Low';
 
     return [
       { 
@@ -141,7 +140,7 @@ function Forecast() {
       { 
         trend: 'Consumer Spending', 
         impact: incomeLevel === 'High' ? 'Positive' : incomeLevel === 'Medium' ? 'Neutral' : 'Negative', 
-        confidence: Math.round(Math.min(90, Math.max(40, (incomeLevel === 'High' ? 85 : incomeLevel === 'Medium' ? 65 : 45) + populationGrowth * 2)) * 100) / 100, 
+        confidence: Math.round(Math.min(90, Math.max(30, (incomeLevel === 'High' ? urbanDev * 0.9 : incomeLevel === 'Medium' ? urbanDev * 0.7 : urbanDev * 0.5) + populationGrowth * 3)) * 100) / 100, 
         icon: DollarSign 
       }
     ];

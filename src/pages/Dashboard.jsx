@@ -164,7 +164,7 @@ function Dashboard() {
                 <DistrictSelector districts={districts} />
               </div>
               <div className="flex-1">
-                <SearchBar onSearch={handleSearch} placeholder={`Search pincode in ${currentDistrictName || 'Tamil Nadu'}...`} suggestions={displayData.map(p => p.pincode).filter(Boolean)} district={currentDistrictName} category={selectedBusinessCategory} />
+                <SearchBar onSearch={handleSearch} placeholder={`Search pincode in ${currentDistrictName || 'selected district'}...`} suggestions={displayData.map(p => p.pincode).filter(Boolean)} district={currentDistrictName} category={selectedBusinessCategory} />
                 {searchLoading && <p className="mt-1 text-[10px] text-slate-400 font-medium">Fetching data...</p>}
                 {searchError && <p className="mt-1 text-[10px] text-red-500 font-medium">{searchError}</p>}
               </div>

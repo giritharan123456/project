@@ -139,7 +139,7 @@ function Signup() {
                   <div>
                     <h3 className={`font-bold mb-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Comprehensive Coverage</h3>
                     <p className={`text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
-                      Access data across all major districts in Tamil Nadu
+                      Access data across all major districts
                     </p>
                   </div>
                 </div>

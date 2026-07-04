@@ -119,7 +119,7 @@ const DistrictManagement = () => {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold text-gray-900">District Management</h1>
-              <p className="text-gray-600 mt-1">Manage all districts in Tamil Nadu</p>
+              <p className="text-gray-600 mt-1">Manage all districts</p>
             </div>
             <button
               onClick={() => navigate('/admin')}
