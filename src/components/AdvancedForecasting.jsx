@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, AreaChart, Area } from 'recharts';
 import { useTheme } from '../contexts/ThemeContext';
 
 function AdvancedForecasting({ pincodeData, businessCategories }) {
   const { isDarkMode } = useTheme();
+  const [timePeriod, setTimePeriod] = useState(12);
 
   const ChartTooltip = ({ active, payload, label }) => {
     if (!active || !payload) return null;
@@ -81,7 +82,8 @@ ${index + 1}. ${pincode.area} (${pincode.pincode})
   const generateForecastData = () => {
     if (!pincodeData || pincodeData.length === 0) return [];
 
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const allMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const months = allMonths.slice(0, timePeriod);
     
     const basePopulation = pincodeData.reduce((sum, p) => sum + (Number(p.population) || 0), 0) / pincodeData.length;
     const avgGrowth = pincodeData.reduce((sum, p) => sum + (Number(p.populationGrowth) || 0), 0) / pincodeData.length;
@@ -171,10 +173,10 @@ ${index + 1}. ${pincode.area} (${pincode.pincode})
       <div className="flex justify-between items-center mb-2">
         <h3 className={`text-xl font-bold bg-gradient-to-r from-[#2563eb] to-[#7c3aed] bg-clip-text text-transparent ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>📈 Advanced Forecasting & Trend Analysis</h3>
         <div className="flex gap-2">
-          <select className={`px-3 py-2 border-2 rounded-lg ${isDarkMode ? 'bg-[#0f172a] border-[#334155] text-[#f1f5f9]' : 'bg-[#f8fafc] border-[#e2e8f0] text-[#1e293b]'}`}>
-            <option>12 Months</option>
-            <option>6 Months</option>
-            <option>3 Months</option>
+          <select value={timePeriod} onChange={(e) => setTimePeriod(Number(e.target.value))} className={`px-3 py-2 border-2 rounded-lg ${isDarkMode ? 'bg-[#0f172a] border-[#334155] text-[#f1f5f9]' : 'bg-[#f8fafc] border-[#e2e8f0] text-[#1e293b]'}`}>
+            <option value={12}>12 Months</option>
+            <option value={6}>6 Months</option>
+            <option value={3}>3 Months</option>
           </select>
           <button className={`px-4 py-2 border-2 rounded-lg transition-all duration-300 ${isDarkMode ? 'bg-[#0f172a] border-[#334155] text-[#f1f5f9] hover:border-[#2563eb]' : 'bg-[#f8fafc] border-[#e2e8f0] text-[#1e293b] hover:border-[#2563eb]'}`} onClick={handleExportReport}>📊 Export Report</button>
         </div>

@@ -8,6 +8,7 @@ function OpportunityHeatMap({ pincodeData, selectedDistrict }) {
   const { isDarkMode } = useTheme();
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [hoveredPincode, setHoveredPincode] = useState(null);
+  const [showLegend, setShowLegend] = useState(false);
 
   if (!pincodeData || pincodeData.length === 0) {
     return (
@@ -90,10 +91,11 @@ function OpportunityHeatMap({ pincodeData, selectedDistrict }) {
               <option key={cat} value={cat}>{cat}</option>
             ))}
           </select>
-          <button className={`px-4 py-2 border-2 rounded-lg transition-all duration-300 ${isDarkMode ? 'bg-[#0f172a] border-[#334155] text-[#f1f5f9] hover:border-[#2563eb]' : 'bg-[#f8fafc] border-[#e2e8f0] text-[#1e293b] hover:border-[#2563eb]'}`}>📊 Legend</button>
+          <button onClick={() => setShowLegend(!showLegend)} className={`px-4 py-2 border-2 rounded-lg transition-all duration-300 ${isDarkMode ? 'bg-[#0f172a] border-[#334155] text-[#f1f5f9] hover:border-[#2563eb]' : 'bg-[#f8fafc] border-[#e2e8f0] text-[#1e293b] hover:border-[#2563eb]'}`}>📊 Legend</button>
         </div>
       </div>
 
+      {showLegend && (
       <div className="flex flex-wrap gap-4 mb-6">
         <div className="flex items-center gap-2">
           <div className="w-4 h-4 rounded" style={{ background: 'rgba(34, 197, 94, 0.8)' }}></div>
@@ -112,6 +114,7 @@ function OpportunityHeatMap({ pincodeData, selectedDistrict }) {
           <span className={`text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Critical (0-39)</span>
         </div>
       </div>
+      )}
 
       <div className="grid grid-cols-[repeat(auto-fill,minmax(120px,1fr))] gap-3">
         {heatmapData.map((data, index) => (
@@ -165,8 +168,9 @@ function OpportunityHeatMap({ pincodeData, selectedDistrict }) {
             <div className="flex justify-between">
               <span className={`text-xs opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Total Competitors</span>
               <span className={`text-sm font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{hoveredPincode.competitors}</span>
-            </div>
-          </div>
+        </div>
+      </div>
+      )}
           
           {selectedCategory !== 'all' && (
             <div className="mt-4">

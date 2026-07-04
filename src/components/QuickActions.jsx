@@ -1,10 +1,10 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { BarChart3, Download, RefreshCw, GitCompare, Filter, Map } from 'lucide-react';
+import { BarChart3, RefreshCw, GitCompare, Filter, Map } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 import { useNavigate } from 'react-router-dom';
 
-export default function QuickActions({ onRefresh, onExport }) {
+export default function QuickActions({ onRefresh }) {
   const { isDarkMode } = useTheme();
   const navigate = useNavigate();
 
@@ -12,7 +12,6 @@ export default function QuickActions({ onRefresh, onExport }) {
     { icon: GitCompare, label: 'Compare', color: 'from-blue-500 to-blue-600', onClick: () => navigate('/comparison') },
     { icon: BarChart3, label: 'Analytics', color: 'from-violet-500 to-violet-600', onClick: () => navigate('/analytics') },
     { icon: Map, label: 'Map View', color: 'from-emerald-500 to-emerald-600', onClick: () => navigate('/analysis') },
-    { icon: Download, label: 'Export', color: 'from-amber-500 to-amber-600', onClick: onExport },
     { icon: RefreshCw, label: 'Refresh', color: 'from-rose-500 to-rose-600', onClick: onRefresh },
     { icon: Filter, label: 'Forecast', color: 'from-cyan-500 to-cyan-600', onClick: () => navigate('/forecast') },
   ];

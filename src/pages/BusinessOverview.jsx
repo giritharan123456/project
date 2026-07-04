@@ -7,8 +7,8 @@ import EmptyState from '../components/EmptyState';
 import { toPlainObject, averageOfValues, NO_DATA_LABEL } from '../utils/dataUtils';
 import { 
   Store, TrendingUp, TrendingDown, BarChart3, PieChart, 
-  ArrowLeft, Filter, Search, ChevronDown, Star, MapPin,
-  Phone, Clock, Building2, Utensils, Coffee, ShoppingBag,
+  ArrowLeft, Filter, Search, ChevronDown, MapPin,
+  Building2, Utensils, Coffee, ShoppingBag,
   Scissors, Briefcase, Heart, Share2, Grid, List, AlertCircle
 } from 'lucide-react';
 
@@ -73,26 +73,23 @@ function BusinessOverview() {
   };
 
   const businesses = useMemo(() => {
-    const gen = businessData.popularCategories.flatMap(cat => {
-      const items = [];
-      for (let i = 0; i < Math.min(cat.count, 5); i++) {
-        items.push({
-          id: `${cat.name}-${i}`,
-          name: `${cat.name} ${['Hub', 'Center', 'Plaza', 'Point', 'Junction'][i % 5]} ${i + 1}`,
-          category: cat.name,
-          status: i % 3 === 0 ? 'Closed' : 'Open',
-          rating: (3.5 + Math.random() * 1.5).toFixed(1),
-          reviews: Math.floor(Math.random() * 200) + 10,
-          distance: `${(Math.random() * 3).toFixed(1)} km`,
-          hours: '9:00 AM - 9:00 PM',
-          phone: `+91-${String(Math.floor(Math.random() * 9000000000) + 1000000000).slice(0, 10)}`,
-          established: `${2010 + Math.floor(Math.random() * 14)}`,
-        });
-      }
-      return items;
-    });
-    return gen;
-  }, [businessData.popularCategories]);
+    if (!apiArea) return [];
+    const competitors = toPlainObject(apiArea.competitors);
+    const gapScores = toPlainObject(apiArea.marketGapScores);
+    const demandScores = toPlainObject(apiArea.demandScores);
+
+    return Object.entries(competitors).map(([name, count]) => ({
+      id: name,
+      name: name,
+      category: name,
+      status: (Number(count) || 0) > 0 ? 'Active' : 'No Data',
+      competitors: Number(count) || 0,
+      gapScore: Number(gapScores[name]) || 0,
+      demandScore: Number(demandScores[name]) || 0,
+      population: apiArea.population || 0,
+      growth: apiArea.populationGrowth || 0,
+    }));
+  }, [apiArea]);
 
   if (!routePincode || loading) {
     return (
@@ -329,28 +326,22 @@ function BusinessOverview() {
                       {business.category}
                     </p>
                     
-                    <div className="flex items-center gap-1 mb-3">
-                      <Star className="text-yellow-500 fill-yellow-500" size={16} />
-                      <span className={`font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
-                        {business.rating}
-                      </span>
-                      <span className={`text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
-                        ({business.reviews} reviews)
-                      </span>
-                    </div>
-                    
                     <div className="space-y-2 text-sm">
-                      <div className={`flex items-center gap-2 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
-                        <MapPin size={14} />
-                        <span>{business.distance}</span>
+                      <div className={`flex items-center justify-between ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+                        <span className="opacity-70">Competitors</span>
+                        <span className="font-bold">{business.competitors}</span>
                       </div>
-                      <div className={`flex items-center gap-2 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
-                        <Clock size={14} />
-                        <span>{business.hours}</span>
+                      <div className={`flex items-center justify-between ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+                        <span className="opacity-70">Gap Score</span>
+                        <span className="font-bold">{business.gapScore.toFixed(2)}</span>
                       </div>
-                      <div className={`flex items-center gap-2 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
-                        <Building2 size={14} />
-                        <span>Since {business.established}</span>
+                      <div className={`flex items-center justify-between ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+                        <span className="opacity-70">Demand Score</span>
+                        <span className="font-bold">{business.demandScore.toFixed(2)}</span>
+                      </div>
+                      <div className={`flex items-center justify-between ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+                        <span className="opacity-70">Population</span>
+                        <span className="font-bold">{business.population.toLocaleString()}</span>
                       </div>
                     </div>
                   </motion.div>
@@ -384,38 +375,27 @@ function BusinessOverview() {
                               {business.category}
                             </p>
                           </div>
-                          <span className={`px-3 py-1 rounded-full text-xs font-semibold ${business.status === 'Open' ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'}`}>
+                          <span className={`px-3 py-1 rounded-full text-xs font-semibold ${business.status === 'Active' ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : 'bg-gray-100 text-gray-700 dark:bg-gray-900/30 dark:text-gray-400'}`}>
                             {business.status}
-                          </span>
-                        </div>
-                        
-                        <div className="flex items-center gap-4 mb-3">
-                          <div className="flex items-center gap-1">
-                            <Star className="text-yellow-500 fill-yellow-500" size={16} />
-                            <span className={`font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
-                              {business.rating}
-                            </span>
-                            <span className={`text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
-                              ({business.reviews} reviews)
-                            </span>
-                          </div>
-                          <span className={`text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
-                            Since {business.established}
                           </span>
                         </div>
                         
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
                           <div className={`flex items-center gap-2 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
-                            <MapPin size={14} />
-                            <span>{business.distance}</span>
+                            <span className="opacity-70">Competitors:</span>
+                            <span className="font-bold">{business.competitors}</span>
                           </div>
                           <div className={`flex items-center gap-2 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
-                            <Clock size={14} />
-                            <span>{business.hours}</span>
+                            <span className="opacity-70">Gap:</span>
+                            <span className="font-bold">{business.gapScore.toFixed(2)}</span>
                           </div>
                           <div className={`flex items-center gap-2 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
-                            <Phone size={14} />
-                            <span>{business.phone}</span>
+                            <span className="opacity-70">Demand:</span>
+                            <span className="font-bold">{business.demandScore.toFixed(2)}</span>
+                          </div>
+                          <div className={`flex items-center gap-2 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+                            <span className="opacity-70">Pop:</span>
+                            <span className="font-bold">{business.population.toLocaleString()}</span>
                           </div>
                         </div>
                       </div>
