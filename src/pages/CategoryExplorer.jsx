@@ -83,21 +83,21 @@ function CategoryExplorer() {
                     <div className="flex items-center gap-2 mb-1">
                       <h3 className={`font-bold text-base ${b('text-gray-900', 'text-white')}`}>{cat.name}</h3>
                       <span className={`text-xs px-2 py-0.5 rounded-full ${cat.gap >= 45 ? 'bg-green-100 text-green-700' : cat.gap >= 30 ? 'bg-yellow-100 text-yellow-700' : 'bg-red-100 text-red-700'}`}>
-                        Gap: {cat.gap}
+                        Gap: {Number(cat.gap).toFixed(2)}
                       </span>
                     </div>
                     <p className={`text-xs ${b('text-gray-500', 'text-gray-400')} mb-3`}>{cat.description}</p>
                     <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
-                      <div><span className={b('text-gray-500', 'text-gray-400')}>Avg Gap: </span><span className={`font-semibold ${getScoreColor(cat.avgGap)}`}>{cat.avgGap}</span></div>
-                      <div><span className={b('text-gray-500', 'text-gray-400')}>Avg Demand: </span><span className={`font-semibold ${getScoreColor(cat.avgDemand)}`}>{cat.avgDemand}</span></div>
+                      <div><span className={b('text-gray-500', 'text-gray-400')}>Avg Gap: </span><span className={`font-semibold ${getScoreColor(cat.avgGap)}`}>{Number(cat.avgGap).toFixed(2)}</span></div>
+                      <div><span className={b('text-gray-500', 'text-gray-400')}>Avg Demand: </span><span className={`font-semibold ${getScoreColor(cat.avgDemand)}`}>{Number(cat.avgDemand).toFixed(2)}</span></div>
                       <div><span className={b('text-gray-500', 'text-gray-400')}>Areas: </span><span className="font-semibold">{cat.areaCount}</span></div>
-                      <div><span className={b('text-gray-500', 'text-gray-400')}>Investment: </span><span className="font-semibold">₹{(cat.minInvestment / 100000).toFixed(1)}L - ₹{(cat.maxInvestment / 100000).toFixed(1)}L</span></div>
+                      <div><span className={b('text-gray-500', 'text-gray-400')}>Investment: </span><span className="font-semibold">₹{(cat.minInvestment / 100000).toFixed(2)}L - ₹{(cat.maxInvestment / 100000).toFixed(2)}L</span></div>
                     </div>
                     {/* Bar */}
                     <div className="mt-3">
                       <div className="flex gap-1 h-2 rounded-full overflow-hidden bg-gray-200">
-                        <div className={`${getBarColor(cat.avgGap)}`} style={{ width: `${cat.avgGap}%` }} title={`Gap: ${cat.avgGap}`} />
-                        <div className="bg-blue-500" style={{ width: `${Math.max(0, cat.avgDemand - cat.avgGap)}%` }} title={`Demand: ${cat.avgDemand}`} />
+                        <div className={`${getBarColor(cat.avgGap)}`} style={{ width: `${cat.avgGap}%` }} title={`Gap: ${Number(cat.avgGap).toFixed(2)}`} />
+                        <div className="bg-blue-500" style={{ width: `${Math.max(0, cat.avgDemand - cat.avgGap)}%` }} title={`Demand: ${Number(cat.avgDemand).toFixed(2)}`} />
                       </div>
                       <div className="flex justify-between text-[10px] mt-1">
                         <span className="text-green-600">Gap</span>
@@ -110,7 +110,7 @@ function CategoryExplorer() {
                       <p className={`text-[10px] font-semibold uppercase tracking-wider ${b('text-gray-500', 'text-gray-400')} mb-1`}>Best Location</p>
                       <p className={`font-semibold text-sm ${b('text-gray-900', 'text-white')}`}>{cat.bestArea.name}</p>
                       <p className={`text-xs ${b('text-gray-500', 'text-gray-400')}`}>{cat.bestArea.pincode} · {cat.bestArea.district}</p>
-                      <p className="text-xs font-bold text-green-500">Gap: {cat.bestArea.gap}</p>
+                      <p className="text-xs font-bold text-green-500">Gap: {Number(cat.bestArea.gap).toFixed(2)}</p>
                     </div>
                   )}
                 </div>
