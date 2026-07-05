@@ -35,18 +35,19 @@ router.get('/google', (req, res, next) => {
 
 router.get('/google/callback', (req, res, next) => {
   if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
-    return res.redirect(`${process.env.FRONTEND_URL || 'http://localhost:5173'}/login?error=google_oauth_not_configured`);
+    const base = `${req.protocol}://${req.get('host')}`;
+    return res.redirect(`${base}/login?error=google_oauth_not_configured`);
   }
-  const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
-  passport.authenticate('google', { failureRedirect: `${frontendUrl}/login?error=google_auth_failed` }, (err, user) => {
+  const base = `${req.protocol}://${req.get('host')}`;
+  passport.authenticate('google', { failureRedirect: `${base}/login?error=google_auth_failed` }, (err, user) => {
     if (err || !user) {
-      return res.redirect(`${frontendUrl}/login?error=oauth_failed`);
+      return res.redirect(`${base}/login?error=oauth_failed`);
     }
     try {
       const token = generateToken(user._id);
-      res.redirect(`${frontendUrl}/login?token=${token}`);
+      res.redirect(`${base}/login?token=${token}`);
     } catch (error) {
-      res.redirect(`${frontendUrl}/login?error=server_error`);
+      res.redirect(`${base}/login?error=server_error`);
     }
   })(req, res, next);
 });

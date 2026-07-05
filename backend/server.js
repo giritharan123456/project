@@ -14,6 +14,8 @@ const logger = require('./utils/logger');
 
 const app = express();
 
+app.set('trust proxy', true);
+
 connectDB();
 
 app.use(passport.initialize());
@@ -22,7 +24,13 @@ app.use(helmet());
 
 const corsOrigin = process.env.FRONTEND_URL || 'http://localhost:5173';
 app.use(cors({
-  origin: corsOrigin,
+  origin: (origin, callback) => {
+    if (!origin || origin === corsOrigin || origin === 'http://localhost:5000' || origin.includes('ngrok-free.dev')) {
+      callback(null, true);
+    } else {
+      callback(null, true);
+    }
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
   allowedHeaders: ['Content-Type', 'Authorization']
@@ -33,6 +41,7 @@ const limiter = rateLimit({
   max: 1000,
   standardHeaders: true,
   legacyHeaders: false,
+  validate: false,
   message: { success: false, message: 'Too many requests, please try again later.' }
 });
 app.use(limiter);
@@ -42,6 +51,7 @@ const authLimiter = rateLimit({
   max: 20,
   message: { success: false, message: 'Too many login attempts, please try again later.' },
   legacyHeaders: false,
+  validate: false,
 });
 app.use('/api/auth/login', authLimiter);
 app.use('/api/auth/register', authLimiter);
@@ -68,6 +78,12 @@ app.use('/api/ai', require('./routes/ai'));
 app.use('/api/history', require('./routes/history'));
 
 app.use(require('./middleware/errorHandler'));
+
+const frontendBuild = path.join(__dirname, '..', 'dist');
+app.use(express.static(frontendBuild));
+app.get('/{*path}', (req, res) => {
+  res.sendFile(path.join(frontendBuild, 'index.html'));
+});
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
