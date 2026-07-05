@@ -20,7 +20,10 @@ connectDB();
 
 app.use(passport.initialize());
 
-app.use(helmet());
+app.use(helmet({
+  contentSecurityPolicy: false,
+  crossOriginEmbedderPolicy: false
+}));
 
 const corsOrigin = process.env.FRONTEND_URL || 'http://localhost:5173';
 app.use(cors({
