@@ -43,7 +43,31 @@ function Dashboard() {
 
   useEffect(() => {
     const searchVal = searchParams.get('search');
-    if (searchVal && searchVal !== searchPincode) setSearchPincode(searchVal);
+    if (searchVal && searchVal !== searchPincode) {
+      setSearchPincode(searchVal);
+      setSelectedPincode(searchVal);
+      (async () => {
+        try {
+          setSearchLoading(true);
+          setSearchError(null);
+          const response = await areasAPI.getByPincode(searchVal);
+          if (response.data) {
+            if (response.data.district?._id && response.data.district._id !== selectedDistrict) {
+              setSelectedDistrict(response.data.district._id);
+            }
+            setAreas(prev => {
+              const idx = prev.findIndex(a => a.pincode === searchVal);
+              if (idx >= 0) { const updated = [...prev]; updated[idx] = response.data; return updated; }
+              return [...prev, response.data];
+            });
+          }
+        } catch (err) {
+          setSearchError(err.message || `Data for pincode ${searchVal} will be loaded soon.`);
+        } finally {
+          setSearchLoading(false);
+        }
+      })();
+    }
   }, [searchParams]);
 
   const [selectedBusinessCategory, setSelectedBusinessCategory] = useState('all');
@@ -79,7 +103,15 @@ function Dashboard() {
   const currentDistrictName = currentDistrict?.name;
 
   const pincodeData = useMemo(() => areas.map(transformAreaToPincodeData).filter(Boolean), [areas]);
-  const filteredPincodeData = useMemo(() => pincodeData.filter(p => p.district === currentDistrictName), [pincodeData, currentDistrictName]);
+  const filteredPincodeData = useMemo(() => {
+    const byDistrict = pincodeData.filter(p => p.district === currentDistrictName);
+    if (!selectedPincode) return byDistrict;
+    const searched = pincodeData.find(p => p.pincode === selectedPincode);
+    if (searched && !byDistrict.find(p => p.pincode === selectedPincode)) {
+      return [searched, ...byDistrict];
+    }
+    return byDistrict;
+  }, [pincodeData, currentDistrictName, selectedPincode]);
   const displayData = filteredPincodeData;
 
   const categorySourceArea = useMemo(() =>
@@ -113,6 +145,9 @@ function Dashboard() {
       setSearchLoading(true);
       const response = await areasAPI.getByPincode(pincode);
       if (response.data) {
+        if (response.data.district?._id && response.data.district._id !== selectedDistrict) {
+          setSelectedDistrict(response.data.district._id);
+        }
         setAreas(prev => {
           const idx = prev.findIndex(a => a.pincode === pincode);
           if (idx >= 0) { const updated = [...prev]; updated[idx] = response.data; return updated; }

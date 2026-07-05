@@ -105,18 +105,18 @@ function Navbar() {
             </span>
           </Link>
 
-          {/* Search Bar - Hidden on mobile */}
-          <form onSubmit={handleSearch} className="hidden md:flex flex-1 max-w-2xl mx-4 relative" ref={searchRef}>
-            <div className="flex w-full rounded-lg overflow-hidden border focus-within:ring-2 focus-within:ring-[#2563eb]/40 transition-shadow">
+          {/* Search Bar - Always visible */}
+          <form onSubmit={handleSearch} className="flex-1 max-w-2xl mx-2 md:mx-4 relative" ref={searchRef}>
+            <div className={`flex w-full rounded-lg overflow-hidden border-2 ${b('border-gray-300 focus-within:border-[#2563eb]', 'border-slate-600 focus-within:border-[#2563eb]')} focus-within:ring-2 focus-within:ring-[#2563eb]/30 transition-all`}>
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onFocus={() => searchSuggestions.length > 0 && setShowSuggestions(true)}
-                placeholder="Search pincode, area, or category..."
-                className={`flex-1 px-4 py-2 text-sm outline-none border-none ${b('bg-gray-50 text-gray-900 placeholder-gray-400', 'bg-[#1e293b] text-gray-100 placeholder-gray-500')}`}
+                placeholder="Search pincode, area..."
+                className={`flex-1 px-3 md:px-4 py-2 text-sm outline-none border-none min-w-0 ${b('bg-white text-gray-900 placeholder-gray-400', 'bg-slate-800 text-white placeholder-slate-400')}`}
               />
-              <button type="submit" className={`px-4 py-2 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white text-sm font-medium hover:opacity-90 transition-opacity`}>
+              <button type="submit" className="px-3 md:px-5 py-2 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white text-sm font-semibold hover:opacity-90 transition-opacity whitespace-nowrap">
                 Search
               </button>
             </div>
@@ -238,9 +238,9 @@ function Navbar() {
           <motion.div initial={{ height: 0 }} animate={{ height: 'auto' }} exit={{ height: 0 }} className={`md:hidden overflow-hidden border-t ${b('border-gray-200 bg-white', 'border-[#1e293b] bg-[#0f172a]')}`}>
             <div className="p-4">
               <form onSubmit={handleSearch} className="mb-4">
-                <div className="flex rounded-lg overflow-hidden border">
-                  <input type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} placeholder="Search pincode, area..." className={`flex-1 px-4 py-2 text-sm outline-none ${b('bg-gray-50 text-gray-900', 'bg-[#1e293b] text-gray-100')}`} />
-                  <button type="submit" className="px-4 py-2 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white text-sm">Go</button>
+                <div className={`flex rounded-lg overflow-hidden border-2 ${b('border-gray-300', 'border-slate-600')}`}>
+                  <input type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} placeholder="Search pincode, area..." className={`flex-1 px-4 py-2.5 text-sm outline-none border-none ${b('bg-white text-gray-900 placeholder-gray-400', 'bg-slate-800 text-white placeholder-slate-400')}`} />
+                  <button type="submit" className="px-5 py-2.5 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white text-sm font-semibold">Go</button>
                 </div>
               </form>
               <div className="grid grid-cols-2 gap-2">
@@ -256,8 +256,8 @@ function Navbar() {
         )}
       </AnimatePresence>
 
-      {/* Desktop Secondary Navigation */}
-      <div className={`hidden md:block border-t ${b('border-gray-100 bg-gray-50/50', 'border-[#1e293b] bg-[#0f172a]/50')}`}>
+      {/* Secondary Navigation - scrollable on all screens */}
+      <div className={`border-t ${b('border-gray-100 bg-gray-50/50', 'border-[#1e293b] bg-[#0f172a]/50')}`}>
         <div className="max-w-[1600px] mx-auto px-8">
           <div className="flex items-center gap-1 overflow-x-auto py-1 scrollbar-hide">
             {navLinks.map(link => (

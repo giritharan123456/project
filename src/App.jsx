@@ -75,7 +75,7 @@ function App() {
                   <Route path="/leaderboard" element={<ProtectedRoute><><Navbar /><AreaLeaderboard /></></ProtectedRoute>} />
                   <Route path="/matrix" element={<ProtectedRoute><><Navbar /><CategoryPincodeMatrix /></></ProtectedRoute>} />
                   <Route path="/investment-estimator" element={<ProtectedRoute><><Navbar /><InvestmentEstimator /></></ProtectedRoute>} />
-                  <Route path="/admin" element={<AdminDashboard />} />
+                  <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
                   <Route path="/admin/districts" element={<AdminRoute><DistrictManagement /></AdminRoute>} />
                   <Route path="/admin/areas" element={<AdminRoute><AreaManagement /></AdminRoute>} />
                   <Route path="/admin/categories" element={<AdminRoute><BusinessCategoryManagement /></AdminRoute>} />

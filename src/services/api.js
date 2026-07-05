@@ -11,15 +11,22 @@ const apiCall = async (endpoint, options = {}) => {
     },
   };
 
+  const timeout = options.timeout || 30000;
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeout);
+
   try {
     const response = await fetch(`${API_BASE_URL}${endpoint}`, {
       ...defaultOptions,
       ...options,
+      signal: controller.signal,
       headers: {
         ...defaultOptions.headers,
         ...options.headers,
       },
     });
+
+    clearTimeout(timer);
 
     if (!response.ok) {
       let errorMsg = `HTTP error! status: ${response.status}`;
@@ -38,10 +45,13 @@ const apiCall = async (endpoint, options = {}) => {
     const data = await response.json();
     return data;
   } catch (error) {
+    clearTimeout(timer);
     const errorMsg = (error && error.message) || String(error);
     console.error('API call error:', errorMsg);
     
-    // Check if it's a network error
+    if (errorMsg.includes('abort') || errorMsg.includes('AbortError')) {
+      throw new Error('Request timed out. Please check your connection and try again.');
+    }
     if (errorMsg.includes('Failed to fetch') || errorMsg.includes('NetworkError')) {
       throw new Error('Unable to connect to the server. Please check your internet connection and ensure the backend is running.');
     }

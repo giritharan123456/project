@@ -137,14 +137,14 @@ function MapSection({ pincodeData, selectedDistrict }) {
                 }}
               >
                 <Popup>
-                  <div className="p-4 min-w-[280px] bg-white text-[#1e293b]">
+                  <div className="p-4 min-w-[280px] bg-white dark:bg-[#1e293b] text-[#1e293b] dark:text-gray-100">
                     <h4 className="text-lg font-bold mb-2">{pincode.area} ({pincode.pincode})</h4>
                     <p className="text-sm mb-1"><strong>District:</strong> {pincode.district}</p>
                     <p className="text-sm mb-1"><strong>Population:</strong> {pincode.population != null ? Number(pincode.population).toLocaleString() : 'N/A'}</p>
                     <p className="text-sm mb-1"><strong>Population Growth:</strong> {pincode.populationGrowth != null ? `${Number(pincode.populationGrowth).toFixed(2)}%` : 'N/A'}</p>
                     <p className="text-sm mb-1"><strong>Income Level:</strong> {pincode.incomeLevel || 'N/A'}</p>
                     <p className="text-sm mb-1"><strong>Urban Dev:</strong> {pincode.urbanDevelopment != null ? `${pincode.urbanDevelopment}/100` : 'N/A'}</p>
-                    <hr className="my-2 border-gray-200" />
+                    <hr className="my-2 border-gray-200 dark:border-[#475569]" />
                     <p className="text-sm mb-2"><strong>Avg Market Gap:</strong> <span className="font-bold" style={{ color: colors.fill }}>{avgGapScore.toFixed(2)}</span></p>
                     <div className="mt-2">
                       <strong className="text-sm">Top Categories:</strong>

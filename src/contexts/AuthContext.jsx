@@ -29,12 +29,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const response = await Promise.race([
-        authAPI.login({ email, password }),
-        new Promise((_, reject) => 
-          setTimeout(() => reject(new Error('Request timeout. Please try again.')), 15000)
-        )
-      ]);
+      const response = await authAPI.login({ email, password });
       if (response.success) {
         setIsAuthenticated(true);
         setUser(response.user);
@@ -51,12 +46,7 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (name, email, password) => {
     try {
-      const response = await Promise.race([
-        authAPI.register({ name, email, password }),
-        new Promise((_, reject) => 
-          setTimeout(() => reject(new Error('Request timeout. Please try again.')), 15000)
-        )
-      ]);
+      const response = await authAPI.register({ name, email, password });
       if (response.success) {
         setIsAuthenticated(true);
         setUser(response.user);

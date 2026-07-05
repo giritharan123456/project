@@ -400,9 +400,7 @@ function Workspace() {
                         Get notified about market changes
                       </p>
                     </div>
-                    <button className={`w-14 h-8 rounded-full p-1 transition-colors bg-[#2563eb]`}>
-                      <div className="w-6 h-6 rounded-full bg-white transition-transform translate-x-6" />
-                    </button>
+                    <span className={`text-xs px-2 py-1 rounded-full font-medium ${isDarkMode ? 'bg-slate-700 text-slate-400' : 'bg-gray-100 text-gray-500'}`}>Coming Soon</span>
                   </div>
                   
                   <div className="flex items-center justify-between">
@@ -412,9 +410,7 @@ function Workspace() {
                         New opportunities in your areas
                       </p>
                     </div>
-                    <button className={`w-14 h-8 rounded-full p-1 transition-colors bg-[#2563eb]`}>
-                      <div className="w-6 h-6 rounded-full bg-white transition-transform translate-x-6" />
-                    </button>
+                    <span className={`text-xs px-2 py-1 rounded-full font-medium ${isDarkMode ? 'bg-slate-700 text-slate-400' : 'bg-gray-100 text-gray-500'}`}>Coming Soon</span>
                   </div>
                   
                   <div className="flex items-center justify-between">
@@ -424,9 +420,7 @@ function Workspace() {
                         Changes in demand forecasts
                       </p>
                     </div>
-                    <button className={`w-14 h-8 rounded-full p-1 transition-colors bg-gray-300`}>
-                      <div className="w-6 h-6 rounded-full bg-white transition-transform translate-x-0" />
-                    </button>
+                    <span className={`text-xs px-2 py-1 rounded-full font-medium ${isDarkMode ? 'bg-slate-700 text-slate-400' : 'bg-gray-100 text-gray-500'}`}>Coming Soon</span>
                   </div>
                 </div>
               </div>
@@ -437,15 +431,15 @@ function Workspace() {
                 </h3>
                 
                 <div className="space-y-4">
-                  <button className="w-full p-4 rounded-xl border flex items-center justify-between transition-colors hover:border-[#2563eb]">
+                  <div className={`w-full p-4 rounded-xl border flex items-center justify-between ${isDarkMode ? 'border-[#334155] opacity-60' : 'border-[#e2e8f0] opacity-60'}`}>
                     <span className={`font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Change Password</span>
-                    <ChevronRight className={`opacity-50 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`} size={20} />
-                  </button>
+                    <span className={`text-xs px-2 py-1 rounded-full font-medium ${isDarkMode ? 'bg-slate-700 text-slate-400' : 'bg-gray-100 text-gray-500'}`}>Coming Soon</span>
+                  </div>
                   
-                  <button className="w-full p-4 rounded-xl border flex items-center justify-between transition-colors hover:border-[#2563eb]">
+                  <div className={`w-full p-4 rounded-xl border flex items-center justify-between ${isDarkMode ? 'border-[#334155] opacity-60' : 'border-[#e2e8f0] opacity-60'}`}>
                     <span className={`font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Privacy Settings</span>
-                    <ChevronRight className={`opacity-50 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`} size={20} />
-                  </button>
+                    <span className={`text-xs px-2 py-1 rounded-full font-medium ${isDarkMode ? 'bg-slate-700 text-slate-400' : 'bg-gray-100 text-gray-500'}`}>Coming Soon</span>
+                  </div>
                   
                   <button className="w-full p-4 rounded-xl border flex items-center justify-between transition-colors hover:border-red-500 hover:text-red-500">
                     <span className="font-semibold text-red-500">Delete Account</span>

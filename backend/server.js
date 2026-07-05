@@ -31,7 +31,7 @@ app.use(cors({
     if (!origin || origin === corsOrigin || origin === 'http://localhost:5000' || origin.includes('ngrok-free.dev')) {
       callback(null, true);
     } else {
-      callback(null, true);
+      callback(new Error('Not allowed by CORS'));
     }
   },
   credentials: true,

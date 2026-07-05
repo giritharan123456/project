@@ -34,7 +34,7 @@ function ForgotPassword() {
   return (
     <div className="min-h-screen flex justify-center items-center relative overflow-hidden bg-gradient-to-br from-[#667eea] to-[#764ba2]">
       <motion.div
-        className="relative z-10 bg-white rounded-3xl p-12 w-full max-[450px] m-4 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)] max-w-[450px]"
+        className="relative z-10 bg-white rounded-3xl p-6 sm:p-10 w-full max-w-[450px] m-4 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)]"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}

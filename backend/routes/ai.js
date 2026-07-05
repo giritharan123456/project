@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Area = require('../models/Area');
 const District = require('../models/District');
+const { protect } = require('../middleware/auth');
 
 const getSmartResponse = async (query) => {
   const q = query.toLowerCase();
@@ -50,7 +51,7 @@ const getSmartResponse = async (query) => {
   return `I can help with:\n• "Best opportunities" — top areas\n• "Population stats" — demographics\n• "Market demand" — gap analysis\n• "Districts" — list of districts\n• "Competitors" — competition data\n• "Forecast" — market trends`;
 };
 
-router.post('/chat', async (req, res) => {
+router.post('/chat', protect, async (req, res) => {
   try {
     const { message } = req.body;
     if (!message || !message.trim()) {

@@ -3,6 +3,8 @@ const District = require('../models/District');
 const dataFetcherService = require('../services/dataFetcherService');
 const { createNotification } = require('./notificationController');
 
+const escapeRegex = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
 const calculateScores = (area) => {
   const gaps = area.marketGapScores ? Object.fromEntries(area.marketGapScores) : {};
   const demands = area.demandScores ? Object.fromEntries(area.demandScores) : {};
@@ -84,15 +86,20 @@ const getAreaByPincode = async (req, res) => {
 const getAllAreas = async (req, res) => {
   try {
     const { district, limit, search } = req.query;
+    const District = require('../models/District');
     let query = {};
     
     if (district) {
       query.district = district;
     }
     if (search) {
+      const safeSearch = escapeRegex(search);
+      const districtMatches = await District.find({ name: { $regex: safeSearch, $options: 'i' } }).select('_id');
+      const districtIds = districtMatches.map(d => d._id);
       query.$or = [
-        { name: { $regex: search, $options: 'i' } },
-        { pincode: { $regex: search, $options: 'i' } },
+        { name: { $regex: safeSearch, $options: 'i' } },
+        { pincode: { $regex: safeSearch, $options: 'i' } },
+        ...(districtIds.length > 0 ? [{ district: { $in: districtIds } }] : []),
       ];
     }
 

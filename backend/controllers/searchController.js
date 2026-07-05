@@ -1,5 +1,7 @@
 const Area = require('../models/Area');
 
+const escapeRegex = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
 // @desc    Search areas
 // @route   GET /api/search/areas
 // @access  Public
@@ -9,9 +11,10 @@ const searchAreas = async (req, res) => {
     let searchQuery = {};
     
     if (query) {
+      const safeQuery = escapeRegex(query);
       searchQuery.$or = [
-        { name: { $regex: query, $options: 'i' } },
-        { pincode: { $regex: query, $options: 'i' } }
+        { name: { $regex: safeQuery, $options: 'i' } },
+        { pincode: { $regex: safeQuery, $options: 'i' } }
       ];
     }
     
