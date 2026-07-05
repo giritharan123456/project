@@ -113,9 +113,9 @@ function MapSection({ pincodeData, selectedDistrict }) {
       <div className={`rounded-xl overflow-hidden border ${isDarkMode ? 'border-[#334155]' : 'border-[#e2e8f0]'}`} style={{ height: 'clamp(350px, 60vw, 520px)' }}>
         <MapContainer center={getCenterFromData()} zoom={11} scrollWheelZoom={true} style={{ height: '100%', width: '100%' }} zoomControl={true}>
           <TileLayer
-            url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
-            maxZoom={19}
-            attribution='&copy; OpenStreetMap contributors'
+            url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>'
+            maxZoom={20}
           />
           {validPincodeData.map((pincode, index) => {
             const marketGapScores = pincode.marketGapScores || {};
