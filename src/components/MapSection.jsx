@@ -110,8 +110,8 @@ function MapSection({ pincodeData, selectedDistrict }) {
       </div>
 
       {/* Map */}
-      <div className={`rounded-xl overflow-hidden border ${isDarkMode ? 'border-[#334155]' : 'border-[#e2e8f0]'}`}>
-        <MapContainer center={getCenterFromData()} zoom={11} style={{ height: '520px', width: '100%' }}>
+      <div className={`rounded-xl overflow-hidden border ${isDarkMode ? 'border-[#334155]' : 'border-[#e2e8f0]'}`} style={{ height: 'clamp(300px, 50vw, 520px)' }}>
+        <MapContainer center={getCenterFromData()} zoom={11} style={{ height: '100%', minHeight: '300px', width: '100%' }}>
           <TileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'

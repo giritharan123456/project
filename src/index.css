@@ -16,3 +16,12 @@
   --text-light: #1e293b;
   --primary-gradient: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
 }
+
+@media (max-width: 768px) {
+  .leaflet-container {
+    min-height: 300px;
+    touch-action: pan-y;
+  }
+  .scrollbar-hide::-webkit-scrollbar { display: none; }
+  .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+}
