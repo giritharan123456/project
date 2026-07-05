@@ -22,8 +22,17 @@ const apiCall = async (endpoint, options = {}) => {
     });
 
     if (!response.ok) {
-      const errorData = await response.json().catch(() => ({ message: 'API request failed' }));
-      throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+      let errorMsg = `HTTP error! status: ${response.status}`;
+      try {
+        const errorData = await response.json();
+        errorMsg = errorData.message || errorMsg;
+      } catch (e) {
+        // Response body is not JSON, use status-based message
+        if (response.status === 401) errorMsg = 'Please log in again.';
+        else if (response.status === 429) errorMsg = 'Too many requests. Please wait a moment and try again.';
+        else if (response.status >= 500) errorMsg = 'Server error. Please try again later.';
+      }
+      throw new Error(errorMsg);
     }
 
     const data = await response.json();
