@@ -9,6 +9,7 @@ const AnimatedCounter = ({ value, duration = 2, decimals = 0, prefix = '', suffi
 
   useEffect(() => {
     let startTime;
+    let rafId;
     setCount(0);
     const animate = (timestamp) => {
       if (!startTime) startTime = timestamp;
@@ -20,13 +21,14 @@ const AnimatedCounter = ({ value, duration = 2, decimals = 0, prefix = '', suffi
       setCount(currentCount);
       
       if (progress < 1) {
-        requestAnimationFrame(animate);
+        rafId = requestAnimationFrame(animate);
       } else {
         setCount(targetValue);
       }
     };
     
-    requestAnimationFrame(animate);
+    rafId = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(rafId);
   }, [targetValue, duration]);
 
   return (

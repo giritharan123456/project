@@ -4,8 +4,6 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip,
 import { AlertTriangle, TrendingUp, ChevronDown, ChevronUp, Swords, Target } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const COLORS = ['#2563eb', '#7c3aed', '#db2777', '#ea580c', '#16a34a', '#0891b2', '#d946ef', '#0ea5e9'];
-
 const CustomTooltip = ({ active, payload, label }) => {
   if (!active || !payload) return null;
   return (

@@ -22,13 +22,13 @@ function Login() {
 
   useEffect(() => {
     const token = searchParams.get('token');
-    const error = searchParams.get('error');
+    const urlError = searchParams.get('error');
     const redirect = searchParams.get('redirect');
     
-    if (error) {
-      setError(error === 'oauth_failed' ? 'Google sign-in failed. Please try again.' : 
-               error === 'google_oauth_not_configured' ? 'Google sign-in is not configured.' :
-               error === 'google_auth_failed' ? 'Google authentication failed.' :
+    if (urlError) {
+      setError(urlError === 'oauth_failed' ? 'Google sign-in failed. Please try again.' : 
+               urlError === 'google_oauth_not_configured' ? 'Google sign-in is not configured.' :
+               urlError === 'google_auth_failed' ? 'Google authentication failed.' :
                'An error occurred during sign-in.');
       return;
     }

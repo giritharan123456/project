@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
 import { useDistrict } from '../contexts/DistrictContext';
 import { usePincode } from '../contexts/PincodeContext';
-import { districtsAPI, areasAPI, analyticsAPI, explorerAPI } from '../services/api';
+import { areasAPI, analyticsAPI, explorerAPI } from '../services/api';
 import { transformAreaToPincodeData } from '../utils/dataUtils';
 import {
   BarChart3, TrendingUp, MapPin, Users, Target, Calculator,
