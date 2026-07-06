@@ -57,7 +57,7 @@ function Signup() {
     
     setIsSubmitting(true);
     try {
-      await register({ name: formData.name, email: formData.email, password: formData.password });
+      await register(formData.name, formData.email, formData.password);
       navigate('/dashboard');
     } catch (err) {
       setErrors({ form: err.message || 'Registration failed' });
