@@ -23,6 +23,9 @@ function Workspace() {
   });
   const [favoriteLocations, setFavoriteLocations] = useState([]);
   const [searchHistory, setSearchHistory] = useState([]);
+  const [savedReports, setSavedReports] = useState([]);
+  const [savedComparisons, setSavedComparisons] = useState([]);
+  const [recentlyViewed, setRecentlyViewed] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -65,6 +68,9 @@ function Workspace() {
     { id: 'profile', label: 'Profile', icon: User },
     { id: 'favorites', label: 'Favorites', icon: Heart },
     { id: 'history', label: 'Search History', icon: Clock },
+    { id: 'comparisons', label: 'Comparisons', icon: BarChart3 },
+    { id: 'reports', label: 'Reports', icon: FileText },
+    { id: 'recent', label: 'Recently Viewed', icon: Eye },
     { id: 'settings', label: 'Settings', icon: Settings }
   ];
 

@@ -4,7 +4,7 @@ import { useSearchParams, useNavigate } from 'react-router-dom';
 import { useTheme } from '../contexts/ThemeContext';
 import { useDistrict } from '../contexts/DistrictContext';
 import { usePincode } from '../contexts/PincodeContext';
-import { areasAPI } from '../services/api';
+import { areasAPI, districtsAPI } from '../services/api';
 import EmptyState from '../components/EmptyState';
 import {
   transformAreaToPincodeData,
@@ -42,6 +42,9 @@ function Dashboard() {
   const [areas, setAreas] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [searchError, setSearchError] = useState(null);
+  const [searchLoading, setSearchLoading] = useState(false);
+  const [selectedBusinessCategory, setSelectedBusinessCategory] = useState('all');
 
   useEffect(() => {
     const searchVal = searchParams.get('search');
@@ -72,9 +75,6 @@ function Dashboard() {
     }
   }, [searchParams]);
 
-  const [selectedBusinessCategory, setSelectedBusinessCategory] = useState('all');
-  const [searchError, setSearchError] = useState(null);
-  const [searchLoading, setSearchLoading] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {

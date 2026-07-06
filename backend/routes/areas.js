@@ -24,7 +24,7 @@ const optionalAuth = async (req, res, next) => {
       req.user = await User.findById(decoded.id).select('-password');
     }
   } catch (_) {
-    // Invalid token — proceed as unauthenticated, no error thrown
+    // Invalid token — proceed as unauthenticated
   }
   next();
 };

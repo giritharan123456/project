@@ -114,7 +114,7 @@ function EnhancedExport({ data, selectedDistrict, businessCategories, leaderboar
       });
 
       // Save PDF
-      doc.save(`market-gap-analysis-${selectedDistrict}.pdf`);
+      doc.save(`market-gap-analysis-${districtName}.pdf`);
     } catch (error) {
       console.error('PDF export error:', error);
     }

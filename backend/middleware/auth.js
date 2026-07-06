@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const logger = require('../utils/logger');
 
 const protect = async (req, res, next) => {
   let token;
@@ -11,7 +12,7 @@ const protect = async (req, res, next) => {
       req.user = await User.findById(decoded.id).select('-password');
       return next();
     } catch (error) {
-      console.error(error);
+      logger.error('Auth token verification failed:', error.message);
       return res.status(401).json({ success: false, message: 'Not authorized, token failed' });
     }
   }

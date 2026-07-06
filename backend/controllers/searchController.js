@@ -88,10 +88,10 @@ const getSearchSuggestions = async (req, res) => {
 
     const suggestions = await Area.find({
       $or: [
-        { name: { $regex: query, $options: 'i' } },
-        { pincode: { $regex: query, $options: 'i' } }
+        { name: { $regex: escapeRegex(query), $options: 'i' } },
+        { pincode: { $regex: escapeRegex(query), $options: 'i' } }
      ]
-    })
+   })
     .select('name pincode district')
     .populate('district', 'name')
     .limit(10);

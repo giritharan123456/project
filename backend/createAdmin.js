@@ -10,8 +10,13 @@ const createAdmin = async () => {
     console.log('MongoDB Connected');
 
     // Hash password manually
+    const adminPassword = process.env.ADMIN_PASSWORD || process.argv[2];
+    if (!adminPassword) {
+      console.error('Usage: node createAdmin.js <password> or set ADMIN_PASSWORD env var');
+      process.exit(1);
+    }
     const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash('admin123', salt);
+    const hashedPassword = await bcrypt.hash(adminPassword, salt);
 
     // Insert directly into MongoDB to bypass Mongoose hooks
     const db = mongoose.connection.db;
@@ -40,7 +45,6 @@ const createAdmin = async () => {
 
     console.log('Admin user created successfully:');
     console.log('Email: admin@marketgap.com');
-    console.log('Password: admin123');
     console.log('Role: admin');
 
     process.exit(0);

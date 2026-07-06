@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CheckCircle, XCircle, AlertCircle, Info, X } from 'lucide-react';
 import { useTheme } from './ThemeContext';
@@ -16,6 +16,13 @@ export const useToast = () => {
 export const ToastProvider = ({ children }) => {
   const { isDarkMode } = useTheme();
   const [toasts, setToasts] = useState([]);
+  const timeoutsRef = useRef({});
+
+  useEffect(() => {
+    return () => {
+      Object.values(timeoutsRef.current).forEach(clearTimeout);
+    };
+  }, []);
 
   const addToast = (message, type = 'info', duration = 3000) => {
     const id = Date.now();
@@ -23,8 +30,9 @@ export const ToastProvider = ({ children }) => {
     setToasts(prev => [...prev, toast]);
     
     if (duration > 0) {
-      setTimeout(() => {
+      timeoutsRef.current[id] = setTimeout(() => {
         removeToast(id);
+        delete timeoutsRef.current[id];
       }, duration);
     }
     

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Lock, CheckCircle, AlertCircle, ArrowLeft } from 'lucide-react';
@@ -12,6 +12,13 @@ function ResetPassword() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
+  const navigateTimeoutRef = useRef(null);
+
+  useEffect(() => {
+    return () => {
+      if (navigateTimeoutRef.current) clearTimeout(navigateTimeoutRef.current);
+    };
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,7 +36,7 @@ function ResetPassword() {
       const res = await authAPI.resetPassword(token, { password });
       if (res.success) {
         setSuccess(true);
-        setTimeout(() => navigate('/login'), 2000);
+        navigateTimeoutRef.current = setTimeout(() => navigate('/login'), 2000);
       } else {
         setError(res.message || 'Reset failed');
       }
