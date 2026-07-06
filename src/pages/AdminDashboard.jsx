@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { adminAPI } from '../services/api';
 import { useNavigate } from 'react-router-dom';
+import { useTheme } from '../contexts/ThemeContext';
 
 const AdminDashboard = () => {
   const { isAdmin, user } = useAuth();
   const navigate = useNavigate();
+  const { isDarkMode } = useTheme();
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('overview');
@@ -71,25 +73,25 @@ const AdminDashboard = () => {
   );
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      <div className="bg-white shadow">
+    <div className="min-h-screen bg-gray-100 dark:bg-[#1e293b]">
+      <div className="bg-white dark:bg-[#1e293b] shadow">
         <div className="max-w-7xl mx-auto px-4 py-6">
-          <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
-          <p className="text-gray-600 mt-1">Welcome, {user?.name}</p>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">Admin Dashboard</h1>
+          <p className="text-gray-600 dark:text-gray-400 mt-1">Welcome, {user?.name}</p>
         </div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Navigation Tabs */}
-        <div className="flex space-x-4 mb-8 border-b border-gray-200">
+        <div className="flex space-x-4 mb-8 border-b border-gray-200 dark:border-gray-700">
           {['overview', 'districts', 'areas', 'categories', 'users'].map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
               className={`px-4 py-3 font-medium capitalize ${
                 activeTab === tab
-                  ? 'text-blue-600 border-b-2 border-blue-600'
-                  : 'text-gray-600 hover:text-gray-900'
+                  ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600'
+                  : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100'
               }`}
             >
               {tab}
@@ -99,7 +101,7 @@ const AdminDashboard = () => {
 
         {activeTab === 'overview' && stats && (
           <div>
-            <h2 className="text-2xl font-semibold text-gray-900 mb-6">Overview</h2>
+            <h2 className="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">Overview</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               <StatCard
                 title="Total Districts"
@@ -139,8 +141,8 @@ const AdminDashboard = () => {
               />
             </div>
 
-            <div className="mt-8 bg-white rounded-lg shadow p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
+            <div className="mt-8 bg-white dark:bg-[#1e293b] rounded-lg shadow p-6">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Quick Actions</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 <button
                   onClick={() => setActiveTab('districts')}
@@ -173,9 +175,9 @@ const AdminDashboard = () => {
 
         {activeTab === 'districts' && (
           <div>
-            <h2 className="text-2xl font-semibold text-gray-900 mb-6">District Management</h2>
-            <div className="bg-white rounded-lg shadow p-6">
-              <p className="text-gray-600">District management interface will be loaded here.</p>
+            <h2 className="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">District Management</h2>
+            <div className="bg-white dark:bg-[#1e293b] rounded-lg shadow p-6">
+              <p className="text-gray-600 dark:text-gray-400">District management interface will be loaded here.</p>
               <button
                 onClick={() => navigate('/admin/districts')}
                 className="mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
@@ -188,9 +190,9 @@ const AdminDashboard = () => {
 
         {activeTab === 'areas' && (
           <div>
-            <h2 className="text-2xl font-semibold text-gray-900 mb-6">Area Management</h2>
-            <div className="bg-white rounded-lg shadow p-6">
-              <p className="text-gray-600">Area management interface will be loaded here.</p>
+            <h2 className="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">Area Management</h2>
+            <div className="bg-white dark:bg-[#1e293b] rounded-lg shadow p-6">
+              <p className="text-gray-600 dark:text-gray-400">Area management interface will be loaded here.</p>
               <button
                 onClick={() => navigate('/admin/areas')}
                 className="mt-4 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition"
@@ -203,9 +205,9 @@ const AdminDashboard = () => {
 
         {activeTab === 'categories' && (
           <div>
-            <h2 className="text-2xl font-semibold text-gray-900 mb-6">Business Category Management</h2>
-            <div className="bg-white rounded-lg shadow p-6">
-              <p className="text-gray-600">Business category management interface will be loaded here.</p>
+            <h2 className="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">Business Category Management</h2>
+            <div className="bg-white dark:bg-[#1e293b] rounded-lg shadow p-6">
+              <p className="text-gray-600 dark:text-gray-400">Business category management interface will be loaded here.</p>
               <button
                 onClick={() => navigate('/admin/categories')}
                 className="mt-4 bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition"
@@ -218,9 +220,9 @@ const AdminDashboard = () => {
 
         {activeTab === 'users' && (
           <div>
-            <h2 className="text-2xl font-semibold text-gray-900 mb-6">User Management</h2>
-            <div className="bg-white rounded-lg shadow p-6">
-              <p className="text-gray-600">User management interface will be loaded here.</p>
+            <h2 className="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">User Management</h2>
+            <div className="bg-white dark:bg-[#1e293b] rounded-lg shadow p-6">
+              <p className="text-gray-600 dark:text-gray-400">User management interface will be loaded here.</p>
               <button
                 onClick={() => navigate('/admin/users')}
                 className="mt-4 bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-700 transition"

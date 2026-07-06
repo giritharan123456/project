@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { adminAPI } from '../../services/api';
 import { useNavigate } from 'react-router-dom';
+import { useTheme } from '../../contexts/ThemeContext';
 
 const BusinessCategoryManagement = () => {
   const navigate = useNavigate();
+  const { isDarkMode } = useTheme();
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
@@ -29,13 +31,13 @@ const BusinessCategoryManagement = () => {
         setCategories(response.data);
       }
     } catch (error) {
+      /* categories will remain empty */
     } finally {
       setLoading(false);
     }
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSave = async () => {
     try {
       if (editingCategory) {
         await adminAPI.updateBusinessCategory(editingCategory._id, formData);
@@ -85,17 +87,17 @@ const BusinessCategoryManagement = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      <div className="bg-white shadow">
+    <div className="min-h-screen bg-gray-100 dark:bg-[#1e293b]">
+      <div className="bg-white dark:bg-[#1e293b] shadow">
         <div className="max-w-7xl mx-auto px-4 py-6">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">Business Category Management</h1>
-              <p className="text-gray-600 mt-1">Manage business categories for market analysis</p>
+              <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">Business Category Management</h1>
+              <p className="text-gray-600 dark:text-gray-400 mt-1">Manage business categories for market analysis</p>
             </div>
             <button
               onClick={() => navigate('/admin')}
-              className="text-gray-600 hover:text-gray-900"
+              className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100"
             >
               ← Back to Dashboard
             </button>
@@ -104,8 +106,8 @@ const BusinessCategoryManagement = () => {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 py-8">
-        <div className="bg-white rounded-lg shadow">
-          <div className="p-6 border-b border-gray-200">
+        <div className="bg-white dark:bg-[#1e293b] rounded-lg shadow">
+          <div className="p-6 border-b border-gray-200 dark:border-gray-700">
             <button
               onClick={() => {
                 setEditingCategory(null);
@@ -120,7 +122,7 @@ const BusinessCategoryManagement = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
             {categories.map((category) => (
-              <div key={category._id} className="border border-gray-200 rounded-lg p-6 hover:shadow-md transition">
+              <div key={category._id} className="border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:shadow-md transition">
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center">
                     <div 
@@ -129,20 +131,20 @@ const BusinessCategoryManagement = () => {
                     >
                       {category.icon}
                     </div>
-                    <h3 className="text-lg font-semibold text-gray-900">{category.name}</h3>
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">{category.name}</h3>
                   </div>
                 </div>
-                <p className="text-gray-600 text-sm mb-4">{category.description}</p>
+                <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">{category.description}</p>
                 <div className="flex justify-end space-x-2">
                   <button
                     onClick={() => handleEdit(category)}
-                    className="text-blue-600 hover:text-blue-900 text-sm font-medium"
+                    className="text-blue-600 dark:text-blue-400 hover:text-blue-900 dark:hover:text-blue-300 text-sm font-medium"
                   >
                     Edit
                   </button>
                   <button
                     onClick={() => handleDelete(category._id)}
-                    className="text-red-600 hover:text-red-900 text-sm font-medium"
+                    className="text-red-600 dark:text-red-400 hover:text-red-900 dark:hover:text-red-300 text-sm font-medium"
                   >
                     Delete
                   </button>
@@ -155,82 +157,82 @@ const BusinessCategoryManagement = () => {
 
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg shadow-xl max-w-lg w-full mx-4 max-h-[90vh] overflow-y-auto">
-            <div className="p-6 border-b border-gray-200">
-              <h2 className="text-xl font-semibold text-gray-900">
+          <div className="bg-white dark:bg-[#1e293b] rounded-lg shadow-xl max-w-lg w-full mx-4 max-h-[90vh] overflow-y-auto">
+            <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+              <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
                 {editingCategory ? 'Edit Category' : 'Add Category'}
               </h2>
             </div>
             <form onSubmit={handleSubmit} className="p-6 space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Category Name</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Category Name</label>
                 <input
                   type="text"
                   required
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Description</label>
                 <textarea
                   required
                   value={formData.description}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                   rows="3"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Icon (Emoji)</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Icon (Emoji)</label>
                 <input
                   type="text"
                   required
                   value={formData.icon}
                   onChange={(e) => setFormData({ ...formData, icon: e.target.value })}
                   placeholder="🏪"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Color</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Color</label>
                 <input
                   type="color"
                   required
                   value={formData.color}
                   onChange={(e) => setFormData({ ...formData, color: e.target.value })}
-                  className="w-full h-10 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full h-10 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Gap Score</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Gap Score</label>
                 <input
                   type="number"
                   required
                   value={formData.gap}
                   onChange={(e) => setFormData({ ...formData, gap: parseInt(e.target.value) })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Supply Score</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Supply Score</label>
                 <input
                   type="number"
                   required
                   value={formData.supply}
                   onChange={(e) => setFormData({ ...formData, supply: parseInt(e.target.value) })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Demand Score</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Demand Score</label>
                 <input
                   type="number"
                   required
                   value={formData.demand}
                   onChange={(e) => setFormData({ ...formData, demand: parseInt(e.target.value) })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                 />
               </div>
               <div className="flex justify-end space-x-3 pt-4">
@@ -240,7 +242,7 @@ const BusinessCategoryManagement = () => {
                     setShowModal(false);
                     setEditingCategory(null);
                   }}
-                  className="px-4 py-2 text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300 transition"
+                  className="px-4 py-2 text-gray-700 dark:text-gray-300 bg-gray-200 dark:bg-gray-600 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-500 transition"
                 >
                   Cancel
                 </button>

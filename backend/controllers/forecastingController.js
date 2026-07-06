@@ -18,7 +18,7 @@ const getForecastData = async (req, res) => {
     // Generate forecast data based on timeframe
     const forecastData = areas.map(area => {
       const years = timeframe === '10years' ? 10 : 5;
-      const growthRate = area.populationGrowth / 100;
+      const growthRate = (area.populationGrowth || 0) / 100;
       
       const districtName = area.district?.name || 'Unknown';
       const currentPop = area.population || 1;
@@ -65,7 +65,7 @@ const getForecastByArea = async (req, res) => {
     }
 
     const years = timeframe === '10years' ? 10 : 5;
-    const growthRate = area.populationGrowth / 100;
+    const growthRate = (area.populationGrowth || 0) / 100;
     
     const districtName = area.district?.name || 'Unknown';
     const currentPop = area.population || 1;
@@ -84,11 +84,11 @@ const getForecastByArea = async (req, res) => {
       const projectedDemand = {};
       const projectedGap = {};
       
-      Object.entries(Object.fromEntries(area.demandScores)).forEach(([category, score]) => {
+      Object.entries(area.demandScores || {}).forEach(([category, score]) => {
         projectedDemand[category] = Math.min(100, Math.round(score * (1 + growthRate * 0.5)));
       });
       
-      Object.entries(Object.fromEntries(area.marketGapScores)).forEach(([category, score]) => {
+      Object.entries(area.marketGapScores || {}).forEach(([category, score]) => {
         projectedGap[category] = Math.min(100, Math.round(score * (1 + growthRate * 0.3)));
       });
 
@@ -120,7 +120,7 @@ const getForecastByDistrict = async (req, res) => {
     
     const years = timeframe === '10years' ? 10 : 5;
     const forecastData = areas.map(area => {
-      const growthRate = area.populationGrowth / 100;
+      const growthRate = (area.populationGrowth || 0) / 100;
       const currentPop = area.population || 1;
       const forecast = {
         area: area.name,

@@ -30,6 +30,18 @@ const districtSchema = new mongoose.Schema({
     type: Number,
     default: 0
   },
+  urbanizationRate: {
+    type: Number,
+    required: false
+  },
+  averageIncome: {
+    type: Number,
+    required: false
+  },
+  literacyRate: {
+    type: Number,
+    required: false
+  },
   coordinates: {
     lat: {
       type: Number,

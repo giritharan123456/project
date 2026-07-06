@@ -60,7 +60,7 @@ router.post('/chat', protect, async (req, res) => {
     const response = await getSmartResponse(message.trim());
     res.json({ success: true, data: { response } });
   } catch (err) {
-    res.json({ success: true, data: { response: 'I can help with market analysis. Try asking about opportunities, population, demand, or districts.' } });
+    res.status(500).json({ success: false, message: 'Failed to generate response' });
   }
 });
 
