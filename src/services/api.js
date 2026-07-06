@@ -47,8 +47,7 @@ const apiCall = async (endpoint, options = {}) => {
   } catch (error) {
     clearTimeout(timer);
     const errorMsg = (error && error.message) || String(error);
-    console.error('API call error:', errorMsg);
-    
+
     if (errorMsg.includes('abort') || errorMsg.includes('AbortError')) {
       throw new Error('Request timed out. Please check your connection and try again.');
     }

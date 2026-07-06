@@ -25,7 +25,7 @@ function InvestmentEstimator() {
     try {
       const res = await explorerAPI.getCategories({});
       if (res.success) setCategories(res.categories);
-    } catch (err) { console.error('Failed to load categories:', err); }
+    } catch { /* noop */ }
   };
 
   useEffect(() => {
@@ -40,7 +40,7 @@ function InvestmentEstimator() {
     try {
       const res = await areasAPI.getByDistrict(districtId);
       if (res.success) setAreas(res.data || []);
-    } catch (err) { console.error('Failed to load areas:', err); }
+    } catch { /* noop */ }
   };
 
   const handleEstimate = async () => {
@@ -53,7 +53,7 @@ function InvestmentEstimator() {
       });
       if (res.success) setEstimate(res.estimate);
       setLoaded(true);
-    } catch (err) { console.error('Failed to get estimate:', err); } finally { setLoading(false); }
+    } catch { /* noop */ } finally { setLoading(false); }
   };
 
   const formatCurrency = (val) => {

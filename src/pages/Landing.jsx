@@ -38,7 +38,6 @@ function Landing() {
         setFeatures(content.features || []);
         setStats(content.stats || {});
       } catch (error) {
-        console.error('Error fetching landing content:', error);
       } finally {
         setLoading(false);
       }

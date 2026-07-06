@@ -119,7 +119,7 @@ function Reports() {
 
       doc.save(`report-${areaData.pincode || 'area'}.pdf`);
     } catch (err) {
-      console.error('PDF export failed:', err);
+      // PDF export failed silently
     } finally {
       setExporting(false);
     }

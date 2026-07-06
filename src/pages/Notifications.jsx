@@ -64,7 +64,6 @@ function Notifications() {
         prev.map(n => n._id === id ? { ...n, read: true } : n)
       );
     } catch (err) {
-      console.error('Failed to mark as read:', err.message);
     }
   };
 
@@ -73,7 +72,6 @@ function Notifications() {
       await notificationsAPI.markAllAsRead();
       setNotifications(prev => prev.map(n => ({ ...n, read: true })));
     } catch (err) {
-      console.error('Failed to mark all as read:', err.message);
     }
   };
 
@@ -82,7 +80,6 @@ function Notifications() {
       await notificationsAPI.delete(id);
       setNotifications(prev => prev.filter(n => n._id !== id));
     } catch (err) {
-      console.error('Failed to delete notification:', err.message);
     }
   };
 

@@ -194,7 +194,7 @@ function AnalyticsPanel({ pincodeData, businessCategories, selectedDistrict }) {
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a'); a.href = url; a.download = `analytics-${selectedDistrict}.txt`;
       document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
-    } catch { alert('Export failed'); }
+    } catch { alert('Export failed'); /* eslint-disable-line no-alert */ }
   };
 
   return (

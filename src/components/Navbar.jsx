@@ -44,7 +44,7 @@ function Navbar() {
       try {
         const res = await notificationsAPI.getAll({ limit: 1 });
         if (res.success) setNotifCount(res.unreadCount || 0);
-      } catch (err) { console.error('Failed to fetch notifications:', err); }
+      } catch { /* noop - notification count not critical */ }
     };
     if (user) fetchNotifCount();
   }, [user]);

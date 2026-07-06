@@ -56,7 +56,6 @@ function Workspace() {
           setSearchHistory(historyRes.value.data);
         }
       } catch (err) {
-        console.error('Workspace fetch error:', err);
       } finally {
         setLoading(false);
       }

@@ -28,7 +28,7 @@ function AreaLeaderboard() {
       if (filterDistrict) params.district = filterDistrict;
       const res = await explorerAPI.getLeaderboard(params);
       if (res.success) { setAreas(res.areas); setTotalPages(res.pages || 1); }
-    } catch (err) { console.error('Failed to load leaderboard:', err); } finally { setLoading(false); }
+    } catch { /* noop */ } finally { setLoading(false); }
   };
 
   const getRankBadge = (i) => {

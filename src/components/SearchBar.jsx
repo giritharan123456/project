@@ -22,7 +22,7 @@ function SearchBar({ onSearch, placeholder = "Search by area or pincode...", sug
       district: district || '',
       category: category || '',
       resultCount: resultCount || 0,
-    }).catch(() => {});
+    }).catch(() => { /* history save not critical */ });
   };
 
   const handleSubmit = (e) => {

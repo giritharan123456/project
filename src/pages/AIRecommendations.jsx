@@ -41,7 +41,6 @@ function AIRecommendations() {
           setError(`Data for pincode ${selectedPincode} will be loaded from government APIs. Please try again or select a different pincode.`);
         }
       } catch (err) {
-        console.error('Failed to fetch area data:', err);
         setAreaData(null);
         setError(err.message || 'Failed to load area data.');
       } finally {
@@ -165,7 +164,6 @@ function AIRecommendations() {
         alternativeIdeas: alternativeIdeas
       };
     } catch (error) {
-      console.error('Error generating recommendations:', error);
       return null;
     }
   };
@@ -248,7 +246,6 @@ function AIRecommendations() {
         .filter(rec => rec.category !== (topRecommendation?.category))
         .slice(0, 3);
     } catch (error) {
-      console.error('Error generating other recommendations:', error);
       return [];
     }
   };

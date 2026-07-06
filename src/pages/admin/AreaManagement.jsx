@@ -37,7 +37,6 @@ const AreaManagement = () => {
       if (areasRes.success) setAreas(areasRes.data);
       if (districtsRes.success) setDistricts(districtsRes.data);
     } catch (error) {
-      console.error('Error fetching data:', error);
     } finally {
       setLoading(false);
     }
@@ -56,7 +55,6 @@ const AreaManagement = () => {
       resetFormData();
       fetchData();
     } catch (error) {
-      console.error('Error saving area:', error);
       alert('Error saving area');
     }
   };
@@ -86,7 +84,6 @@ const AreaManagement = () => {
         await adminAPI.deleteArea(id);
         fetchData();
       } catch (error) {
-        console.error('Error deleting area:', error);
         alert('Error deleting area');
       }
     }

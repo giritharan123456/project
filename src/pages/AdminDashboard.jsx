@@ -36,7 +36,6 @@ const AdminDashboard = () => {
         });
       }
     } catch (error) {
-      console.error('Error fetching stats:', error);
       // Set default stats on error
       setStats({
         districts: 0,

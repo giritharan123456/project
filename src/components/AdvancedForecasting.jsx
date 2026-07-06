@@ -53,10 +53,10 @@ PINCODE DETAILS
       pincodeData.forEach((pincode, index) => {
         reportContent += `
 ${index + 1}. ${pincode.area} (${pincode.pincode})
-   Population: ${pincode.population.toLocaleString()}
+   Population: ${(pincode.population || 0).toLocaleString()}
    Growth Rate: ${Number(pincode.populationGrowth || 0).toFixed(2)}%
-   Income Level: ${pincode.incomeLevel}
-   Urban Development: ${pincode.urbanDevelopment}
+   Income Level: ${pincode.incomeLevel || 'N/A'}
+   Urban Development: ${pincode.urbanDevelopment || 'N/A'}
 
    Category Analysis:
 `;

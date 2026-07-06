@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
 
@@ -8,35 +8,28 @@ function RealTimeDashboard({ data, onUpdate }) {
   const [refreshInterval, setRefreshInterval] = useState(30);
   const [lastUpdated, setLastUpdated] = useState(new Date());
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const onUpdateRef = useRef(onUpdate);
+  onUpdateRef.current = onUpdate;
 
-  const handleRefresh = async () => {
+  const handleRefresh = useCallback(async () => {
     setIsRefreshing(true);
     await new Promise(resolve => setTimeout(resolve, 500));
     setLastUpdated(new Date());
     setIsRefreshing(false);
-    
-    if (onUpdate) {
-      onUpdate();
+    if (onUpdateRef.current) {
+      onUpdateRef.current();
     }
-  };
-
-  const refreshCallback = useCallback(() => {
-    handleRefresh();
-  }, [handleRefresh]);
+  }, []);
 
   useEffect(() => {
     let intervalId;
-
     if (isAutoRefresh) {
-      intervalId = setInterval(refreshCallback, refreshInterval * 1000);
+      intervalId = setInterval(handleRefresh, refreshInterval * 1000);
     }
-
     return () => {
-      if (intervalId) {
-        clearInterval(intervalId);
-      }
+      if (intervalId) clearInterval(intervalId);
     };
-  }, [isAutoRefresh, refreshInterval, refreshCallback]);
+  }, [isAutoRefresh, refreshInterval, handleRefresh]);
 
   const handleToggleRefresh = () => {
     setIsAutoRefresh(!isAutoRefresh);

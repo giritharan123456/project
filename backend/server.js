@@ -25,10 +25,15 @@ app.use(helmet({
   crossOriginEmbedderPolicy: false
 }));
 
-const corsOrigin = process.env.FRONTEND_URL || 'http://localhost:5173';
+const allowedOrigins = [
+  process.env.FRONTEND_URL,
+  'http://localhost:5173',
+  'http://localhost:5000'
+].filter(Boolean);
+
 app.use(cors({
   origin: (origin, callback) => {
-    if (!origin || origin === corsOrigin || origin === 'http://localhost:5000' || origin.includes('ngrok-free.dev')) {
+    if (!origin || allowedOrigins.includes(origin) || origin.includes('ngrok-free.dev')) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));

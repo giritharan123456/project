@@ -33,7 +33,7 @@ function CategoryExplorer() {
       if (filterDistrict) params.district = filterDistrict;
       const res = await explorerAPI.getCategories(params);
       if (res.success) setCategories(res.categories);
-    } catch (err) { console.error('Failed to load categories:', err); } finally { setLoading(false); }
+    } catch { /* noop */ } finally { setLoading(false); }
   };
 
   const getScoreColor = (score) => {

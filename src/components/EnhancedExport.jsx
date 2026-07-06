@@ -18,7 +18,7 @@ function EnhancedExport({ data, selectedDistrict, businessCategories, leaderboar
     try {
       await exportToPDF();
     } catch (error) {
-      console.error('Export failed:', error);
+      // Export failed silently
     } finally {
       setIsExporting(false);
     }
@@ -116,7 +116,7 @@ function EnhancedExport({ data, selectedDistrict, businessCategories, leaderboar
       // Save PDF
       doc.save(`market-gap-analysis-${districtName}.pdf`);
     } catch (error) {
-      console.error('PDF export error:', error);
+      // PDF export failed silently
     }
   };
 

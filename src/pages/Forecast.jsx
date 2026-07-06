@@ -42,7 +42,6 @@ function Forecast() {
           setError(`Data for pincode ${selectedPincode} will be loaded from government APIs. Please try again or select a different pincode.`);
         }
       } catch (err) {
-        console.error('Failed to fetch area data:', err);
         setAreaData(null);
         setError(err.message || 'Failed to load forecast data. Please check your connection and try again.');
       } finally {

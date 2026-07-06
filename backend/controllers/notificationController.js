@@ -1,4 +1,5 @@
 const Notification = require('../models/Notification');
+const logger = require('../utils/logger');
 
 // @desc    Get all notifications for authenticated user
 // @route   GET /api/notifications
@@ -101,7 +102,7 @@ const createNotification = async (userId, type, title, message, metadata = {}) =
     await Notification.create({ user: userId, type, title, message, metadata });
   } catch (err) {
     // Non-critical — log but don't throw
-    console.error('Failed to create notification:', err.message);
+    logger.error(`Failed to create notification: ${err.message}`);
   }
 };
 

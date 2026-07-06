@@ -34,7 +34,6 @@ const DistrictManagement = () => {
         setDistricts(response.data);
       }
     } catch (error) {
-      console.error('Error fetching districts:', error);
     } finally {
       setLoading(false);
     }
@@ -66,12 +65,6 @@ const DistrictManagement = () => {
       });
       fetchDistricts();
     } catch (error) {
-      console.error('Error saving district:', error);
-      console.error('Error details:', {
-        message: error.message,
-        response: error.response,
-        data: error.response?.data
-      });
       alert(`Error saving district: ${error.message || 'Unknown error'}`);
     }
   };
@@ -98,7 +91,6 @@ const DistrictManagement = () => {
         await adminAPI.deleteDistrict(id);
         fetchDistricts();
       } catch (error) {
-        console.error('Error deleting district:', error);
         alert('Error deleting district');
       }
     }

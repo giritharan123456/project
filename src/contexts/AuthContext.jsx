@@ -19,7 +19,6 @@ export const AuthProvider = ({ children }) => {
         setUser(parsedUser);
       }
     } catch (error) {
-      console.error('Error parsing stored user data:', error);
       // Clear corrupted data
       localStorage.removeItem('token');
       localStorage.removeItem('user');

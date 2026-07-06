@@ -26,7 +26,6 @@ const UserManagement = () => {
         setUsers(response.data);
       }
     } catch (error) {
-      console.error('Error fetching users:', error);
     } finally {
       setLoading(false);
     }
@@ -46,7 +45,6 @@ const UserManagement = () => {
       setFormData({ name: '', email: '', role: 'user', password: '' });
       fetchUsers();
     } catch (error) {
-      console.error('Error saving user:', error);
       alert('Error saving user');
     }
   };
@@ -68,7 +66,6 @@ const UserManagement = () => {
         await adminAPI.deleteUser(id);
         fetchUsers();
       } catch (error) {
-        console.error('Error deleting user:', error);
         alert('Error deleting user');
       }
     }

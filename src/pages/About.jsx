@@ -55,7 +55,6 @@ function About() {
           categories: CATEGORIES.length
         });
       } catch (error) {
-        console.error('Error fetching about data:', error);
       } finally {
         setLoading(false);
       }

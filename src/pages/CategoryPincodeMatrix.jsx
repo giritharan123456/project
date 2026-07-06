@@ -31,7 +31,7 @@ function CategoryPincodeMatrix() {
       if (filterDistrict) params.district = filterDistrict;
       const res = await explorerAPI.getMatrix(params);
       if (res.success) setMatrix(res.matrix || []);
-    } catch (err) { console.error('Failed to load matrix:', err); } finally { setLoading(false); }
+    } catch { /* noop */ } finally { setLoading(false); }
   };
 
   const getScoreColor = (s) => {

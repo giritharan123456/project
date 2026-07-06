@@ -29,7 +29,6 @@ const BusinessCategoryManagement = () => {
         setCategories(response.data);
       }
     } catch (error) {
-      console.error('Error fetching categories:', error);
     } finally {
       setLoading(false);
     }
@@ -48,12 +47,6 @@ const BusinessCategoryManagement = () => {
       setFormData({ name: '', description: '', icon: '', color: '#3B82F6', gap: 0, supply: 0, demand: 0 });
       fetchCategories();
     } catch (error) {
-      console.error('Error saving category:', error);
-      console.error('Error details:', {
-        message: error.message,
-        response: error.response,
-        data: error.response?.data
-      });
       alert(`Error saving category: ${error.message || 'Unknown error'}`);
     }
   };
@@ -78,7 +71,6 @@ const BusinessCategoryManagement = () => {
         await adminAPI.deleteBusinessCategory(id);
         fetchCategories();
       } catch (error) {
-        console.error('Error deleting category:', error);
         alert('Error deleting category');
       }
     }
