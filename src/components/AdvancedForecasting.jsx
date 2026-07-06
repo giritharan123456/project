@@ -2,9 +2,11 @@ import React, { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, AreaChart, Area } from 'recharts';
 import { useTheme } from '../contexts/ThemeContext';
+import { useToast } from '../contexts/ToastContext';
 
 function AdvancedForecasting({ pincodeData, businessCategories }) {
   const { isDarkMode } = useTheme();
+  const { addToast } = useToast();
   const [timePeriod, setTimePeriod] = useState(12);
 
   const ChartTooltip = ({ active, payload, label }) => {
@@ -22,7 +24,7 @@ function AdvancedForecasting({ pincodeData, businessCategories }) {
   };
   const handleExportReport = () => {
     if (!pincodeData || pincodeData.length === 0) {
-      alert('Please select a district with data to export');
+      addToast('Please select a district first', 'warning');
       return;
     }
 
@@ -75,7 +77,7 @@ ${index + 1}. ${pincode.area} (${pincode.pincode})
       document.body.removeChild(link);
       URL.revokeObjectURL(url);
     } catch (error) {
-      alert('Report export failed.');
+      addToast('Report export failed', 'error');
     }
   };
 

@@ -55,6 +55,7 @@ function About() {
           categories: CATEGORIES.length
         });
       } catch (error) {
+        /* silent fail */
       } finally {
         setLoading(false);
       }

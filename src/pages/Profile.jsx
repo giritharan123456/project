@@ -73,6 +73,7 @@ function Profile() {
         const res = await workspaceAPI.getFavorites();
         if (res.success) setFavorites(res.data || []);
       } catch (err) {
+        /* silent fail */
       } finally {
         setFavLoading(false);
       }

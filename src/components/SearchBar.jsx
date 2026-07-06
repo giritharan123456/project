@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useTheme } from '../contexts/ThemeContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, X } from 'lucide-react';
@@ -8,6 +8,13 @@ function SearchBar({ onSearch, placeholder = "Search by area or pincode...", sug
   const { isDarkMode } = useTheme();
   const [searchTerm, setSearchTerm] = useState('');
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const blurTimeoutRef = useRef(null);
+
+  useEffect(() => {
+    return () => {
+      if (blurTimeoutRef.current) clearTimeout(blurTimeoutRef.current);
+    };
+  }, []);
 
   const filteredSuggestions = suggestions.filter(suggestion =>
     suggestion.toLowerCase().includes(searchTerm.toLowerCase())
@@ -54,7 +61,7 @@ function SearchBar({ onSearch, placeholder = "Search by area or pincode...", sug
               setShowSuggestions(e.target.value.length > 0);
             }}
             onFocus={() => setShowSuggestions(searchTerm.length > 0)}
-            onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
+            onBlur={() => { blurTimeoutRef.current = setTimeout(() => setShowSuggestions(false), 200); }}
             className={`w-full px-3 py-2 pl-9 border-2 rounded-lg text-sm transition-all duration-200 outline-none ${
               isDarkMode
                 ? 'bg-[#0f172a] border-[#475569] text-white focus:border-blue-500 placeholder:text-slate-500'

@@ -25,6 +25,7 @@ function Home() {
         const response = await contentAPI.getHomeContent();
         setContent(response.data);
       } catch (error) {
+        /* silent fail */
       } finally {
         setLoading(false);
       }

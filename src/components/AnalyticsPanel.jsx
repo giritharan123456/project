@@ -2,12 +2,14 @@ import React, { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend } from 'recharts';
 import { useTheme } from '../contexts/ThemeContext';
+import { useToast } from '../contexts/ToastContext';
 import { averageOfValues } from '../utils/dataUtils';
 
 const COLORS = ['#2563eb', '#7c3aed', '#db2777', '#ea580c', '#16a34a', '#0891b2', '#d946ef', '#0ea5e9'];
 
 function AnalyticsPanel({ pincodeData, businessCategories, selectedDistrict }) {
   const { isDarkMode } = useTheme();
+  const { addToast } = useToast();
 
   const ChartTooltip = ({ active, payload, label }) => {
     if (!active || !payload) return null;
@@ -183,7 +185,7 @@ function AnalyticsPanel({ pincodeData, businessCategories, selectedDistrict }) {
   }, [pincodeData, hasData]);
 
   const handleExportReport = () => {
-    if (!hasData) { alert('No data to export'); return; }
+    if (!hasData) { addToast('No data to export', 'warning'); return; }
     try {
       let report = `MARKETVISION AI - ANALYTICS REPORT\nDistrict: ${selectedDistrict}\nGenerated: ${new Date().toLocaleDateString()}\n\n`;
       report += `SUMMARY\n=======\nAreas: ${pincodeData.length}\nTotal Population: ${pincodeData.reduce((s, p) => s + p.population, 0).toLocaleString()}\nAvg Growth: ${(pincodeData.reduce((s, p) => s + (p.populationGrowth || 0), 0) / pincodeData.length).toFixed(2)}%\n\n`;
@@ -194,7 +196,7 @@ function AnalyticsPanel({ pincodeData, businessCategories, selectedDistrict }) {
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a'); a.href = url; a.download = `analytics-${selectedDistrict}.txt`;
       document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
-    } catch { alert('Export failed'); /* eslint-disable-line no-alert */ }
+    } catch { addToast('Export failed', 'error'); }
   };
 
   return (

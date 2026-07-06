@@ -75,7 +75,7 @@ export const ToastProvider = ({ children }) => {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 100 }}
               className={`flex items-center gap-3 p-4 rounded-xl border shadow-lg min-w-[300px] max-w-md ${
-                isDarkMode ? bgColors[toast.type] : bgColors[toast.type]
+                bgColors[toast.type]
               } ${isDarkMode ? 'bg-[#1e293b]' : 'bg-[#ffffff]'}`}
             >
               {icons[toast.type]}

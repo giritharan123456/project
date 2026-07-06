@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import { useTheme } from '../contexts/ThemeContext';
 
 function AdminLogin() {
   const navigate = useNavigate();
   const { login } = useAuth();
+  const { isDarkMode } = useTheme();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [formData, setFormData] = useState({
@@ -60,7 +62,7 @@ function AdminLogin() {
       </div>
 
       <motion.div
-        className="relative z-10 bg-white rounded-3xl p-6 sm:p-10 w-full max-w-[450px] m-4 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)]"
+        className={`relative z-10 rounded-3xl p-6 sm:p-10 w-full max-w-[450px] m-4 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)] ${isDarkMode ? 'bg-[#1e293b]' : 'bg-white'}`}
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
@@ -70,7 +72,7 @@ function AdminLogin() {
           <h1 className="text-3xl font-bold mb-2 bg-gradient-to-r from-red-600 to-red-900 bg-clip-text text-transparent">
             Admin Portal
           </h1>
-          <p className="text-[#666] text-sm">
+          <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-[#666]'}`}>
             Secure access for administrators only
           </p>
         </div>
@@ -83,7 +85,7 @@ function AdminLogin() {
 
         <form className="flex flex-col gap-5 mb-6" onSubmit={handleSubmit}>
           <div className="flex flex-col gap-2">
-            <label htmlFor="email" className="text-sm font-semibold text-[#333]">Admin Email</label>
+            <label htmlFor="email" className={`text-sm font-semibold ${isDarkMode ? 'text-gray-200' : 'text-[#333]'}`}>Admin Email</label>
             <input
               type="email"
               id="email"
@@ -92,12 +94,12 @@ function AdminLogin() {
               onChange={handleChange}
               placeholder="Enter admin email"
               required
-              className="p-3.5 border-2 border-[#e0e0e0] rounded-xl text-base transition-all duration-300 outline-none focus:border-red-600 focus:shadow-[0_0_0_3px_rgba(220,38,38,0.1)] placeholder:text-[#999]"
+              className={`p-3.5 border-2 rounded-xl text-base transition-all duration-300 outline-none focus:border-red-600 focus:shadow-[0_0_0_3px_rgba(220,38,38,0.1)] placeholder:text-[#999] ${isDarkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-[#e0e0e0]'}`}
             />
           </div>
 
           <div className="flex flex-col gap-2">
-            <label htmlFor="password" className="text-sm font-semibold text-[#333]">Password</label>
+            <label htmlFor="password" className={`text-sm font-semibold ${isDarkMode ? 'text-gray-200' : 'text-[#333]'}`}>Password</label>
             <input
               type="password"
               id="password"
@@ -106,7 +108,7 @@ function AdminLogin() {
               onChange={handleChange}
               placeholder="Enter admin password"
               required
-              className="p-3.5 border-2 border-[#e0e0e0] rounded-xl text-base transition-all duration-300 outline-none focus:border-red-600 focus:shadow-[0_0_0_3px_rgba(220,38,38,0.1)] placeholder:text-[#999]"
+              className={`p-3.5 border-2 rounded-xl text-base transition-all duration-300 outline-none focus:border-red-600 focus:shadow-[0_0_0_3px_rgba(220,38,38,0.1)] placeholder:text-[#999] ${isDarkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-[#e0e0e0]'}`}
             />
           </div>
 
@@ -115,7 +117,7 @@ function AdminLogin() {
           </button>
         </form>
 
-        <div className="text-center text-sm text-[#666]">
+        <div className={`text-center text-sm ${isDarkMode ? 'text-gray-400' : 'text-[#666]'}`}>
           <p className="m-0">
             <button 
               onClick={() => navigate('/')}
@@ -126,8 +128,8 @@ function AdminLogin() {
           </p>
         </div>
 
-        <div className="mt-6 p-4 bg-gray-50 rounded-lg">
-          <p className="text-xs text-gray-500 text-center">
+        <div className={`mt-6 p-4 rounded-lg ${isDarkMode ? 'bg-gray-700' : 'bg-gray-50'}`}>
+          <p className={`text-xs text-center ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
             🔒 This portal is restricted to authorized administrators only. 
             All access attempts are logged.
           </p>
