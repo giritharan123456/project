@@ -240,7 +240,7 @@ function AnalyticsPanel({ pincodeData, businessCategories, selectedDistrict }) {
                       <span className={`text-sm font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{metric.name}</span>
                       <span className="text-sm font-bold" style={{ color: metric.color }}>{metric.value.toFixed(2)}%</span>
                     </div>
-                    <div className="w-full h-2 rounded-full bg-gray-200 overflow-hidden">
+                    <div className={`w-full h-2 rounded-full overflow-hidden ${isDarkMode ? 'bg-gray-700' : 'bg-gray-200'}`}>
                       <div className="h-full transition-all duration-300" style={{ width: `${Math.min(100, metric.value)}%`, background: metric.color }}></div>
                     </div>
                     <span className={`text-[11px] opacity-60 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{metric.detail}</span>

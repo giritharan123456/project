@@ -184,7 +184,7 @@ function ExecutiveSummary({ pincodeData }) {
                 <div key={i} className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold ${
                   isDarkMode ? 'bg-[#0f172a] border border-[#334155] text-slate-300' : 'bg-slate-50 border border-slate-100 text-slate-600'
                 }`}>
-                  <ArrowRight size={10} className={`text-${action.color}-500`} />
+                  <ArrowRight size={10} style={{ color: action.color === 'blue' ? '#3b82f6' : action.color === 'emerald' ? '#10b981' : '#8b5cf6' }} />
                   <span>{action.action}</span>
                   <span className={`text-[10px] font-medium ${b('text-slate-500', 'text-slate-400')}`}>{action.detail}</span>
                 </div>

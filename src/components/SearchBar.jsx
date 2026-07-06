@@ -17,7 +17,7 @@ function SearchBar({ onSearch, placeholder = "Search by area or pincode...", sug
   }, []);
 
   const filteredSuggestions = suggestions.filter(suggestion =>
-    suggestion.toLowerCase().includes(searchTerm.toLowerCase())
+    String(suggestion).toLowerCase().includes(searchTerm.toLowerCase())
   ).slice(0, 5);
 
   const saveToHistory = (query, resultCount) => {

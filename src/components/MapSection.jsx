@@ -33,7 +33,7 @@ function MapSection({ pincodeData, selectedDistrict }) {
     return Math.max(18, Math.min(50, pop / 2500));
   };
 
-  const validPincodeData = pincodeData.filter(p => 
+  const validPincodeData = (pincodeData || []).filter(p => 
     p && p.lat && p.lng && !isNaN(p.lat) && !isNaN(p.lng)
   );
 

@@ -68,7 +68,26 @@ function EnhancedExport({ data, selectedDistrict, businessCategories, leaderboar
         return row;
       });
 
-      // Leaderboard section if available
+      // Generate main table first
+      autoTable(doc, {
+        head: [headers],
+        body: tableData,
+        startY: 55,
+        styles: {
+          fontSize: 8,
+          cellPadding: 3,
+        },
+        headStyles: {
+          fillColor: [102, 126, 234],
+          textColor: 255,
+          fontStyle: 'bold',
+        },
+        alternateRowStyles: {
+          fillColor: [245, 247, 250],
+        },
+      });
+
+      // Leaderboard section after main table
       if (leaderboardData && leaderboardData.length > 0) {
         const finalY = doc.lastAutoTable.finalY || 55;
         doc.setFontSize(14);
@@ -93,25 +112,6 @@ function EnhancedExport({ data, selectedDistrict, businessCategories, leaderboar
           alternateRowStyles: { fillColor: [245, 247, 250] },
         });
       }
-
-      // Generate main table
-      autoTable(doc, {
-        head: [headers],
-        body: tableData,
-        startY: 55,
-        styles: {
-          fontSize: 8,
-          cellPadding: 3,
-        },
-        headStyles: {
-          fillColor: [102, 126, 234],
-          textColor: 255,
-          fontStyle: 'bold',
-        },
-        alternateRowStyles: {
-          fillColor: [245, 247, 250],
-        },
-      });
 
       // Save PDF
       doc.save(`market-gap-analysis-${districtName}.pdf`);

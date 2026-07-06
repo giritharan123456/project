@@ -18,7 +18,7 @@ export default function LandingPreview({ area, onNavigate }) {
   const totalCompetitors = Object.values(competitors).reduce((s, v) => s + (Number(v) || 0), 0);
 
   const sortedCategories = Object.entries(gapScores).sort(([, a], [, b]) => b - a);
-  const maxScore = Math.max(...sortedCategories.map(([, v]) => v), 1);
+  const maxScore = sortedCategories.length > 0 ? Math.max(...sortedCategories.map(([, v]) => v)) : 1;
 
   const getScoreColor = (score) => {
     if (score >= 65) return { bar: 'bg-red-500', text: 'text-red-500', badge: 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400' };

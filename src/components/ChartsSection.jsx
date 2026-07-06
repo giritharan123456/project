@@ -24,7 +24,7 @@ const CustomTooltip = ({ active, payload, label }) => {
 function ChartsSection({ businessCategories, selectedCategory, pincodeData }) {
   const { isDarkMode } = useTheme();
 
-  if (!pincodeData || pincodeData.length === 0 || businessCategories.length === 0) {
+  if (!pincodeData || pincodeData.length === 0 || !businessCategories || businessCategories.length === 0) {
     return <EmptyState type="noData" message="No chart data available." />;
   }
 
