@@ -154,9 +154,96 @@ function Reports() {
 
   if (!selectedPincode) {
     return (
-      <div className={`min-h-[calc(100vh-70px)] p-6 transition-colors duration-300 ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
-        <div className="max-w-7xl mx-auto">
-          <EmptyState type="noData" message="Please select a pincode on the Dashboard first." actionText="Go to Dashboard" onAction={() => window.location.href = '/dashboard'} />
+      <div className={`min-h-[calc(100vh-70px)] p-6 md:p-10 transition-colors duration-300 ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
+        <div className="max-w-5xl mx-auto space-y-8">
+          <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }}>
+            <div className="flex items-center gap-3 mb-2">
+              <FileText className="text-[#2563eb]" size={32} />
+              <h1 className={`text-3xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Reports</h1>
+            </div>
+            <p className={`text-lg opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+              Generate professional market analysis reports for any area.
+            </p>
+          </motion.div>
+
+          {/* Report Features */}
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
+            className={`p-6 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-[#e2e8f0]'}`}>
+            <h2 className={`text-2xl font-bold mb-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Report Features</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {[
+                { icon: BarChart3, title: 'Market Gap Analysis', desc: 'Detailed breakdown of market gaps across all business categories' },
+                { icon: Users, title: 'Demographics', desc: 'Population, growth rate, income levels, and urban development data' },
+                { icon: Target, title: 'Opportunity Scoring', desc: 'AI-calculated opportunity scores for each category' },
+                { icon: AlertTriangle, title: 'Competition Analysis', desc: 'Competitor counts and saturation levels per category' },
+                { icon: TrendingUp, title: 'Growth Projections', desc: '5-year forecasts based on current trends' },
+                { icon: Download, title: 'Export Options', desc: 'Download as PDF or CSV for offline analysis' },
+              ].map((feature, i) => (
+                <div key={i} className={`flex items-start gap-3 p-4 rounded-xl ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
+                  <feature.icon className="text-[#2563eb] mt-0.5 shrink-0" size={20} />
+                  <div>
+                    <p className={`font-bold text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{feature.title}</p>
+                    <p className={`text-xs mt-0.5 opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{feature.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* How to Export */}
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
+            className={`p-6 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-[#e2e8f0]'}`}>
+            <h2 className={`text-2xl font-bold mb-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>How to Export</h2>
+            <div className="space-y-4">
+              {[
+                { step: '1', title: 'Search a Pincode', desc: 'Use the Dashboard search bar to find the area you want to analyze.' },
+                { step: '2', title: 'Navigate to Reports', desc: 'Click the Reports link in the navigation menu.' },
+                { step: '3', title: 'Choose Export Format', desc: 'Click "Export PDF" for a formatted report or "Export CSV" for raw data.' },
+                { step: '4', title: 'Download', desc: 'The file will be downloaded to your device automatically.' },
+              ].map((item, i) => (
+                <div key={i} className="flex items-start gap-4">
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-r from-[#2563eb] to-[#7c3aed] flex items-center justify-center shrink-0">
+                    <span className="text-white text-sm font-bold">{item.step}</span>
+                  </div>
+                  <div>
+                    <p className={`font-bold text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{item.title}</p>
+                    <p className={`text-xs mt-0.5 opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{item.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Report Contents */}
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
+            className={`p-6 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-[#e2e8f0]'}`}>
+            <h2 className={`text-2xl font-bold mb-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Report Contents</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              {[
+                'Area Overview (name, pincode, district)',
+                'Population & Demographics',
+                'Market Gap Scores by Category',
+                'Demand Scores by Category',
+                'Competition Analysis',
+                'Opportunity Rankings',
+                'High Opportunity Categories',
+                'Saturated Categories Warning',
+                'Income Level Assessment',
+                'Growth Rate Analysis',
+              ].map((item, i) => (
+                <div key={i} className={`flex items-center gap-2 p-3 rounded-lg ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
+                  <CheckCircle size={14} className="text-green-500 shrink-0" />
+                  <span className={`text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{item}</span>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className="text-center">
+            <Link to="/dashboard" className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white rounded-xl font-semibold hover:opacity-90 transition-opacity">
+              Search a Pincode to Generate Report <ChevronRight size={18} />
+            </Link>
+          </motion.div>
         </div>
       </div>
     );

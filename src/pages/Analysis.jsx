@@ -111,14 +111,65 @@ function Analysis() {
 
   if (!selectedDistrict) {
     return (
-      <div className={`min-h-[calc(100vh-70px)] flex items-center justify-center ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
-        <div className="text-center max-w-md p-8">
-          <div className="text-5xl mb-4">📊</div>
-          <h2 className={`text-2xl font-bold mb-3 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Select a District</h2>
-          <p className={`mb-6 opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Choose a district from the dropdown above to view its market gap analysis.</p>
-          <Link to="/dashboard" className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white rounded-xl font-semibold hover:opacity-90 transition-opacity">
-            <MapPin size={18} /> Go to Dashboard
-          </Link>
+      <div className={`min-h-[calc(100vh-70px)] p-6 md:p-10 transition-colors duration-300 ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
+        <div className="max-w-5xl mx-auto space-y-8">
+          <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }}>
+            <div className="flex items-center gap-3 mb-2">
+              <BarChart3 className="text-[#2563eb]" size={32} />
+              <h1 className={`text-3xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Market Gap Analysis</h1>
+            </div>
+            <p className={`text-lg opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+              Deep dive into market gaps, demand patterns, and business opportunities.
+            </p>
+          </motion.div>
+
+          {/* Opportunity Levels */}
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
+            className={`p-6 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-[#e2e8f0]'}`}>
+            <h2 className={`text-2xl font-bold mb-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Opportunity Levels</h2>
+            <div className="flex flex-col gap-4">
+              {[
+                { level: 'High Opportunity', range: 'Score 70-100', color: 'bg-green-500', desc: 'Strong market gap with low competition. Ideal for new business entry.' },
+                { level: 'Medium Opportunity', range: 'Score 40-69', color: 'bg-yellow-500', desc: 'Moderate gap with some competition. Differentiation needed.' },
+                { level: 'Low Opportunity', range: 'Score 0-39', color: 'bg-red-500', desc: 'Saturated market or low demand. High risk for new entrants.' },
+              ].map((item, i) => (
+                <div key={i} className={`flex items-start gap-4 p-4 rounded-xl ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
+                  <div className={`w-4 h-4 rounded-full ${item.color} mt-1 shrink-0`} />
+                  <div>
+                    <p className={`font-bold text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{item.level} <span className="opacity-50 font-normal">{item.range}</span></p>
+                    <p className={`text-xs mt-0.5 opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{item.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Data Sources */}
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
+            className={`p-6 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-[#e2e8f0]'}`}>
+            <h2 className={`text-2xl font-bold mb-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Data Sources</h2>
+            <ul className="space-y-2">
+              {[
+                'Census of India — Population and demographic data',
+                'District-level economic indicators',
+                'Business category demand scoring algorithm',
+                'Competition density mapping',
+                'AI-powered market gap calculation',
+                'Real-time growth trend analysis',
+              ].map((source, i) => (
+                <li key={i} className={`flex items-center gap-2 text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+                  <CheckCircle size={14} className="text-green-500 shrink-0" />
+                  <span className="opacity-80">{source}</span>
+                </li>
+              ))}
+            </ul>
+          </motion.div>
+
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="text-center">
+            <Link to="/dashboard" className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white rounded-xl font-semibold hover:opacity-90 transition-opacity">
+              <MapPin size={18} /> Select a District to Analyze
+            </Link>
+          </motion.div>
         </div>
       </div>
     );
