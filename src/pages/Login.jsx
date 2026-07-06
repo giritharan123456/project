@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate, useSearchParams, Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import { useTheme } from '../contexts/ThemeContext';
 
 function Login() {
+  const { isDarkMode } = useTheme();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { login, register, guestLogin, handleGoogleCallback } = useAuth();
@@ -141,7 +143,7 @@ function Login() {
   };
 
   return (
-    <div className="min-h-screen flex justify-center items-center relative overflow-hidden bg-gradient-to-br from-[#667eea] to-[#764ba2]">
+    <div className={`min-h-screen flex justify-center items-center relative overflow-hidden ${isDarkMode ? 'bg-[#0f172a]' : 'bg-gradient-to-br from-[#667eea] to-[#764ba2]'}`}>
       <div className="absolute top-0 left-0 right-0 bottom-0 z-0">
         <div className="relative w-full h-full">
           <div className="absolute rounded-full opacity-10 animate-[float_6s_ease-in-out_infinite] bg-white w-[300px] h-[300px] -top-[100px] -left-[100px]" style={{ animationDelay: '0s' }}></div>
@@ -151,7 +153,7 @@ function Login() {
       </div>
 
       <motion.div
-        className="relative z-10 bg-white rounded-3xl p-6 sm:p-10 w-full max-w-[450px] m-4 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)]"
+        className={`relative z-10 rounded-3xl p-6 sm:p-10 w-full max-w-[450px] m-4 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)] ${isDarkMode ? 'bg-[#1e293b]' : 'bg-white'}`}
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
@@ -160,20 +162,20 @@ function Login() {
           <h1 className="text-3xl font-bold mb-2 bg-gradient-to-r from-[#667eea] to-[#764ba2] bg-clip-text text-transparent">
             {isLogin ? 'Welcome Back' : 'Create Account'}
           </h1>
-          <p className="text-[#666] text-sm">
-            {isLogin ? 'Sign in to continue to Market Gap Finder' : 'Join us to discover market opportunities'}
+          <p className={`text-sm ${isDarkMode ? 'text-slate-400' : 'text-[#666]'}`}>
+            {isLogin ? 'Sign in to continue to MarketVision AI' : 'Join us to discover market opportunities'}
           </p>
         </div>
 
-        <div className="flex gap-2 mb-8 bg-[#f5f5f5] p-1 rounded-xl">
+        <div className={`flex gap-2 mb-8 p-1 rounded-xl ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f5f5f5]'}`}>
           <button
-            className={`flex-1 py-3 border-none bg-transparent text-[#666] text-sm font-semibold cursor-pointer rounded-lg transition-all duration-300 ${isLogin ? 'bg-white text-[#667eea] shadow-[0_2px_8px_rgba(0,0,0,0.1)]' : 'hover:text-[#333]'}`}
+            className={`flex-1 py-3 border-none bg-transparent text-sm font-semibold cursor-pointer rounded-lg transition-all duration-300 ${isLogin ? (isDarkMode ? 'bg-[#1e293b] text-[#667eea] shadow-[0_2px_8px_rgba(0,0,0,0.3)]' : 'bg-white text-[#667eea] shadow-[0_2px_8px_rgba(0,0,0,0.1)]') : (isDarkMode ? 'text-slate-400 hover:text-white' : 'text-[#666] hover:text-[#333]')}`}
             onClick={() => setIsLogin(true)}
           >
             Sign In
           </button>
           <button
-            className={`flex-1 py-3 border-none bg-transparent text-[#666] text-sm font-semibold cursor-pointer rounded-lg transition-all duration-300 ${!isLogin ? 'bg-white text-[#667eea] shadow-[0_2px_8px_rgba(0,0,0,0.1)]' : 'hover:text-[#333]'}`}
+            className={`flex-1 py-3 border-none bg-transparent text-sm font-semibold cursor-pointer rounded-lg transition-all duration-300 ${!isLogin ? (isDarkMode ? 'bg-[#1e293b] text-[#667eea] shadow-[0_2px_8px_rgba(0,0,0,0.3)]' : 'bg-white text-[#667eea] shadow-[0_2px_8px_rgba(0,0,0,0.1)]') : (isDarkMode ? 'text-slate-400 hover:text-white' : 'text-[#666] hover:text-[#333]')}`}
             onClick={() => setIsLogin(false)}
           >
             Sign Up
@@ -187,7 +189,7 @@ function Login() {
         )}
 
         {searchParams.get('redirect') && (
-          <div className="mb-6 p-3 bg-blue-50 border border-blue-200 rounded-lg text-blue-600 text-sm text-center font-medium">
+          <div className={`mb-6 p-3 rounded-lg text-sm text-center font-medium ${isDarkMode ? 'bg-blue-900/30 border border-blue-800 text-blue-400' : 'bg-blue-50 border border-blue-200 text-blue-600'}`}>
             Login to view the area you searched
           </div>
         )}
@@ -195,7 +197,7 @@ function Login() {
         <form className="flex flex-col gap-5 mb-6" onSubmit={handleSubmit}>
           {!isLogin && (
             <div className="flex flex-col gap-2">
-              <label htmlFor="name" className="text-sm font-semibold text-[#333]">Full Name</label>
+              <label htmlFor="name" className={`text-sm font-semibold ${isDarkMode ? 'text-slate-300' : 'text-[#333]'}`}>Full Name</label>
               <input
                 type="text"
                 id="name"
@@ -204,13 +206,13 @@ function Login() {
                 onChange={handleChange}
                 placeholder="Enter your full name"
                 required
-                className="p-3.5 border-2 border-[#e0e0e0] rounded-xl text-base transition-all duration-300 outline-none focus:border-[#667eea] focus:shadow-[0_0_0_3px_rgba(102,126,234,0.1)] placeholder:text-[#999]"
+                className={`p-3.5 border-2 rounded-xl text-base transition-all duration-300 outline-none focus:border-[#667eea] focus:shadow-[0_0_0_3px_rgba(102,126,234,0.1)] ${isDarkMode ? 'bg-[#0f172a] border-[#334155] text-white placeholder:text-slate-500' : 'border-[#e0e0e0] placeholder:text-[#999]'}`}
               />
             </div>
           )}
 
           <div className="flex flex-col gap-2">
-            <label htmlFor="email" className="text-sm font-semibold text-[#333]">Email Address</label>
+            <label htmlFor="email" className={`text-sm font-semibold ${isDarkMode ? 'text-slate-300' : 'text-[#333]'}`}>Email Address</label>
             <input
               type="email"
               id="email"
@@ -219,12 +221,12 @@ function Login() {
               onChange={handleChange}
               placeholder="Enter your email"
               required
-              className="p-3.5 border-2 border-[#e0e0e0] rounded-xl text-base transition-all duration-300 outline-none focus:border-[#667eea] focus:shadow-[0_0_0_3px_rgba(102,126,234,0.1)] placeholder:text-[#999]"
+              className={`p-3.5 border-2 rounded-xl text-base transition-all duration-300 outline-none focus:border-[#667eea] focus:shadow-[0_0_0_3px_rgba(102,126,234,0.1)] ${isDarkMode ? 'bg-[#0f172a] border-[#334155] text-white placeholder:text-slate-500' : 'border-[#e0e0e0] placeholder:text-[#999]'}`}
             />
           </div>
 
           <div className="flex flex-col gap-2">
-            <label htmlFor="password" className="text-sm font-semibold text-[#333]">Password</label>
+            <label htmlFor="password" className={`text-sm font-semibold ${isDarkMode ? 'text-slate-300' : 'text-[#333]'}`}>Password</label>
             <input
               type="password"
               id="password"
@@ -233,13 +235,13 @@ function Login() {
               onChange={handleChange}
               placeholder="Enter your password"
               required
-              className="p-3.5 border-2 border-[#e0e0e0] rounded-xl text-base transition-all duration-300 outline-none focus:border-[#667eea] focus:shadow-[0_0_0_3px_rgba(102,126,234,0.1)] placeholder:text-[#999]"
+              className={`p-3.5 border-2 rounded-xl text-base transition-all duration-300 outline-none focus:border-[#667eea] focus:shadow-[0_0_0_3px_rgba(102,126,234,0.1)] ${isDarkMode ? 'bg-[#0f172a] border-[#334155] text-white placeholder:text-slate-500' : 'border-[#e0e0e0] placeholder:text-[#999]'}`}
             />
           </div>
 
           {!isLogin && (
             <div className="flex flex-col gap-2">
-              <label htmlFor="confirmPassword" className="text-sm font-semibold text-[#333]">Confirm Password</label>
+              <label htmlFor="confirmPassword" className={`text-sm font-semibold ${isDarkMode ? 'text-slate-300' : 'text-[#333]'}`}>Confirm Password</label>
               <input
                 type="password"
                 id="confirmPassword"
@@ -248,14 +250,14 @@ function Login() {
                 onChange={handleChange}
                 placeholder="Confirm your password"
                 required
-                className="p-3.5 border-2 border-[#e0e0e0] rounded-xl text-base transition-all duration-300 outline-none focus:border-[#667eea] focus:shadow-[0_0_0_3px_rgba(102,126,234,0.1)] placeholder:text-[#999]"
+                className={`p-3.5 border-2 rounded-xl text-base transition-all duration-300 outline-none focus:border-[#667eea] focus:shadow-[0_0_0_3px_rgba(102,126,234,0.1)] ${isDarkMode ? 'bg-[#0f172a] border-[#334155] text-white placeholder:text-slate-500' : 'border-[#e0e0e0] placeholder:text-[#999]'}`}
               />
             </div>
           )}
 
           {isLogin && (
             <div className="flex justify-between items-center text-sm">
-              <label className="flex items-center gap-2 cursor-pointer text-[#666]">
+              <label className={`flex items-center gap-2 cursor-pointer ${isDarkMode ? 'text-slate-400' : 'text-[#666]'}`}>
                 <input type="checkbox" className="w-4 h-4 cursor-pointer" checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)} />
                 <span>Remember me</span>
               </label>
@@ -268,13 +270,13 @@ function Login() {
           </button>
         </form>
 
-        <div className="flex items-center my-6 text-[#999] text-sm">
-          <div className="flex-1 h-px bg-[#e0e0e0]"></div>
+        <div className={`flex items-center my-6 text-sm ${isDarkMode ? 'text-slate-500' : 'text-[#999]'}`}>
+          <div className={`flex-1 h-px ${isDarkMode ? 'bg-[#334155]' : 'bg-[#e0e0e0]'}`}></div>
           <span className="px-4">or continue with</span>
-          <div className="flex-1 h-px bg-[#e0e0e0]"></div>
+          <div className={`flex-1 h-px ${isDarkMode ? 'bg-[#334155]' : 'bg-[#e0e0e0]'}`}></div>
         </div>
 
-        <button className="flex items-center justify-center gap-3 p-3.5 bg-white border-2 border-[#e0e0e0] rounded-xl text-base font-semibold text-[#333] cursor-pointer transition-all duration-300 mb-4 hover:border-[#667eea] hover:bg-[#f8f9ff] hover:-translate-y-0.5" onClick={handleGoogleSignIn}>
+        <button className={`flex items-center justify-center gap-3 p-3.5 border-2 rounded-xl text-base font-semibold cursor-pointer transition-all duration-300 mb-4 hover:border-[#667eea] hover:-translate-y-0.5 ${isDarkMode ? 'bg-[#0f172a] border-[#334155] text-white hover:bg-[#1e293b]' : 'bg-white border-[#e0e0e0] text-[#333] hover:bg-[#f8f9ff]'}`} onClick={handleGoogleSignIn}>
           <svg className="w-6 h-6" viewBox="0 0 24 24">
             <path
               fill="#4285F4"
@@ -296,14 +298,14 @@ function Login() {
           <span>Sign in with Google</span>
         </button>
 
-        <button className="flex items-center justify-center gap-3 p-3.5 bg-[#f8f9ff] border-2 border-[#667eea] rounded-xl text-base font-semibold text-[#667eea] cursor-pointer transition-all duration-300 mb-6 hover:bg-[#667eea] hover:text-white hover:-translate-y-0.5" onClick={handleGuestAccess}>
+        <button className={`flex items-center justify-center gap-3 p-3.5 border-2 rounded-xl text-base font-semibold cursor-pointer transition-all duration-300 mb-6 hover:-translate-y-0.5 ${isDarkMode ? 'bg-[#0f172a] border-[#667eea] text-[#667eea] hover:bg-[#667eea] hover:text-white' : 'bg-[#f8f9ff] border-[#667eea] text-[#667eea] hover:bg-[#667eea] hover:text-white'}`} onClick={handleGuestAccess}>
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
           </svg>
           <span>Continue as Guest</span>
         </button>
 
-        <div className="text-center text-sm text-[#666]">
+        <div className={`text-center text-sm ${isDarkMode ? 'text-slate-400' : 'text-[#666]'}`}>
           <p className="m-0">
             {isLogin ? "Don't have an account? " : "Already have an account? "}
             <button onClick={toggleMode} className="bg-none border-none text-[#667eea] font-semibold cursor-pointer p-0 text-sm transition-colors duration-300 hover:text-[#764ba2]">

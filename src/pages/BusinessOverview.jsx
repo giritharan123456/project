@@ -6,9 +6,9 @@ import { areasAPI } from '../services/api';
 import EmptyState from '../components/EmptyState';
 import { toPlainObject, averageOfValues, NO_DATA_LABEL } from '../utils/dataUtils';
 import { 
-  Store, TrendingUp, TrendingDown, BarChart3, PieChart, 
-  ArrowLeft, Filter, Search, ChevronDown, MapPin,
-  Building2, Utensils, Coffee, ShoppingBag,
+  Store, TrendingUp, BarChart3, PieChart, 
+  ArrowLeft, Search, ChevronDown, MapPin,
+  Utensils, Coffee, ShoppingBag,
   Scissors, Briefcase, Heart, Share2, Grid, List, AlertCircle
 } from 'lucide-react';
 
@@ -28,6 +28,7 @@ function BusinessOverview() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [apiArea, setApiArea] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     const fetchArea = async () => {
@@ -88,8 +89,8 @@ function BusinessOverview() {
       demandScore: Number(demandScores[name]) || 0,
       population: apiArea.population || 0,
       growth: apiArea.populationGrowth || 0,
-    }));
-  }, [apiArea]);
+    })).filter(b => !searchTerm || b.name.toLowerCase().includes(searchTerm.toLowerCase()));
+  }, [apiArea, searchTerm]);
 
   if (!routePincode || loading) {
     return (
@@ -245,6 +246,8 @@ function BusinessOverview() {
                 <input
                   type="text"
                   placeholder="Search businesses..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
                   className={`pl-10 pr-4 py-2 rounded-lg border bg-transparent outline-none focus:border-[#2563eb] transition-colors ${isDarkMode ? 'text-[#f1f5f9] border-[#334155]' : 'text-[#1e293b] border-[#e2e8f0]'}`}
                 />
               </div>

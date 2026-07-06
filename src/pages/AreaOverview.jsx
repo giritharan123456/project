@@ -8,8 +8,7 @@ import { averageOfValues, toPlainObject, NO_DATA_LABEL } from '../utils/dataUtil
 import {
   MapPin, Users, TrendingUp, DollarSign, Briefcase, GraduationCap,
   Building, Car, Navigation, Star, ArrowLeft, Share2, Heart, BarChart3,
-  Clock, Home, Store, Coffee, ShoppingBag, Utensils, Scissors,
-  Activity, Calendar, ChevronRight, Info
+  Home, Store, Activity, ChevronRight
 } from 'lucide-react';
 
 function AreaOverview() {
