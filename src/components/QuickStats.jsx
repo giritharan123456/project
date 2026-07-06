@@ -91,9 +91,9 @@ const QuickStats = ({ pincodeData, selectedDistrict }) => {
                 ) : (
                   <>
                     <AnimatedCounter
-                      value={stat.value}
+                      value={stat.format && stat.value >= 1000 ? stat.value / 1000 : stat.value}
                       duration={1.5}
-                      decimals={0}
+                      decimals={stat.format && stat.value >= 1000 ? 1 : 0}
                     />
                     {stat.format && stat.value >= 1000 ? 'K' : ''}
                   </>

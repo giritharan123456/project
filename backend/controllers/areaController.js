@@ -86,7 +86,6 @@ const getAreaByPincode = async (req, res) => {
 const getAllAreas = async (req, res) => {
   try {
     const { district, limit, search } = req.query;
-    const District = require('../models/District');
     let query = {};
     
     if (district) {

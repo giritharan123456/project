@@ -1,7 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
-import { TrendingUp, TrendingDown, Minus } from 'lucide-react';
 import EmptyState from './EmptyState';
 import { averageOfValues, NO_DATA_LABEL } from '../utils/dataUtils';
 

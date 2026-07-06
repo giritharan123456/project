@@ -50,10 +50,10 @@ function AdvancedFilters({ pincodeData, onFilterChange }) {
       const scores = Object.values(pincode.marketGapScores || {});
       const avgGap = scores.length > 0 ? scores.reduce((sum, val) => sum + (Number(val) || 0), 0) / scores.length : 0;
       const matchesGap = avgGap >= filters.gapScoreRange[0] && avgGap <= filters.gapScoreRange[1];
-      const matchesPopulation = pincode.population >= filters.populationRange[0] && pincode.population <= filters.populationRange[1];
-      const matchesGrowth = pincode.populationGrowth >= filters.growthRateRange[0] && pincode.populationGrowth <= filters.growthRateRange[1];
+      const matchesPopulation = (pincode.population || 0) >= filters.populationRange[0] && (pincode.population || 0) <= filters.populationRange[1];
+      const matchesGrowth = (pincode.populationGrowth || 0) >= filters.growthRateRange[0] && (pincode.populationGrowth || 0) <= filters.growthRateRange[1];
       const matchesIncome = filters.incomeLevels.includes(pincode.incomeLevel);
-      const matchesUrban = pincode.urbanDevelopment >= filters.urbanDevelopmentRange[0] && pincode.urbanDevelopment <= filters.urbanDevelopmentRange[1];
+      const matchesUrban = (pincode.urbanDevelopment || 0) >= filters.urbanDevelopmentRange[0] && (pincode.urbanDevelopment || 0) <= filters.urbanDevelopmentRange[1];
       
       return matchesGap && matchesPopulation && matchesGrowth && matchesIncome && matchesUrban;
     }).length;
