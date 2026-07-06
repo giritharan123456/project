@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { motion } from 'framer-motion';
-import { useSearchParams } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import { useTheme } from '../contexts/ThemeContext';
 import { useDistrict } from '../contexts/DistrictContext';
 import { usePincode } from '../contexts/PincodeContext';
@@ -12,6 +12,7 @@ import {
   hasAreaData,
 } from '../utils/dataUtils';
 import SearchBar from '../components/SearchBar';
+import SearchResultCard from '../components/SearchResultCard';
 import ChartsSection from '../components/ChartsSection';
 import MapSection from '../components/MapSection';
 import DistrictSelector from '../components/DistrictSelector';
@@ -35,15 +36,16 @@ function Dashboard() {
   const { isDarkMode } = useTheme();
   const { selectedDistrict, setSelectedDistrict, districts, setDistricts } = useDistrict();
   const { selectedPincode, setSelectedPincode } = usePincode();
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const [searchPincode, setSearchPincode] = useState(searchParams.get('search') || '');
+  const [searchPincode, setSearchPincode] = useState('');
   const [areas, setAreas] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const searchVal = searchParams.get('search');
-    if (searchVal && searchVal !== searchPincode) {
+    if (searchVal) {
       setSearchPincode(searchVal);
       setSelectedPincode(searchVal);
       (async () => {
@@ -107,10 +109,7 @@ function Dashboard() {
     const byDistrict = pincodeData.filter(p => p.district === currentDistrictName);
     if (!selectedPincode) return byDistrict;
     const searched = pincodeData.find(p => p.pincode === selectedPincode);
-    if (searched && !byDistrict.find(p => p.pincode === selectedPincode)) {
-      return [searched, ...byDistrict];
-    }
-    return byDistrict;
+    return searched ? [searched] : byDistrict;
   }, [pincodeData, currentDistrictName, selectedPincode]);
   const displayData = filteredPincodeData;
 
@@ -224,6 +223,26 @@ function Dashboard() {
               </div>
             )}
           </motion.div>
+
+          {/* ═══ SEARCH RESULT CARD ═══ */}
+          {selectedPincode && (
+            <motion.div {...fadeIn(0.03)} className="mt-2">
+              <AnimatePresence mode="wait">
+                <SearchResultCard
+                  key={selectedPincode}
+                  area={areas.find(a => a.pincode === selectedPincode) || null}
+                  loading={searchLoading}
+                  error={searchError}
+                  onClose={() => {
+                    setSelectedPincode('');
+                    setSearchPincode('');
+                    setSearchError(null);
+                    navigate('/dashboard', { replace: true });
+                  }}
+                />
+              </AnimatePresence>
+            </motion.div>
+          )}
 
           {/* ═══ ROW 2: KPIs (Customer asks "What's the big picture?") ═══ */}
           <motion.div {...fadeIn(0.05)}>

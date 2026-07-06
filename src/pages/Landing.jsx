@@ -1,20 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
-import { contentAPI } from '../services/api';
+import { useAuth } from '../contexts/AuthContext';
+import { areasAPI } from '../services/api';
+import LandingPreview from '../components/LandingPreview';
 import { 
   Search, BarChart3, TrendingUp, MapPin, Users, Zap, 
   CheckCircle, Star, MessageSquare, Mail, ArrowRight,
-  ChevronDown, Menu, X, Target, Shield, Globe, Award
+  ChevronDown, Menu, X, Target, Shield, Globe, Award, Loader2
 } from 'lucide-react';
 
 function Landing() {
   const { isDarkMode, toggleTheme } = useTheme();
+  const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const [activeFaq, setActiveFaq] = useState(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [searchPreview, setSearchPreview] = useState(null);
+  const [searchLoading, setSearchLoading] = useState(false);
+  const [searchError, setSearchError] = useState('');
+  const [debounceTimer, setDebounceTimer] = useState(null);
 
   const [faqs, setFaqs] = useState([]);
   const [features, setFeatures] = useState([]);
@@ -24,6 +31,7 @@ function Landing() {
   useEffect(() => {
     const fetchContent = async () => {
       try {
+        const { contentAPI } = await import('../services/api');
         const response = await contentAPI.getLandingContent();
         const content = response.data;
         setFaqs(content.faqs || []);
@@ -38,10 +46,61 @@ function Landing() {
     fetchContent();
   }, []);
 
+  useEffect(() => {
+    if (debounceTimer) clearTimeout(debounceTimer);
+    if (searchQuery.trim().length < 5) {
+      setSearchPreview(null);
+      setSearchError('');
+      return;
+    }
+    const timer = setTimeout(async () => {
+      setSearchLoading(true);
+      setSearchError('');
+      try {
+        const res = await areasAPI.getByPincode(searchQuery.trim());
+        if (res.data) {
+          setSearchPreview(res.data);
+        } else {
+          setSearchPreview(null);
+          setSearchError('Area not found for this pincode');
+        }
+      } catch {
+        setSearchPreview(null);
+        setSearchError('Area not found for this pincode');
+      } finally {
+        setSearchLoading(false);
+      }
+    }, 500);
+    setDebounceTimer(timer);
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
+
   const handleSearch = (e) => {
     e.preventDefault();
-    if (searchQuery.trim()) {
-      navigate(`/dashboard?search=${encodeURIComponent(searchQuery.trim())}`);
+    if (!searchQuery.trim()) return;
+    const pincode = searchQuery.trim();
+    if (isAuthenticated) {
+      navigate(`/dashboard?search=${encodeURIComponent(pincode)}`);
+    } else {
+      navigate(`/login?redirect=${encodeURIComponent(`/dashboard?search=${pincode}`)}`);
+    }
+  };
+
+  const handlePreviewClick = () => {
+    if (!searchPreview) return;
+    const pincode = searchPreview.pincode || searchQuery.trim();
+    if (isAuthenticated) {
+      navigate(`/dashboard?search=${encodeURIComponent(pincode)}`);
+    } else {
+      navigate(`/login?redirect=${encodeURIComponent(`/dashboard?search=${pincode}`)}`);
+    }
+  };
+
+  const handleNavigate = (pincode) => {
+    if (isAuthenticated) {
+      navigate(`/dashboard?search=${encodeURIComponent(pincode)}`);
+    } else {
+      navigate(`/login?redirect=${encodeURIComponent(`/dashboard?search=${pincode}`)}`);
     }
   };
 
@@ -177,7 +236,7 @@ function Landing() {
             <motion.div initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, delay: 0.2 }}>
               <div className={`p-8 rounded-3xl border shadow-2xl ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-gray-200'}`}>
                 <form onSubmit={handleSearch}>
-                  <div className="flex items-center gap-3 mb-6">
+                  <div className="flex items-center gap-3 mb-4">
                     <div className="w-10 h-10 rounded-xl bg-[#2563eb]/10 flex items-center justify-center">
                       <Search className="text-[#2563eb]" size={20} />
                     </div>
@@ -185,7 +244,7 @@ function Landing() {
                       type="text" 
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
-                      placeholder="Enter pincode or area name..." 
+                      placeholder="Enter 6-digit pincode..." 
                       className={`flex-1 px-4 py-3 rounded-xl border outline-none focus:ring-2 focus:ring-[#2563eb]/40 transition-all ${isDarkMode ? 'bg-[#0f172a] text-white border-[#334155] placeholder-gray-500' : 'bg-gray-50 text-gray-900 border-gray-200 placeholder-gray-400'}`}
                     />
                     <button type="submit" className="px-6 py-3 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white rounded-xl font-medium hover:opacity-90 transition-opacity">
@@ -193,7 +252,26 @@ function Landing() {
                     </button>
                   </div>
                 </form>
+
+                {/* Search Preview */}
+                <AnimatePresence>
+                  {searchLoading && (
+                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+                      className="flex items-center gap-2 p-3 rounded-xl mb-4 bg-blue-50 dark:bg-blue-900/20">
+                      <Loader2 className="animate-spin text-blue-500" size={16} />
+                      <span className="text-sm text-blue-600 dark:text-blue-400 font-medium">Searching area data...</span>
+                    </motion.div>
+                  )}
+                  {searchError && searchQuery.trim().length >= 5 && !searchLoading && (
+                    <motion.div initial={{ opacity: 0, y: -5 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -5 }}
+                      className="p-3 rounded-xl mb-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800">
+                      <p className="text-sm text-red-600 dark:text-red-400 font-medium">{searchError}</p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
                 
+                {!searchPreview && !searchLoading && (
+                <>
                 <div className="grid grid-cols-2 gap-4 mb-6">
                   {platformStats.map((stat, i) => (
                     <div key={i} className={`p-4 rounded-xl ${isDarkMode ? 'bg-[#0f172a]' : 'bg-gray-50'}`}>
@@ -208,11 +286,22 @@ function Landing() {
                   Explore Market Data
                   <ArrowRight className="inline ml-2" size={18} />
                 </Link>
+                </>
+                )}
               </div>
             </motion.div>
           </div>
         </div>
       </section>
+
+      {/* Rich Preview Section */}
+      {searchPreview && !searchLoading && (
+        <section className="py-10 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-4xl mx-auto">
+            <LandingPreview area={searchPreview} onNavigate={() => handleNavigate(searchPreview.pincode || searchQuery.trim())} />
+          </div>
+        </section>
+      )}
 
       {/* Features Section */}
       <section id="features" className="py-20 px-4 sm:px-6 lg:px-8">

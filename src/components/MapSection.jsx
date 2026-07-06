@@ -23,8 +23,8 @@ function MapSection({ pincodeData, selectedDistrict }) {
   };
 
   const getGapColor = (avgGapScore) => {
-    if (avgGapScore >= 80) return { fill: '#e74c3c', stroke: '#c0392b', label: 'High Opportunity' };
-    if (avgGapScore >= 70) return { fill: '#f39c12', stroke: '#e67e22', label: 'Medium Opportunity' };
+    if (avgGapScore >= 65) return { fill: '#e74c3c', stroke: '#c0392b', label: 'High Opportunity' };
+    if (avgGapScore >= 50) return { fill: '#f39c12', stroke: '#e67e22', label: 'Medium Opportunity' };
     return { fill: '#27ae60', stroke: '#229954', label: 'Low Opportunity' };
   };
 
@@ -40,10 +40,10 @@ function MapSection({ pincodeData, selectedDistrict }) {
   // Compute district summary stats
   const totalPop = validPincodeData.reduce((s, p) => s + (Number(p.population) || 0), 0);
   const avgGap = validPincodeData.length > 0
-    ? validPincodeData.reduce((s, p) => s + (averageOfValues(p.marketGapScores) ?? 0), 0) / validPincodeData.length
+    ? validPincodeData.reduce((s, p) => s + (p.opportunityScore ?? averageOfValues(p.marketGapScores) ?? 0), 0) / validPincodeData.length
     : 0;
-  const highOpp = validPincodeData.filter(p => (averageOfValues(p.marketGapScores) ?? 0) >= 80).length;
-  const medOpp = validPincodeData.filter(p => { const g = averageOfValues(p.marketGapScores) ?? 0; return g >= 70 && g < 80; }).length;
+  const highOpp = validPincodeData.filter(p => (p.opportunityScore ?? 0) >= 65).length;
+  const medOpp = validPincodeData.filter(p => { const g = p.opportunityScore ?? 0; return g >= 50 && g < 65; }).length;
 
   if (!selectedDistrict || validPincodeData.length === 0) {
     return (
@@ -118,9 +118,7 @@ function MapSection({ pincodeData, selectedDistrict }) {
             maxZoom={20}
           />
           {validPincodeData.map((pincode, index) => {
-            const marketGapScores = pincode.marketGapScores || {};
-            const scores = Object.values(marketGapScores);
-            const avgGapScore = scores.length > 0 ? scores.reduce((a, b) => a + b, 0) / scores.length : 0;
+            const avgGapScore = pincode.opportunityScore ?? 0;
             const colors = getGapColor(avgGapScore);
             const radius = getRadiusByPopulation(pincode.population);
             
@@ -145,16 +143,16 @@ function MapSection({ pincodeData, selectedDistrict }) {
                     <p className="text-sm mb-1"><strong>Income Level:</strong> {pincode.incomeLevel || 'N/A'}</p>
                     <p className="text-sm mb-1"><strong>Urban Dev:</strong> {pincode.urbanDevelopment != null ? `${pincode.urbanDevelopment}/100` : 'N/A'}</p>
                     <hr className="my-2 border-gray-200 dark:border-[#475569]" />
-                    <p className="text-sm mb-2"><strong>Avg Market Gap:</strong> <span className="font-bold" style={{ color: colors.fill }}>{avgGapScore.toFixed(2)}</span></p>
+                    <p className="text-sm mb-2"><strong>Opportunity Score:</strong> <span className="font-bold" style={{ color: colors.fill }}>{avgGapScore.toFixed(2)}</span></p>
                     <div className="mt-2">
                       <strong className="text-sm">Top Categories:</strong>
-                      {Object.entries(marketGapScores)
+                      {Object.entries(pincode.marketGapScores || {})
                         .sort(([, a], [, b]) => b - a)
                         .slice(0, 3)
                         .map(([cat, score]) => (
                           <div key={cat} className="flex justify-between items-center mt-1">
                             <span className="text-sm">{cat}:</span>
-                            <span className="text-sm font-bold" style={{ color: colors.fill }}>{score}</span>
+                            <span className="text-sm font-bold" style={{ color: colors.fill }}>{Number(score).toFixed(2)}</span>
                           </div>
                         ))}
                     </div>

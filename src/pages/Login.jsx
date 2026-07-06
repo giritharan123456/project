@@ -21,6 +21,7 @@ function Login() {
   useEffect(() => {
     const token = searchParams.get('token');
     const error = searchParams.get('error');
+    const redirect = searchParams.get('redirect');
     
     if (error) {
       setError(error === 'oauth_failed' ? 'Google sign-in failed. Please try again.' : 
@@ -34,7 +35,7 @@ function Login() {
       setLoading(true);
       handleGoogleCallback(token).then(result => {
         if (result?.success) {
-          navigate('/dashboard');
+          navigate(redirect || '/dashboard');
         } else {
           setError(result?.message || 'Failed to complete Google sign-in');
         }
@@ -51,7 +52,9 @@ function Login() {
   }, [searchParams, handleGoogleCallback, navigate]);
 
   const handleGoogleSignIn = () => {
-    window.location.href = `${import.meta.env.VITE_API_URL}/auth/google`;
+    const redirect = searchParams.get('redirect');
+    const baseUrl = `${import.meta.env.VITE_API_URL}/auth/google`;
+    window.location.href = redirect ? `${baseUrl}?redirect=${encodeURIComponent(redirect)}` : baseUrl;
   };
 
   const handleGuestAccess = async () => {
@@ -59,7 +62,8 @@ function Login() {
     try {
       const result = await guestLogin();
       if (result.success) {
-        navigate('/dashboard');
+        const redirect = searchParams.get('redirect');
+        navigate(redirect || '/dashboard');
       } else {
         setError(result.message || 'Guest access failed');
       }
@@ -85,7 +89,8 @@ function Login() {
           }
           const result = await login(formData.email, formData.password);
           if (result.success) {
-            navigate('/dashboard');
+            const redirect = searchParams.get('redirect');
+            navigate(redirect || '/dashboard');
           } else {
             setError(result.message || 'Login failed');
           }
@@ -102,7 +107,8 @@ function Login() {
           }
           const result = await register(formData.name, formData.email, formData.password);
           if (result.success) {
-            navigate('/dashboard');
+            const redirect = searchParams.get('redirect');
+            navigate(redirect || '/dashboard');
           } else {
             setError(result.message || 'Registration failed');
           }
@@ -177,6 +183,12 @@ function Login() {
         {error && (
           <div className="mb-6 p-3 bg-red-50 border border-red-200 rounded-lg text-red-600 text-sm">
             {error}
+          </div>
+        )}
+
+        {searchParams.get('redirect') && (
+          <div className="mb-6 p-3 bg-blue-50 border border-blue-200 rounded-lg text-blue-600 text-sm text-center font-medium">
+            Login to view the area you searched
           </div>
         )}
 

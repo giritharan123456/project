@@ -78,6 +78,8 @@ export function transformAreaToPincodeData(area) {
     marketGapScores,
     competitors,
     demandScores,
+    opportunityScore: toNumberOrNull(area.opportunityScore),
+    feasibilityScore: toNumberOrNull(area.feasibilityScore),
   };
 }
 

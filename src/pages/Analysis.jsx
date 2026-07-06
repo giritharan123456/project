@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
 import { useDistrict } from '../contexts/DistrictContext';
+import { usePincode } from '../contexts/PincodeContext';
 import { districtsAPI, areasAPI, analyticsAPI, explorerAPI } from '../services/api';
 import { transformAreaToPincodeData } from '../utils/dataUtils';
 import {
@@ -13,6 +14,7 @@ import {
 function Analysis() {
   const { isDarkMode } = useTheme();
   const { selectedDistrict, districts } = useDistrict();
+  const { selectedPincode } = usePincode();
 
   const currentDistrict = districts.find(d => d._id === selectedDistrict);
   const districtName = currentDistrict?.name || 'No district selected';
@@ -40,7 +42,14 @@ function Analysis() {
     fetchAll();
   }, [selectedDistrict]);
 
-  const pincodeData = useMemo(() => areas.map(transformAreaToPincodeData).filter(Boolean), [areas]);
+  const pincodeData = useMemo(() => {
+    const transformed = areas.map(transformAreaToPincodeData).filter(Boolean);
+    if (selectedPincode) {
+      const found = transformed.filter(p => p.pincode === selectedPincode);
+      return found.length > 0 ? found : transformed;
+    }
+    return transformed;
+  }, [areas, selectedPincode]);
 
   const stats = useMemo(() => {
     if (!pincodeData.length) return null;
