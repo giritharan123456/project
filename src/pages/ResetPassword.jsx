@@ -3,10 +3,12 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Lock, CheckCircle, AlertCircle, ArrowLeft } from 'lucide-react';
 import { authAPI } from '../services/api';
+import { useTheme } from '../contexts/ThemeContext';
 
 function ResetPassword() {
   const { token } = useParams();
   const navigate = useNavigate();
+  const { isDarkMode } = useTheme();
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -50,7 +52,7 @@ function ResetPassword() {
   return (
     <div className="min-h-screen flex justify-center items-center relative overflow-hidden bg-gradient-to-br from-[#667eea] to-[#764ba2]">
       <motion.div
-        className="relative z-10 bg-white rounded-3xl p-6 sm:p-10 w-full max-w-[450px] m-4 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)]"
+        className={`relative z-10 rounded-3xl p-6 sm:p-10 w-full max-w-[450px] m-4 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)] ${isDarkMode ? 'bg-[#1e293b]' : 'bg-white'}`}
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}

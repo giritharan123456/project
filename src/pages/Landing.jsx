@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
@@ -22,6 +22,7 @@ function Landing() {
   const [searchLoading, setSearchLoading] = useState(false);
   const [searchError, setSearchError] = useState('');
   const [debounceTimer, setDebounceTimer] = useState(null);
+  const debounceTimerRef = useRef(null);
 
   const [faqs, setFaqs] = useState([]);
   const [features, setFeatures] = useState([]);
