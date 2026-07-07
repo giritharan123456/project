@@ -61,8 +61,9 @@ const searchByPincode = async (req, res) => {
 // @access  Public
 const searchByName = async (req, res) => {
   try {
+    const escapedName = req.params.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     const areas = await Area.find({ 
-      name: { $regex: req.params.name, $options: 'i' } 
+      name: { $regex: escapedName, $options: 'i' } 
     }).populate('district', 'name');
       
     res.json({

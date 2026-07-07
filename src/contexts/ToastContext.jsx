@@ -25,7 +25,7 @@ export const ToastProvider = ({ children }) => {
   }, []);
 
   const addToast = (message, type = 'info', duration = 3000) => {
-    const id = Date.now();
+    const id = `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
     const toast = { id, message, type };
     setToasts(prev => [...prev, toast]);
     

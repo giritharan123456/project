@@ -1,4 +1,4 @@
-const API_BASE_URL = import.meta.env.VITE_API_URL;
+const API_BASE_URL = import.meta.env.VITE_API_URL || '/api';
 
 // Helper function to make API calls
 const apiCall = async (endpoint, options = {}) => {
