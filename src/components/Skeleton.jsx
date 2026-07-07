@@ -17,8 +17,9 @@ function Skeleton({ className = '', variant = 'text', width, height }) {
 }
 
 export function CardSkeleton() {
+  const { isDarkMode } = useTheme();
   return (
-    <div className={`p-4 rounded-xl border ${useTheme().isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-gray-200'}`}>
+    <div className={`p-4 rounded-xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-gray-200'}`}>
       <Skeleton variant="text" width="60%" className="mb-3" />
       <Skeleton variant="text" width="40%" className="mb-2" />
       <Skeleton variant="text" width="80%" />

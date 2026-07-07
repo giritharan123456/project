@@ -158,8 +158,8 @@ function BusinessInsights({ pincodeData }) {
                   </tr>
                 </thead>
                 <tbody>
-                  {opportunityData.map((item, i) => (
-                    <tr key={i} className={`border-t transition-colors ${isDarkMode ? 'border-[#334155] hover:bg-[#0f172a]/50' : 'border-[#e2e8f0] hover:bg-gray-50'}`}>
+                  {opportunityData.map((item) => (
+                    <tr key={item.category} className={`border-t transition-colors ${isDarkMode ? 'border-[#334155] hover:bg-[#0f172a]/50' : 'border-[#e2e8f0] hover:bg-gray-50'}`}>
                       <td className={`p-3 text-sm font-medium ${b('text-white', 'text-slate-800')}`}>{item.category}</td>
                       <td className={`p-3 text-sm font-bold ${b('text-slate-200', 'text-slate-700')}`}>{item.avgGap}</td>
                       <td className={`p-3 text-sm font-bold ${b('text-slate-200', 'text-slate-700')}`}>{item.avgDemand}</td>
