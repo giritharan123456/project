@@ -86,7 +86,7 @@ const getAboutContent = async (req, res) => {
     if (!content) {
       // Default about content - can be updated by admin
       content = {
-        title: 'About Market Gap Finder',
+        title: 'About MarketVision AI',
         description: 'Data-driven platform for identifying business opportunities across Tamil Nadu',
         problem: 'Entrepreneurs and franchise companies often struggle to identify where demand exists but competition is low. Most business decisions are based on assumptions rather than data, leading to high failure rates.',
         solution: 'Our platform analyzes real data from government sources (Census API, OpenStreetMap) to provide accurate market insights, helping entrepreneurs make data-driven decisions.',

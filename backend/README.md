@@ -1,4 +1,4 @@
-# Market Gap Finder Backend
+# MarketVision AI Backend
 
 ## Setup Instructions
 
