@@ -99,7 +99,7 @@ function Signup() {
                 <Target className="text-[#2563eb]" size={40} />
                 <div>
                   <h1 className={`text-3xl font-bold bg-gradient-to-r from-[#2563eb] to-[#7c3aed] bg-clip-text text-transparent`}>
-                    Market Gap Finder
+                    MarketVision AI
                   </h1>
                   <p className={`text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                     Data-driven business intelligence
@@ -367,7 +367,7 @@ function Signup() {
             <div className="flex items-center justify-center gap-2 mb-4">
               <Target className="text-[#2563eb]" size={32} />
               <span className={`text-xl font-bold bg-gradient-to-r from-[#2563eb] to-[#7c3aed] bg-clip-text text-transparent`}>
-                Market Gap Finder
+                MarketVision AI
               </span>
             </div>
             <p className={`text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
