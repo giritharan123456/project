@@ -37,7 +37,8 @@ const BusinessCategoryManagement = () => {
     }
   };
 
-  const handleSave = async () => {
+  const handleSave = async (e) => {
+    e.preventDefault();
     try {
       if (editingCategory) {
         await adminAPI.updateBusinessCategory(editingCategory._id, formData);
@@ -211,7 +212,7 @@ const BusinessCategoryManagement = () => {
                   type="number"
                   required
                   value={formData.gap}
-                  onChange={(e) => setFormData({ ...formData, gap: parseInt(e.target.value) })}
+                  onChange={(e) => setFormData({ ...formData, gap: parseInt(e.target.value) || 0 })}
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                 />
               </div>
@@ -221,7 +222,7 @@ const BusinessCategoryManagement = () => {
                   type="number"
                   required
                   value={formData.supply}
-                  onChange={(e) => setFormData({ ...formData, supply: parseInt(e.target.value) })}
+                  onChange={(e) => setFormData({ ...formData, supply: parseInt(e.target.value) || 0 })}
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                 />
               </div>
@@ -231,7 +232,7 @@ const BusinessCategoryManagement = () => {
                   type="number"
                   required
                   value={formData.demand}
-                  onChange={(e) => setFormData({ ...formData, demand: parseInt(e.target.value) })}
+                  onChange={(e) => setFormData({ ...formData, demand: parseInt(e.target.value) || 0 })}
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                 />
               </div>

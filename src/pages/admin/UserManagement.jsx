@@ -34,7 +34,8 @@ const UserManagement = () => {
     }
   };
 
-  const handleSave = async () => {
+  const handleSave = async (e) => {
+    e.preventDefault();
     try {
       if (editingUser) {
         await adminAPI.updateUser(editingUser._id, formData);

@@ -45,7 +45,8 @@ const AreaManagement = () => {
     }
   };
 
-  const handleSave = async () => {
+  const handleSave = async (e) => {
+    e.preventDefault();
     try {
       if (editingArea) {
         await adminAPI.updateArea(editingArea._id, formData);
@@ -268,7 +269,7 @@ const AreaManagement = () => {
                     type="number"
                     required
                     value={formData.population}
-                    onChange={(e) => setFormData({ ...formData, population: parseInt(e.target.value) })}
+                    onChange={(e) => setFormData({ ...formData, population: parseInt(e.target.value) || 0 })}
                     className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                   />
                 </div>
@@ -278,7 +279,7 @@ const AreaManagement = () => {
                     type="number"
                     step="0.1"
                     value={formData.populationGrowth}
-                    onChange={(e) => setFormData({ ...formData, populationGrowth: parseFloat(e.target.value) })}
+                    onChange={(e) => setFormData({ ...formData, populationGrowth: parseFloat(e.target.value) || 0 })}
                     className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                   />
                 </div>
@@ -303,7 +304,7 @@ const AreaManagement = () => {
                     min="0"
                     max="100"
                     value={formData.urbanDevelopment}
-                    onChange={(e) => setFormData({ ...formData, urbanDevelopment: parseInt(e.target.value) })}
+                    onChange={(e) => setFormData({ ...formData, urbanDevelopment: parseInt(e.target.value) || 0 })}
                     className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                   />
                 </div>

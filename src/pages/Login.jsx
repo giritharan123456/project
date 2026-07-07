@@ -183,7 +183,7 @@ function Login() {
         </div>
 
         {error && (
-          <div className="mb-6 p-3 bg-red-50 border border-red-200 rounded-lg text-red-600 text-sm">
+          <div className={`mb-6 p-3 rounded-lg text-sm ${isDarkMode ? 'bg-red-900/30 border border-red-800 text-red-400' : 'bg-red-50 border border-red-200 text-red-600'}`}>
             {error}
           </div>
         )}

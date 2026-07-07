@@ -32,7 +32,7 @@ function Comparison() {
       try {
         setLoading(true);
         const response = await areasAPI.getAll();
-        const allAreas = response.data.map(area => ({
+        const allAreas = (response.data || []).map(area => ({
           id: area._id,
           name: area.name,
           pincode: area.pincode,

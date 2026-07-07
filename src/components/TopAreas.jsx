@@ -6,7 +6,7 @@ import { averageOfValues, NO_DATA_LABEL } from '../utils/dataUtils';
 
 function TopAreas({ pincodeData, businessCategories }) {
   const { isDarkMode } = useTheme();
-  const b = (dark, light) => isDarkMode ? dark : light;
+  const themeClass = (dark, light) => isDarkMode ? dark : light;
 
   if (!pincodeData || pincodeData.length === 0) {
     return (
@@ -24,7 +24,7 @@ function TopAreas({ pincodeData, businessCategories }) {
     if (index === 0) return { bg: 'bg-gradient-to-r from-yellow-400 to-amber-500', icon: <Crown size={14} className="text-white" />, text: 'text-white' };
     if (index === 1) return { bg: 'bg-gradient-to-r from-gray-300 to-gray-400', icon: <Star size={14} className="text-white" />, text: 'text-white' };
     if (index === 2) return { bg: 'bg-gradient-to-r from-amber-600 to-orange-600', icon: <Star size={14} className="text-white" />, text: 'text-white' };
-    return { bg: isDarkMode ? 'bg-[#0f172a]' : 'bg-gray-100', icon: null, text: b('text-gray-400', 'text-gray-500') };
+    return { bg: isDarkMode ? 'bg-[#0f172a]' : 'bg-gray-100', icon: null, text: themeClass('text-gray-400', 'text-gray-500') };
   };
 
   return (
@@ -32,7 +32,7 @@ function TopAreas({ pincodeData, businessCategories }) {
       {/* Header */}
       <div className="flex items-center gap-2 mb-5">
         <Trophy size={20} className="text-amber-500" />
-        <h3 className={`text-lg font-bold ${b('text-[#f1f5f9]', 'text-[#1e293b]')}`}>
+        <h3 className={`text-lg font-bold ${themeClass('text-[#f1f5f9]', 'text-[#1e293b]')}`}>
           Top Pincodes
         </h3>
         <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${
@@ -69,14 +69,14 @@ function TopAreas({ pincodeData, businessCategories }) {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
                     <MapPin size={14} className="text-blue-500 flex-shrink-0" />
-                    <span className={`font-bold text-sm truncate ${b('text-[#f1f5f9]', 'text-[#1e293b]')}`}>
+                    <span className={`font-bold text-sm truncate ${themeClass('text-[#f1f5f9]', 'text-[#1e293b]')}`}>
                       {pincode.area || NO_DATA_LABEL}
                     </span>
                   </div>
                   <div className="flex items-center gap-3 text-xs">
-                    <span className={b('text-gray-400', 'text-gray-500')}>{pincode.pincode}</span>
-                    <span className={b('text-gray-500', 'text-gray-400')}>•</span>
-                    <span className={b('text-gray-400', 'text-gray-500')}>{pincode.district}</span>
+                    <span className={themeClass('text-gray-400', 'text-gray-500')}>{pincode.pincode}</span>
+                    <span className={themeClass('text-gray-500', 'text-gray-400')}>•</span>
+                    <span className={themeClass('text-gray-400', 'text-gray-500')}>{pincode.district}</span>
                   </div>
                   
                   {/* Tags */}
@@ -133,7 +133,7 @@ function TopAreas({ pincodeData, businessCategories }) {
       {/* Business Category Summary */}
       {businessCategories.length > 0 && (
         <div className={`mt-5 pt-5 border-t ${isDarkMode ? 'border-[#334155]' : 'border-[#e2e8f0]'}`}>
-          <h4 className={`text-sm font-bold mb-3 uppercase tracking-wide ${b('text-gray-400', 'text-gray-500')}`}>
+          <h4 className={`text-sm font-bold mb-3 uppercase tracking-wide ${themeClass('text-gray-400', 'text-gray-500')}`}>
             Category Gaps
           </h4>
           <div className="grid grid-cols-2 gap-2">
@@ -141,7 +141,7 @@ function TopAreas({ pincodeData, businessCategories }) {
               <div key={index} className={`flex items-center justify-between p-2.5 rounded-lg border ${
                 isDarkMode ? 'bg-[#0f172a] border-[#334155]' : 'bg-gray-50 border-[#e2e8f0]'
               }`}>
-                <span className={`text-xs font-medium truncate ${b('text-gray-300', 'text-gray-600')}`}>{cat.name}</span>
+                <span className={`text-xs font-medium truncate ${themeClass('text-gray-300', 'text-gray-600')}`}>{cat.name}</span>
                 <span className={`text-xs font-bold ml-2 ${
                   cat.gap != null && cat.gap >= 30 ? 'text-red-500' : cat.gap != null && cat.gap >= 20 ? 'text-amber-500' : 'text-emerald-500'
                 }`}>

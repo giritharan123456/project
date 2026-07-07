@@ -42,7 +42,8 @@ const DistrictManagement = () => {
     }
   };
 
-  const handleSave = async () => {
+  const handleSave = async (e) => {
+    e.preventDefault();
     try {
       if (editingDistrict) {
         await adminAPI.updateDistrict(editingDistrict._id, formData);
@@ -222,7 +223,7 @@ const DistrictManagement = () => {
                   type="number"
                   required
                   value={formData.population}
-                  onChange={(e) => setFormData({ ...formData, population: parseInt(e.target.value) })}
+                  onChange={(e) => setFormData({ ...formData, population: parseInt(e.target.value) || 0 })}
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                 />
               </div>
@@ -232,7 +233,7 @@ const DistrictManagement = () => {
                   type="number"
                   required
                   value={formData.area}
-                  onChange={(e) => setFormData({ ...formData, area: parseInt(e.target.value) })}
+                  onChange={(e) => setFormData({ ...formData, area: parseInt(e.target.value) || 0 })}
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                 />
               </div>
@@ -244,7 +245,7 @@ const DistrictManagement = () => {
                   min="0"
                   max="100"
                   value={formData.urbanizationRate}
-                  onChange={(e) => setFormData({ ...formData, urbanizationRate: parseFloat(e.target.value) })}
+                  onChange={(e) => setFormData({ ...formData, urbanizationRate: parseFloat(e.target.value) || 0 })}
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                 />
               </div>
@@ -254,7 +255,7 @@ const DistrictManagement = () => {
                   type="number"
                   required
                   value={formData.averageIncome}
-                  onChange={(e) => setFormData({ ...formData, averageIncome: parseInt(e.target.value) })}
+                  onChange={(e) => setFormData({ ...formData, averageIncome: parseInt(e.target.value) || 0 })}
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                 />
               </div>
@@ -266,7 +267,7 @@ const DistrictManagement = () => {
                   min="0"
                   max="100"
                   value={formData.literacyRate}
-                  onChange={(e) => setFormData({ ...formData, literacyRate: parseFloat(e.target.value) })}
+                  onChange={(e) => setFormData({ ...formData, literacyRate: parseFloat(e.target.value) || 0 })}
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                 />
               </div>
@@ -298,7 +299,7 @@ const DistrictManagement = () => {
                   type="number"
                   required
                   value={formData.density}
-                  onChange={(e) => setFormData({ ...formData, density: parseInt(e.target.value) })}
+                  onChange={(e) => setFormData({ ...formData, density: parseInt(e.target.value) || 0 })}
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                 />
               </div>
