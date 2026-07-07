@@ -24,7 +24,6 @@ function AdminLogin() {
       const result = await login(formData.email, formData.password);
       if (result.success) {
         // Check if user is admin
-        const token = localStorage.getItem('token');
         const user = JSON.parse(localStorage.getItem('user'));
         
         if (user.role === 'admin') {

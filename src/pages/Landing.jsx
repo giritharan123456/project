@@ -22,7 +22,6 @@ function Landing() {
   const [searchLoading, setSearchLoading] = useState(false);
   const [searchError, setSearchError] = useState('');
   const [debounceTimer, setDebounceTimer] = useState(null);
-  const debounceTimerRef = useRef(null);
 
   const [faqs, setFaqs] = useState([]);
   const [features, setFeatures] = useState([]);

@@ -274,7 +274,7 @@ function Comparison() {
             </h3>
           </div>
 
-          <div className="overflow-x-auto rounded-lg border-2 ${isDarkMode ? 'border-[#475569]' : 'border-slate-200'}">
+          <div className={`overflow-x-auto rounded-lg border-2 ${isDarkMode ? 'border-[#475569]' : 'border-slate-200'}`}>
             <table className="w-full border-collapse">
               <thead>
                 <tr className={isDarkMode ? 'bg-[#0f172a]' : 'bg-slate-100'}>
@@ -407,7 +407,7 @@ function Comparison() {
             </span>
           </div>
 
-          <div className="overflow-x-auto rounded-lg border-2 ${isDarkMode ? 'border-[#475569]' : 'border-slate-200'}">
+          <div className={`overflow-x-auto rounded-lg border-2 ${isDarkMode ? 'border-[#475569]' : 'border-slate-200'}`}>
             <table className="w-full text-sm border-collapse">
               <thead>
                 <tr className={isDarkMode ? 'bg-[#0f172a]' : 'bg-slate-100'}>

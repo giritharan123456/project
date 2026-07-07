@@ -62,7 +62,7 @@ function ForgotPassword() {
           </div>
         )}
 
-        {resetUrl && (
+        {resetUrl && import.meta.env.DEV && (
           <div className="mb-6 p-3 bg-blue-50 border border-blue-200 rounded-lg text-blue-700 text-xs break-all">
             <strong>Dev mode:</strong> Use this link to reset your password:<br />
             <a href={resetUrl} className="underline">{resetUrl}</a>
