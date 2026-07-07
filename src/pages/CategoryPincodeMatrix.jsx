@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
 import { useDistrict } from '../contexts/DistrictContext';
+import { useToast } from '../contexts/ToastContext';
 import { explorerAPI } from '../services/api';
 import Pagination from '../components/Pagination';
 
 function CategoryPincodeMatrix() {
   const { isDarkMode } = useTheme();
+  const { error: toastError } = useToast();
   const { districts, selectedDistrict } = useDistrict();
   const [matrix, setMatrix] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -31,19 +33,13 @@ function CategoryPincodeMatrix() {
       if (filterDistrict) params.district = filterDistrict;
       const res = await explorerAPI.getMatrix(params);
       if (res.success) setMatrix(res.matrix || []);
-    } catch { /* noop */ } finally { setLoading(false); }
+    } catch { toastError('Failed to load matrix'); } finally { setLoading(false); }
   };
 
   const getScoreColor = (s) => {
     if (s >= 70) return 'text-green-500';
     if (s >= 50) return 'text-yellow-500';
     return 'text-red-500';
-  };
-
-  const getCellBg = (s) => {
-    if (s >= 70) return 'bg-green-50 border-green-200';
-    if (s >= 50) return 'bg-yellow-50 border-yellow-200';
-    return 'bg-red-50 border-red-200';
   };
 
   return (

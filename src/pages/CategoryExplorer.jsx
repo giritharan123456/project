@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
 import { useDistrict } from '../contexts/DistrictContext';
+import { useToast } from '../contexts/ToastContext';
 import { explorerAPI } from '../services/api';
 import { Link } from 'react-router-dom';
 import Pagination from '../components/Pagination';
 
 function CategoryExplorer() {
   const { isDarkMode } = useTheme();
+  const { error: toastError } = useToast();
   const { districts, selectedDistrict } = useDistrict();
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -33,7 +35,7 @@ function CategoryExplorer() {
       if (filterDistrict) params.district = filterDistrict;
       const res = await explorerAPI.getCategories(params);
       if (res.success) setCategories(res.categories);
-    } catch { /* noop */ } finally { setLoading(false); }
+    } catch { toastError('Failed to load categories'); } finally { setLoading(false); }
   };
 
   const getScoreColor = (score) => {

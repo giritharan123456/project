@@ -3,7 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
 import { useAuth } from '../contexts/AuthContext';
-import { areasAPI } from '../services/api';
+import { useToast } from '../contexts/ToastContext';
+import { areasAPI, contentAPI } from '../services/api';
 import LandingPreview from '../components/LandingPreview';
 import { 
   Search, BarChart3, TrendingUp, MapPin, Users, Zap, 
@@ -14,6 +15,7 @@ import {
 function Landing() {
   const { isDarkMode, toggleTheme } = useTheme();
   const { isAuthenticated } = useAuth();
+  const { error: toastError } = useToast();
   const navigate = useNavigate();
   const [activeFaq, setActiveFaq] = useState(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -38,6 +40,7 @@ function Landing() {
         setFeatures(content.features || []);
         setStats(content.stats || {});
       } catch (error) {
+        toastError('Failed to load content');
       } finally {
         setLoading(false);
       }

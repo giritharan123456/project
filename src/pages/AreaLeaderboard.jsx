@@ -3,10 +3,12 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useTheme } from '../contexts/ThemeContext';
 import { useDistrict } from '../contexts/DistrictContext';
+import { useToast } from '../contexts/ToastContext';
 import { explorerAPI } from '../services/api';
 
 function AreaLeaderboard() {
   const { isDarkMode } = useTheme();
+  const { error: toastError } = useToast();
   const { districts, selectedDistrict } = useDistrict();
   const [areas, setAreas] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -28,7 +30,7 @@ function AreaLeaderboard() {
       if (filterDistrict) params.district = filterDistrict;
       const res = await explorerAPI.getLeaderboard(params);
       if (res.success) { setAreas(res.areas); setTotalPages(res.pages || 1); }
-    } catch { /* noop */ } finally { setLoading(false); }
+    } catch { toastError('Failed to load leaderboard'); } finally { setLoading(false); }
   };
 
   const getRankBadge = (i) => {
