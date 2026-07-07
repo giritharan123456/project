@@ -47,7 +47,7 @@ function Workspace() {
             name: p.name || 'User',
             email: p.email || '',
             avatar: (p.name || 'U').charAt(0).toUpperCase(),
-            memberSince: p.createdAt ? new Date(p.createdAt).toLocaleDateString('en-US', { month: 'long', year: 'numeric' }) : '',
+            memberSince: p.memberSince || (p.createdAt ? new Date(p.createdAt).toLocaleDateString('en-US', { month: 'long', year: 'numeric' }) : ''),
             plan: p.plan || 'Free'
           });
         }
@@ -176,7 +176,7 @@ function Workspace() {
               
               {favoriteLocations.map(location => (
                 <motion.div
-                  key={location.id}
+                  key={location._id || location.id}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   className={`p-6 rounded-2xl border flex items-center justify-between ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
@@ -230,7 +230,7 @@ function Workspace() {
               
               {savedComparisons.map(comparison => (
                 <motion.div
-                  key={comparison.id}
+                  key={comparison._id || comparison.id}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   className={`p-6 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
