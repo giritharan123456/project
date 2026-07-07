@@ -51,13 +51,13 @@ function ForgotPassword() {
         </div>
 
         {error && (
-          <div className="mb-6 p-3 bg-red-50 border border-red-200 rounded-lg text-red-600 text-sm flex items-center gap-2">
+          <div className={`mb-6 p-3 rounded-lg text-sm flex items-center gap-2 ${isDarkMode ? 'bg-red-900/30 border border-red-800 text-red-300' : 'bg-red-50 border border-red-200 text-red-600'}`}>
             <AlertCircle size={16} /> {error}
           </div>
         )}
 
         {message && (
-          <div className="mb-6 p-3 bg-green-50 border border-green-200 rounded-lg text-green-600 text-sm flex items-center gap-2">
+          <div className={`mb-6 p-3 rounded-lg text-sm flex items-center gap-2 ${isDarkMode ? 'bg-green-900/30 border border-green-800 text-green-300' : 'bg-green-50 border border-green-200 text-green-600'}`}>
             <CheckCircle size={16} /> {message}
           </div>
         )}
@@ -71,14 +71,14 @@ function ForgotPassword() {
 
         <form className="flex flex-col gap-5 mb-6" onSubmit={handleSubmit}>
           <div className="flex flex-col gap-2">
-            <label htmlFor="email" className="text-sm font-semibold text-[#333]">Email Address</label>
+            <label htmlFor="email" className={`text-sm font-semibold ${isDarkMode ? 'text-gray-200' : 'text-[#333]'}`}>Email Address</label>
             <div className="relative">
               <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-[#999]" size={20} />
               <input
                 type="email" id="email" value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your email" required
-                className="w-full pl-12 pr-4 py-3.5 border-2 border-[#e0e0e0] rounded-xl text-base outline-none focus:border-[#667eea] placeholder:text-[#999]"
+                className={`w-full pl-12 pr-4 py-3.5 border-2 rounded-xl text-base outline-none focus:border-[#667eea] placeholder:text-[#999] ${isDarkMode ? 'bg-[#0f172a] border-[#334155] text-white' : 'border-[#e0e0e0]'}`}
               />
             </div>
           </div>

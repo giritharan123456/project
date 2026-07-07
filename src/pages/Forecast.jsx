@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
 import { useDistrict } from '../contexts/DistrictContext';
@@ -16,6 +16,7 @@ function Forecast() {
   const { isDarkMode } = useTheme();
   const { selectedDistrict, districts } = useDistrict();
   const { selectedPincode } = usePincode();
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [areaData, setAreaData] = useState(null);
   const [error, setError] = useState(null);
@@ -214,7 +215,7 @@ function Forecast() {
             type="noData"
             message="Please select a pincode on the Dashboard first, then return here to view forecasts."
             actionText="Go to Dashboard"
-            onAction={() => window.location.href = '/dashboard'}
+            onAction={() => navigate('/dashboard')}
           />
         </div>
       </div>
@@ -242,7 +243,7 @@ function Forecast() {
             type={error ? 'error' : 'noData'}
             message={error || `Data for pincode ${selectedPincode} will be loaded from government APIs. Please try again or select a different pincode.`}
             actionText="Go to Dashboard"
-            onAction={() => window.location.href = '/dashboard'}
+            onAction={() => navigate('/dashboard')}
           />
         </div>
       </div>

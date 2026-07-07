@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
 import { areasAPI } from '../services/api';
@@ -14,6 +14,7 @@ import {
 function AreaOverview() {
   const { isDarkMode } = useTheme();
   const { pincode: routePincode } = useParams();
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [apiArea, setApiArea] = useState(null);
@@ -42,7 +43,7 @@ function AreaOverview() {
   if (!routePincode) {
     return (
       <div className={`min-h-[calc(100vh-70px)] p-6 ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
-        <EmptyState type="noData" message="No pincode specified. Search a pincode on the Dashboard." actionText="Go to Dashboard" onAction={() => window.location.href = '/dashboard'} />
+        <EmptyState type="noData" message="No pincode specified. Search a pincode on the Dashboard." actionText="Go to Dashboard" onAction={() => navigate('/dashboard')} />
       </div>
     );
   }
@@ -61,7 +62,7 @@ function AreaOverview() {
   if (error || !apiArea) {
     return (
       <div className={`min-h-[calc(100vh-70px)] p-6 ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
-        <EmptyState type={error ? 'error' : 'noData'} message={error || `Data for pincode ${routePincode} will be loaded from government APIs. Please try again or select a different pincode.`} actionText="Go to Dashboard" onAction={() => window.location.href = '/dashboard'} />
+        <EmptyState type={error ? 'error' : 'noData'} message={error || `Data for pincode ${routePincode} will be loaded from government APIs. Please try again or select a different pincode.`} actionText="Go to Dashboard" onAction={() => navigate('/dashboard')} />
       </div>
     );
   }

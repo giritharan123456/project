@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
 import { useToast } from '../contexts/ToastContext';
@@ -21,6 +21,7 @@ function Reports() {
   const { error: toastError } = useToast();
   const { selectedDistrict, districts } = useDistrict();
   const { selectedPincode } = usePincode();
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [areaData, setAreaData] = useState(null);
   const [error, setError] = useState(null);
@@ -268,7 +269,7 @@ function Reports() {
     return (
       <div className={`min-h-[calc(100vh-70px)] p-6 transition-colors duration-300 ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
         <div className="max-w-7xl mx-auto">
-          <EmptyState type={error ? 'error' : 'noData'} message={error || 'Area data not found.'} actionText="Go to Dashboard" onAction={() => window.location.href = '/dashboard'} />
+          <EmptyState type={error ? 'error' : 'noData'} message={error || 'Area data not found.'} actionText="Go to Dashboard" onAction={() => navigate('/dashboard')} />
         </div>
       </div>
     );

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
 import { areasAPI } from '../services/api';
@@ -23,6 +23,7 @@ const categoryIcons = {
 function BusinessOverview() {
   const { isDarkMode } = useTheme();
   const { pincode: routePincode } = useParams();
+  const navigate = useNavigate();
   const [viewMode, setViewMode] = useState('grid');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [loading, setLoading] = useState(false);
@@ -105,7 +106,7 @@ function BusinessOverview() {
   if (error || !apiArea) {
     return (
       <div className={`min-h-[calc(100vh-70px)] p-6 ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
-        <EmptyState type={error ? 'error' : 'noData'} message={error || NO_DATA_LABEL} actionText="Go to Dashboard" onAction={() => window.location.href = '/dashboard'} />
+        <EmptyState type={error ? 'error' : 'noData'} message={error || NO_DATA_LABEL} actionText="Go to Dashboard" onAction={() => navigate('/dashboard')} />
       </div>
     );
   }

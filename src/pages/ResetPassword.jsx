@@ -61,17 +61,17 @@ function ResetPassword() {
           <h1 className="text-3xl font-bold mb-2 bg-gradient-to-r from-[#667eea] to-[#764ba2] bg-clip-text text-transparent">
             Reset Password
           </h1>
-          <p className="text-[#666] text-sm">Enter your new password</p>
+          <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-[#666]'}`}>Enter your new password</p>
         </div>
 
         {success && (
-          <div className="mb-6 p-3 bg-green-50 border border-green-200 rounded-lg text-green-600 text-sm flex items-center gap-2">
+          <div className={`mb-6 p-3 rounded-lg text-sm flex items-center gap-2 ${isDarkMode ? 'bg-green-900/30 border border-green-800 text-green-300' : 'bg-green-50 border border-green-200 text-green-600'}`}>
             <CheckCircle size={16} /> Password reset successful! Redirecting to login...
           </div>
         )}
 
         {error && (
-          <div className="mb-6 p-3 bg-red-50 border border-red-200 rounded-lg text-red-600 text-sm flex items-center gap-2">
+          <div className={`mb-6 p-3 rounded-lg text-sm flex items-center gap-2 ${isDarkMode ? 'bg-red-900/30 border border-red-800 text-red-300' : 'bg-red-50 border border-red-200 text-red-600'}`}>
             <AlertCircle size={16} /> {error}
           </div>
         )}
@@ -79,25 +79,25 @@ function ResetPassword() {
         {!success && (
           <form className="flex flex-col gap-5 mb-6" onSubmit={handleSubmit}>
             <div className="flex flex-col gap-2">
-              <label className="text-sm font-semibold text-[#333]">New Password</label>
+              <label className={`text-sm font-semibold ${isDarkMode ? 'text-gray-200' : 'text-[#333]'}`}>New Password</label>
               <div className="relative">
                 <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-[#999]" size={20} />
                 <input type="password" value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Enter new password" required
-                  className="w-full pl-12 pr-4 py-3.5 border-2 border-[#e0e0e0] rounded-xl text-base outline-none focus:border-[#667eea] placeholder:text-[#999]"
+                  className={`w-full pl-12 pr-4 py-3.5 border-2 rounded-xl text-base outline-none focus:border-[#667eea] placeholder:text-[#999] ${isDarkMode ? 'bg-[#0f172a] border-[#334155] text-white' : 'border-[#e0e0e0]'}`}
                 />
               </div>
             </div>
 
             <div className="flex flex-col gap-2">
-              <label className="text-sm font-semibold text-[#333]">Confirm Password</label>
+              <label className={`text-sm font-semibold ${isDarkMode ? 'text-gray-200' : 'text-[#333]'}`}>Confirm Password</label>
               <div className="relative">
                 <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-[#999]" size={20} />
                 <input type="password" value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   placeholder="Confirm new password" required
-                  className="w-full pl-12 pr-4 py-3.5 border-2 border-[#e0e0e0] rounded-xl text-base outline-none focus:border-[#667eea] placeholder:text-[#999]"
+                  className={`w-full pl-12 pr-4 py-3.5 border-2 rounded-xl text-base outline-none focus:border-[#667eea] placeholder:text-[#999] ${isDarkMode ? 'bg-[#0f172a] border-[#334155] text-white' : 'border-[#e0e0e0]'}`}
                 />
               </div>
             </div>
