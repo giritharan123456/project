@@ -63,7 +63,7 @@ function BusinessInsights({ pincodeData }) {
         area: (pincode.area || pincode.name || '').slice(0, 12),
         competitors: totalCompetitors,
         marketGap: Number(avgGap.toFixed(2)),
-        population: Number(pincode.population)
+        population: Number(pincode.population) || 0
       };
     }).sort((a, b) => b.competitors - a.competitors).slice(0, 8);
   };

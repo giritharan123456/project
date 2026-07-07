@@ -177,7 +177,7 @@ function OpportunityHeatMap({ pincodeData, selectedDistrict }) {
               {Object.entries(hoveredPincode.categoryScores).map(([cat, score]) => (
                 <div key={cat} className="flex items-center gap-2 mb-2">
                   <span className={`text-xs w-24 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{cat}</span>
-                  <div className="flex-1 h-2 rounded-full bg-gray-200 overflow-hidden">
+                  <div className={`flex-1 h-2 rounded-full overflow-hidden ${isDarkMode ? 'bg-gray-700' : 'bg-gray-200'}`}>
                     <div 
                       className="h-full"
                       style={{ 

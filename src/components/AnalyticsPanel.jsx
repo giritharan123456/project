@@ -188,9 +188,9 @@ function AnalyticsPanel({ pincodeData, businessCategories, selectedDistrict }) {
     if (!hasData) { addToast('No data to export', 'warning'); return; }
     try {
       let report = `MARKETVISION AI - ANALYTICS REPORT\nDistrict: ${selectedDistrict}\nGenerated: ${new Date().toLocaleDateString()}\n\n`;
-      report += `SUMMARY\n=======\nAreas: ${pincodeData.length}\nTotal Population: ${pincodeData.reduce((s, p) => s + p.population, 0).toLocaleString()}\nAvg Growth: ${(pincodeData.reduce((s, p) => s + (p.populationGrowth || 0), 0) / pincodeData.length).toFixed(2)}%\n\n`;
+      report += `SUMMARY\n=======\nAreas: ${pincodeData.length}\nTotal Population: ${pincodeData.reduce((s, p) => s + (Number(p.population) || 0), 0).toLocaleString()}\nAvg Growth: ${(pincodeData.reduce((s, p) => s + (p.populationGrowth || 0), 0) / pincodeData.length).toFixed(2)}%\n\n`;
       pincodeData.forEach((p, i) => {
-        report += `${i + 1}. ${p.area} (${p.pincode}) — Pop: ${p.population.toLocaleString()}, Growth: ${(p.populationGrowth || 0).toFixed(2)}%\n`;
+        report += `${i + 1}. ${p.area} (${p.pincode}) — Pop: ${(Number(p.population) || 0).toLocaleString()}, Growth: ${(p.populationGrowth || 0).toFixed(2)}%\n`;
       });
       const blob = new Blob([report], { type: 'text/plain' });
       const url = URL.createObjectURL(blob);
