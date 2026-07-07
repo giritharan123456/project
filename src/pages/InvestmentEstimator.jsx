@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
 import { useDistrict } from '../contexts/DistrictContext';
+import { useToast } from '../contexts/ToastContext';
 import { explorerAPI, areasAPI } from '../services/api';
 
 function InvestmentEstimator() {
   const { isDarkMode } = useTheme();
+  const { error: toastError } = useToast();
   const { districts, selectedDistrict, setSelectedDistrict } = useDistrict();
   const [categories, setCategories] = useState([]);
   const [areas, setAreas] = useState([]);
@@ -25,7 +27,7 @@ function InvestmentEstimator() {
     try {
       const res = await explorerAPI.getCategories({});
       if (res.success) setCategories(res.categories);
-    } catch { /* noop */ }
+    } catch { toastError('Failed to load categories'); }
   };
 
   useEffect(() => {
@@ -40,7 +42,7 @@ function InvestmentEstimator() {
     try {
       const res = await areasAPI.getByDistrict(districtId);
       if (res.success) setAreas(res.data || []);
-    } catch { /* noop */ }
+    } catch { toastError('Failed to load areas'); }
   };
 
   const handleEstimate = async () => {
@@ -53,7 +55,7 @@ function InvestmentEstimator() {
       });
       if (res.success) setEstimate(res.estimate);
       setLoaded(true);
-    } catch { /* noop */ } finally { setLoading(false); }
+    } catch { toastError('Failed to calculate estimate'); } finally { setLoading(false); }
   };
 
   const formatCurrency = (val) => {

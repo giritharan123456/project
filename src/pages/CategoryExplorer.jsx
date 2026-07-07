@@ -95,7 +95,7 @@ function CategoryExplorer() {
                     </div>
                     {/* Bar */}
                     <div className="mt-3">
-                      <div className="flex gap-1 h-2 rounded-full overflow-hidden bg-gray-200">
+                      <div className={`flex gap-1 h-2 rounded-full overflow-hidden ${isDarkMode ? 'bg-gray-700' : 'bg-gray-200'}`}>
                         <div className={`${getBarColor(cat.avgGap)}`} style={{ width: `${cat.avgGap}%` }} title={`Gap: ${Number(cat.avgGap).toFixed(2)}`} />
                         <div className="bg-blue-500" style={{ width: `${Math.max(0, cat.avgDemand - cat.avgGap)}%` }} title={`Demand: ${Number(cat.avgDemand).toFixed(2)}`} />
                       </div>
