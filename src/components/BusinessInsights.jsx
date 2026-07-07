@@ -72,14 +72,14 @@ function BusinessInsights({ pincodeData }) {
     if (!pincodeData || pincodeData.length === 0) return [];
     const demandLevels = { 'High (80-100)': 0, 'Medium (60-79)': 0, 'Low (0-59)': 0 };
     pincodeData.forEach(pincode => {
-      Object.values(pincode.demandScores || {}).forEach(score => {
-        const scoreNum = Number(score) || 0;
-        if (scoreNum >= 80) demandLevels['High (80-100)']++;
-        else if (scoreNum >= 60) demandLevels['Medium (60-79)']++;
-        else demandLevels['Low (0-59)']++;
-      });
+      const scores = Object.values(pincode.demandScores || {});
+      if (scores.length === 0) return;
+      const avgDemand = scores.reduce((sum, s) => sum + (Number(s) || 0), 0) / scores.length;
+      if (avgDemand >= 80) demandLevels['High (80-100)']++;
+      else if (avgDemand >= 60) demandLevels['Medium (60-79)']++;
+      else demandLevels['Low (0-59)']++;
     });
-    const total = pincodeData.reduce((sum, p) => sum + Object.keys(p.demandScores || {}).length, 0);
+    const total = pincodeData.length;
     return Object.entries(demandLevels).map(([name, value]) => ({
       name, value, percentage: total > 0 ? Number(((value / total) * 100).toFixed(2)) : 0
     }));
