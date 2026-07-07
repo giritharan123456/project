@@ -1,7 +1,7 @@
 {
-  "name": "market-gap-finder",
+  "name": "marketvision-ai",
   "version": "1.0.0",
-  "description": "Market Gap Finder - MERN Stack Project",
+  "description": "MarketVision AI - MERN Stack Project",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

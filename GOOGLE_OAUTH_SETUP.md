@@ -1,6 +1,6 @@
 # Google OAuth Setup Instructions
 
-This guide will help you configure Google OAuth for your Market Gap Finder application.
+This guide will help you configure Google OAuth for your MarketVision AI application.
 
 ## Prerequisites
 
@@ -20,7 +20,7 @@ This guide will help you configure Google OAuth for your Market Gap Finder appli
 1. Navigate to **APIs & Services** > **OAuth consent screen**
 2. Choose **External** user type
 3. Fill in the required information:
-   - App name: Market Gap Finder
+   - App name: MarketVision AI
    - User support email: your email
    - Developer contact email: your email
 4. Add the following scopes:

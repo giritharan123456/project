@@ -1,4 +1,4 @@
-# Market Gap Finder - Deployment Guide
+# MarketVision AI - Deployment Guide
 
 ## Prerequisites
 
@@ -23,7 +23,7 @@ Create a `.env` file in the backend directory with the following content:
 
 ```
 PORT=5000
-MONGODB_URI=mongodb://localhost:27017/market-gap-finder
+MONGODB_URI=mongodb://localhost:27017/marketvision
 JWT_SECRET=your_secure_jwt_secret_key_here
 NODE_ENV=development
 ```
@@ -117,7 +117,7 @@ The frontend will run on `http://localhost:3000` (or another available port)
 
 1. Install MongoDB Community Edition
 2. Start MongoDB service
-3. Use connection string: `mongodb://localhost:27017/market-gap-finder`
+3. Use connection string: `mongodb://localhost:27017/marketvision`
 
 ## Testing the Application
 

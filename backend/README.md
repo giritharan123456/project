@@ -7,7 +7,7 @@ Create a `.env` file in the backend directory with the following content:
 
 ```
 PORT=5000
-MONGODB_URI=mongodb://localhost:27017/market-gap-finder
+MONGODB_URI=mongodb://localhost:27017/marketvision
 JWT_SECRET=your_jwt_secret_key_here
 NODE_ENV=development
 ```
