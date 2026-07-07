@@ -9,7 +9,7 @@ import EmptyState from '../components/EmptyState';
 import { 
   TrendingUp, TrendingDown, Calendar, BarChart3, LineChart, 
   PieChart, Users, DollarSign, Target, ArrowLeft, Download,
-  Filter, ChevronDown, Info, Zap, AlertCircle, CheckCircle, Building2, Road, MapPin
+  ChevronDown, Info, Zap, AlertCircle, CheckCircle, Building2, Road, MapPin
 } from 'lucide-react';
 
 function Forecast() {

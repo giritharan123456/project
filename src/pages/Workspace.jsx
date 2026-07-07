@@ -2,15 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
+import { useToast } from '../contexts/ToastContext';
 import { workspaceAPI } from '../services/api';
 import { 
-  User, Heart, Clock, FileText, MapPin, BarChart3, Settings,
-  Bell, Moon, Sun, ChevronRight, Search, Plus, X, Calendar,
-  Download, Trash2, Edit, Eye, Star, TrendingUp, Award
+  User, Heart, Clock, FileText, BarChart3, Settings,
+  ChevronRight, Eye, Trash2, Download
 } from 'lucide-react';
 
 function Workspace() {
   const { isDarkMode, toggleTheme } = useTheme();
+  const { error: toastError } = useToast();
   const [activeTab, setActiveTab] = useState('profile');
   const [loading, setLoading] = useState(true);
 
@@ -56,6 +57,7 @@ function Workspace() {
           setSearchHistory(historyRes.value.data);
         }
       } catch (err) {
+        toastError('Failed to load workspace data');
       } finally {
         setLoading(false);
       }
@@ -312,7 +314,7 @@ function Workspace() {
                 <h3 className={`text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                   Search History ({searchHistory.length})
                 </h3>
-                <button className="text-red-500 text-sm font-semibold hover:underline">
+                <button onClick={() => setSearchHistory([])} className="text-red-500 text-sm font-semibold hover:underline">
                   Clear All
                 </button>
               </div>
@@ -446,9 +448,9 @@ function Workspace() {
                     <span className={`text-xs px-2 py-1 rounded-full font-medium ${isDarkMode ? 'bg-slate-700 text-slate-400' : 'bg-gray-100 text-gray-500'}`}>Coming Soon</span>
                   </div>
                   
-                  <button className="w-full p-4 rounded-xl border flex items-center justify-between transition-colors hover:border-red-500 hover:text-red-500">
+                  <button disabled className="w-full p-4 rounded-xl border flex items-center justify-between transition-colors hover:border-red-500 hover:text-red-500 opacity-60 cursor-not-allowed">
                     <span className="font-semibold text-red-500">Delete Account</span>
-                    <ChevronRight className="opacity-50" size={20} />
+                    <span className={`text-xs px-2 py-1 rounded-full font-medium ${isDarkMode ? 'bg-slate-700 text-slate-400' : 'bg-gray-100 text-gray-500'}`}>Coming Soon</span>
                   </button>
                 </div>
               </div>

@@ -8,7 +8,7 @@ import { areasAPI } from '../services/api';
 import { 
   ArrowLeft, Plus, X, TrendingUp, TrendingDown, BarChart3, 
   Users, DollarSign, Target, Award, MapPin, Star, ChevronDown,
-  Filter, Search, ArrowRight, Crown, ChevronRight
+  Crown, ChevronRight
 } from 'lucide-react';
 
 function Comparison() {
@@ -196,7 +196,7 @@ function Comparison() {
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 mb-6"
         >
           {selectedAreas.map((area, index) => {
-            const isWinner = area.id === winner.id;
+            const isWinner = winner && area.id === winner.id;
             return (
               <motion.div
                 key={area.id}
@@ -283,7 +283,7 @@ function Comparison() {
                     <th key={area.id} className={`text-center p-3 text-[10px] font-extrabold uppercase tracking-wider ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
                       <div className="flex items-center justify-center gap-1">
                         {area.name}
-                        {area.id === winner.id && <Crown className="text-yellow-500" size={14} />}
+                        {winner && area.id === winner.id && <Crown className="text-yellow-500" size={14} />}
                       </div>
                     </th>
                   ))}

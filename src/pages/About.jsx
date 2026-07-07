@@ -61,7 +61,7 @@ function About() {
       }
     };
     fetchAll();
-  }, [districts.length]);
+  }, []);
 
   const displayStats = useMemo(() => [
     { label: 'Districts Covered', value: stats.districts, icon: MapPin, color: '#2563eb', gradient: 'from-[#2563eb] to-[#1d4ed8]' },
