@@ -47,6 +47,7 @@ function Dashboard() {
   const [selectedBusinessCategory, setSelectedBusinessCategory] = useState('all');
 
   useEffect(() => {
+    const controller = new AbortController();
     const searchVal = searchParams.get('search');
     if (searchVal) {
       setSearchPincode(searchVal);
@@ -56,7 +57,7 @@ function Dashboard() {
           setSearchLoading(true);
           setSearchError(null);
           const response = await areasAPI.getByPincode(searchVal);
-          if (response.data) {
+          if (!controller.signal.aborted && response.data) {
             if (response.data.district?._id && response.data.district._id !== selectedDistrict) {
               setSelectedDistrict(response.data.district._id);
             }
@@ -67,12 +68,17 @@ function Dashboard() {
             });
           }
         } catch (err) {
-          setSearchError(err.message || `Data for pincode ${searchVal} will be loaded soon.`);
+          if (!controller.signal.aborted) {
+            setSearchError(err.message || `Data for pincode ${searchVal} will be loaded from government APIs.`);
+          }
         } finally {
-          setSearchLoading(false);
+          if (!controller.signal.aborted) {
+            setSearchLoading(false);
+          }
         }
       })();
     }
+    return () => controller.abort();
   }, [searchParams]);
 
 

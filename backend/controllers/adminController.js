@@ -37,11 +37,11 @@ const getAllDistricts = async (req, res) => {
 // @access  Admin
 const createDistrict = async (req, res) => {
   try {
-    const { name, state, population, area, pincode } = req.body;
+    const { name, state, population, area } = req.body;
     if (!name) {
       return res.status(400).json({ success: false, message: 'District name is required' });
     }
-    const district = await District.create({ name, state, population, area, pincode });
+    const district = await District.create({ name, state, population, area });
     res.status(201).json({
       success: true,
       message: 'District created successfully',
@@ -311,6 +311,9 @@ const updateUser = async (req, res) => {
     user.email = req.body.email || user.email;
     user.role = req.body.role || user.role;
     if (req.body.password) {
+      if (req.body.password.length < 6) {
+        return res.status(400).json({ success: false, message: 'Password must be at least 6 characters' });
+      }
       user.password = req.body.password;
     }
 
