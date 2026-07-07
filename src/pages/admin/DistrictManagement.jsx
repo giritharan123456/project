@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { adminAPI } from '../../services/api';
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from '../../contexts/ThemeContext';
+import { useToast } from '../../contexts/ToastContext';
 
 const DistrictManagement = () => {
   const navigate = useNavigate();
   const { isDarkMode } = useTheme();
+  const { success: toastSuccess, error: toastError } = useToast();
   const [districts, setDistricts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
@@ -36,7 +38,7 @@ const DistrictManagement = () => {
         setDistricts(response.data);
       }
     } catch (error) {
-      /* districts will remain empty */
+      toastError('Failed to load districts');
     } finally {
       setLoading(false);
     }
@@ -68,7 +70,7 @@ const DistrictManagement = () => {
       });
       fetchDistricts();
     } catch (error) {
-      alert(`Error saving district: ${error.message || 'Unknown error'}`);
+      toastError(`Error saving district: ${error.message || 'Unknown error'}`);
     }
   };
 
@@ -94,7 +96,7 @@ const DistrictManagement = () => {
         await adminAPI.deleteDistrict(id);
         fetchDistricts();
       } catch (error) {
-        alert('Error deleting district');
+        toastError('Error deleting district');
       }
     }
   };

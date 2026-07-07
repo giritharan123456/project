@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
 import { useDistrict } from '../contexts/DistrictContext';
 import { contentAPI, areasAPI, districtsAPI } from '../services/api';
+import { useToast } from '../contexts/ToastContext';
 import { Target, Lightbulb, MapPin, BarChart3, Users, Zap, CheckCircle, TrendingUp, Brain, FileText, ArrowRight, Shield, Globe, Database, Lock } from 'lucide-react';
 
 const CATEGORIES = [
@@ -24,6 +25,7 @@ const CATEGORIES = [
 function About() {
   const { isDarkMode } = useTheme();
   const { districts, setDistricts } = useDistrict();
+  const toast = useToast();
   const [content, setContent] = useState(null);
   const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState({ districts: 0, areas: 0, categories: CATEGORIES.length });
@@ -55,7 +57,7 @@ function About() {
           categories: CATEGORIES.length
         });
       } catch (error) {
-        /* silent fail */
+        toast.error('Failed to load platform data');
       } finally {
         setLoading(false);
       }

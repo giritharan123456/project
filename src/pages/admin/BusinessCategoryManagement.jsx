@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { adminAPI } from '../../services/api';
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from '../../contexts/ThemeContext';
+import { useToast } from '../../contexts/ToastContext';
 
 const BusinessCategoryManagement = () => {
   const navigate = useNavigate();
   const { isDarkMode } = useTheme();
+  const { success: toastSuccess, error: toastError } = useToast();
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
@@ -31,7 +33,7 @@ const BusinessCategoryManagement = () => {
         setCategories(response.data);
       }
     } catch (error) {
-      /* categories will remain empty */
+      toastError('Failed to load categories');
     } finally {
       setLoading(false);
     }
@@ -50,7 +52,7 @@ const BusinessCategoryManagement = () => {
       setFormData({ name: '', description: '', icon: '', color: '#3B82F6', gap: 0, supply: 0, demand: 0 });
       fetchCategories();
     } catch (error) {
-      alert(`Error saving category: ${error.message || 'Unknown error'}`);
+      toastError(`Error saving category: ${error.message || 'Unknown error'}`);
     }
   };
 
@@ -74,7 +76,7 @@ const BusinessCategoryManagement = () => {
         await adminAPI.deleteBusinessCategory(id);
         fetchCategories();
       } catch (error) {
-        alert('Error deleting category');
+        toastError('Error deleting category');
       }
     }
   };

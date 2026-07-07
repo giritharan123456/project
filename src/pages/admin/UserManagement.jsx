@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { adminAPI } from '../../services/api';
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from '../../contexts/ThemeContext';
+import { useToast } from '../../contexts/ToastContext';
 
 const UserManagement = () => {
   const navigate = useNavigate();
   const { isDarkMode } = useTheme();
+  const { success: toastSuccess, error: toastError } = useToast();
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
@@ -28,7 +30,7 @@ const UserManagement = () => {
         setUsers(response.data);
       }
     } catch (error) {
-      /* users will remain empty */
+      toastError('Failed to load users');
     } finally {
       setLoading(false);
     }
@@ -40,7 +42,7 @@ const UserManagement = () => {
       if (editingUser) {
         await adminAPI.updateUser(editingUser._id, formData);
       } else {
-        alert('Creating new users is not allowed through admin panel. Users must register themselves.');
+        toastError('Creating new users is not allowed through admin panel. Users must register themselves.');
         return;
       }
       setShowModal(false);
@@ -48,7 +50,7 @@ const UserManagement = () => {
       setFormData({ name: '', email: '', role: 'user', password: '' });
       fetchUsers();
     } catch (error) {
-      alert('Error saving user');
+      toastError('Error saving user');
     }
   };
 
@@ -69,7 +71,7 @@ const UserManagement = () => {
         await adminAPI.deleteUser(id);
         fetchUsers();
       } catch (error) {
-        alert('Error deleting user');
+        toastError('Error deleting user');
       }
     }
   };

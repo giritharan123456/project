@@ -47,7 +47,7 @@ function Profile() {
         const res = await historyAPI.getHistory();
         if (res.success) setHistory(res.data || []);
       } catch (err) {
-        // silent
+        toast.error('Failed to load search history');
       } finally {
         setHistoryLoading(false);
       }
@@ -73,7 +73,7 @@ function Profile() {
         const res = await workspaceAPI.getFavorites();
         if (res.success) setFavorites(res.data || []);
       } catch (err) {
-        /* silent fail */
+        toast.error('Failed to load favorites');
       } finally {
         setFavLoading(false);
       }

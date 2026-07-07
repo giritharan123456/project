@@ -5,6 +5,7 @@ import { useTheme } from '../contexts/ThemeContext';
 import { useDistrict } from '../contexts/DistrictContext';
 import { usePincode } from '../contexts/PincodeContext';
 import { areasAPI, analyticsAPI, explorerAPI } from '../services/api';
+import { useToast } from '../contexts/ToastContext';
 import { transformAreaToPincodeData } from '../utils/dataUtils';
 import {
   BarChart3, TrendingUp, MapPin, Users, Target, Calculator,
@@ -15,6 +16,7 @@ function Analysis() {
   const { isDarkMode } = useTheme();
   const { selectedDistrict, districts } = useDistrict();
   const { selectedPincode } = usePincode();
+  const toast = useToast();
 
   const currentDistrict = districts.find(d => d._id === selectedDistrict);
   const districtName = currentDistrict?.name || 'No district selected';
@@ -37,7 +39,7 @@ function Analysis() {
         if (areasRes.status === 'fulfilled') setAreas(areasRes.value?.data || []);
         if (analyticsRes.status === 'fulfilled') setAnalyticsData(analyticsRes.value?.data || null);
         if (catsRes.status === 'fulfilled') setCategories(catsRes.value?.categories || []);
-      } catch { /* silent */ } finally { setLoading(false); }
+      } catch { toast.error('Failed to load analysis data'); } finally { setLoading(false); }
     };
     fetchAll();
   }, [selectedDistrict]);

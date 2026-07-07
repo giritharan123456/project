@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { adminAPI, districtsAPI } from '../../services/api';
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from '../../contexts/ThemeContext';
+import { useToast } from '../../contexts/ToastContext';
 
 const AreaManagement = () => {
   const navigate = useNavigate();
   const { isDarkMode } = useTheme();
+  const { success: toastSuccess, error: toastError } = useToast();
   const [areas, setAreas] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -39,7 +41,7 @@ const AreaManagement = () => {
       if (areasRes.success) setAreas(areasRes.data);
       if (districtsRes.success) setDistricts(districtsRes.data);
     } catch (error) {
-      /* areas will remain empty */
+      toastError('Failed to load areas');
     } finally {
       setLoading(false);
     }
@@ -58,7 +60,7 @@ const AreaManagement = () => {
       resetFormData();
       fetchData();
     } catch (error) {
-      alert('Error saving area');
+      toastError('Error saving area');
     }
   };
 
@@ -87,7 +89,7 @@ const AreaManagement = () => {
         await adminAPI.deleteArea(id);
         fetchData();
       } catch (error) {
-        alert('Error deleting area');
+        toastError('Error deleting area');
       }
     }
   };
