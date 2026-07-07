@@ -318,7 +318,7 @@ function BusinessOverview() {
                       <div className="w-12 h-12 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] rounded-xl flex items-center justify-center">
                         <CategoryIcon className="text-white" size={24} />
                       </div>
-                      <span className={`px-3 py-1 rounded-full text-xs font-semibold ${business.status === 'Open' ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'}`}>
+                      <span className={`px-3 py-1 rounded-full text-xs font-semibold ${business.status === 'Active' ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'}`}>
                         {business.status}
                       </span>
                     </div>

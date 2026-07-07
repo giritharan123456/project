@@ -37,7 +37,7 @@ const getSmartResponse = async (query) => {
 
   if (q.includes('competitor') || q.includes('competition')) {
     const highComp = areas.filter(a => {
-      const comps = Object.values(a.competitors || {});
+      const comps = Object.values(Object.fromEntries(a.competitors || new Map()));
       return comps.some(c => (Number(c) || 0) >= 80);
     }).length;
     return `Competition analysis:\n• High competition areas: ${highComp}\n• Total areas analyzed: ${areas.length}`;

@@ -84,11 +84,14 @@ const getForecastByArea = async (req, res) => {
       const projectedDemand = {};
       const projectedGap = {};
       
-      Object.entries(area.demandScores || {}).forEach(([category, score]) => {
+      const demandObj = Object.fromEntries(area.demandScores || new Map());
+      const gapObj = Object.fromEntries(area.marketGapScores || new Map());
+      
+      Object.entries(demandObj).forEach(([category, score]) => {
         projectedDemand[category] = Math.min(100, Math.round(score * (1 + growthRate * 0.5)));
       });
       
-      Object.entries(area.marketGapScores || {}).forEach(([category, score]) => {
+      Object.entries(gapObj).forEach(([category, score]) => {
         projectedGap[category] = Math.min(100, Math.round(score * (1 + growthRate * 0.3)));
       });
 

@@ -156,7 +156,12 @@ const updateArea = async (req, res) => {
   try {
     const area = await Area.findById(req.params.id);
     if (!area) return res.status(404).json({ success: false, message: 'Area not found' });
-    Object.assign(area, req.body);
+    const allowed = ['name', 'pincode', 'population', 'populationGrowth', 'competitors', 'demandScores', 'marketGapScores', 'searchTrends', 'district', 'coordinates', 'incomeLevel', 'urbanDevelopment'];
+    for (const key of allowed) {
+      if (req.body[key] !== undefined) {
+        area[key] = req.body[key];
+      }
+    }
     calculateScores(area);
     await area.save();
     const populated = await Area.findById(area._id).populate('district', 'name');

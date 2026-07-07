@@ -29,7 +29,7 @@ const compareAreas = async (req, res) => {
       id: area._id,
       pincode: area.pincode,
       name: area.name,
-      district: area.district.name,
+      district: area.district?.name || '',
       population: area.population,
       populationGrowth: area.populationGrowth,
       incomeLevel: area.incomeLevel,
