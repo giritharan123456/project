@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useTheme } from '../contexts/ThemeContext';
 import { useDistrict } from '../contexts/DistrictContext';
+import { useToast } from '../contexts/ToastContext';
 import { Download, FileSpreadsheet } from 'lucide-react';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
@@ -8,6 +9,7 @@ import autoTable from 'jspdf-autotable';
 function EnhancedExport({ data, selectedDistrict, businessCategories, leaderboardData }) {
   const { isDarkMode } = useTheme();
   const { districts } = useDistrict();
+  const { error: toastError } = useToast();
   const [isExporting, setIsExporting] = useState(false);
   
   const districtName = districts.find(d => d._id === selectedDistrict)?.name || 'All Districts';
@@ -18,7 +20,7 @@ function EnhancedExport({ data, selectedDistrict, businessCategories, leaderboar
     try {
       await exportToPDF();
     } catch (error) {
-      // Export failed silently
+      toastError('PDF export failed. Please try again.');
     } finally {
       setIsExporting(false);
     }
@@ -116,7 +118,7 @@ function EnhancedExport({ data, selectedDistrict, businessCategories, leaderboar
       // Save PDF
       doc.save(`market-gap-analysis-${districtName}.pdf`);
     } catch (error) {
-      // PDF export failed silently
+      toastError('PDF export failed. Please try again.');
     }
   };
 

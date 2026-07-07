@@ -26,7 +26,7 @@ function AdminLogin() {
         // Check if user is admin
         const user = JSON.parse(localStorage.getItem('user'));
         
-        if (user.role === 'admin') {
+        if (user?.role === 'admin') {
           navigate('/admin');
         } else {
           setError('Access denied. Admin privileges required.');

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
+import { useToast } from '../contexts/ToastContext';
 import { useDistrict } from '../contexts/DistrictContext';
 import { usePincode } from '../contexts/PincodeContext';
 import { areasAPI } from '../services/api';
@@ -17,6 +18,7 @@ import {
 
 function Reports() {
   const { isDarkMode } = useTheme();
+  const { error: toastError } = useToast();
   const { selectedDistrict, districts } = useDistrict();
   const { selectedPincode } = usePincode();
   const [loading, setLoading] = useState(false);
@@ -119,7 +121,7 @@ function Reports() {
 
       doc.save(`report-${areaData.pincode || 'area'}.pdf`);
     } catch (err) {
-      // PDF export failed silently
+      toastError('PDF export failed. Please try again.');
     } finally {
       setExporting(false);
     }
