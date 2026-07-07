@@ -12,16 +12,21 @@
     "test:watch": "cross-env NODE_OPTIONS=\"--experimental-require-module\" vitest"
   },
   "dependencies": {
+    "@vitejs/plugin-react": "^4.7.0",
+    "autoprefixer": "^10.5.2",
     "framer-motion": "^12.41.0",
     "jspdf": "^4.2.1",
     "jspdf-autotable": "^5.0.8",
     "leaflet": "^1.9.4",
     "lucide-react": "^1.21.0",
+    "postcss": "^8.5.15",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-leaflet": "^4.2.1",
     "react-router-dom": "^7.18.0",
-    "recharts": "^2.10.3"
+    "recharts": "^2.10.3",
+    "tailwindcss": "^3.4.19",
+    "vite": "^6.4.3"
   },
   "browserslist": {
     "production": [
@@ -39,13 +44,8 @@
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
     "@testing-library/user-event": "^14.6.1",
-    "@vitejs/plugin-react": "^4.7.0",
-    "autoprefixer": "^10.5.2",
     "cross-env": "^10.1.0",
     "jsdom": "^27.0.1",
-    "postcss": "^8.5.15",
-    "tailwindcss": "^3.4.19",
-    "vite": "^6.4.3",
     "vitest": "^3.0.0"
   }
 }
