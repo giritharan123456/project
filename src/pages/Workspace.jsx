@@ -6,7 +6,8 @@ import { useToast } from '../contexts/ToastContext';
 import { workspaceAPI } from '../services/api';
 import { 
   User, Heart, Clock, FileText, BarChart3, Settings,
-  ChevronRight, Eye, Trash2, Download
+  ChevronRight, Eye, Trash2, Download, Edit, MapPin,
+  Plus, Search, Moon, Sun
 } from 'lucide-react';
 
 function Workspace() {
@@ -242,10 +243,10 @@ function Workspace() {
                       </p>
                     </div>
                     <div className="flex items-center gap-2">
-                      <button className={`p-2 rounded-lg ${isDarkMode ? 'text-[#f1f5f9] hover:bg-[#1e293b]' : 'text-[#1e293b] hover:bg-[#ffffff]'}`}>
+                      <button disabled className={`p-2 rounded-lg opacity-50 cursor-not-allowed ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                         <Download size={18} />
                       </button>
-                      <button className={`p-2 rounded-lg ${isDarkMode ? 'text-[#f1f5f9] hover:bg-[#1e293b]' : 'text-[#1e293b] hover:bg-[#ffffff]'}`}>
+                      <button disabled className={`p-2 rounded-lg opacity-50 cursor-not-allowed ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                         <Trash2 size={18} />
                       </button>
                     </div>
@@ -321,16 +322,17 @@ function Workspace() {
               
               {searchHistory.map(item => (
                 <motion.div
-                  key={item.id}
+                  key={item.id || item._id}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   className={`p-4 rounded-xl border flex items-center justify-between ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
                 >
                   <div className="flex items-center gap-3">
                     <Search className={`opacity-50 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`} size={18} />
-                    <span className={`font-medium ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{item.query}</span>
+                    <span className={`font-medium ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{item.pincode || item.query || 'N/A'}</span>
+                    {item.areaName && <span className={`text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{item.areaName}</span>}
                   </div>
-                  <span className={`text-sm opacity-50 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{item.date}</span>
+                  <span className={`text-sm opacity-50 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{item.createdAt ? new Date(item.createdAt).toLocaleDateString() : item.date || ''}</span>
                 </motion.div>
               ))}
             </div>

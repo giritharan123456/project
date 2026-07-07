@@ -81,10 +81,12 @@ const getMarketDataByDistrict = async (req, res) => {
 // @access  Private/Admin
 const updateMarketData = async (req, res) => {
   try {
-    const area = await Area.findByIdAndUpdate(req.params.areaId, req.body, {
-      new: true,
-      runValidators: true
-    });
+    const { competitors, demandScores, marketGapScores, searchTrends } = req.body;
+    const area = await Area.findByIdAndUpdate(
+      req.params.areaId,
+      { competitors, demandScores, marketGapScores, searchTrends },
+      { new: true, runValidators: true }
+    );
     if (area) {
       res.json({
         success: true,

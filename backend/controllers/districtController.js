@@ -41,7 +41,11 @@ const getDistrictById = async (req, res) => {
 // @access  Private/Admin
 const createDistrict = async (req, res) => {
   try {
-    const district = await District.create(req.body);
+    const { name, state, population, area, pincode } = req.body;
+    if (!name) {
+      return res.status(400).json({ success: false, message: 'District name is required' });
+    }
+    const district = await District.create({ name, state, population, area, pincode });
     res.status(201).json({
       success: true,
       message: 'District created successfully',
@@ -57,10 +61,12 @@ const createDistrict = async (req, res) => {
 // @access  Private/Admin
 const updateDistrict = async (req, res) => {
   try {
-    const district = await District.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-      runValidators: true
-    });
+    const { name, state, population, area, pincode } = req.body;
+    const district = await District.findByIdAndUpdate(
+      req.params.id,
+      { name, state, population, area, pincode },
+      { new: true, runValidators: true }
+    );
     if (district) {
       res.json({
         success: true,
