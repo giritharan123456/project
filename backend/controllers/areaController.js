@@ -178,7 +178,12 @@ const updateArea = async (req, res) => {
   try {
     const area = await Area.findById(req.params.id);
     if (area) {
-      Object.assign(area, req.body);
+      const allowed = ['name', 'pincode', 'population', 'competitors', 'demandScores', 'marketGapScores', 'searchTrends', 'district'];
+      for (const key of allowed) {
+        if (req.body[key] !== undefined) {
+          area[key] = req.body[key];
+        }
+      }
       calculateScores(area);
       await area.save();
       res.json({

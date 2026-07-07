@@ -1,4 +1,5 @@
 const District = require('../models/District');
+const Area = require('../models/Area');
 
 // @desc    Get all districts
 // @route   GET /api/districts
@@ -81,9 +82,10 @@ const deleteDistrict = async (req, res) => {
   try {
     const district = await District.findByIdAndDelete(req.params.id);
     if (district) {
+      await Area.deleteMany({ district: req.params.id });
       res.json({
         success: true,
-        message: 'District deleted successfully'
+        message: 'District and associated areas deleted successfully'
       });
     } else {
       res.status(404).json({ success: false, message: 'District not found' });

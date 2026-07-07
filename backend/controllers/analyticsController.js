@@ -75,7 +75,7 @@ const getAnalyticsOverview = async (req, res) => {
       const demandScores = area.demandScores ? Object.fromEntries(area.demandScores) : {};
       const marketGapScores = area.marketGapScores ? Object.fromEntries(area.marketGapScores) : {};
 
-      const avgCompetitors = Object.values(competitors).reduce((a, b) => a + (Number(b) || 0), 0);
+      const totalCompetitors = Object.values(competitors).reduce((a, b) => a + (Number(b) || 0), 0);
       const avgDemand = Object.values(demandScores).length > 0
         ? Object.values(demandScores).reduce((a, b) => a + (Number(b) || 0), 0) / Object.values(demandScores).length
         : 0;
@@ -84,9 +84,9 @@ const getAnalyticsOverview = async (req, res) => {
         : 0;
 
       // Risk = high competition + low demand
-      const riskScore = avgCompetitors - avgDemand;
+      const riskScore = totalCompetitors - avgDemand;
       let riskLabel = 'Low Competition';
-      if (avgCompetitors > 10) riskLabel = 'High Competition';
+      if (totalCompetitors > 10) riskLabel = 'High Competition';
       else if (avgDemand < 40) riskLabel = 'Low Demand';
       else if (avgGap < 30) riskLabel = 'Market Saturation';
 

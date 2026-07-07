@@ -37,7 +37,11 @@ const getAllDistricts = async (req, res) => {
 // @access  Admin
 const createDistrict = async (req, res) => {
   try {
-    const district = await District.create(req.body);
+    const { name, state, population, area, pincode } = req.body;
+    if (!name) {
+      return res.status(400).json({ success: false, message: 'District name is required' });
+    }
+    const district = await District.create({ name, state, population, area, pincode });
     res.status(201).json({
       success: true,
       message: 'District created successfully',
@@ -127,7 +131,11 @@ const getAreasByDistrict = async (req, res) => {
 // @access  Admin
 const createArea = async (req, res) => {
   try {
-    const area = new Area(req.body);
+    const { name, pincode, population, competitors, demandScores, marketGapScores, searchTrends, district } = req.body;
+    if (!name || !pincode || !district) {
+      return res.status(400).json({ success: false, message: 'Name, pincode, and district are required' });
+    }
+    const area = new Area({ name, pincode, population, competitors, demandScores, marketGapScores, searchTrends, district });
     calculateScores(area);
     await area.save();
     const populatedArea = await Area.findById(area._id).populate('district', 'name');
@@ -202,7 +210,11 @@ const getAllBusinessCategories = async (req, res) => {
 // @access  Admin
 const createBusinessCategory = async (req, res) => {
   try {
-    const category = await BusinessCategory.create(req.body);
+    const { name, description, icon } = req.body;
+    if (!name) {
+      return res.status(400).json({ success: false, message: 'Category name is required' });
+    }
+    const category = await BusinessCategory.create({ name, description, icon });
     res.status(201).json({
       success: true,
       message: 'Business category created successfully',
