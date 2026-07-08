@@ -1,32 +1,16 @@
 {
-  "services": {
-    "frontend": {
-      "root": ".",
-      "framework": "vite",
-      "buildCommand": "npm run build",
-      "outputDirectory": "dist",
-      "installCommand": "npm install"
-    },
-    "backend": {
-      "root": "backend",
-      "entrypoint": "api/index.js",
-      "installCommand": "npm install"
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "installCommand": "npm install && cd backend && npm install",
+  "functions": {
+    "api/index.js": {
+      "maxDuration": 30
     }
   },
   "rewrites": [
     {
-      "source": "/api(/.*)?",
-      "destination": {
-        "type": "service",
-        "service": "backend"
-      }
-    },
-    {
-      "source": "/((?!api/).*)",
-      "destination": {
-        "type": "service",
-        "service": "frontend"
-      }
+      "source": "/api/(.*)",
+      "destination": "/api/index.js"
     }
   ]
 }
