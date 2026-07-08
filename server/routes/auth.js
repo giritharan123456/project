@@ -39,14 +39,20 @@ router.get('/google/callback', (req, res, next) => {
     return res.redirect(`${base}/login?error=google_oauth_not_configured`);
   }
   const base = `${req.protocol}://${req.get('host')}`;
-  passport.authenticate('google', { failureRedirect: `${base}/login?error=google_auth_failed` }, (err, user) => {
-    if (err || !user) {
+  passport.authenticate('google', { failureRedirect: `${base}/login?error=google_auth_failed` }, (err, user, info) => {
+    if (err) {
+      console.error('Google OAuth Error:', err.message);
+      return res.redirect(`${base}/login?error=oauth_error`);
+    }
+    if (!user) {
+      console.error('Google OAuth No User:', info ? info.message : 'unknown');
       return res.redirect(`${base}/login?error=oauth_failed`);
     }
     try {
       const token = generateToken(user._id);
       res.redirect(`${base}/login?token=${token}`);
     } catch (error) {
+      console.error('Token generation error:', error.message);
       res.redirect(`${base}/login?error=server_error`);
     }
   })(req, res, next);
