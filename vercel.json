@@ -4,8 +4,7 @@
   "installCommand": "npm install",
   "functions": {
     "api/index.js": {
-      "maxDuration": 30,
-      "includeFiles": "server/**"
+      "maxDuration": 30
     }
   },
   "rewrites": [
