@@ -5,11 +5,7 @@
   "functions": {
     "api/index.js": {
       "maxDuration": 30,
-      "includeFiles": [
-        "backend/**/*.js",
-        "backend/**/*.json",
-        "backend/**/*.env"
-      ]
+      "includeFiles": "backend/**"
     }
   },
   "rewrites": [
