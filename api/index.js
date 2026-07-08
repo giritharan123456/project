@@ -1,10 +1,3 @@
-process.on('unhandledRejection', (err) => {
-  console.error('UNHANDLED REJECTION:', err.message || err);
-});
-
-process.on('uncaughtException', (err) => {
-  console.error('UNCAUGHT EXCEPTION:', err.message || err);
-});
-
-const app = require('../server/server');
-module.exports = app;
+module.exports = (req, res) => {
+  res.status(200).json({ ok: true, time: new Date().toISOString() });
+};
