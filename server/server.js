@@ -6,7 +6,7 @@ const morgan = require('morgan');
 const dotenv = require('dotenv');
 const path = require('path');
 
-dotenv.config({ path: path.join(__dirname, '..', '..', '.env') });
+dotenv.config({ path: path.join(__dirname, '.env') });
 
 const connectDB = require('./config/database');
 const passport = require('./config/passport');
@@ -87,7 +87,7 @@ app.use('/api/history', require('./routes/history'));
 
 app.use(require('./middleware/errorHandler'));
 
-const frontendBuild = path.join(__dirname, '..', '..', 'dist');
+const frontendBuild = path.join(__dirname, '..', 'dist');
 app.use(express.static(frontendBuild));
 app.get('/{*path}', (req, res) => {
   res.sendFile(path.join(frontendBuild, 'index.html'));
