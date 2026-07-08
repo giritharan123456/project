@@ -16,7 +16,9 @@ const app = express();
 
 app.set('trust proxy', true);
 
-connectDB();
+connectDB().catch(err => {
+  logger.error(`DB init failed: ${err.message}`);
+});
 
 app.use(passport.initialize());
 
