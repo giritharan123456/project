@@ -337,7 +337,7 @@ function Signup() {
               <div className="grid grid-cols-2 gap-4">
                 <button
                   type="button"
-                  onClick={() => window.location.href = `${import.meta.env.VITE_API_URL}/auth/google`}
+                  onClick={() => window.location.href = `${import.meta.env.VITE_API_URL || '/api'}/auth/google`}
                   className={`py-3 rounded-xl border font-semibold transition-colors flex items-center justify-center gap-2 ${isDarkMode ? 'text-[#f1f5f9] border-[#334155] hover:bg-[#1e293b]' : 'text-[#1e293b] border-[#e2e8f0] hover:bg-[#ffffff]'}`}
                 >
                   <svg className="w-5 h-5" viewBox="0 0 24 24">
