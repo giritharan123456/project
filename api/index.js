@@ -1,2 +1,2 @@
-const app = require('../server/server');
+const app = require('./lib/server');
 module.exports = app;

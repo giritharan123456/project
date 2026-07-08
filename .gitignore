@@ -1,16 +1,16 @@
 # Dependencies
 node_modules/
-server/node_modules/
-server/package.json
-server/package-lock.json
 
 # Build
 build/
 dist/
 
+# Server (kept locally for dev, api/ is used for Vercel deployment)
+server/
+
 # Environment
 .env
-server/.env
+api/.env
 .env.local
 .env.development.local
 .env.test.local
@@ -38,4 +38,3 @@ coverage/
 
 # Misc
 .cache/
-server/server.log
