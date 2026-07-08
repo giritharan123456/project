@@ -1,9 +1,12 @@
-process.on('unhandledRejection', (reason) => {
-  console.error('UNHANDLED REJECTION:', reason);
-});
-process.on('uncaughtException', (err) => {
-  console.error('UNCAUGHT EXCEPTION:', err);
+const express = require('express');
+const app = express();
+
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'ok', vercel: process.env.VERCEL, mongo: !!process.env.MONGODB_URI });
 });
 
-const app = require('../server/server');
+app.use('/api/*', (req, res) => {
+  res.json({ status: 'ok', path: req.path });
+});
+
 module.exports = app;
