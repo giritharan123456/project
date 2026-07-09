@@ -43,7 +43,6 @@ function MapSection({ pincodeData, selectedDistrict }) {
     ? validPincodeData.reduce((s, p) => s + (p.opportunityScore ?? averageOfValues(p.marketGapScores) ?? 0), 0) / validPincodeData.length
     : 0;
   const highOpp = validPincodeData.filter(p => (p.opportunityScore ?? 0) >= 65).length;
-  const medOpp = validPincodeData.filter(p => { const g = p.opportunityScore ?? 0; return g >= 50 && g < 65; }).length;
 
   if (!selectedDistrict || validPincodeData.length === 0) {
     return (

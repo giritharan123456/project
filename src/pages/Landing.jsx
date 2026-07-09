@@ -45,7 +45,6 @@ function Landing() {
   useEffect(() => {
     const fetchContent = async () => {
       try {
-        const { contentAPI } = await import('../services/api');
         const response = await contentAPI.getLandingContent();
         const content = response.data;
         setFaqs(content.faqs || []);

@@ -79,7 +79,7 @@ function ChartsSection({ businessCategories, selectedCategory, pincodeData }) {
               <CartesianGrid strokeDasharray="3 3" stroke={gridStroke} vertical={false} />
               <XAxis dataKey="name" tick={{ ...getXAxis(), fontSize: 13 }} axisLine={axisLine} tickLine={false} angle={-25} textAnchor="end" height={48} interval={0} />
               <YAxis tick={getAxis()} axisLine={axisLine} tickLine={false} label={labelDark('Score')} />
-              <Tooltip content={<CustomTooltip />} />
+              <Tooltip content={<ChartTooltip />} />
               <Legend wrapperStyle={{ fontSize: 13, fontWeight: 700, paddingTop: 6 }} formatter={(value) => <span style={{ color: isDarkMode ? '#e2e8f0' : '#1e293b', fontWeight: 800, fontSize: 13 }}>{value}</span>} />
               <Bar dataKey="demand" fill="#2563eb" name="Demand" radius={[3, 3, 0, 0]} />
               <Bar dataKey="supply" fill="#7c3aed" name="Supply" radius={[3, 3, 0, 0]} />
@@ -101,7 +101,7 @@ function ChartsSection({ businessCategories, selectedCategory, pincodeData }) {
               <CartesianGrid strokeDasharray="3 3" stroke={gridStroke} vertical={false} />
               <XAxis dataKey="name" tick={{ ...getXAxis(), fontSize: 13 }} axisLine={axisLine} tickLine={false} label={{ value: 'Pincode', position: 'insideBottom', offset: -2, style: { fontSize: 13, fontWeight: 700, fill: isDarkMode ? '#e2e8f0' : '#1e293b' } }} interval={0} angle={-30} textAnchor="end" height={44} />
               <YAxis tick={getAxis()} axisLine={axisLine} tickLine={false} label={labelDark('Demand Score')} />
-              <Tooltip content={<CustomTooltip />} />
+              <Tooltip content={<ChartTooltip />} />
               <Legend wrapperStyle={{ fontSize: 13, fontWeight: 700, paddingTop: 6 }} formatter={(value) => <span style={{ color: isDarkMode ? '#e2e8f0' : '#1e293b', fontWeight: 800, fontSize: 13 }}>{value}</span>} />
               <Line type="monotone" dataKey="currentDemand" stroke="#2563eb" name="Current Demand" strokeWidth={2.5} dot={{ r: 4, fill: '#2563eb', strokeWidth: 2, stroke: '#fff' }} activeDot={{ r: 7 }} />
               <Line type="monotone" dataKey="projectedDemand" stroke="#10b981" name="Projected Demand" strokeWidth={2.5} strokeDasharray="8 4" dot={{ r: 4, fill: '#10b981', strokeWidth: 2, stroke: '#fff' }} />
@@ -122,7 +122,7 @@ function ChartsSection({ businessCategories, selectedCategory, pincodeData }) {
               <CartesianGrid strokeDasharray="3 3" stroke={gridStroke} vertical={false} />
               <XAxis dataKey="name" tick={{ ...getXAxis(), fontSize: 13 }} axisLine={axisLine} tickLine={false} angle={-35} textAnchor="end" height={54} interval={0} />
               <YAxis tick={getAxis()} axisLine={axisLine} tickLine={false} label={labelDark('Avg Score')} />
-              <Tooltip content={<CustomTooltip />} />
+              <Tooltip content={<ChartTooltip />} />
               <Legend wrapperStyle={{ fontSize: 13, fontWeight: 700, paddingTop: 6 }} formatter={(value) => <span style={{ color: isDarkMode ? '#e2e8f0' : '#1e293b', fontWeight: 800, fontSize: 13 }}>{value}</span>} />
               <Bar dataKey="score" name="Avg Market Gap" radius={[3, 3, 0, 0]}>
                 {gapChartData.map((_, index) => (
@@ -148,7 +148,7 @@ function ChartsSection({ businessCategories, selectedCategory, pincodeData }) {
                   <Cell key={index} fill={COLORS[index % COLORS.length]} stroke={isDarkMode ? '#1e293b' : '#ffffff'} strokeWidth={2} />
                 ))}
               </Pie>
-              <Tooltip content={<CustomTooltip />} />
+              <Tooltip content={<ChartTooltip />} />
               <Legend
                 wrapperStyle={{ fontSize: 13, fontWeight: 700, paddingTop: 8 }}
                 formatter={(value) => <span style={{ color: isDarkMode ? '#e2e8f0' : '#1e293b', fontWeight: 800, fontSize: 13 }}>{value}</span>}

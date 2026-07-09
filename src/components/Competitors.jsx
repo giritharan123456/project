@@ -154,7 +154,7 @@ const Competitors = ({ pincodeData }) => {
             <CartesianGrid strokeDasharray="3 3" stroke={gridStroke} vertical={false} />
             <XAxis dataKey="name" tick={getAxis()} axisLine={axisLine} tickLine={false} angle={-35} textAnchor="end" height={55} interval={0} />
             <YAxis tick={getAxis()} axisLine={axisLine} tickLine={false} />
-            <RechartsTooltip content={<CustomTooltip />} />
+            <RechartsTooltip content={<ChartTooltip />} />
             <Legend wrapperStyle={{ fontSize: 13, fontWeight: 700, paddingTop: 8 }} formatter={(value) => <span style={{ color: isDarkMode ? '#e2e8f0' : '#1e293b', fontWeight: 800, fontSize: 13 }}>{value}</span>} />
             <Bar dataKey="Competitors" fill="#ef4444" radius={[4, 4, 0, 0]} />
             <Bar dataKey="Demand" fill="#2563eb" radius={[4, 4, 0, 0]} />
@@ -178,7 +178,7 @@ const Competitors = ({ pincodeData }) => {
               <CartesianGrid strokeDasharray="3 3" stroke={gridStroke} vertical={false} />
               <XAxis dataKey="area" tick={getAxis()} axisLine={axisLine} tickLine={false} angle={-35} textAnchor="end" height={55} interval={0} />
               <YAxis tick={getAxis()} axisLine={axisLine} tickLine={false} />
-              <RechartsTooltip content={<CustomTooltip />} />
+              <RechartsTooltip content={<ChartTooltip />} />
               <Legend wrapperStyle={{ fontSize: 13, fontWeight: 700, paddingTop: 8 }} formatter={(value) => <span style={{ color: isDarkMode ? '#e2e8f0' : '#1e293b', fontWeight: 800, fontSize: 13 }}>{value}</span>} />
               <Bar dataKey="competition" name="Competition" fill="#ef4444" radius={[4, 4, 0, 0]} />
               <Bar dataKey="demand" name="Demand" fill="#2563eb" radius={[4, 4, 0, 0]} />
@@ -207,7 +207,7 @@ const Competitors = ({ pincodeData }) => {
               <Radar name="Your Area" dataKey="A" stroke="#2563eb" fill="#2563eb" fillOpacity={0.4} />
               <Radar name="Average" dataKey="B" stroke="#f59e0b" fill="#f59e0b" fillOpacity={0.3} />
               <Legend wrapperStyle={{ fontSize: 13, fontWeight: 700, paddingTop: 8 }} formatter={(value) => <span style={{ color: isDarkMode ? '#e2e8f0' : '#1e293b', fontWeight: 800, fontSize: 13 }}>{value}</span>} />
-              <RechartsTooltip content={<CustomTooltip />} />
+              <RechartsTooltip content={<ChartTooltip />} />
             </RadarChart>
           </ResponsiveContainer>
           <div className={`mt-2 p-2 rounded-lg text-xs ${isDarkMode ? 'bg-[#0f172a] text-slate-400' : 'bg-violet-50 text-slate-600'}`}>

@@ -128,7 +128,7 @@ function BusinessInsights({ pincodeData }) {
                   <CartesianGrid strokeDasharray="3 3" stroke={gridStroke} vertical={false} />
                   <XAxis dataKey="category" tick={{ ...getAxis(), fontSize: 13, fontWeight: 800 }} axisLine={axisLine} tickLine={false} angle={-40} textAnchor="end" height={65} interval={0} />
                   <YAxis tick={getAxis()} axisLine={axisLine} tickLine={false} label={{ value: 'Score', angle: -90, position: 'insideLeft', offset: 5, style: { ...labelStyle, fontSize: 13 } }} />
-                  <Tooltip content={<CustomTooltip />} />
+                  <Tooltip content={<ChartTooltip />} />
                   <Bar dataKey="opportunityScore" name="Opportunity Score" fill="#667eea" radius={[4, 4, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
@@ -179,7 +179,7 @@ function BusinessInsights({ pincodeData }) {
                   <CartesianGrid strokeDasharray="3 3" stroke={gridStroke} vertical={false} />
                   <XAxis dataKey="area" tick={{ ...getAxis(), fontSize: 13, fontWeight: 800 }} axisLine={axisLine} tickLine={false} angle={-40} textAnchor="end" height={65} interval={0} />
                   <YAxis tick={getAxis()} axisLine={axisLine} tickLine={false} label={{ value: 'Count', angle: -90, position: 'insideLeft', offset: 5, style: { ...labelStyle, fontSize: 13 } }} />
-                  <Tooltip content={<CustomTooltip />} />
+                  <Tooltip content={<ChartTooltip />} />
                   <Bar dataKey="competitors" name="Competitors" fill="#764ba2" radius={[4, 4, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
@@ -218,7 +218,7 @@ function BusinessInsights({ pincodeData }) {
                       <Cell key={index} fill={COLORS[index % COLORS.length]} stroke={isDarkMode ? '#1e293b' : '#ffffff'} strokeWidth={2} />
                     ))}
                   </Pie>
-                  <Tooltip content={<CustomTooltip />} />
+                  <Tooltip content={<ChartTooltip />} />
                   <Legend
                     wrapperStyle={{ fontSize: 13, fontWeight: 700, paddingTop: 8 }}
                     formatter={(value) => <span style={{ color: isDarkMode ? '#e2e8f0' : '#1e293b', fontWeight: 800, fontSize: 13 }}>{value}</span>}
