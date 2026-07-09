@@ -18,7 +18,7 @@ const connectDB = async () => {
     logger.info('MongoDB Connected Successfully');
   } catch (error) {
     logger.error(`MongoDB connection failed: ${error.message}`);
-    if (process.env.VERCEL !== '1') {
+    if (process.env.VERCEL !== '1' && process.env.NODE_ENV !== 'test') {
       process.exit(1);
     }
   }

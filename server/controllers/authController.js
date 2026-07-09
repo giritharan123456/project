@@ -2,6 +2,25 @@ const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
+// Clean up old guest users (called periodically)
+const cleanupGuestUsers = async () => {
+  try {
+    const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
+    const result = await User.deleteMany({
+      isGuest: true,
+      createdAt: { $lt: twentyFourHoursAgo }
+    });
+    if (result.deletedCount > 0) {
+      console.log(`Cleaned up ${result.deletedCount} old guest users`);
+    }
+  } catch (error) {
+    console.error('Guest cleanup error:', error.message);
+  }
+};
+
+// Run cleanup every 6 hours
+setInterval(cleanupGuestUsers, 6 * 60 * 60 * 1000);
+
 // Generate JWT Token
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {

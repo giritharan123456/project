@@ -29,13 +29,14 @@ app.use(helmet({
 
 const allowedOrigins = [
   process.env.FRONTEND_URL,
+  process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null,
   'http://localhost:5173',
   'http://localhost:5000'
 ].filter(Boolean);
 
 app.use(cors({
   origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin) || origin.includes('ngrok-free.dev') || origin.includes('.vercel.app')) {
+    if (!origin || allowedOrigins.includes(origin) || origin.includes('ngrok-free.dev')) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
@@ -95,7 +96,7 @@ app.get('/{*path}', (req, res) => {
   res.sendFile(path.join(frontendBuild, 'index.html'));
 });
 
-if (process.env.VERCEL !== '1') {
+if (process.env.VERCEL !== '1' && process.env.NODE_ENV !== 'test') {
   const PORT = process.env.PORT || 5000;
   app.listen(PORT, () => {
     logger.info(`Server running on port ${PORT}`);

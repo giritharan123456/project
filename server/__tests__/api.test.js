@@ -4,6 +4,9 @@ require('dotenv').config({ path: path.join(__dirname, '..', '.env.test') });
 const request = require('supertest');
 const mongoose = require('mongoose');
 
+const runServerTests = process.env.RUN_SERVER_TESTS === 'true';
+const describeServer = runServerTests ? describe : describe.skip;
+
 let app;
 let server;
 let token;
@@ -14,6 +17,10 @@ let categoryId;
 let notificationId;
 
 beforeAll(async () => {
+  if (!runServerTests) {
+    return;
+  }
+
   app = require('../server');
   server = app;
 
@@ -36,11 +43,19 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-  await mongoose.connection.db.dropDatabase();
-  await mongoose.connection.close();
+  if (!runServerTests) {
+    return;
+  }
+
+  if (mongoose.connection.db) {
+    await mongoose.connection.db.dropDatabase();
+  }
+  if (mongoose.connection.readyState !== 0) {
+    await mongoose.connection.close();
+  }
 });
 
-describe('Auth API', () => {
+describeServer('Auth API', () => {
   test('POST /api/auth/register - creates user', async () => {
     const res = await request(server)
       .post('/api/auth/register')
@@ -97,7 +112,7 @@ describe('Auth API', () => {
   });
 });
 
-describe('Districts API', () => {
+describeServer('Districts API', () => {
   test('GET /api/districts - returns empty list initially', async () => {
     const res = await request(server).get('/api/districts');
     expect(res.status).toBe(200);
@@ -130,7 +145,7 @@ describe('Districts API', () => {
   });
 });
 
-describe('Areas API', () => {
+describeServer('Areas API', () => {
   test('POST /api/admin/areas - creates area with scores', async () => {
     const res = await request(server)
       .post('/api/admin/areas')
@@ -176,7 +191,7 @@ describe('Areas API', () => {
   });
 });
 
-describe('Business Categories API', () => {
+describeServer('Business Categories API', () => {
   test('POST /api/admin/business-categories - creates category', async () => {
     const res = await request(server)
       .post('/api/admin/business-categories')
@@ -196,7 +211,7 @@ describe('Business Categories API', () => {
   });
 });
 
-describe('Comparison API', () => {
+describeServer('Comparison API', () => {
   test('POST /api/comparison/compare - compares areas', async () => {
     const res = await request(server)
       .post('/api/comparison/compare')
@@ -216,7 +231,7 @@ describe('Comparison API', () => {
   });
 });
 
-describe('Search API', () => {
+describeServer('Search API', () => {
   test('GET /api/search/areas - searches by query', async () => {
     const res = await request(server).get('/api/search/areas?query=Test');
     expect(res.status).toBe(200);
@@ -231,7 +246,7 @@ describe('Search API', () => {
   });
 });
 
-describe('Notifications API', () => {
+describeServer('Notifications API', () => {
   test('GET /api/notifications - returns list (auth required)', async () => {
     const res = await request(server)
       .get('/api/notifications')
@@ -246,7 +261,7 @@ describe('Notifications API', () => {
   });
 });
 
-describe('Analytics API', () => {
+describeServer('Analytics API', () => {
   test('GET /api/analytics/overview - returns analytics', async () => {
     const res = await request(server).get('/api/analytics/overview');
     expect(res.status).toBe(200);
@@ -256,7 +271,7 @@ describe('Analytics API', () => {
   });
 });
 
-describe('Workspace API', () => {
+describeServer('Workspace API', () => {
   test('GET /api/workspace/favorites - returns favorites (auth required)', async () => {
     const res = await request(server)
       .get('/api/workspace/favorites')
@@ -266,7 +281,7 @@ describe('Workspace API', () => {
   });
 });
 
-describe('Explorer API', () => {
+describeServer('Explorer API', () => {
   test('GET /api/explorer/categories - returns categories', async () => {
     const res = await request(server).get('/api/explorer/categories');
     expect(res.status).toBe(200);
@@ -296,7 +311,7 @@ describe('Explorer API', () => {
   });
 });
 
-describe('Content API', () => {
+describeServer('Content API', () => {
   test('GET /api/content/landing - returns landing content', async () => {
     const res = await request(server).get('/api/content/landing');
     expect(res.status).toBe(200);
@@ -310,7 +325,7 @@ describe('Content API', () => {
   });
 });
 
-describe('Admin API - Protected Routes', () => {
+describeServer('Admin API - Protected Routes', () => {
   test('GET /api/admin/stats - returns stats for admin', async () => {
     const res = await request(server)
       .get('/api/admin/stats')

@@ -6,13 +6,25 @@ const {
   registerUser,
   loginUser,
   guestLogin,
-  googleCallback,
   generateToken,
   getUserProfile,
   updateUserProfile,
   forgotPassword,
   resetPassword
 } = require('../controllers/authController');
+
+const getSafeRedirect = (redirect) => {
+  if (typeof redirect !== 'string') {
+    return '';
+  }
+
+  try {
+    const decoded = decodeURIComponent(redirect);
+    return decoded.startsWith('/') && !decoded.startsWith('//') ? decoded : '';
+  } catch {
+    return redirect.startsWith('/') && !redirect.startsWith('//') ? redirect : '';
+  }
+};
 
 router.post('/register', registerUser);
 router.post('/login', loginUser);
@@ -30,7 +42,11 @@ router.get('/google', (req, res, next) => {
       message: 'Google OAuth is not configured. Please add GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET to .env file' 
     });
   }
-  passport.authenticate('google', { scope: ['profile', 'email'] })(req, res, next);
+  const redirect = getSafeRedirect(req.query.redirect);
+  passport.authenticate('google', {
+    scope: ['profile', 'email'],
+    ...(redirect && { state: encodeURIComponent(redirect) })
+  })(req, res, next);
 });
 
 router.get('/google/callback', (req, res, next) => {
@@ -48,7 +64,9 @@ router.get('/google/callback', (req, res, next) => {
     }
     try {
       const token = generateToken(user._id);
-      res.send(`<!DOCTYPE html><html><head><title>Redirecting...</title></head><body><script>window.location.href='/?token=${token}';</script><p>Redirecting...</p></body></html>`);
+      const redirect = getSafeRedirect(req.query.state);
+      const redirectParam = redirect ? `&redirect=${encodeURIComponent(redirect)}` : '';
+      res.redirect(`/login?token=${encodeURIComponent(token)}${redirectParam}`);
     } catch (error) {
       console.error('Token generation error:', error.message);
       res.redirect('/login?error=server_error');

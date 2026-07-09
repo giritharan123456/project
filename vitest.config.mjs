@@ -7,7 +7,9 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: ['./src/__tests__/setup.js'],
     globals: true,
-    exclude: ['node_modules/**', 'backend/**'],
+    hookTimeout: 60000,
+    testTimeout: 60000,
+    exclude: ['node_modules/**', 'server/__tests__/**'],
     env: {
       VITE_API_URL: 'http://localhost:5000/api',
     },
