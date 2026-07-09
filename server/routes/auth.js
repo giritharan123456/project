@@ -35,25 +35,23 @@ router.get('/google', (req, res, next) => {
 
 router.get('/google/callback', (req, res, next) => {
   if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
-    const base = `${req.protocol}://${req.get('host')}`;
-    return res.redirect(`${base}/login?error=google_oauth_not_configured`);
+    return res.status(500).send('Google OAuth is not configured');
   }
-  const base = `${req.protocol}://${req.get('host')}`;
-  passport.authenticate('google', { failureRedirect: `${base}/login?error=google_auth_failed` }, (err, user, info) => {
+  passport.authenticate('google', { failureRedirect: '/login?error=google_auth_failed' }, (err, user, info) => {
     if (err) {
       console.error('Google OAuth Error:', err.message);
-      return res.redirect(`${base}/login?error=oauth_error`);
+      return res.redirect('/login?error=oauth_error');
     }
     if (!user) {
       console.error('Google OAuth No User:', info ? info.message : 'unknown');
-      return res.redirect(`${base}/login?error=oauth_failed`);
+      return res.redirect('/login?error=oauth_failed');
     }
     try {
       const token = generateToken(user._id);
-      res.redirect(`${base}/login?token=${token}`);
+      res.send(`<!DOCTYPE html><html><head><title>Redirecting...</title></head><body><script>window.location.href='/?token=${token}';</script><p>Redirecting...</p></body></html>`);
     } catch (error) {
       console.error('Token generation error:', error.message);
-      res.redirect(`${base}/login?error=server_error`);
+      res.redirect('/login?error=server_error');
     }
   })(req, res, next);
 });

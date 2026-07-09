@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
 import { useAuth } from '../contexts/AuthContext';
@@ -14,7 +14,7 @@ import {
 
 function Landing() {
   const { isDarkMode, toggleTheme } = useTheme();
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, handleGoogleCallback } = useAuth();
   const { error: toastError } = useToast();
   const navigate = useNavigate();
   const [activeFaq, setActiveFaq] = useState(null);
@@ -29,6 +29,18 @@ function Landing() {
   const [features, setFeatures] = useState([]);
   const [stats, setStats] = useState({});
   const [loading, setLoading] = useState(true);
+  const [searchParams] = useSearchParams();
+
+  useEffect(() => {
+    const token = searchParams.get('token');
+    if (token) {
+      handleGoogleCallback(token).then(result => {
+        if (result && result.success) {
+          navigate('/dashboard', { replace: true });
+        }
+      });
+    }
+  }, [searchParams, handleGoogleCallback, navigate]);
 
   useEffect(() => {
     const fetchContent = async () => {
