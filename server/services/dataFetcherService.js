@@ -52,15 +52,37 @@ class DataFetcherService {
     return { competitors, demandScores, marketGapScores };
   }
 
+  generateLandmarks(name, urbanDev) {
+    const landmarks = [];
+    landmarks.push({ name: `${name} Market`, type: 'Market' });
+    
+    if (urbanDev >= 50) {
+      landmarks.push({ name: `${name} Hospital`, type: 'Hospital' });
+      landmarks.push({ name: `${name} School`, type: 'School' });
+    }
+    
+    if (urbanDev >= 70) {
+      landmarks.push({ name: `${name} Bus Stand`, type: 'Station' });
+      landmarks.push({ name: `${name} Park`, type: 'Park' });
+    }
+    
+    if (urbanDev >= 80) {
+      landmarks.push({ name: `${name} Mall`, type: 'Mall' });
+    }
+    
+    landmarks.push({ name: `${name} Temple`, type: 'Temple' });
+    
+    return landmarks;
+  }
+
   async fetchAreaData(pincode) {
+    const urbanDevelopment = this.getUrbanDevelopment(pincode);
     const locationData = { name: `Area near ${pincode}`, coordinates: { lat: 11.0 + Math.random() * 2.5, lng: 77.5 + Math.random() * 3.0 } };
     const populationData = this.generatePopulationData(pincode);
-    const urbanDevelopment = this.getUrbanDevelopment(pincode);
     const populationGrowth = this.getPopulationGrowthRate(urbanDevelopment);
     const incomeLevel = this.getIncomeLevel(urbanDevelopment);
     const marketAnalysis = this.generateMarketAnalysis(populationData.population, urbanDevelopment, incomeLevel);
 
-    // Try to find a matching district, default to first available
     let districtDoc = await District.findOne({});
     if (!districtDoc) {
       districtDoc = await District.create({ name: 'Default District', state: 'Tamil Nadu' });
@@ -71,7 +93,20 @@ class DataFetcherService {
       coordinates: locationData.coordinates, population: populationData.population,
       populationGrowth, incomeLevel, urbanDevelopment, searchTrends: Math.round(urbanDevelopment * 0.85 + Math.random() * 10),
       competitors: marketAnalysis.competitors, demandScores: marketAnalysis.demandScores,
-      marketGapScores: marketAnalysis.marketGapScores
+      marketGapScores: marketAnalysis.marketGapScores,
+      literacyRate: Math.round(70 + (urbanDevelopment / 100) * 20 + (Math.random() * 5 - 2.5)),
+      ageDistribution: {
+        youth: Math.round(22 + Math.random() * 10),
+        working: Math.round(50 + Math.random() * 10),
+        senior: Math.round(12 + Math.random() * 8)
+      },
+      residentialVsCommercial: {
+        residential: Math.round(60 + Math.random() * 20),
+        commercial: Math.round(15 + Math.random() * 15),
+        industrial: Math.round(5 + Math.random() * 10)
+      },
+      trafficLevel: urbanDevelopment >= 80 ? 'Very High' : urbanDevelopment >= 60 ? 'High' : urbanDevelopment >= 40 ? 'Medium' : 'Low',
+      landmarks: this.generateLandmarks(locationData.name, urbanDevelopment)
     };
   }
 

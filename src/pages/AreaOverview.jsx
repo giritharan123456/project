@@ -140,11 +140,11 @@ function AreaOverview() {
     populationGrowth: apiArea.populationGrowth,
     incomeLevel: apiArea.incomeLevel || NO_DATA_LABEL,
     employment: null,
-    literacy: null,
-    ageDistribution: null,
-    residentialCommercial: null,
-    traffic: apiArea.urbanDevelopment != null ? (apiArea.urbanDevelopment >= 70 ? 'High' : apiArea.urbanDevelopment >= 40 ? 'Medium' : 'Low') : NO_DATA_LABEL,
-    landmarks: [],
+    literacy: apiArea.literacyRate != null ? `${apiArea.literacyRate}%` : NO_DATA_LABEL,
+    ageDistribution: apiArea.ageDistribution || null,
+    residentialCommercial: apiArea.residentialVsCommercial || null,
+    traffic: apiArea.trafficLevel || NO_DATA_LABEL,
+    landmarks: apiArea.landmarks || [],
     marketScore: marketScore != null ? Math.round(marketScore) : null,
   };
 
@@ -424,7 +424,8 @@ function AreaOverview() {
               {areaData.landmarks.length > 0 ? areaData.landmarks.map((landmark, index) => (
                 <div key={index} className={`flex items-center gap-3 p-3 rounded-lg ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
                   <Star className="text-yellow-500" size={16} />
-                  <span className={`text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{landmark}</span>
+                  <span className={`text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{landmark.name || landmark}</span>
+                  <span className={`text-xs px-2 py-0.5 rounded-full ${isDarkMode ? 'bg-[#1e293b] text-gray-400' : 'bg-gray-100 text-gray-600'}`}>{landmark.type || ''}</span>
                 </div>
               )) : (
                 <p className={`text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{NO_DATA_LABEL}</p>

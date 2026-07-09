@@ -97,7 +97,8 @@ function Reports() {
           ['Population Growth', `${Number(areaData.populationGrowth || 0).toFixed(2)}%`],
           ['Income Level', areaData.incomeLevel || 'N/A'],
           ['Urban Development', `${Number(areaData.urbanDevelopment || 0).toFixed(2)}/100`],
-          ['Search Trends', `${Number(areaData.searchTrends || 0).toFixed(2)}/100`],
+          ['Literacy Rate', areaData.literacyRate ? `${areaData.literacyRate}%` : 'N/A'],
+          ['Traffic Level', areaData.trafficLevel || 'N/A'],
           ['Avg Market Gap Score', Number(areaStats.avgGap).toFixed(2)],
           ['Avg Demand Score', Number(areaStats.avgDemand).toFixed(2)],
           ['Total Competitors', areaStats.totalCompetitors],
@@ -106,6 +107,20 @@ function Reports() {
         headStyles: { fillColor: [37, 99, 235], halign: 'left', fontStyle: 'bold' },
         columnStyles: { 0: { cellWidth: 70 }, 1: { cellWidth: 'auto', halign: 'right' } },
       });
+
+      // Landmarks section
+      if (areaData.landmarks && areaData.landmarks.length > 0) {
+        doc.setFontSize(14);
+        doc.text('Nearby Landmarks', 14, doc.lastAutoTable.finalY + 15);
+        autoTable(doc, {
+          startY: doc.lastAutoTable.finalY + 20,
+          head: [['Landmark', 'Type']],
+          body: areaData.landmarks.map(l => [l.name || l, l.type || '']),
+          styles: { fontSize: 10, cellPadding: 4, halign: 'left', valign: 'middle' },
+          headStyles: { fillColor: [37, 99, 235], halign: 'left', fontStyle: 'bold' },
+          columnStyles: { 0: { cellWidth: 100 }, 1: { cellWidth: 'auto', halign: 'center' } },
+        });
+      }
 
       if (areaStats.categories.length > 0) {
         doc.setFontSize(14);

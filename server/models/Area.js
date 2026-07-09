@@ -65,6 +65,31 @@ const areaSchema = new mongoose.Schema({
     of: Number,
     default: {} // business category -> score
   },
+  literacyRate: {
+    type: Number,
+    min: 0,
+    max: 100,
+    default: 75
+  },
+  ageDistribution: {
+    youth: { type: Number, default: 28 },  // 0-25
+    working: { type: Number, default: 55 }, // 26-55
+    senior: { type: Number, default: 17 }   // 56+
+  },
+  residentialVsCommercial: {
+    residential: { type: Number, default: 70 },
+    commercial: { type: Number, default: 20 },
+    industrial: { type: Number, default: 10 }
+  },
+  trafficLevel: {
+    type: String,
+    enum: ['Low', 'Medium', 'High', 'Very High'],
+    default: 'Medium'
+  },
+  landmarks: [{
+    name: String,
+    type: { type: String, enum: ['Temple', 'Hospital', 'School', 'Market', 'Park', 'Station', 'Mall', 'Other'], default: 'Other' }
+  }],
   feasibilityScore: { type: Number, default: 0, min: 0, max: 100 },
   opportunityScore: { type: Number, default: 0, min: 0, max: 100 },
   createdAt: {
