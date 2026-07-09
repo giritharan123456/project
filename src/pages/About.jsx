@@ -291,13 +291,13 @@ function About() {
             </span>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
-            {CATEGORIES.map((cat, i) => (
+            {categories.map((cat, i) => (
               <motion.div
-                key={cat.name}
+                key={cat.name || cat._id}
                 className={`flex flex-col items-center gap-2 p-4 rounded-xl text-center transition-all duration-200 ${isDarkMode ? 'bg-[#0f172a] border border-[#334155] hover:border-[#f59e0b]' : 'bg-[#f8fafc] border border-[#e2e8f0] hover:border-[#f59e0b]'}`}
                 whileHover={{ y: -3 }}
               >
-                <span className="text-2xl">{cat.icon}</span>
+                <span className="text-2xl">{cat.icon || '📊'}</span>
                 <span className={`text-xs font-semibold leading-tight ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{cat.name}</span>
               </motion.div>
             ))}

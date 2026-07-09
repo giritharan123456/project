@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
 import { useToast } from '../contexts/ToastContext';
 import { workspaceAPI, comparisonAPI } from '../services/api';
 import { 
-  User, Heart, Clock, FileText, BarChart3, Settings,
-  ChevronRight, Eye, Trash2, Download, Edit, MapPin,
+  User, Heart, Clock, BarChart3, Settings,
+  ChevronRight, Trash2, Download, Edit, MapPin,
   Plus, Search, Moon, Sun
 } from 'lucide-react';
 
 function Workspace() {
   const { isDarkMode, toggleTheme } = useTheme();
   const { error: toastError } = useToast();
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('profile');
   const [loading, setLoading] = useState(true);
 
@@ -158,7 +159,7 @@ function Workspace() {
                     </div>
                   </div>
 
-                  <button className="px-6 py-3 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white rounded-xl font-semibold hover:opacity-90 transition-opacity flex items-center gap-2">
+                  <button onClick={() => navigate('/profile')} className="px-6 py-3 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white rounded-xl font-semibold hover:opacity-90 transition-opacity flex items-center gap-2">
                     <Edit size={18} />
                     Edit Profile
                   </button>
@@ -269,47 +270,6 @@ function Workspace() {
             </div>
           )}
 
-          {/* Reports Tab */}
-          {activeTab === 'reports' && (
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <h3 className={`text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
-                  Saved Reports ({savedReports.length})
-                </h3>
-              </div>
-              
-              {savedReports.map(report => (
-                <motion.div
-                  key={report.id}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  className={`p-6 rounded-2xl border flex items-center justify-between ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
-                >
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-[#2563eb] to-[#7c3aed] flex items-center justify-center">
-                      <FileText className="text-white" size={24} />
-                    </div>
-                    <div>
-                      <h4 className={`font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{report.name}</h4>
-                      <p className={`text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
-                        {report.date} • {report.type}
-                      </p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-center gap-2">
-                    <button className={`p-2 rounded-lg ${isDarkMode ? 'text-[#f1f5f9] hover:bg-[#1e293b]' : 'text-[#1e293b] hover:bg-[#ffffff]'}`}>
-                      <Download size={18} />
-                    </button>
-                    <button className={`p-2 rounded-lg ${isDarkMode ? 'text-[#f1f5f9] hover:bg-[#1e293b]' : 'text-[#1e293b] hover:bg-[#ffffff]'}`}>
-                      <Trash2 size={18} />
-                    </button>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          )}
-
           {/* Search History Tab */}
           {activeTab === 'history' && (
             <div className="space-y-4">
@@ -335,37 +295,6 @@ function Workspace() {
                     {item.areaName && <span className={`text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{item.areaName}</span>}
                   </div>
                   <span className={`text-sm opacity-50 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{item.createdAt ? new Date(item.createdAt).toLocaleDateString() : item.date || ''}</span>
-                </motion.div>
-              ))}
-            </div>
-          )}
-
-          {/* Recently Viewed Tab */}
-          {activeTab === 'recent' && (
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <h3 className={`text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
-                  Recently Viewed ({recentlyViewed.length})
-                </h3>
-              </div>
-              
-              {recentlyViewed.map(item => (
-                <motion.div
-                  key={item.id}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  className={`p-4 rounded-xl border flex items-center justify-between ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
-                >
-                  <div className="flex items-center gap-3">
-                    <Eye className={`opacity-50 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`} size={18} />
-                    <div>
-                      <span className={`font-medium ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{item.name}</span>
-                      <span className={`text-sm opacity-50 ml-2 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
-                        • {item.type}
-                      </span>
-                    </div>
-                  </div>
-                  <span className={`text-sm opacity-50 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{item.date}</span>
                 </motion.div>
               ))}
             </div>

@@ -23,7 +23,6 @@ function AdminLogin() {
     try {
       const result = await login(formData.email, formData.password);
       if (result.success) {
-        // Check if user is admin
         const user = JSON.parse(localStorage.getItem('user'));
         
         if (user?.role === 'admin') {
@@ -32,6 +31,7 @@ function AdminLogin() {
           setError('Access denied. Admin privileges required.');
           localStorage.removeItem('token');
           localStorage.removeItem('user');
+          window.location.reload();
         }
       } else {
         setError(result.message || 'Login failed');

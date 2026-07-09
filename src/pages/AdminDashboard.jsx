@@ -177,12 +177,12 @@ const AdminDashboard = () => {
           <div>
             <h2 className="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">District Management</h2>
             <div className="bg-white dark:bg-[#1e293b] rounded-lg shadow p-6">
-              <p className="text-gray-600 dark:text-gray-400">District management interface will be loaded here.</p>
+              <p className="text-gray-600 dark:text-gray-400">Manage your districts, add new ones, or edit existing data.</p>
               <button
                 onClick={() => navigate('/admin/districts')}
                 className="mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
               >
-                Go to District Management
+                Open District Management →
               </button>
             </div>
           </div>
@@ -192,12 +192,12 @@ const AdminDashboard = () => {
           <div>
             <h2 className="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">Area Management</h2>
             <div className="bg-white dark:bg-[#1e293b] rounded-lg shadow p-6">
-              <p className="text-gray-600 dark:text-gray-400">Area management interface will be loaded here.</p>
+              <p className="text-gray-600 dark:text-gray-400">Manage areas, assign districts, and update area data.</p>
               <button
                 onClick={() => navigate('/admin/areas')}
                 className="mt-4 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition"
               >
-                Go to Area Management
+                Open Area Management →
               </button>
             </div>
           </div>
@@ -207,12 +207,12 @@ const AdminDashboard = () => {
           <div>
             <h2 className="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">Business Category Management</h2>
             <div className="bg-white dark:bg-[#1e293b] rounded-lg shadow p-6">
-              <p className="text-gray-600 dark:text-gray-400">Business category management interface will be loaded here.</p>
+              <p className="text-gray-600 dark:text-gray-400">Add, edit, or remove business categories.</p>
               <button
                 onClick={() => navigate('/admin/categories')}
                 className="mt-4 bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition"
               >
-                Go to Category Management
+                Open Category Management →
               </button>
             </div>
           </div>
@@ -222,12 +222,12 @@ const AdminDashboard = () => {
           <div>
             <h2 className="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">User Management</h2>
             <div className="bg-white dark:bg-[#1e293b] rounded-lg shadow p-6">
-              <p className="text-gray-600 dark:text-gray-400">User management interface will be loaded here.</p>
+              <p className="text-gray-600 dark:text-gray-400">View and manage user accounts and roles.</p>
               <button
                 onClick={() => navigate('/admin/users')}
                 className="mt-4 bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-700 transition"
               >
-                Go to User Management
+                Open User Management →
               </button>
             </div>
           </div>

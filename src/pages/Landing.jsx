@@ -138,10 +138,10 @@ function Landing() {
   const displayFeatures = features.length > 0 ? features : defaultFeatures;
 
   const platformStats = [
-    { label: 'Districts Covered', value: '38', icon: MapPin },
-    { label: 'Areas Analyzed', value: '380+', icon: Globe },
-    { label: 'Business Categories', value: '12', icon: BarChart3 },
-    { label: 'Data Points', value: '4,500+', icon: TrendingUp },
+    { label: 'Districts Covered', value: stats.districts || '38', icon: MapPin },
+    { label: 'Areas Analyzed', value: stats.areas || '380+', icon: Globe },
+    { label: 'Business Categories', value: stats.categories || '12', icon: BarChart3 },
+    { label: 'Data Points', value: stats.dataPoints || '4,500+', icon: TrendingUp },
   ];
 
   return (

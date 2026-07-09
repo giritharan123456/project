@@ -298,7 +298,6 @@ function Profile() {
                       </button>
                     </div>
                   </div>
-                  <p className={`text-xs mt-4 ${b('text-gray-400', 'text-gray-500')}`}>More settings coming soon.</p>
                 </div>
               )}
 

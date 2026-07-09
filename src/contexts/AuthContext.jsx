@@ -85,8 +85,10 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem('user', JSON.stringify(response.user));
         return { success: true };
       }
+      localStorage.removeItem('token');
       return { success: false, message: response.message || 'Failed to get profile' };
     } catch (error) {
+      localStorage.removeItem('token');
       return { success: false, message: error.message };
     }
   };
