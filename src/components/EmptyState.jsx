@@ -30,7 +30,7 @@ const EmptyState = memo(({ type = 'noData', message = '', actionText = '', onAct
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className={`flex flex-col items-center justify-center p-12 rounded-2xl ${
+      className={`flex flex-col items-center justify-center p-6 sm:p-12 rounded-2xl ${
         isDarkMode ? 'bg-[#1e293b]' : 'bg-[#ffffff]'
       }`}
     >
@@ -51,7 +51,7 @@ const EmptyState = memo(({ type = 'noData', message = '', actionText = '', onAct
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.2 }}
-        className={`text-2xl font-semibold mb-3 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}
+        className={`text-xl sm:text-2xl font-semibold mb-3 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}
       >
         {title}
       </motion.h3>
