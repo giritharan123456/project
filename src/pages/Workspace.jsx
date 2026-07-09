@@ -242,7 +242,7 @@ function Workspace() {
                     <div>
                       <h4 className={`font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{comparison.name}</h4>
                       <p className={`text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
-                        {comparison.date}
+                        {comparison.createdAt ? new Date(comparison.createdAt).toLocaleDateString() : ''}
                       </p>
                     </div>
                     <div className="flex items-center gap-2">
@@ -256,12 +256,12 @@ function Workspace() {
                   </div>
                   
                   <div className="flex flex-wrap gap-2">
-                    {comparison.areas.map((area, index) => (
+                    {(comparison.areaIds || []).map((area, index) => (
                       <span
                         key={index}
                         className={`px-3 py-1 rounded-full text-sm ${isDarkMode ? 'bg-[#0f172a] text-[#f1f5f9] border border-[#334155]' : 'bg-[#f8fafc] text-[#1e293b] border border-[#e2e8f0]'}`}
                       >
-                        {area}
+                        {typeof area === 'string' ? area : area.name || area._id || 'Area'}
                       </span>
                     ))}
                   </div>
@@ -277,7 +277,14 @@ function Workspace() {
                 <h3 className={`text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                   Search History ({searchHistory.length})
                 </h3>
-                <button onClick={() => setSearchHistory([])} className="text-red-500 text-sm font-semibold hover:underline">
+                <button onClick={async () => {
+                  try {
+                    await workspaceAPI.clearSearchHistory();
+                    setSearchHistory([]);
+                  } catch {
+                    setSearchHistory([]);
+                  }
+                }} className="text-red-500 text-sm font-semibold hover:underline">
                   Clear All
                 </button>
               </div>

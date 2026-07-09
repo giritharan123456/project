@@ -16,7 +16,6 @@ const BusinessCategoryManagement = () => {
     name: '',
     description: '',
     icon: '',
-    color: '#3B82F6',
     gap: 0,
     supply: 0,
     demand: 0
@@ -49,7 +48,7 @@ const BusinessCategoryManagement = () => {
       }
       setShowModal(false);
       setEditingCategory(null);
-      setFormData({ name: '', description: '', icon: '', color: '#3B82F6', gap: 0, supply: 0, demand: 0 });
+      setFormData({ name: '', description: '', icon: '', gap: 0, supply: 0, demand: 0 });
       fetchCategories();
     } catch (error) {
       toastError(`Error saving category: ${error.message || 'Unknown error'}`);
@@ -62,7 +61,6 @@ const BusinessCategoryManagement = () => {
       name: category.name,
       description: category.description,
       icon: category.icon,
-      color: category.color,
       gap: category.gap || 0,
       supply: category.supply || 0,
       demand: category.demand || 0
@@ -114,7 +112,7 @@ const BusinessCategoryManagement = () => {
             <button
               onClick={() => {
                 setEditingCategory(null);
-                setFormData({ name: '', description: '', icon: '', color: '#3B82F6', gap: 0, supply: 0, demand: 0 });
+                setFormData({ name: '', description: '', icon: '', gap: 0, supply: 0, demand: 0 });
                 setShowModal(true);
               }}
               className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition"
@@ -129,8 +127,7 @@ const BusinessCategoryManagement = () => {
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center">
                     <div 
-                      className="w-12 h-12 rounded-full flex items-center justify-center text-2xl mr-3"
-                      style={{ backgroundColor: category.color }}
+                      className="w-12 h-12 rounded-full flex items-center justify-center text-2xl mr-3 bg-gradient-to-r from-purple-500 to-blue-500"
                     >
                       {category.icon}
                     </div>
@@ -196,16 +193,6 @@ const BusinessCategoryManagement = () => {
                   onChange={(e) => setFormData({ ...formData, icon: e.target.value })}
                   placeholder="🏪"
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Color</label>
-                <input
-                  type="color"
-                  required
-                  value={formData.color}
-                  onChange={(e) => setFormData({ ...formData, color: e.target.value })}
-                  className="w-full h-10 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                 />
               </div>
               <div>

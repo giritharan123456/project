@@ -4,8 +4,6 @@ const dataFetcherService = require('../services/dataFetcherService');
 const { createNotification } = require('./notificationController');
 const calculateScores = require('../utils/calculateScores');
 
-const escapeRegex = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-
 // @desc    Get area by pincode (auto-fetch from APIs if not in database)
 // @route   GET /api/areas/pincode/:pincode
 // @access  Public
