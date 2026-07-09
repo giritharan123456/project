@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
-import { areasAPI } from '../services/api';
+import { useAuth } from '../contexts/AuthContext';
+import { areasAPI, favoriteAPI, shareAPI } from '../services/api';
 import EmptyState from '../components/EmptyState';
 import { averageOfValues, toPlainObject, NO_DATA_LABEL } from '../utils/dataUtils';
 import {
@@ -13,11 +14,15 @@ import {
 
 function AreaOverview() {
   const { isDarkMode } = useTheme();
+  const { user } = useAuth();
   const { pincode: routePincode } = useParams();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [apiArea, setApiArea] = useState(null);
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [shareLink, setShareLink] = useState('');
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     const fetchArea = async () => {
@@ -39,6 +44,62 @@ function AreaOverview() {
     };
     fetchArea();
   }, [routePincode]);
+
+  useEffect(() => {
+    const checkFavorite = async () => {
+      if (!user || !apiArea) return;
+      try {
+        const res = await favoriteAPI.check('area', apiArea._id);
+        setIsFavorite(res.isFavorite);
+      } catch (err) {
+        // Ignore
+      }
+    };
+    checkFavorite();
+  }, [user, apiArea]);
+
+  const handleFavorite = async () => {
+    if (!user) {
+      alert('Please login to save favorites');
+      return;
+    }
+    try {
+      if (isFavorite) {
+        await favoriteAPI.remove('area', apiArea._id);
+        setIsFavorite(false);
+      } else {
+        await favoriteAPI.add('area', apiArea._id, {
+          name: apiArea.name,
+          pincode: apiArea.pincode,
+          district: apiArea.district?.name || apiArea.district
+        });
+        setIsFavorite(true);
+      }
+    } catch (err) {
+      alert(err.message || 'Failed to update favorite');
+    }
+  };
+
+  const handleShare = async () => {
+    if (!user) {
+      alert('Please login to share');
+      return;
+    }
+    try {
+      const res = await shareAPI.create('area', apiArea._id, {
+        name: apiArea.name,
+        pincode: apiArea.pincode,
+        district: apiArea.district?.name || apiArea.district
+      });
+      const url = `${window.location.origin}/share/${res.data.shareToken}`;
+      setShareLink(url);
+      await navigator.clipboard.writeText(url);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      alert(err.message || 'Failed to create share link');
+    }
+  };
 
   if (!routePincode) {
     return (
@@ -125,10 +186,17 @@ function AreaOverview() {
             </div>
             
             <div className="flex items-center gap-3">
-              <button title="Coming soon" className={`p-3 rounded-xl border transition-colors opacity-50 cursor-not-allowed ${isDarkMode ? 'text-[#f1f5f9] border-[#334155]' : 'text-[#1e293b] border-[#e2e8f0]'}`}>
-                <Heart size={20} />
+              <button 
+                onClick={handleFavorite}
+                className={`p-3 rounded-xl border transition-colors ${isFavorite ? 'bg-red-500 text-white border-red-500' : isDarkMode ? 'text-[#f1f5f9] border-[#334155] hover:bg-[#1e293b]' : 'text-[#1e293b] border-[#e2e8f0] hover:bg-gray-100'}`}
+              >
+                <Heart size={20} fill={isFavorite ? 'currentColor' : 'none'} />
               </button>
-              <button title="Coming soon" className={`p-3 rounded-xl border transition-colors opacity-50 cursor-not-allowed ${isDarkMode ? 'text-[#f1f5f9] border-[#334155]' : 'text-[#1e293b] border-[#e2e8f0]'}`}>
+              <button 
+                onClick={handleShare}
+                title={copied ? 'Copied!' : 'Share'}
+                className={`p-3 rounded-xl border transition-colors ${copied ? 'bg-green-500 text-white border-green-500' : isDarkMode ? 'text-[#f1f5f9] border-[#334155] hover:bg-[#1e293b]' : 'text-[#1e293b] border-[#e2e8f0] hover:bg-gray-100'}`}
+              >
                 <Share2 size={20} />
               </button>
               <Link 

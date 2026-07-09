@@ -436,3 +436,48 @@ export const historyAPI = {
   },
 };
 
+// Favorites API
+export const favoriteAPI = {
+  add: async (itemType, itemId, itemData) => {
+    return apiCall('/favorites', {
+      method: 'POST',
+      body: JSON.stringify({ itemType, itemId, itemData }),
+    });
+  },
+
+  remove: async (itemType, itemId) => {
+    return apiCall(`/favorites/${itemType}/${itemId}`, { method: 'DELETE' });
+  },
+
+  getAll: async (itemType) => {
+    const qs = itemType ? `?itemType=${itemType}` : '';
+    return apiCall(`/favorites${qs}`);
+  },
+
+  check: async (itemType, itemId) => {
+    return apiCall(`/favorites/check?itemType=${itemType}&itemId=${itemId}`);
+  },
+};
+
+// Shares API
+export const shareAPI = {
+  create: async (itemType, itemId, itemData) => {
+    return apiCall('/shares', {
+      method: 'POST',
+      body: JSON.stringify({ itemType, itemId, itemData }),
+    });
+  },
+
+  getByToken: async (token) => {
+    return apiCall(`/shares/${token}`);
+  },
+
+  getMy: async () => {
+    return apiCall('/shares/my');
+  },
+
+  delete: async (id) => {
+    return apiCall(`/shares/${id}`, { method: 'DELETE' });
+  },
+};
+

@@ -2,7 +2,8 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
-import { areasAPI } from '../services/api';
+import { useAuth } from '../contexts/AuthContext';
+import { areasAPI, favoriteAPI, shareAPI } from '../services/api';
 import EmptyState from '../components/EmptyState';
 import { toPlainObject, averageOfValues, NO_DATA_LABEL } from '../utils/dataUtils';
 import { 
@@ -22,6 +23,7 @@ const categoryIcons = {
 
 function BusinessOverview() {
   const { isDarkMode } = useTheme();
+  const { user } = useAuth();
   const { pincode: routePincode } = useParams();
   const navigate = useNavigate();
   const [viewMode, setViewMode] = useState('grid');
@@ -30,6 +32,9 @@ function BusinessOverview() {
   const [error, setError] = useState(null);
   const [apiArea, setApiArea] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [shareLink, setShareLink] = useState('');
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     const fetchArea = async () => {
@@ -56,6 +61,62 @@ function BusinessOverview() {
     };
     fetchArea();
   }, [routePincode]);
+
+  useEffect(() => {
+    const checkFavorite = async () => {
+      if (!user || !apiArea) return;
+      try {
+        const res = await favoriteAPI.check('business', apiArea._id);
+        setIsFavorite(res.isFavorite);
+      } catch (err) {
+        // Ignore
+      }
+    };
+    checkFavorite();
+  }, [user, apiArea]);
+
+  const handleFavorite = async () => {
+    if (!user) {
+      alert('Please login to save favorites');
+      return;
+    }
+    try {
+      if (isFavorite) {
+        await favoriteAPI.remove('business', apiArea._id);
+        setIsFavorite(false);
+      } else {
+        await favoriteAPI.add('business', apiArea._id, {
+          name: apiArea.name,
+          pincode: apiArea.pincode,
+          district: apiArea.district?.name || apiArea.district
+        });
+        setIsFavorite(true);
+      }
+    } catch (err) {
+      alert(err.message || 'Failed to update favorite');
+    }
+  };
+
+  const handleShare = async () => {
+    if (!user) {
+      alert('Please login to share');
+      return;
+    }
+    try {
+      const res = await shareAPI.create('business', apiArea._id, {
+        name: apiArea.name,
+        pincode: apiArea.pincode,
+        district: apiArea.district?.name || apiArea.district
+      });
+      const url = `${window.location.origin}/share/${res.data.shareToken}`;
+      setShareLink(url);
+      await navigator.clipboard.writeText(url);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      alert(err.message || 'Failed to create share link');
+    }
+  };
 
   const competitors = apiArea ? toPlainObject(apiArea.competitors) : {};
   const totalBusinesses = Object.values(competitors).reduce((sum, v) => sum + (Number(v) || 0), 0);
@@ -154,10 +215,17 @@ function BusinessOverview() {
             </div>
             
             <div className="flex items-center gap-3">
-              <button title="Coming soon" className={`p-3 rounded-xl border transition-colors opacity-50 cursor-not-allowed ${isDarkMode ? 'text-[#f1f5f9] border-[#334155]' : 'text-[#1e293b] border-[#e2e8f0]'}`}>
-                <Heart size={20} />
+              <button 
+                onClick={handleFavorite}
+                className={`p-3 rounded-xl border transition-colors ${isFavorite ? 'bg-red-500 text-white border-red-500' : isDarkMode ? 'text-[#f1f5f9] border-[#334155] hover:bg-[#1e293b]' : 'text-[#1e293b] border-[#e2e8f0] hover:bg-gray-100'}`}
+              >
+                <Heart size={20} fill={isFavorite ? 'currentColor' : 'none'} />
               </button>
-              <button title="Coming soon" className={`p-3 rounded-xl border transition-colors opacity-50 cursor-not-allowed ${isDarkMode ? 'text-[#f1f5f9] border-[#334155]' : 'text-[#1e293b] border-[#e2e8f0]'}`}>
+              <button 
+                onClick={handleShare}
+                title={copied ? 'Copied!' : 'Share'}
+                className={`p-3 rounded-xl border transition-colors ${copied ? 'bg-green-500 text-white border-green-500' : isDarkMode ? 'text-[#f1f5f9] border-[#334155] hover:bg-[#1e293b]' : 'text-[#1e293b] border-[#e2e8f0] hover:bg-gray-100'}`}
+              >
                 <Share2 size={20} />
               </button>
             </div>

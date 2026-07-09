@@ -39,6 +39,7 @@ const DistrictManagement = lazy(() => import('./pages/admin/DistrictManagement')
 const AreaManagement = lazy(() => import('./pages/admin/AreaManagement'));
 const BusinessCategoryManagement = lazy(() => import('./pages/admin/BusinessCategoryManagement'));
 const UserManagement = lazy(() => import('./pages/admin/UserManagement'));
+const SharePage = lazy(() => import('./pages/SharePage'));
 
 function AppContent() {
   const { isDarkMode } = useTheme();
@@ -76,6 +77,7 @@ function AppContent() {
         <Route path="/admin/areas" element={<AdminRoute><AreaManagement /></AdminRoute>} />
         <Route path="/admin/categories" element={<AdminRoute><BusinessCategoryManagement /></AdminRoute>} />
         <Route path="/admin/users" element={<AdminRoute><UserManagement /></AdminRoute>} />
+        <Route path="/share/:token" element={<SharePage />} />
         <Route path="*" element={
           <div className="min-h-screen flex items-center justify-center">
             <div className="text-center">

@@ -93,6 +93,8 @@ app.use('/api/content', require('./routes/content'));
 app.use('/api/explorer', require('./routes/explorer'));
 app.use('/api/ai', require('./routes/ai'));
 app.use('/api/history', require('./routes/history'));
+app.use('/api/favorites', require('./routes/favorites'));
+app.use('/api/shares', require('./routes/shares'));
 
 app.use(require('./middleware/errorHandler'));
 
