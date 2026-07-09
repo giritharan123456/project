@@ -3,24 +3,9 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
 import { useDistrict } from '../contexts/DistrictContext';
-import { contentAPI, areasAPI, districtsAPI } from '../services/api';
+import { contentAPI, areasAPI, districtsAPI, adminAPI } from '../services/api';
 import { useToast } from '../contexts/ToastContext';
 import { Target, Lightbulb, MapPin, BarChart3, Users, Zap, CheckCircle, TrendingUp, Brain, FileText, ArrowRight, Shield, Globe, Database, Lock } from 'lucide-react';
-
-const CATEGORIES = [
-  { name: 'Grocery & Supermarket', icon: '🛒' },
-  { name: 'Pharmacy & Healthcare', icon: '💊' },
-  { name: 'Education & Tutoring', icon: '📚' },
-  { name: 'Food & Restaurants', icon: '🍽️' },
-  { name: 'Clothing & Fashion', icon: '👕' },
-  { name: 'Electronics & Mobile', icon: '📱' },
-  { name: 'Beauty & Personal Care', icon: '💄' },
-  { name: 'Automobile Services', icon: '🚗' },
-  { name: 'Professional Services', icon: '💼' },
-  { name: 'Home & Furniture', icon: '🏠' },
-  { name: 'Sports & Fitness', icon: '⚽' },
-  { name: 'Entertainment & Leisure', icon: '🎬' }
-];
 
 function About() {
   const { isDarkMode } = useTheme();
@@ -28,15 +13,17 @@ function About() {
   const toast = useToast();
   const [content, setContent] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [stats, setStats] = useState({ districts: 0, areas: 0, categories: CATEGORIES.length });
+  const [categories, setCategories] = useState([]);
+  const [stats, setStats] = useState({ districts: 0, areas: 0, categories: 0 });
 
   useEffect(() => {
     const fetchAll = async () => {
       try {
-        const [contentRes, areasRes, districtsRes] = await Promise.allSettled([
+        const [contentRes, areasRes, districtsRes, categoriesRes] = await Promise.allSettled([
           contentAPI.getAboutContent(),
           areasAPI.getAll(),
-          districtsAPI.getAll()
+          districtsAPI.getAll(),
+          adminAPI.getBusinessCategories()
         ]);
 
         if (contentRes.status === 'fulfilled') {
@@ -46,15 +33,20 @@ function About() {
         const totalAreas = areasRes.status === 'fulfilled' ? (areasRes.value.data?.length || areasRes.value.count || 0) : 0;
         const districtList = districtsRes.status === 'fulfilled' ? (districtsRes.value.data || []) : [];
         const totalDistricts = districtList.length || districts.length;
+        const categoryList = categoriesRes.status === 'fulfilled' ? (categoriesRes.value.data || []) : [];
 
         if (districtList.length > 0 && districts.length === 0) {
           setDistricts(districtList);
         }
 
+        if (categoryList.length > 0) {
+          setCategories(categoryList);
+        }
+
         setStats({
           districts: totalDistricts,
           areas: totalAreas || content?.stats?.areas || 0,
-          categories: CATEGORIES.length
+          categories: categoryList.length || 0
         });
       } catch (error) {
         toast.error('Failed to load platform data');

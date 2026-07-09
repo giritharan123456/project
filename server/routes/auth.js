@@ -2,6 +2,7 @@ const express = require('express');
 const passport = require('passport');
 const router = express.Router();
 const { protect } = require('../middleware/auth');
+const logger = require('../utils/logger');
 const {
   registerUser,
   loginUser,
@@ -55,11 +56,11 @@ router.get('/google/callback', (req, res, next) => {
   }
   passport.authenticate('google', { failureRedirect: '/login?error=google_auth_failed' }, (err, user, info) => {
     if (err) {
-      console.error('Google OAuth Error:', err.message);
+      logger.error('Google OAuth Error:', err.message);
       return res.redirect('/login?error=oauth_error');
     }
     if (!user) {
-      console.error('Google OAuth No User:', info ? info.message : 'unknown');
+      logger.error('Google OAuth No User:', info ? info.message : 'unknown');
       return res.redirect('/login?error=oauth_failed');
     }
     try {
@@ -68,7 +69,7 @@ router.get('/google/callback', (req, res, next) => {
       const redirectParam = redirect ? `&redirect=${encodeURIComponent(redirect)}` : '';
       res.redirect(`/login?token=${encodeURIComponent(token)}${redirectParam}`);
     } catch (error) {
-      console.error('Token generation error:', error.message);
+      logger.error('Token generation error:', error.message);
       res.redirect('/login?error=server_error');
     }
   })(req, res, next);

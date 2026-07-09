@@ -1,6 +1,7 @@
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const logger = require('../utils/logger');
 
 // Clean up old guest users (called periodically)
 const cleanupGuestUsers = async () => {
@@ -11,10 +12,10 @@ const cleanupGuestUsers = async () => {
       createdAt: { $lt: twentyFourHoursAgo }
     });
     if (result.deletedCount > 0) {
-      console.log(`Cleaned up ${result.deletedCount} old guest users`);
+      logger.info(`Cleaned up ${result.deletedCount} old guest users`);
     }
   } catch (error) {
-    console.error('Guest cleanup error:', error.message);
+    logger.error('Guest cleanup error:', error.message);
   }
 };
 
