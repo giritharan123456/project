@@ -22,6 +22,10 @@ connectDB().catch(err => {
 
 app.use(passport.initialize());
 
+// Start guest user cleanup
+const { startGuestCleanup } = require('./controllers/authController');
+startGuestCleanup();
+
 app.use(helmet({
   contentSecurityPolicy: false,
   crossOriginEmbedderPolicy: false

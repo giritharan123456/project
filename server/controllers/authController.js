@@ -18,8 +18,12 @@ const cleanupGuestUsers = async () => {
   }
 };
 
-// Run cleanup every 6 hours
-setInterval(cleanupGuestUsers, 6 * 60 * 60 * 1000);
+// Start guest cleanup - only in non-test, non-Vercel environments
+const startGuestCleanup = () => {
+  if (process.env.NODE_ENV !== 'test' && process.env.VERCEL !== '1') {
+    setInterval(cleanupGuestUsers, 6 * 60 * 60 * 1000);
+  }
+};
 
 // Generate JWT Token
 const generateToken = (id) => {
@@ -325,5 +329,7 @@ module.exports = {
   getUserProfile,
   updateUserProfile,
   forgotPassword,
-  resetPassword
+  resetPassword,
+  startGuestCleanup,
+  cleanupGuestUsers
 };

@@ -3,26 +3,13 @@ import { motion } from 'framer-motion';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts';
 import { useTheme } from '../contexts/ThemeContext';
 import { Lightbulb, TrendingUp, Target, BarChart3 } from 'lucide-react';
+import ChartTooltip from './ChartTooltip';
 
 function getScoreClass(score) {
   if (score >= 80) return 'high';
   if (score >= 60) return 'medium';
   return 'low';
 }
-
-const CustomTooltip = ({ active, payload, label }) => {
-  if (!active || !payload) return null;
-  return (
-    <div className="bg-white dark:bg-[#1e293b] p-3 rounded-lg shadow-xl border border-gray-200 dark:border-[#334155]">
-      <p className="font-semibold text-sm mb-1">{label}</p>
-      {payload.map((entry, i) => (
-        <p key={i} className="text-xs" style={{ color: entry.color }}>
-          {entry.name}: <span className="font-bold">{typeof entry.value === 'number' ? entry.value.toFixed(2) : entry.value}</span>
-        </p>
-      ))}
-    </div>
-  );
-};
 
 function BusinessInsights({ pincodeData }) {
   const { isDarkMode } = useTheme();
