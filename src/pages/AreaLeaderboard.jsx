@@ -1,27 +1,48 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useTheme } from '../contexts/ThemeContext';
+import { useAuth } from '../contexts/AuthContext';
 import { useDistrict } from '../contexts/DistrictContext';
 import { useToast } from '../contexts/ToastContext';
-import { explorerAPI } from '../services/api';
+import { explorerAPI, favoriteAPI, shareAPI } from '../services/api';
+import { Heart, Share2 } from 'lucide-react';
 
 function AreaLeaderboard() {
   const { isDarkMode } = useTheme();
+  const { user } = useAuth();
   const { error: toastError } = useToast();
   const { districts, selectedDistrict } = useDistrict();
+  const navigate = useNavigate();
   const [areas, setAreas] = useState([]);
   const [loading, setLoading] = useState(true);
   const [sortBy, setSortBy] = useState('opportunityScore');
   const [filterDistrict, setFilterDistrict] = useState(selectedDistrict || '');
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [favorites, setFavorites] = useState({});
+  const [copiedId, setCopiedId] = useState(null);
 
   const b = (light, dark) => isDarkMode ? dark : light;
 
   useEffect(() => {
     loadLeaderboard();
   }, [sortBy, filterDistrict, page]);
+
+  useEffect(() => {
+    if (!user || areas.length === 0) return;
+    const checkFavorites = async () => {
+      const favMap = {};
+      for (const area of areas) {
+        try {
+          const res = await favoriteAPI.check('area', area._id);
+          favMap[area._id] = res.isFavorite;
+        } catch { /* ignore */ }
+      }
+      setFavorites(favMap);
+    };
+    checkFavorites();
+  }, [user, areas]);
 
   const loadLeaderboard = async () => {
     setLoading(true);
@@ -31,6 +52,34 @@ function AreaLeaderboard() {
       const res = await explorerAPI.getLeaderboard(params);
       if (res.success) { setAreas(res.areas); setTotalPages(res.pages || 1); }
     } catch { toastError('Failed to load leaderboard'); } finally { setLoading(false); }
+  };
+
+  const handleFavorite = async (e, area) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!user) { navigate('/login?redirect=/leaderboard'); return; }
+    try {
+      if (favorites[area._id]) {
+        await favoriteAPI.remove('area', area._id);
+        setFavorites(prev => ({ ...prev, [area._id]: false }));
+      } else {
+        await favoriteAPI.add('area', area._id, { name: area.name, pincode: area.pincode, district: area.district });
+        setFavorites(prev => ({ ...prev, [area._id]: true }));
+      }
+    } catch (err) { alert(err.message || 'Failed to update favorite'); }
+  };
+
+  const handleShare = async (e, area) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!user) { navigate('/login?redirect=/leaderboard'); return; }
+    try {
+      const res = await shareAPI.create('area', area._id, { name: area.name, pincode: area.pincode, district: area.district });
+      const url = `${window.location.origin}/share/${res.data.shareToken}`;
+      await navigator.clipboard.writeText(url);
+      setCopiedId(area._id);
+      setTimeout(() => setCopiedId(null), 2000);
+    } catch (err) { alert(err.message || 'Failed to create share link'); }
   };
 
   const getRankBadge = (i) => {
@@ -94,14 +143,24 @@ function AreaLeaderboard() {
                       </div>
                       <p className={`text-xs ${b('text-gray-500', 'text-gray-400')}`}>{area.district} · {area.population?.toLocaleString()} population · {area.incomeLevel} income · {area.literacyRate != null ? `${area.literacyRate}% literacy` : ''}</p>
                     </div>
-                    <div className="text-right flex gap-4">
-                      <div>
-                        <p className={`text-[10px] uppercase tracking-wider ${b('text-gray-400', 'text-gray-500')}`}>Opportunity</p>
-                         <p className={`text-lg font-bold ${getScoreColor(area.opportunityScore)}`}>{Number(area.opportunityScore).toFixed(2)}</p>
-                      </div>
-                      <div>
-                        <p className={`text-[10px] uppercase tracking-wider ${b('text-gray-400', 'text-gray-500')}`}>Feasibility</p>
-                         <p className={`text-lg font-bold ${getScoreColor(area.feasibilityScore)}`}>{Number(area.feasibilityScore).toFixed(2)}</p>
+                    <div className="flex items-center gap-2">
+                      <button onClick={(e) => handleFavorite(e, area)} title={favorites[area._id] ? 'Unfavorite' : 'Favorite'}
+                        className={`p-2 rounded-lg transition-colors ${favorites[area._id] ? 'text-red-500 bg-red-50 dark:bg-red-900/20' : b('text-gray-400 hover:text-red-500 hover:bg-red-50', 'text-gray-500 hover:text-red-400 hover:bg-red-900/20')}`}>
+                        <Heart size={16} fill={favorites[area._id] ? 'currentColor' : 'none'} />
+                      </button>
+                      <button onClick={(e) => handleShare(e, area)} title={copiedId === area._id ? 'Copied!' : 'Share'}
+                        className={`p-2 rounded-lg transition-colors ${copiedId === area._id ? 'text-green-500 bg-green-50 dark:bg-green-900/20' : b('text-gray-400 hover:text-blue-500 hover:bg-blue-50', 'text-gray-500 hover:text-blue-400 hover:bg-blue-900/20')}`}>
+                        <Share2 size={16} />
+                      </button>
+                      <div className="text-right flex gap-4">
+                        <div>
+                          <p className={`text-[10px] uppercase tracking-wider ${b('text-gray-400', 'text-gray-500')}`}>Opp</p>
+                          <p className={`text-lg font-bold ${getScoreColor(area.opportunityScore)}`}>{Number(area.opportunityScore).toFixed(1)}</p>
+                        </div>
+                        <div>
+                          <p className={`text-[10px] uppercase tracking-wider ${b('text-gray-400', 'text-gray-500')}`}>Feas</p>
+                          <p className={`text-lg font-bold ${getScoreColor(area.feasibilityScore)}`}>{Number(area.feasibilityScore).toFixed(1)}</p>
+                        </div>
                       </div>
                     </div>
                   </div>

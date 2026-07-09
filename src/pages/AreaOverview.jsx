@@ -140,7 +140,7 @@ function AreaOverview() {
     populationGrowth: apiArea.populationGrowth,
     incomeLevel: apiArea.incomeLevel || NO_DATA_LABEL,
     employment: null,
-    literacy: apiArea.literacyRate != null ? `${apiArea.literacyRate}%` : NO_DATA_LABEL,
+    literacy: apiArea.literacyRate != null ? Number(apiArea.literacyRate) : null,
     ageDistribution: apiArea.ageDistribution || null,
     residentialCommercial: apiArea.residentialVsCommercial || null,
     traffic: apiArea.trafficLevel || NO_DATA_LABEL,
@@ -290,7 +290,7 @@ function AreaOverview() {
             </div>
             <div className="text-center mb-4">
               <div className="text-4xl font-extrabold bg-gradient-to-r from-[#2563eb] to-[#7c3aed] bg-clip-text text-transparent">
-                {areaData.literacy != null ? `${Number(areaData.literacy).toFixed(2)}%` : NO_DATA_LABEL}
+                {areaData.literacy != null ? `${areaData.literacy}%` : NO_DATA_LABEL}
               </div>
               <p className={`text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                 {areaData.literacy != null ? 'Population is literate' : 'Census literacy data not available from API'}
@@ -300,7 +300,7 @@ function AreaOverview() {
             <div className="w-full h-3 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
               <div 
                 className="h-full bg-gradient-to-r from-[#2563eb] to-[#7c3aed] rounded-full transition-all duration-1000"
-                style={{ width: `${areaData.literacy}%` }}
+                style={{ width: `${Math.min(100, Math.max(0, areaData.literacy))}%` }}
               />
             </div>
             )}

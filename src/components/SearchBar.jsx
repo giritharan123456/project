@@ -2,13 +2,15 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useTheme } from '../contexts/ThemeContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, X } from 'lucide-react';
-import { historyAPI } from '../services/api';
+import { historyAPI, searchAPI } from '../services/api';
 
 function SearchBar({ onSearch, placeholder = "Search by area or pincode...", suggestions = [], district, category, value }) {
   const { isDarkMode } = useTheme();
   const [searchTerm, setSearchTerm] = useState(value || '');
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [serverSuggestions, setServerSuggestions] = useState([]);
   const blurTimeoutRef = useRef(null);
+  const searchTimeoutRef = useRef(null);
 
   useEffect(() => {
     if (value !== undefined) setSearchTerm(value);
@@ -17,12 +19,34 @@ function SearchBar({ onSearch, placeholder = "Search by area or pincode...", sug
   useEffect(() => {
     return () => {
       if (blurTimeoutRef.current) clearTimeout(blurTimeoutRef.current);
+      if (searchTimeoutRef.current) clearTimeout(searchTimeoutRef.current);
     };
   }, []);
 
-  const filteredSuggestions = suggestions.filter(suggestion =>
+  // Server-side search suggestions
+  useEffect(() => {
+    if (searchTimeoutRef.current) clearTimeout(searchTimeoutRef.current);
+    if (!searchTerm || searchTerm.length < 1) {
+      setServerSuggestions([]);
+      return;
+    }
+    searchTimeoutRef.current = setTimeout(async () => {
+      try {
+        const res = await searchAPI.suggestions(searchTerm);
+        if (res.data) setServerSuggestions(res.data);
+      } catch { setServerSuggestions([]); }
+    }, 300);
+    return () => { if (searchTimeoutRef.current) clearTimeout(searchTimeoutRef.current); };
+  }, [searchTerm]);
+
+  const localFiltered = suggestions.filter(suggestion =>
     String(suggestion).toLowerCase().includes(searchTerm.toLowerCase())
   ).slice(0, 5);
+
+  const allSuggestions = [...new Set([
+    ...serverSuggestions.map(s => s.pincode).filter(Boolean),
+    ...localFiltered
+  ])].slice(0, 8);
 
   const saveToHistory = (query, resultCount) => {
     if (!query || !query.trim()) return;
@@ -76,14 +100,14 @@ function SearchBar({ onSearch, placeholder = "Search by area or pincode...", sug
           {searchTerm && (
             <button
               type="button"
-              onClick={() => { setSearchTerm(''); setShowSuggestions(false); onSearch(''); }}
+              onClick={() => { setSearchTerm(''); setShowSuggestions(false); setServerSuggestions([]); onSearch(''); }}
               className={`absolute right-2.5 top-1/2 -translate-y-1/2 ${isDarkMode ? 'text-slate-500 hover:text-white' : 'text-slate-400 hover:text-slate-700'}`}
             >
               <X size={14} />
             </button>
           )}
           <AnimatePresence>
-            {showSuggestions && filteredSuggestions.length > 0 && (
+            {showSuggestions && allSuggestions.length > 0 && (
               <motion.div
                 initial={{ opacity: 0, y: -5 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -92,7 +116,7 @@ function SearchBar({ onSearch, placeholder = "Search by area or pincode...", sug
                   isDarkMode ? 'bg-[#1e293b] border-[#475569]' : 'bg-white border-slate-200'
                 }`}
               >
-                {filteredSuggestions.map((suggestion, index) => (
+                {allSuggestions.map((suggestion, index) => (
                   <button
                     key={index}
                     type="button"

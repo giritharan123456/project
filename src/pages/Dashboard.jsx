@@ -158,10 +158,12 @@ function Dashboard() {
     
     if (!pincode || !pincode.trim()) {
       setSelectedPincode(null);
+      navigate('/dashboard', { replace: true });
       return;
     }
     
     setSelectedPincode(pincode);
+    navigate(`/dashboard?search=${encodeURIComponent(pincode)}`, { replace: true });
     try {
       setSearchLoading(true);
       const response = await areasAPI.getByPincode(pincode);
@@ -220,7 +222,7 @@ function Dashboard() {
                 <DistrictSelector districts={districts} />
               </div>
               <div className="flex-1">
-                <SearchBar value={searchPincode} onSearch={handleSearch} placeholder={`Search pincode in ${currentDistrictName || 'selected district'}...`} suggestions={displayData.map(p => p.pincode).filter(Boolean)} district={currentDistrictName} category={selectedBusinessCategory} />
+                <SearchBar value={searchPincode} onSearch={handleSearch} placeholder={`Search pincode in ${currentDistrictName || 'selected district'}...`} suggestions={pincodeData.map(p => p.pincode).filter(Boolean)} district={currentDistrictName} category={selectedBusinessCategory} />
                 {searchLoading && <p className="mt-1 text-[10px] text-slate-400 font-medium">Fetching data...</p>}
                 {searchError && <p className="mt-1 text-[10px] text-red-500 font-medium">{searchError}</p>}
               </div>

@@ -118,6 +118,20 @@ export const districtsAPI = {
   },
 };
 
+// Search API
+export const searchAPI = {
+  suggestions: async (query) => {
+    return apiCall(`/search/suggestions?query=${encodeURIComponent(query)}`);
+  },
+  areas: async (query, district, limit) => {
+    const params = new URLSearchParams();
+    if (query) params.set('query', query);
+    if (district) params.set('district', district);
+    if (limit) params.set('limit', String(limit));
+    return apiCall(`/search/areas?${params.toString()}`);
+  },
+};
+
 // Areas API
 export const areasAPI = {
   getAll: async (params = {}) => {

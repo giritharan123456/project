@@ -33,96 +33,131 @@ function EnhancedExport({ data, selectedDistrict, businessCategories, leaderboar
 
     try {
       const doc = new jsPDF();
-      
       const pageWidth = doc.internal.pageSize.getWidth();
-      doc.setFontSize(20);
-      doc.setTextColor(102, 126, 234);
-      doc.text('MarketVision AI - Market Gap Analysis Report', pageWidth / 2, 22, { align: 'center' });
-      
-      doc.setFontSize(12);
-      doc.setTextColor(100, 100, 100);
-      doc.text(`District: ${districtName}`, 14, 34);
-      doc.text(`Export Date: ${new Date().toLocaleDateString()}`, 14, 42);
-      doc.text(`Total Pincodes: ${data.length}`, 14, 50);
+      const pageHeight = doc.internal.pageSize.getHeight();
+      const margin = 14;
 
-      // Table headers
-      const headers = ['Pincode', 'Area', 'District', 'Population', 'Growth %', 'Income Level', 'Opp. Score', 'Feas. Score'];
-      businessCategories.forEach(cat => {
-        headers.push(`${cat.name} Gap`);
+      // Header bar
+      doc.setFillColor(37, 99, 235);
+      doc.rect(0, 0, pageWidth, 28, 'F');
+      doc.setFontSize(18);
+      doc.setTextColor(255, 255, 255);
+      doc.text('MarketVision AI', margin, 12);
+      doc.setFontSize(10);
+      doc.text('Market Gap Analysis Report', margin, 19);
+      doc.setFontSize(9);
+      doc.text(`Generated: ${new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}`, pageWidth - margin, 12, { align: 'right' });
+
+      // Info section
+      doc.setFontSize(11);
+      doc.setTextColor(60, 60, 60);
+      const infoY = 36;
+      doc.setFont(undefined, 'bold');
+      doc.text('District:', margin, infoY);
+      doc.setFont(undefined, 'normal');
+      doc.text(districtName, margin + 25, infoY);
+      doc.setFont(undefined, 'bold');
+      doc.text('Pincodes:', margin + 75, infoY);
+      doc.setFont(undefined, 'normal');
+      doc.text(String(data.length), margin + 105, infoY);
+      doc.setFont(undefined, 'bold');
+      doc.text('Categories:', margin + 130, infoY);
+      doc.setFont(undefined, 'normal');
+      doc.text(String(businessCategories?.length || 0), margin + 162, infoY);
+
+      // Separator line
+      doc.setDrawColor(37, 99, 235);
+      doc.setLineWidth(0.5);
+      doc.line(margin, infoY + 5, pageWidth - margin, infoY + 5);
+
+      // Summary stats
+      let yPos = infoY + 14;
+      const totalPopulation = data.reduce((s, p) => s + (p.population || 0), 0);
+      const avgOpp = data.length > 0 ? (data.reduce((s, p) => s + (p.opportunityScore || 0), 0) / data.length).toFixed(1) : '0';
+      const avgFeas = data.length > 0 ? (data.reduce((s, p) => s + (p.feasibilityScore || 0), 0) / data.length).toFixed(1) : '0';
+
+      doc.setFontSize(13);
+      doc.setTextColor(37, 99, 235);
+      doc.setFont(undefined, 'bold');
+      doc.text('Summary', margin, yPos);
+      doc.setFont(undefined, 'normal');
+
+      autoTable(doc, {
+        startY: yPos + 4,
+        head: [['Metric', 'Value']],
+        body: [
+          ['Total Population', totalPopulation.toLocaleString()],
+          ['Average Opportunity Score', `${avgOpp}/100`],
+          ['Average Feasibility Score', `${avgFeas}/100`],
+          ['Total Areas Analyzed', String(data.length)],
+        ],
+        styles: { fontSize: 9, cellPadding: 3, halign: 'left', valign: 'middle', textColor: [50, 50, 50] },
+        headStyles: { fillColor: [37, 99, 235], halign: 'left', fontStyle: 'bold', textColor: 255 },
+        alternateRowStyles: { fillColor: [245, 247, 250] },
+        columnStyles: { 0: { cellWidth: 70, fontStyle: 'bold' }, 1: { cellWidth: 'auto', halign: 'right' } },
+        margin: { left: margin, right: margin },
       });
 
-      // Table data
+      // Main data table
+      yPos = doc.lastAutoTable.finalY + 12;
+      if (yPos > pageHeight - 60) { doc.addPage(); yPos = 20; }
+
+      doc.setFontSize(13);
+      doc.setTextColor(37, 99, 235);
+      doc.setFont(undefined, 'bold');
+      doc.text('Area Details', margin, yPos);
+      doc.setFont(undefined, 'normal');
+
+      const headers = ['Pincode', 'Area', 'Population', 'Growth %', 'Income', 'Opp.', 'Feas.'];
+      businessCategories.forEach(cat => {
+        headers.push(`${cat.name.substring(0, 8)} Gap`);
+      });
+
       const tableData = data.map(pincode => {
         const row = [
           pincode.pincode || '',
-          pincode.area || '',
-          pincode.district || '',
-          pincode.population ? pincode.population.toLocaleString() : 'No data',
-          pincode.populationGrowth != null ? `${Number(pincode.populationGrowth).toFixed(2)}%` : 'No data',
-          pincode.incomeLevel || 'No data',
-          pincode.opportunityScore != null ? pincode.opportunityScore : '-',
-          pincode.feasibilityScore != null ? pincode.feasibilityScore : '-',
+          (pincode.area || '').substring(0, 18),
+          pincode.population ? pincode.population.toLocaleString() : '-',
+          pincode.populationGrowth != null ? `${Number(pincode.populationGrowth).toFixed(1)}%` : '-',
+          pincode.incomeLevel || '-',
+          pincode.opportunityScore != null ? String(pincode.opportunityScore) : '-',
+          pincode.feasibilityScore != null ? String(pincode.feasibilityScore) : '-',
         ];
         businessCategories.forEach(cat => {
-          row.push((pincode.marketGapScores && pincode.marketGapScores[cat.name] != null) ? Number(pincode.marketGapScores[cat.name]).toFixed(2) : '0.00');
+          row.push((pincode.marketGapScores && pincode.marketGapScores[cat.name] != null) ? Number(pincode.marketGapScores[cat.name]).toFixed(1) : '0');
         });
         return row;
       });
 
-      // Generate main table first
       autoTable(doc, {
         head: [headers],
         body: tableData,
-        startY: 57,
-        styles: {
-          fontSize: 8,
-          cellPadding: 3,
-          halign: 'left',
-          valign: 'middle',
+        startY: yPos + 4,
+        styles: { fontSize: 7, cellPadding: 2, halign: 'left', valign: 'middle', textColor: [50, 50, 50] },
+        headStyles: { fillColor: [37, 99, 235], textColor: 255, fontStyle: 'bold', halign: 'left', fontSize: 7 },
+        alternateRowStyles: { fillColor: [245, 247, 250] },
+        columnStyles: {
+          0: { cellWidth: 18 },
+          2: { halign: 'right' },
+          3: { halign: 'right' },
+          5: { halign: 'right' },
+          6: { halign: 'right' },
         },
-        headStyles: {
-          fillColor: [102, 126, 234],
-          textColor: 255,
-          fontStyle: 'bold',
-          halign: 'left',
-        },
-        alternateRowStyles: {
-          fillColor: [245, 247, 250],
-        },
+        margin: { left: margin, right: margin },
       });
 
-      // Leaderboard section after main table
-      if (leaderboardData && leaderboardData.length > 0) {
-        const finalY = doc.lastAutoTable.finalY || 55;
-        doc.setFontSize(14);
-        doc.setTextColor(102, 126, 234);
-        doc.text('Area Leaderboard', 14, finalY + 15);
-
-        const lbHeaders = ['Rank', 'Area', 'District', 'Opportunity Score', 'Feasibility Score'];
-        const lbData = leaderboardData.slice(0, 10).map((a, i) => [
-          i + 1,
-          a.name || '',
-          a.district || '',
-          a.opportunityScore != null ? a.opportunityScore : '-',
-          a.feasibilityScore != null ? a.feasibilityScore : '-',
-        ]);
-
-        autoTable(doc, {
-          head: [lbHeaders],
-          body: lbData,
-          startY: finalY + 22,
-          styles: { fontSize: 8, cellPadding: 3, halign: 'left', valign: 'middle' },
-          headStyles: { fillColor: [102, 126, 234], textColor: 255, fontStyle: 'bold', halign: 'left' },
-          alternateRowStyles: { fillColor: [245, 247, 250] },
-          columnStyles: {
-            0: { halign: 'center' },
-            3: { halign: 'right' },
-            4: { halign: 'right' },
-          },
-        });
+      // Footer on every page
+      const totalPages = doc.internal.getNumberOfPages();
+      for (let i = 1; i <= totalPages; i++) {
+        doc.setPage(i);
+        doc.setFontSize(8);
+        doc.setTextColor(150, 150, 150);
+        doc.text(`Page ${i} of ${totalPages}`, pageWidth / 2, pageHeight - 8, { align: 'center' });
+        doc.text('MarketVision AI - Confidential', margin, pageHeight - 8);
+        doc.setDrawColor(200, 200, 200);
+        doc.line(margin, pageHeight - 12, pageWidth - margin, pageHeight - 12);
       }
 
-      // Save PDF
       doc.save(`market-gap-analysis-${districtName}.pdf`);
     } catch (error) {
       toastError('PDF export failed. Please try again.');
