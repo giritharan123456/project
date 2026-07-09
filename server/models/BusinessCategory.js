@@ -27,6 +27,9 @@ const businessCategorySchema = new mongoose.Schema({
   description: {
     type: String
   },
+  icon: {
+    type: String
+  },
   minInvestment: { type: Number, default: 500000 },
   maxInvestment: { type: Number, default: 5000000 },
   createdAt: {

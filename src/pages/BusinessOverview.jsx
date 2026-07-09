@@ -9,7 +9,7 @@ import {
   Store, TrendingUp, BarChart3, 
   ArrowLeft, Search, ChevronDown, MapPin,
   Utensils, Coffee, ShoppingBag,
-  Scissors, Briefcase, Heart, Share2, Grid, List, AlertCircle
+  Scissors, Briefcase, Heart, Share2, Grid, List, AlertCircle, PieChart
 } from 'lucide-react';
 
 const categoryIcons = {

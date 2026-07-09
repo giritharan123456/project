@@ -10,7 +10,7 @@ import { averageOfValues, toPlainObject, NO_DATA_LABEL } from '../utils/dataUtil
 import { 
   Sparkles, TrendingUp, DollarSign, Users, Target, CheckCircle,
   AlertTriangle, ArrowRight, Star, Lightbulb, BarChart3,
-  Clock, Award, Zap, ChevronRight, MapPin
+  Clock, Award, Zap, ChevronRight, MapPin, PieChart, BookOpen
 } from 'lucide-react';
 
 function AIRecommendations() {

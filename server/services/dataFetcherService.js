@@ -1,6 +1,10 @@
 const Area = require('../models/Area');
 const District = require('../models/District');
 
+// NOTE: This service generates algorithmically estimated data for pincodes
+// not found in the database. The data is based on demographic formulas and
+// randomization. For real data, pre-seed the database using seed.js.
+
 class DataFetcherService {
   generatePopulationData(pincode) {
     const pincodeNum = parseInt(pincode);
@@ -56,9 +60,10 @@ class DataFetcherService {
     const incomeLevel = this.getIncomeLevel(urbanDevelopment);
     const marketAnalysis = this.generateMarketAnalysis(populationData.population, urbanDevelopment, incomeLevel);
 
-    let districtDoc = await District.findOne({ name: 'Chennai' });
+    // Try to find a matching district, default to first available
+    let districtDoc = await District.findOne({});
     if (!districtDoc) {
-      districtDoc = await District.create({ name: 'Chennai' });
+      districtDoc = await District.create({ name: 'Default District', state: 'Tamil Nadu' });
     }
 
     return {

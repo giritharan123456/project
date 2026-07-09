@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
 import { useToast } from '../contexts/ToastContext';
-import { workspaceAPI } from '../services/api';
+import { workspaceAPI, comparisonAPI } from '../services/api';
 import { 
   User, Heart, Clock, FileText, BarChart3, Settings,
   ChevronRight, Eye, Trash2, Download, Edit, MapPin,
@@ -35,10 +35,11 @@ function Workspace() {
         const token = localStorage.getItem('token');
         if (!token) { setLoading(false); return; }
         
-        const [profileRes, favsRes, historyRes] = await Promise.allSettled([
+        const [profileRes, favsRes, historyRes, comparisonsRes] = await Promise.allSettled([
           workspaceAPI.getProfile(),
           workspaceAPI.getFavorites(),
-          workspaceAPI.getSearchHistory()
+          workspaceAPI.getSearchHistory(),
+          comparisonAPI.getSaved()
         ]);
         
         if (profileRes.status === 'fulfilled' && profileRes.value?.data) {
@@ -57,6 +58,9 @@ function Workspace() {
         if (historyRes.status === 'fulfilled' && historyRes.value?.data) {
           setSearchHistory(historyRes.value.data);
         }
+        if (comparisonsRes.status === 'fulfilled' && comparisonsRes.value?.data) {
+          setSavedComparisons(comparisonsRes.value.data);
+        }
       } catch (err) {
         toastError('Failed to load workspace data');
       } finally {
@@ -71,8 +75,6 @@ function Workspace() {
     { id: 'favorites', label: 'Favorites', icon: Heart },
     { id: 'history', label: 'Search History', icon: Clock },
     { id: 'comparisons', label: 'Comparisons', icon: BarChart3 },
-    { id: 'reports', label: 'Reports', icon: FileText },
-    { id: 'recent', label: 'Recently Viewed', icon: Eye },
     { id: 'settings', label: 'Settings', icon: Settings }
   ];
 
@@ -402,35 +404,15 @@ function Workspace() {
                 </h3>
                 
                 <div className="space-y-4">
-                  <div className="flex items-center justify-between">
+                  <Link to="/notifications" className={`flex items-center justify-between p-4 rounded-xl border transition-colors ${isDarkMode ? 'border-[#334155] hover:border-blue-500' : 'border-[#e2e8f0] hover:border-blue-500'}`}>
                     <div>
-                      <p className={`font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Market Updates</p>
+                      <p className={`font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>View Notifications</p>
                       <p className={`text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
-                        Get notified about market changes
+                        Check your market alerts and updates
                       </p>
                     </div>
-                    <span className={`text-xs px-2 py-1 rounded-full font-medium ${isDarkMode ? 'bg-slate-700 text-slate-400' : 'bg-gray-100 text-gray-500'}`}>Coming Soon</span>
-                  </div>
-                  
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className={`font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Business Opportunities</p>
-                      <p className={`text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
-                        New opportunities in your areas
-                      </p>
-                    </div>
-                    <span className={`text-xs px-2 py-1 rounded-full font-medium ${isDarkMode ? 'bg-slate-700 text-slate-400' : 'bg-gray-100 text-gray-500'}`}>Coming Soon</span>
-                  </div>
-                  
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className={`font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Forecast Updates</p>
-                      <p className={`text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
-                        Changes in demand forecasts
-                      </p>
-                    </div>
-                    <span className={`text-xs px-2 py-1 rounded-full font-medium ${isDarkMode ? 'bg-slate-700 text-slate-400' : 'bg-gray-100 text-gray-500'}`}>Coming Soon</span>
-                  </div>
+                    <ChevronRight size={18} className="opacity-50" />
+                  </Link>
                 </div>
               </div>
 
@@ -440,20 +422,10 @@ function Workspace() {
                 </h3>
                 
                 <div className="space-y-4">
-                  <div className={`w-full p-4 rounded-xl border flex items-center justify-between ${isDarkMode ? 'border-[#334155] opacity-60' : 'border-[#e2e8f0] opacity-60'}`}>
-                    <span className={`font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Change Password</span>
-                    <span className={`text-xs px-2 py-1 rounded-full font-medium ${isDarkMode ? 'bg-slate-700 text-slate-400' : 'bg-gray-100 text-gray-500'}`}>Coming Soon</span>
-                  </div>
-                  
-                  <div className={`w-full p-4 rounded-xl border flex items-center justify-between ${isDarkMode ? 'border-[#334155] opacity-60' : 'border-[#e2e8f0] opacity-60'}`}>
-                    <span className={`font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Privacy Settings</span>
-                    <span className={`text-xs px-2 py-1 rounded-full font-medium ${isDarkMode ? 'bg-slate-700 text-slate-400' : 'bg-gray-100 text-gray-500'}`}>Coming Soon</span>
-                  </div>
-                  
-                  <button disabled className="w-full p-4 rounded-xl border flex items-center justify-between transition-colors hover:border-red-500 hover:text-red-500 opacity-60 cursor-not-allowed">
-                    <span className="font-semibold text-red-500">Delete Account</span>
-                    <span className={`text-xs px-2 py-1 rounded-full font-medium ${isDarkMode ? 'bg-slate-700 text-slate-400' : 'bg-gray-100 text-gray-500'}`}>Coming Soon</span>
-                  </button>
+                  <Link to="/profile" className={`w-full p-4 rounded-xl border flex items-center justify-between transition-colors ${isDarkMode ? 'border-[#334155] hover:border-blue-500' : 'border-[#e2e8f0] hover:border-blue-500'}`}>
+                    <span className={`font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Edit Profile</span>
+                    <ChevronRight size={18} className="opacity-50" />
+                  </Link>
                 </div>
               </div>
             </div>
