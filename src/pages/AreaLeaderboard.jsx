@@ -92,7 +92,7 @@ function AreaLeaderboard() {
                         <h3 className={`font-semibold text-sm truncate ${b('text-gray-900', 'text-white')}`}>{area.name}</h3>
                         <span className={`text-xs ${b('text-gray-400', 'text-gray-500')}`}>{area.pincode}</span>
                       </div>
-                      <p className={`text-xs ${b('text-gray-500', 'text-gray-400')}`}>{area.district} · {area.population?.toLocaleString()} population · {area.incomeLevel} income</p>
+                      <p className={`text-xs ${b('text-gray-500', 'text-gray-400')}`}>{area.district} · {area.population?.toLocaleString()} population · {area.incomeLevel} income · {area.literacyRate != null ? `${area.literacyRate}% literacy` : ''}</p>
                     </div>
                     <div className="text-right flex gap-4">
                       <div>

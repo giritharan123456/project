@@ -76,7 +76,7 @@ function SearchBar({ onSearch, placeholder = "Search by area or pincode...", sug
           {searchTerm && (
             <button
               type="button"
-              onClick={() => { setSearchTerm(''); setShowSuggestions(false); }}
+              onClick={() => { setSearchTerm(''); setShowSuggestions(false); onSearch(''); }}
               className={`absolute right-2.5 top-1/2 -translate-y-1/2 ${isDarkMode ? 'text-slate-500 hover:text-white' : 'text-slate-400 hover:text-slate-700'}`}
             >
               <X size={14} />

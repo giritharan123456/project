@@ -76,21 +76,52 @@ function Reports() {
     try {
       const doc = new jsPDF();
       const pageWidth = doc.internal.pageSize.getWidth();
-      doc.setFontSize(20);
-      doc.setTextColor(37, 99, 235);
-      doc.text('MarketVision AI - Area Report', pageWidth / 2, 22, { align: 'center' });
-      doc.setFontSize(11);
-      doc.setTextColor(100, 100, 100);
-      doc.text(`District: ${districtName}`, 14, 34);
-      doc.text(`Pincode: ${areaData.pincode || 'N/A'}`, 14, 41);
-      doc.text(`Area: ${areaData.name || 'N/A'}`, 14, 48);
-      doc.text(`Date: ${new Date().toLocaleDateString()}`, 14, 55);
+      const pageHeight = doc.internal.pageSize.getHeight();
+      const margin = 14;
 
-      doc.setFontSize(14);
-      doc.setTextColor(30, 30, 30);
-      doc.text('Area Overview', 14, 68);
+      // Header bar
+      doc.setFillColor(37, 99, 235);
+      doc.rect(0, 0, pageWidth, 28, 'F');
+      doc.setFontSize(18);
+      doc.setTextColor(255, 255, 255);
+      doc.text('MarketVision AI', margin, 12);
+      doc.setFontSize(10);
+      doc.text('Area Market Analysis Report', margin, 19);
+      doc.setFontSize(9);
+      doc.text(`Generated: ${new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}`, pageWidth - margin, 12, { align: 'right' });
+
+      // Info section
+      doc.setFontSize(11);
+      doc.setTextColor(60, 60, 60);
+      const infoY = 36;
+      doc.setFont(undefined, 'bold');
+      doc.text('District:', margin, infoY);
+      doc.setFont(undefined, 'normal');
+      doc.text(districtName, margin + 25, infoY);
+      doc.setFont(undefined, 'bold');
+      doc.text('Pincode:', margin + 75, infoY);
+      doc.setFont(undefined, 'normal');
+      doc.text(areaData.pincode || 'N/A', margin + 100, infoY);
+      doc.setFont(undefined, 'bold');
+      doc.text('Area:', margin + 130, infoY);
+      doc.setFont(undefined, 'normal');
+      doc.text(areaData.name || 'N/A', margin + 145, infoY);
+
+      // Separator line
+      doc.setDrawColor(37, 99, 235);
+      doc.setLineWidth(0.5);
+      doc.line(margin, infoY + 5, pageWidth - margin, infoY + 5);
+
+      // Area Overview section
+      let yPos = infoY + 14;
+      doc.setFontSize(13);
+      doc.setTextColor(37, 99, 235);
+      doc.setFont(undefined, 'bold');
+      doc.text('Area Overview', margin, yPos);
+      doc.setFont(undefined, 'normal');
+
       autoTable(doc, {
-        startY: 73,
+        startY: yPos + 4,
         head: [['Metric', 'Value']],
         body: [
           ['Population', (areaData.population || 0).toLocaleString()],
@@ -103,45 +134,81 @@ function Reports() {
           ['Avg Demand Score', Number(areaStats.avgDemand).toFixed(2)],
           ['Total Competitors', areaStats.totalCompetitors],
         ],
-        styles: { fontSize: 10, cellPadding: 4, halign: 'left', valign: 'middle' },
-        headStyles: { fillColor: [37, 99, 235], halign: 'left', fontStyle: 'bold' },
-        columnStyles: { 0: { cellWidth: 70 }, 1: { cellWidth: 'auto', halign: 'right' } },
+        styles: { fontSize: 9, cellPadding: 3, halign: 'left', valign: 'middle', textColor: [50, 50, 50] },
+        headStyles: { fillColor: [37, 99, 235], halign: 'left', fontStyle: 'bold', textColor: 255 },
+        alternateRowStyles: { fillColor: [245, 247, 250] },
+        columnStyles: { 0: { cellWidth: 65, fontStyle: 'bold' }, 1: { cellWidth: 'auto', halign: 'right' } },
+        margin: { left: margin, right: margin },
       });
 
       // Landmarks section
       if (areaData.landmarks && areaData.landmarks.length > 0) {
-        doc.setFontSize(14);
-        doc.text('Nearby Landmarks', 14, doc.lastAutoTable.finalY + 15);
+        yPos = doc.lastAutoTable.finalY + 12;
+        doc.setFontSize(13);
+        doc.setTextColor(37, 99, 235);
+        doc.setFont(undefined, 'bold');
+        doc.text('Nearby Landmarks', margin, yPos);
+        doc.setFont(undefined, 'normal');
+
         autoTable(doc, {
-          startY: doc.lastAutoTable.finalY + 20,
+          startY: yPos + 4,
           head: [['Landmark', 'Type']],
           body: areaData.landmarks.map(l => [l.name || l, l.type || '']),
-          styles: { fontSize: 10, cellPadding: 4, halign: 'left', valign: 'middle' },
-          headStyles: { fillColor: [37, 99, 235], halign: 'left', fontStyle: 'bold' },
-          columnStyles: { 0: { cellWidth: 100 }, 1: { cellWidth: 'auto', halign: 'center' } },
+          styles: { fontSize: 9, cellPadding: 3, halign: 'left', valign: 'middle', textColor: [50, 50, 50] },
+          headStyles: { fillColor: [37, 99, 235], halign: 'left', fontStyle: 'bold', textColor: 255 },
+          alternateRowStyles: { fillColor: [245, 247, 250] },
+          columnStyles: { 0: { cellWidth: 110 }, 1: { cellWidth: 'auto', halign: 'center' } },
+          margin: { left: margin, right: margin },
         });
       }
 
+      // Category Breakdown section
       if (areaStats.categories.length > 0) {
-        doc.setFontSize(14);
-        doc.text('Category Breakdown', 14, doc.lastAutoTable.finalY + 15);
+        yPos = doc.lastAutoTable.finalY + 12;
+
+        // Check if we need a new page
+        if (yPos > pageHeight - 60) {
+          doc.addPage();
+          yPos = 20;
+        }
+
+        doc.setFontSize(13);
+        doc.setTextColor(37, 99, 235);
+        doc.setFont(undefined, 'bold');
+        doc.text('Category Breakdown', margin, yPos);
+        doc.setFont(undefined, 'normal');
+
         autoTable(doc, {
-          startY: doc.lastAutoTable.finalY + 20,
+          startY: yPos + 4,
           head: [['Category', 'Gap Score', 'Demand', 'Competitors', 'Status']],
           body: areaStats.categories.map(c => [
-            c.name, Number(c.gap).toFixed(2), Number(c.demand).toFixed(2), c.competitors,
+            c.name, Number(c.gap).toFixed(1), Number(c.demand).toFixed(1), c.competitors,
             c.gap >= 70 && c.competitors < 5 ? 'High Opportunity' : c.competitors > 8 ? 'Saturated' : 'Moderate'
           ]),
-          styles: { fontSize: 10, cellPadding: 4, halign: 'left', valign: 'middle' },
-          headStyles: { fillColor: [37, 99, 235], halign: 'left', fontStyle: 'bold' },
+          styles: { fontSize: 9, cellPadding: 3, halign: 'left', valign: 'middle', textColor: [50, 50, 50] },
+          headStyles: { fillColor: [37, 99, 235], halign: 'left', fontStyle: 'bold', textColor: 255 },
+          alternateRowStyles: { fillColor: [245, 247, 250] },
           columnStyles: {
-            0: { cellWidth: 45 },
+            0: { cellWidth: 40, fontStyle: 'bold' },
             1: { halign: 'right' },
             2: { halign: 'right' },
             3: { halign: 'center' },
             4: { halign: 'center' }
           },
+          margin: { left: margin, right: margin },
         });
+      }
+
+      // Footer on every page
+      const totalPages = doc.internal.getNumberOfPages();
+      for (let i = 1; i <= totalPages; i++) {
+        doc.setPage(i);
+        doc.setFontSize(8);
+        doc.setTextColor(150, 150, 150);
+        doc.text(`Page ${i} of ${totalPages}`, pageWidth / 2, pageHeight - 8, { align: 'center' });
+        doc.text('MarketVision AI - Confidential', margin, pageHeight - 8);
+        doc.setDrawColor(200, 200, 200);
+        doc.line(margin, pageHeight - 12, pageWidth - margin, pageHeight - 12);
       }
 
       doc.save(`report-${areaData.pincode || 'area'}.pdf`);

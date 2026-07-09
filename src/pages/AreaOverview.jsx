@@ -60,7 +60,7 @@ function AreaOverview() {
 
   const handleFavorite = async () => {
     if (!user) {
-      alert('Please login to save favorites');
+      navigate('/login?redirect=' + encodeURIComponent(window.location.pathname));
       return;
     }
     try {
@@ -82,7 +82,7 @@ function AreaOverview() {
 
   const handleShare = async () => {
     if (!user) {
-      alert('Please login to share');
+      navigate('/login?redirect=' + encodeURIComponent(window.location.pathname));
       return;
     }
     try {

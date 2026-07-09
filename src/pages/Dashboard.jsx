@@ -154,8 +154,14 @@ function Dashboard() {
 
   const handleSearch = async (pincode) => {
     setSearchPincode(pincode);
-    setSelectedPincode(pincode);
     setSearchError(null);
+    
+    if (!pincode || !pincode.trim()) {
+      setSelectedPincode(null);
+      return;
+    }
+    
+    setSelectedPincode(pincode);
     try {
       setSearchLoading(true);
       const response = await areasAPI.getByPincode(pincode);

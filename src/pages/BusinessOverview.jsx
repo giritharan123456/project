@@ -77,7 +77,7 @@ function BusinessOverview() {
 
   const handleFavorite = async () => {
     if (!user) {
-      alert('Please login to save favorites');
+      navigate('/login?redirect=' + encodeURIComponent(window.location.pathname));
       return;
     }
     try {
@@ -99,7 +99,7 @@ function BusinessOverview() {
 
   const handleShare = async () => {
     if (!user) {
-      alert('Please login to share');
+      navigate('/login?redirect=' + encodeURIComponent(window.location.pathname));
       return;
     }
     try {

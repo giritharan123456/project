@@ -59,6 +59,8 @@ const getLeaderboard = async (req, res) => {
         incomeLevel: a.incomeLevel,
         feasibilityScore: a.feasibilityScore,
         opportunityScore: a.opportunityScore,
+        literacyRate: a.literacyRate,
+        trafficLevel: a.trafficLevel,
         avgGap: Math.round(avgGap * 10) / 10,
         totalGap: Math.round(totalGap * 10) / 10,
         categoriesCount: Object.keys(gaps).length
