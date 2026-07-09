@@ -125,10 +125,10 @@ function AreaOverview() {
             </div>
             
             <div className="flex items-center gap-3">
-              <button className={`p-3 rounded-xl border transition-colors ${isDarkMode ? 'text-[#f1f5f9] border-[#334155] hover:bg-[#1e293b]' : 'text-[#1e293b] border-[#e2e8f0] hover:bg-[#ffffff]'}`}>
+              <button title="Coming soon" className={`p-3 rounded-xl border transition-colors opacity-50 cursor-not-allowed ${isDarkMode ? 'text-[#f1f5f9] border-[#334155]' : 'text-[#1e293b] border-[#e2e8f0]'}`}>
                 <Heart size={20} />
               </button>
-              <button className={`p-3 rounded-xl border transition-colors ${isDarkMode ? 'text-[#f1f5f9] border-[#334155] hover:bg-[#1e293b]' : 'text-[#1e293b] border-[#e2e8f0] hover:bg-[#ffffff]'}`}>
+              <button title="Coming soon" className={`p-3 rounded-xl border transition-colors opacity-50 cursor-not-allowed ${isDarkMode ? 'text-[#f1f5f9] border-[#334155]' : 'text-[#1e293b] border-[#e2e8f0]'}`}>
                 <Share2 size={20} />
               </button>
               <Link 
