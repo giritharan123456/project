@@ -4,26 +4,13 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, BarChart, Bar, XAxis
 import { useTheme } from '../contexts/ThemeContext';
 import { useToast } from '../contexts/ToastContext';
 import { averageOfValues } from '../utils/dataUtils';
+import ChartTooltip from './ChartTooltip';
 
 const COLORS = ['#2563eb', '#7c3aed', '#db2777', '#ea580c', '#16a34a', '#0891b2', '#d946ef', '#0ea5e9'];
 
 function AnalyticsPanel({ pincodeData, businessCategories, selectedDistrict }) {
   const { isDarkMode } = useTheme();
   const { addToast } = useToast();
-
-  const ChartTooltip = ({ active, payload, label }) => {
-    if (!active || !payload) return null;
-    return (
-      <div className="p-3 rounded-lg shadow-xl border" style={{ background: isDarkMode ? '#1e293b' : '#ffffff', borderColor: isDarkMode ? '#334155' : '#e0e0e0' }}>
-        <p className="font-bold text-sm mb-1" style={{ color: isDarkMode ? '#f1f5f9' : '#1e293b' }}>{label}</p>
-        {payload.map((entry, i) => (
-          <p key={i} className="text-xs font-bold" style={{ color: entry.color }}>
-            {entry.name}: {typeof entry.value === 'number' ? entry.value.toFixed(2) : entry.value}
-          </p>
-        ))}
-      </div>
-    );
-  };
 
   const hasData = pincodeData && pincodeData.length > 0;
 

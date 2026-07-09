@@ -4,22 +4,9 @@ import { useTheme } from '../contexts/ThemeContext';
 import { BarChart3, TrendingUp, PieChart as PieIcon, Activity } from 'lucide-react';
 import EmptyState from './EmptyState';
 import { averageOfValues, toPlainObject } from '../utils/dataUtils';
+import ChartTooltip from './ChartTooltip';
 
 const COLORS = ['#2563eb', '#7c3aed', '#f59e0b', '#10b981', '#ef4444', '#06b6d4', '#8b5cf6', '#ec4899'];
-
-const CustomTooltip = ({ active, payload, label }) => {
-  if (!active || !payload) return null;
-  return (
-    <div className="p-3 rounded-lg shadow-2xl border-2 bg-white dark:bg-[#1e293b] border-slate-300 dark:border-[#475569]">
-      <p className="font-bold text-sm text-gray-900 dark:text-white mb-1">{label}</p>
-      {payload.map((entry, i) => (
-        <p key={i} className="text-xs font-bold" style={{ color: entry.color }}>
-          {entry.name}: {typeof entry.value === 'number' ? entry.value.toFixed(2) : entry.value}
-        </p>
-      ))}
-    </div>
-  );
-};
 
 function ChartsSection({ businessCategories, selectedCategory, pincodeData }) {
   const { isDarkMode } = useTheme();

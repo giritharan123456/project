@@ -3,25 +3,13 @@ import { motion } from 'framer-motion';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, AreaChart, Area } from 'recharts';
 import { useTheme } from '../contexts/ThemeContext';
 import { useToast } from '../contexts/ToastContext';
+import ChartTooltip from './ChartTooltip';
 
 function AdvancedForecasting({ pincodeData, businessCategories }) {
   const { isDarkMode } = useTheme();
   const { addToast } = useToast();
   const [timePeriod, setTimePeriod] = useState(12);
 
-  const ChartTooltip = ({ active, payload, label }) => {
-    if (!active || !payload) return null;
-    return (
-      <div className="p-3 rounded-lg shadow-xl border" style={{ background: isDarkMode ? '#1e293b' : '#ffffff', borderColor: isDarkMode ? '#334155' : '#e0e0e0' }}>
-        <p className="font-bold text-sm mb-1" style={{ color: isDarkMode ? '#f1f5f9' : '#1e293b' }}>{label}</p>
-        {payload.map((entry, i) => (
-          <p key={i} className="text-xs font-bold" style={{ color: entry.color }}>
-            {entry.name}: {typeof entry.value === 'number' ? entry.value.toFixed(2) : entry.value}
-          </p>
-        ))}
-      </div>
-    );
-  };
   const handleExportReport = () => {
     if (!pincodeData || pincodeData.length === 0) {
       addToast('Please select a district first', 'warning');

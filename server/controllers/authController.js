@@ -330,6 +330,5 @@ module.exports = {
   updateUserProfile,
   forgotPassword,
   resetPassword,
-  startGuestCleanup,
   cleanupGuestUsers
 };

@@ -6,7 +6,7 @@ import { areasAPI } from '../services/api';
 import EmptyState from '../components/EmptyState';
 import { toPlainObject, averageOfValues, NO_DATA_LABEL } from '../utils/dataUtils';
 import { 
-  Store, TrendingUp, BarChart3, PieChart, 
+  Store, TrendingUp, BarChart3, 
   ArrowLeft, Search, ChevronDown, MapPin,
   Utensils, Coffee, ShoppingBag,
   Scissors, Briefcase, Heart, Share2, Grid, List, AlertCircle

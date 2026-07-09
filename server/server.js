@@ -22,9 +22,11 @@ connectDB().catch(err => {
 
 app.use(passport.initialize());
 
-// Start guest user cleanup
-const { startGuestCleanup } = require('./controllers/authController');
-startGuestCleanup();
+// Start guest user cleanup (only in production, not during tests or on Vercel)
+if (process.env.NODE_ENV !== 'test' && process.env.VERCEL !== '1') {
+  const { cleanupGuestUsers } = require('./controllers/authController');
+  setInterval(cleanupGuestUsers, 6 * 60 * 60 * 1000);
+}
 
 app.use(helmet({
   contentSecurityPolicy: false,

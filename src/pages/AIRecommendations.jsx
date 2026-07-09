@@ -9,8 +9,8 @@ import EmptyState from '../components/EmptyState';
 import { averageOfValues, toPlainObject, NO_DATA_LABEL } from '../utils/dataUtils';
 import { 
   Sparkles, TrendingUp, DollarSign, Users, Target, CheckCircle,
-  AlertTriangle, ArrowRight, Star, Lightbulb, BarChart3, PieChart,
-  Clock, Award, Zap, BookOpen, ChevronRight, MapPin
+  AlertTriangle, ArrowRight, Star, Lightbulb, BarChart3,
+  Clock, Award, Zap, ChevronRight, MapPin
 } from 'lucide-react';
 
 function AIRecommendations() {
