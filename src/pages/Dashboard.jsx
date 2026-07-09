@@ -119,6 +119,16 @@ function Dashboard() {
   }, [pincodeData, currentDistrictName, selectedPincode]);
   const displayData = filteredPincodeData;
 
+  useEffect(() => {
+    if (currentDistrictName && filteredPincodeData.length > 0 && !selectedPincode && !searchParams.get('search')) {
+      const firstPincode = filteredPincodeData[0].pincode;
+      if (firstPincode) {
+        setSearchPincode(firstPincode);
+        setSelectedPincode(firstPincode);
+      }
+    }
+  }, [currentDistrictName, filteredPincodeData, selectedPincode, searchParams]);
+
   const categorySourceArea = useMemo(() =>
     selectedPincode ? areas.find(a => a.pincode === selectedPincode) : displayData.length > 0 ? areas.find(a => a.pincode === displayData[0]?.pincode) : null,
     [selectedPincode, areas, displayData]
@@ -204,7 +214,7 @@ function Dashboard() {
                 <DistrictSelector districts={districts} />
               </div>
               <div className="flex-1">
-                <SearchBar onSearch={handleSearch} placeholder={`Search pincode in ${currentDistrictName || 'selected district'}...`} suggestions={displayData.map(p => p.pincode).filter(Boolean)} district={currentDistrictName} category={selectedBusinessCategory} />
+                <SearchBar value={searchPincode} onSearch={handleSearch} placeholder={`Search pincode in ${currentDistrictName || 'selected district'}...`} suggestions={displayData.map(p => p.pincode).filter(Boolean)} district={currentDistrictName} category={selectedBusinessCategory} />
                 {searchLoading && <p className="mt-1 text-[10px] text-slate-400 font-medium">Fetching data...</p>}
                 {searchError && <p className="mt-1 text-[10px] text-red-500 font-medium">{searchError}</p>}
               </div>
@@ -285,7 +295,7 @@ function Dashboard() {
           </motion.div>
 
           {/* ═══ ROW 6: INSIGHTS + COMPETITION (Customer asks "What business insights? Who's competing?") ═══ */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 -mt-px">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-0 -mt-px">
             <motion.div {...fadeIn(0.18)}>
               <div className={`${card} h-full`}><BusinessInsights pincodeData={displayData} /></div>
             </motion.div>

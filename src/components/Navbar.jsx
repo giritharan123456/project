@@ -123,8 +123,8 @@ function Navbar() {
             {showSuggestions && searchSuggestions.length > 0 && (
               <div className={`absolute top-full left-0 right-0 mt-1 rounded-xl shadow-xl border overflow-hidden z-50 ${b('bg-white border-gray-200', 'bg-[#1e293b] border-[#334155]')}`}>
                 {searchSuggestions.map((s, i) => (
-                  <button key={i} type="button" onClick={() => { navigate(`/dashboard?search=${s.pincode}`); setSearchQuery(''); setShowSuggestions(false); }}
-                    className={`flex items-center gap-3 w-full px-4 py-2.5 text-sm text-left transition-colors ${b('hover:bg-gray-50 text-gray-700', 'hover:bg-[#0f172a] text-gray-300')}`}>
+                  <button key={s._id || i} type="button" onClick={() => { navigate(`/dashboard?search=${s.pincode}`); setSearchQuery(''); setShowSuggestions(false); }}
+                    className={`flex items-center gap-3 w-full px-4 py-2.5 text-sm text-left transition-colors ${b('hover:bg-gray-50 text-gray-700', 'hover:bg-[#1e293b] text-gray-300')}`}>
                     <span className="text-xs opacity-50">📍</span>
                     <span className="font-medium">{s.name}</span>
                     <span className="text-xs opacity-50 ml-auto">{s.pincode}</span>

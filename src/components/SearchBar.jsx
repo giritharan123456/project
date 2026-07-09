@@ -4,11 +4,15 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Search, X } from 'lucide-react';
 import { historyAPI } from '../services/api';
 
-function SearchBar({ onSearch, placeholder = "Search by area or pincode...", suggestions = [], district, category }) {
+function SearchBar({ onSearch, placeholder = "Search by area or pincode...", suggestions = [], district, category, value }) {
   const { isDarkMode } = useTheme();
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState(value || '');
   const [showSuggestions, setShowSuggestions] = useState(false);
   const blurTimeoutRef = useRef(null);
+
+  useEffect(() => {
+    if (value !== undefined) setSearchTerm(value);
+  }, [value]);
 
   useEffect(() => {
     return () => {

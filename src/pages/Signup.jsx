@@ -170,7 +170,7 @@ function Signup() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <div className={`p-8 rounded-3xl border backdrop-blur-xl ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}>
+          <div className={`p-6 sm:p-8 rounded-3xl border backdrop-blur-xl ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}>
             <div className="text-center mb-8">
               <h2 className={`text-3xl font-bold mb-2 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                 Create Account

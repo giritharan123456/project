@@ -75,21 +75,22 @@ function Reports() {
     setExporting(true);
     try {
       const doc = new jsPDF();
+      const pageWidth = doc.internal.pageSize.getWidth();
       doc.setFontSize(20);
       doc.setTextColor(37, 99, 235);
-      doc.text('MarketVision AI - Area Report', 14, 22);
+      doc.text('MarketVision AI - Area Report', pageWidth / 2, 22, { align: 'center' });
       doc.setFontSize(11);
       doc.setTextColor(100, 100, 100);
-      doc.text(`District: ${districtName}`, 14, 32);
-      doc.text(`Pincode: ${areaData.pincode || 'N/A'}`, 14, 39);
-      doc.text(`Area: ${areaData.name || 'N/A'}`, 14, 46);
-      doc.text(`Date: ${new Date().toLocaleDateString()}`, 14, 53);
+      doc.text(`District: ${districtName}`, 14, 34);
+      doc.text(`Pincode: ${areaData.pincode || 'N/A'}`, 14, 41);
+      doc.text(`Area: ${areaData.name || 'N/A'}`, 14, 48);
+      doc.text(`Date: ${new Date().toLocaleDateString()}`, 14, 55);
 
       doc.setFontSize(14);
       doc.setTextColor(30, 30, 30);
-      doc.text('Area Overview', 14, 66);
+      doc.text('Area Overview', 14, 68);
       autoTable(doc, {
-        startY: 70,
+        startY: 73,
         head: [['Metric', 'Value']],
         body: [
           ['Population', (areaData.population || 0).toLocaleString()],
@@ -101,8 +102,9 @@ function Reports() {
           ['Avg Demand Score', Number(areaStats.avgDemand).toFixed(2)],
           ['Total Competitors', areaStats.totalCompetitors],
         ],
-        styles: { fontSize: 10 },
-        headStyles: { fillColor: [37, 99, 235] },
+        styles: { fontSize: 10, cellPadding: 4, halign: 'left', valign: 'middle' },
+        headStyles: { fillColor: [37, 99, 235], halign: 'left', fontStyle: 'bold' },
+        columnStyles: { 0: { cellWidth: 70 }, 1: { cellWidth: 'auto', halign: 'right' } },
       });
 
       if (areaStats.categories.length > 0) {
@@ -115,8 +117,15 @@ function Reports() {
             c.name, Number(c.gap).toFixed(2), Number(c.demand).toFixed(2), c.competitors,
             c.gap >= 70 && c.competitors < 5 ? 'High Opportunity' : c.competitors > 8 ? 'Saturated' : 'Moderate'
           ]),
-          styles: { fontSize: 10 },
-          headStyles: { fillColor: [37, 99, 235] },
+          styles: { fontSize: 10, cellPadding: 4, halign: 'left', valign: 'middle' },
+          headStyles: { fillColor: [37, 99, 235], halign: 'left', fontStyle: 'bold' },
+          columnStyles: {
+            0: { cellWidth: 45 },
+            1: { halign: 'right' },
+            2: { halign: 'right' },
+            3: { halign: 'center' },
+            4: { halign: 'center' }
+          },
         });
       }
 
@@ -157,8 +166,8 @@ function Reports() {
 
   if (!selectedPincode) {
     return (
-      <div className={`min-h-[calc(100vh-70px)] p-6 md:p-10 transition-colors duration-300 ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
-        <div className="max-w-5xl mx-auto space-y-8">
+    <div className={`min-h-[calc(100vh-70px)] p-4 sm:p-6 md:p-10 transition-colors duration-300 ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
+        <div className="max-w-5xl mx-auto space-y-6 md:space-y-8">
           <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }}>
             <div className="flex items-center gap-3 mb-2">
               <FileText className="text-[#2563eb]" size={32} />
@@ -276,7 +285,7 @@ function Reports() {
   }
 
   return (
-    <div className={`min-h-[calc(100vh-70px)] p-6 md:p-10 transition-colors duration-300 ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
+    <div className={`min-h-[calc(100vh-70px)] p-4 sm:p-6 md:p-10 transition-colors duration-300 ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
       <div className="max-w-7xl mx-auto space-y-6">
 
         <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }}>
@@ -293,7 +302,7 @@ function Reports() {
                 {areaData.name} — Pincode {areaData.pincode} — {districtName}
               </p>
             </div>
-            <div className="flex items-center gap-3">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
               <button onClick={handleExportPDF} disabled={exporting}
                 className="px-5 py-3 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white rounded-xl font-semibold hover:opacity-90 transition-opacity disabled:opacity-50 flex items-center gap-2">
                 <Download size={18} /> {exporting ? 'Exporting...' : 'Export PDF'}
@@ -383,8 +392,8 @@ function Reports() {
                 {areaStats.categories.length} categories
               </span>
             </div>
-            <div className="overflow-x-auto">
-              <table className="w-full text-left">
+            <div className="overflow-x-auto -mx-6 px-6">
+              <table className="w-full text-left min-w-[500px]">
                 <thead>
                   <tr className={`border-b-2 ${isDarkMode ? 'border-[#334155]' : 'border-[#e2e8f0]'}`}>
                     <th className={`pb-3 font-bold text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Category</th>

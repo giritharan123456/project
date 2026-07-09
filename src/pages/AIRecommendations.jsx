@@ -298,7 +298,7 @@ function AIRecommendations() {
         >
           <div className="flex items-center gap-3 mb-2">
             <Sparkles className="text-[#2563eb]" size={32} />
-            <h1 className={`text-3xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+            <h1 className={`text-2xl sm:text-3xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
               AI-Powered Recommendations
             </h1>
           </div>
@@ -327,7 +327,7 @@ function AIRecommendations() {
                 <h2 className={`text-3xl font-bold mb-2 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                   {topRecommendation.business}
                 </h2>
-                <p className={`text-lg opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+                <p className={`text-sm sm:text-base md:text-lg opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                   {topRecommendation.category}
                 </p>
               </div>
@@ -454,7 +454,7 @@ function AIRecommendations() {
           transition={{ delay: 0.2 }}
           className="mb-8"
         >
-          <h2 className={`text-2xl font-bold mb-6 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+          <h2 className={`text-xl sm:text-2xl font-bold mb-4 sm:mb-6 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
             Other Recommendations
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

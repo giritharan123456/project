@@ -34,17 +34,16 @@ function EnhancedExport({ data, selectedDistrict, businessCategories, leaderboar
     try {
       const doc = new jsPDF();
       
-      // Title
+      const pageWidth = doc.internal.pageSize.getWidth();
       doc.setFontSize(20);
       doc.setTextColor(102, 126, 234);
-      doc.text('MarketVision AI - Market Gap Analysis Report', 14, 22);
+      doc.text('MarketVision AI - Market Gap Analysis Report', pageWidth / 2, 22, { align: 'center' });
       
-      // Metadata
       doc.setFontSize(12);
       doc.setTextColor(100, 100, 100);
-      doc.text(`District: ${districtName}`, 14, 32);
-      doc.text(`Export Date: ${new Date().toLocaleDateString()}`, 14, 40);
-      doc.text(`Total Pincodes: ${data.length}`, 14, 48);
+      doc.text(`District: ${districtName}`, 14, 34);
+      doc.text(`Export Date: ${new Date().toLocaleDateString()}`, 14, 42);
+      doc.text(`Total Pincodes: ${data.length}`, 14, 50);
 
       // Table headers
       const headers = ['Pincode', 'Area', 'District', 'Population', 'Growth %', 'Income Level', 'Opp. Score', 'Feas. Score'];
@@ -74,15 +73,18 @@ function EnhancedExport({ data, selectedDistrict, businessCategories, leaderboar
       autoTable(doc, {
         head: [headers],
         body: tableData,
-        startY: 55,
+        startY: 57,
         styles: {
           fontSize: 8,
           cellPadding: 3,
+          halign: 'left',
+          valign: 'middle',
         },
         headStyles: {
           fillColor: [102, 126, 234],
           textColor: 255,
           fontStyle: 'bold',
+          halign: 'left',
         },
         alternateRowStyles: {
           fillColor: [245, 247, 250],
@@ -109,9 +111,14 @@ function EnhancedExport({ data, selectedDistrict, businessCategories, leaderboar
           head: [lbHeaders],
           body: lbData,
           startY: finalY + 22,
-          styles: { fontSize: 8, cellPadding: 3 },
-          headStyles: { fillColor: [102, 126, 234], textColor: 255, fontStyle: 'bold' },
+          styles: { fontSize: 8, cellPadding: 3, halign: 'left', valign: 'middle' },
+          headStyles: { fillColor: [102, 126, 234], textColor: 255, fontStyle: 'bold', halign: 'left' },
           alternateRowStyles: { fillColor: [245, 247, 250] },
+          columnStyles: {
+            0: { halign: 'center' },
+            3: { halign: 'right' },
+            4: { halign: 'right' },
+          },
         });
       }
 

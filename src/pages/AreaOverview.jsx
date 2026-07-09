@@ -156,7 +156,7 @@ function AreaOverview() {
   }));
 
   return (
-    <div className={`min-h-[calc(100vh-70px)] p-6 transition-colors duration-300 ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
+    <div className={`min-h-[calc(100vh-70px)] p-4 sm:p-6 transition-colors duration-300 ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <motion.div
@@ -176,16 +176,16 @@ function AreaOverview() {
             <div>
               <div className="flex items-center gap-3 mb-2">
                 <MapPin className="text-[#2563eb]" size={28} />
-                <h1 className={`text-3xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+                <h1 className={`text-2xl sm:text-3xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                   {areaData.name}
                 </h1>
               </div>
-              <p className={`text-lg opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+              <p className={`text-sm sm:text-base md:text-lg opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                 {areaData.district} • {areaData.pincode}
               </p>
             </div>
             
-            <div className="flex items-center gap-3">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
               <button 
                 onClick={handleFavorite}
                 className={`p-3 rounded-xl border transition-colors ${isFavorite ? 'bg-red-500 text-white border-red-500' : isDarkMode ? 'text-[#f1f5f9] border-[#334155] hover:bg-[#1e293b]' : 'text-[#1e293b] border-[#e2e8f0] hover:bg-gray-100'}`}
@@ -440,10 +440,10 @@ function AreaOverview() {
           transition={{ delay: 0.8 }}
           className={`p-6 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
         >
-          <div className="flex items-center justify-between mb-6">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div className="flex items-center gap-3">
               <Store className="text-[#2563eb]" size={24} />
-              <h3 className={`text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+              <h3 className={`text-lg sm:text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                 Nearby Business Categories
               </h3>
             </div>
@@ -455,7 +455,7 @@ function AreaOverview() {
               <ChevronRight size={16} />
             </Link>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 md:gap-4">
             {nearbyBusinesses.length > 0 ? nearbyBusinesses.map((business, index) => (
               <motion.div
                 key={index}

@@ -185,11 +185,11 @@ function Landing() {
           <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
             className={`md:hidden border-t p-4 ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-gray-200'}`}>
             <div className="flex flex-col gap-3">
-              <a href="#features" className="text-sm font-medium text-gray-700 dark:text-gray-300">Features</a>
-              <a href="#how-it-works" className="text-sm font-medium text-gray-700 dark:text-gray-300">How It Works</a>
-              <a href="#faq" className="text-sm font-medium text-gray-700 dark:text-gray-300">FAQ</a>
-              <div className="flex gap-2 pt-3 border-t">
-                <Link to="/login" className="flex-1 px-4 py-2 rounded-lg font-medium text-center border">Login</Link>
+              <a href="#features" className={`text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>Features</a>
+              <a href="#how-it-works" className={`text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>How It Works</a>
+              <a href="#faq" className={`text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>FAQ</a>
+              <div className={`flex gap-2 pt-3 border-t ${isDarkMode ? 'border-[#334155]' : 'border-gray-200'}`}>
+                <Link to="/login" className={`flex-1 px-4 py-2 rounded-lg font-medium text-center border ${isDarkMode ? 'text-gray-300 border-[#334155]' : 'text-gray-700 border-gray-200'}`}>Login</Link>
                 <Link to="/signup" className="flex-1 px-4 py-2 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white rounded-lg font-medium text-center">Sign Up</Link>
               </div>
             </div>
@@ -247,7 +247,7 @@ function Landing() {
             </motion.div>
 
             <motion.div initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, delay: 0.2 }}>
-              <div className={`p-8 rounded-3xl border shadow-2xl ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-gray-200'}`}>
+              <div className={`p-5 sm:p-6 md:p-8 rounded-3xl border shadow-2xl ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-gray-200'}`}>
                 <form onSubmit={handleSearch}>
                   <div className="flex items-center gap-3 mb-4">
                     <div className="w-10 h-10 rounded-xl bg-[#2563eb]/10 flex items-center justify-center">
@@ -443,7 +443,7 @@ function Landing() {
       <section className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-            className="relative p-12 rounded-3xl bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-center overflow-hidden">
+            className="relative p-6 sm:p-8 md:p-12 rounded-3xl bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-center overflow-hidden">
             <div className="absolute inset-0 opacity-10">
               <div className="absolute top-0 right-0 w-64 h-64 bg-white rounded-full blur-[100px]" />
               <div className="absolute bottom-0 left-0 w-48 h-48 bg-white rounded-full blur-[80px]" />
@@ -472,7 +472,7 @@ function Landing() {
       {/* Footer */}
       <footer className={`py-12 px-4 sm:px-6 lg:px-8 border-t ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-gray-200'}`}>
         <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-4 gap-8 mb-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-8 md:mb-8">
             <div>
               <div className="flex items-center gap-2 mb-4">
                 <Target className="text-[#2563eb]" size={24} />

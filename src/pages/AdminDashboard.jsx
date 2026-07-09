@@ -83,12 +83,12 @@ const AdminDashboard = () => {
 
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Navigation Tabs */}
-        <div className="flex space-x-4 mb-8 border-b border-gray-200 dark:border-gray-700">
+        <div className="flex space-x-4 mb-8 border-b border-gray-200 dark:border-gray-700 overflow-x-auto scrollbar-hide">
           {['overview', 'districts', 'areas', 'categories', 'users'].map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`px-4 py-3 font-medium capitalize ${
+              className={`px-4 py-3 font-medium capitalize whitespace-nowrap ${
                 activeTab === tab
                   ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600'
                   : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100'
@@ -141,9 +141,9 @@ const AdminDashboard = () => {
               />
             </div>
 
-            <div className="mt-8 bg-white dark:bg-[#1e293b] rounded-lg shadow p-6">
+            <div className="mt-8 bg-white dark:bg-[#1e293b] rounded-lg shadow p-4 md:p-6">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Quick Actions</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 <button
                   onClick={() => setActiveTab('districts')}
                   className="bg-blue-600 text-white px-4 py-3 rounded-lg hover:bg-blue-700 transition"
