@@ -3,7 +3,7 @@ const dotenv = require('dotenv');
 const District = require('./models/District');
 const BusinessCategory = require('./models/BusinessCategory');
 const Area = require('./models/Area');
-const { calculateScores } = require('./utils/calculateScores');
+const calculateScores = require('./utils/calculateScores');
 const logger = require('./utils/logger');
 
 dotenv.config();
