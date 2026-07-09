@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTheme } from '../contexts/ThemeContext';
 import { useAuth } from '../contexts/AuthContext';
 import { useDistrict } from '../contexts/DistrictContext';
 import { useToast } from '../contexts/ToastContext';
 import { explorerAPI, favoriteAPI, shareAPI } from '../services/api';
-import { Heart, Share2 } from 'lucide-react';
+import { Heart, Share2, MessageCircle, Mail, Copy, Check, X, ExternalLink } from 'lucide-react';
 
 function AreaLeaderboard() {
   const { isDarkMode } = useTheme();
@@ -21,6 +21,7 @@ function AreaLeaderboard() {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [favorites, setFavorites] = useState({});
+  const [shareModal, setShareModal] = useState(null);
   const [copiedId, setCopiedId] = useState(null);
 
   const b = (light, dark) => isDarkMode ? dark : light;
@@ -76,10 +77,26 @@ function AreaLeaderboard() {
     try {
       const res = await shareAPI.create('area', area._id, { name: area.name, pincode: area.pincode, district: area.district });
       const url = `${window.location.origin}/share/${res.data.shareToken}`;
-      await navigator.clipboard.writeText(url);
-      setCopiedId(area._id);
-      setTimeout(() => setCopiedId(null), 2000);
+      setShareModal({ area, url });
     } catch (err) { alert(err.message || 'Failed to create share link'); }
+  };
+
+  const shareToWhatsApp = (url, name) => {
+    window.open(`https://wa.me/?text=${encodeURIComponent(`Check out ${name} on MarketVision AI: ${url}`)}`, '_blank');
+  };
+
+  const shareToGmail = (url, name) => {
+    window.open(`https://mail.google.com/mail/?view=cm&fs=1&su=${encodeURIComponent(`MarketVision AI - ${name}`)}&body=${encodeURIComponent(`Check out ${name} on MarketVision AI: ${url}`)}`, '_blank');
+  };
+
+  const shareToTwitter = (url, name) => {
+    window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(`Check out ${name} on MarketVision AI`)}&url=${encodeURIComponent(url)}`, '_blank');
+  };
+
+  const copyLink = async (url) => {
+    await navigator.clipboard.writeText(url);
+    setCopiedId(shareModal?.url);
+    setTimeout(() => setCopiedId(null), 2000);
   };
 
   const getRankBadge = (i) => {
@@ -180,6 +197,61 @@ function AreaLeaderboard() {
           </div>
         )}
       </div>
+
+      {/* Share Modal */}
+      <AnimatePresence>
+        {shareModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4"
+            onClick={() => setShareModal(null)}
+          >
+            <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+              className={`relative w-full max-w-sm rounded-2xl border shadow-2xl p-6 ${b('bg-white border-gray-200', 'bg-[#1e293b] border-[#334155]')}`}
+            >
+              <button onClick={() => setShareModal(null)}
+                className={`absolute top-3 right-3 p-1 rounded-lg ${b('text-gray-400 hover:bg-gray-100', 'text-gray-500 hover:bg-[#334155]')}`}>
+                <X size={18} />
+              </button>
+
+              <h3 className={`text-lg font-bold mb-1 ${b('text-gray-900', 'text-white')}`}>Share</h3>
+              <p className={`text-sm mb-5 ${b('text-gray-500', 'text-gray-400')}`}>{shareModal.area.name} ({shareModal.area.pincode})</p>
+
+              <div className="space-y-2">
+                <button onClick={() => shareToWhatsApp(shareModal.url, shareModal.area.name)}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors ${b('hover:bg-green-50 text-gray-700', 'hover:bg-green-900/20 text-gray-200')}`}>
+                  <div className="w-9 h-9 rounded-full bg-green-500 flex items-center justify-center"><MessageCircle size={18} className="text-white" /></div>
+                  WhatsApp
+                </button>
+                <button onClick={() => shareToGmail(shareModal.url, shareModal.area.name)}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors ${b('hover:bg-red-50 text-gray-700', 'hover:bg-red-900/20 text-gray-200')}`}>
+                  <div className="w-9 h-9 rounded-full bg-red-500 flex items-center justify-center"><Mail size={18} className="text-white" /></div>
+                  Gmail
+                </button>
+                <button onClick={() => shareToTwitter(shareModal.url, shareModal.area.name)}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors ${b('hover:bg-blue-50 text-gray-700', 'hover:bg-blue-900/20 text-gray-200')}`}>
+                  <div className="w-9 h-9 rounded-full bg-blue-400 flex items-center justify-center"><ExternalLink size={18} className="text-white" /></div>
+                  Twitter / X
+                </button>
+                <button onClick={() => copyLink(shareModal.url)}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors ${b('hover:bg-gray-100 text-gray-700', 'hover:bg-[#334155] text-gray-200')}`}>
+                  <div className={`w-9 h-9 rounded-full flex items-center justify-center ${copiedId === shareModal.url ? 'bg-green-500' : 'bg-gray-500'}`}>
+                    {copiedId === shareModal.url ? <Check size={18} className="text-white" /> : <Copy size={18} className="text-white" />}
+                  </div>
+                  {copiedId === shareModal.url ? 'Copied!' : 'Copy Link'}
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
