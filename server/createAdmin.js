@@ -1,35 +1,32 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const dotenv = require('dotenv');
+const logger = require('./utils/logger');
 
 dotenv.config();
 
 const createAdmin = async () => {
   try {
     await mongoose.connect(process.env.MONGODB_URI);
-    console.log('MongoDB Connected');
+    logger.info('MongoDB Connected');
 
-    // Hash password manually
     const adminPassword = process.env.ADMIN_PASSWORD || process.argv[2];
     if (!adminPassword) {
-      console.error('Usage: node createAdmin.js <password> or set ADMIN_PASSWORD env var');
+      logger.error('Usage: node createAdmin.js <password> or set ADMIN_PASSWORD env var');
       process.exit(1);
     }
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(adminPassword, salt);
 
-    // Insert directly into MongoDB to bypass Mongoose hooks
     const db = mongoose.connection.db;
     const usersCollection = db.collection('users');
 
-    // Check if admin already exists
     const existingAdmin = await usersCollection.findOne({ email: 'admin@marketgap.com' });
     if (existingAdmin) {
-      console.log('Admin user already exists');
+      logger.info('Admin user already exists');
       process.exit(0);
     }
 
-    // Create admin user
     const result = await usersCollection.insertOne({
       name: 'Admin User',
       email: 'admin@marketgap.com',
@@ -43,13 +40,13 @@ const createAdmin = async () => {
       favoriteAreas: []
     });
 
-    console.log('Admin user created successfully:');
-    console.log('Email: admin@marketgap.com');
-    console.log('Role: admin');
+    logger.info('Admin user created successfully:');
+    logger.info('Email: admin@marketgap.com');
+    logger.info('Role: admin');
 
     process.exit(0);
   } catch (error) {
-    console.error('Error creating admin:', error);
+    logger.error('Error creating admin:', error);
     process.exit(1);
   }
 };

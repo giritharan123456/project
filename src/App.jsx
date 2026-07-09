@@ -76,6 +76,17 @@ function AppContent() {
         <Route path="/admin/areas" element={<AdminRoute><AreaManagement /></AdminRoute>} />
         <Route path="/admin/categories" element={<AdminRoute><BusinessCategoryManagement /></AdminRoute>} />
         <Route path="/admin/users" element={<AdminRoute><UserManagement /></AdminRoute>} />
+        <Route path="*" element={
+          <div className="min-h-screen flex items-center justify-center">
+            <div className="text-center">
+              <h1 className="text-6xl font-bold text-gray-300 dark:text-gray-600 mb-4">404</h1>
+              <p className="text-xl text-gray-500 dark:text-gray-400 mb-6">Page not found</p>
+              <a href="/" className="px-6 py-3 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white rounded-xl font-semibold hover:opacity-90 transition-opacity">
+                Go Home
+              </a>
+            </div>
+          </div>
+        } />
       </Routes>
       </Suspense>
       </ErrorBoundary>

@@ -3,6 +3,8 @@ const dotenv = require('dotenv');
 const District = require('./models/District');
 const BusinessCategory = require('./models/BusinessCategory');
 const Area = require('./models/Area');
+const { calculateScores } = require('./utils/calculateScores');
+const logger = require('./utils/logger');
 
 dotenv.config();
 
@@ -80,19 +82,6 @@ const districtConfig = [
   { name: 'Virudhunagar', pincodeBase: 626001, lat: 9.58, lng: 77.96, urbanBase: 48, popBase: 40000, incomeBase: 'Medium', areas: ['Virudhunagar Town', 'Sivakasi', 'Rajapalayam', 'Sattur', 'Srivilliputhur', 'Aruppukottai', 'Kariapatti', 'Tiruchuli', 'Nattarsankottai', 'Vembakottai'] }
 ];
 
-const calculateScores = (area) => {
-  const gaps = area.marketGapScores ? Object.fromEntries(area.marketGapScores) : {};
-  const demands = area.demandScores ? Object.fromEntries(area.demandScores) : {};
-  const gapValues = Object.values(gaps);
-  const demandValues = Object.values(demands);
-  const avgGap = gapValues.length ? gapValues.reduce((s, v) => s + v, 0) / gapValues.length : 0;
-  const avgDemand = demandValues.length ? demandValues.reduce((s, v) => s + v, 0) / demandValues.length : 0;
-  const incomeScore = area.incomeLevel === 'High' ? 85 : area.incomeLevel === 'Medium' ? 60 : 35;
-  const growthScore = Math.min((area.populationGrowth || 0) * 10, 100);
-  area.feasibilityScore = Math.round((avgDemand * 0.35 + incomeScore * 0.25 + growthScore * 0.25 + (area.urbanDevelopment || 50) * 0.15) * 10) / 10;
-  area.opportunityScore = Math.round((avgGap * 0.4 + avgDemand * 0.3 + growthScore * 0.2 + incomeScore * 0.1) * 10) / 10;
-};
-
 const generateAreasForDistrict = (config, districtId) => {
   const basePincode = config.pincodeBase;
   const areas = [];
@@ -146,15 +135,15 @@ const generateAreasForDistrict = (config, districtId) => {
 const seedDatabase = async () => {
   try {
     await mongoose.connect(process.env.MONGODB_URI);
-    console.log('MongoDB Connected');
+    logger.info('MongoDB Connected');
 
     await District.deleteMany();
     await Area.deleteMany();
     await BusinessCategory.deleteMany();
-    console.log('Cleared existing data');
+    logger.info('Cleared existing data');
 
     const districts = await District.insertMany(districtsData);
-    console.log(`Inserted ${districts.length} districts`);
+    logger.info(`Inserted ${districts.length} districts`);
 
     const districtMap = {};
     for (const d of districts) {
@@ -162,13 +151,13 @@ const seedDatabase = async () => {
     }
 
     const categories = await BusinessCategory.insertMany(businessCategoriesData);
-    console.log(`Inserted ${categories.length} business categories`);
+    logger.info(`Inserted ${categories.length} business categories`);
 
     let totalAreas = 0;
     for (const config of districtConfig) {
       const districtId = districtMap[config.name];
       if (!districtId) {
-        console.log(`Warning: No district ID for ${config.name}`);
+        logger.warn(`Warning: No district ID for ${config.name}`);
         continue;
       }
       const areaDocs = generateAreasForDistrict(config, districtId);
@@ -180,14 +169,14 @@ const seedDatabase = async () => {
         areas.push(area);
       }
       totalAreas += areas.length;
-      console.log(`  ${config.name}: ${areas.length} areas`);
+      logger.info(`  ${config.name}: ${areas.length} areas`);
     }
 
-    console.log(`\nInserted ${totalAreas} areas with calculated scores`);
-    console.log('Database seeded successfully!');
+    logger.info(`Inserted ${totalAreas} areas with calculated scores`);
+    logger.info('Database seeded successfully!');
     process.exit(0);
   } catch (error) {
-    console.error('Error seeding database:', error);
+    logger.error('Error seeding database:', error);
     process.exit(1);
   }
 };

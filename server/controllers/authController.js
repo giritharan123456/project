@@ -19,13 +19,6 @@ const cleanupGuestUsers = async () => {
   }
 };
 
-// Start guest cleanup - only in non-test, non-Vercel environments
-const startGuestCleanup = () => {
-  if (process.env.NODE_ENV !== 'test' && process.env.VERCEL !== '1') {
-    setInterval(cleanupGuestUsers, 6 * 60 * 60 * 1000);
-  }
-};
-
 // Generate JWT Token
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -152,28 +145,6 @@ const guestLogin = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
-  }
-};
-
-// @desc    Google OAuth callback
-// @route   GET /api/auth/google/callback
-// @access  Public
-const googleCallback = (req, res) => {
-  try {
-    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
-
-    if (!req.user) {
-      return res.redirect(`${frontendUrl}/login?error=oauth_failed`);
-    }
-
-    // Generate token
-    const token = generateToken(req.user._id);
-
-    // Redirect to frontend with token
-    res.redirect(`${frontendUrl}/login?token=${token}`);
-  } catch (error) {
-    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
-    res.redirect(`${frontendUrl}/login?error=server_error`);
   }
 };
 
@@ -325,7 +296,6 @@ module.exports = {
   registerUser,
   loginUser,
   guestLogin,
-  googleCallback,
   generateToken,
   getUserProfile,
   updateUserProfile,
