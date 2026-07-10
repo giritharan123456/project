@@ -2,7 +2,7 @@ import React, { memo, useState, useEffect, useRef } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useTheme } from '../contexts/ThemeContext';
 import { useAuth } from '../contexts/AuthContext';
-import { notificationsAPI, areasAPI } from '../services/api';
+import { notificationsAPI, searchAPI } from '../services/api';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const navLinks = [
@@ -61,10 +61,10 @@ function Navbar() {
 
   useEffect(() => {
     if (debounceTimer.current) clearTimeout(debounceTimer.current);
-    if (searchQuery.trim().length < 2) { setSearchSuggestions([]); setShowSuggestions(false); return; }
+    if (searchQuery.trim().length < 1) { setSearchSuggestions([]); setShowSuggestions(false); return; }
     debounceTimer.current = setTimeout(async () => {
       try {
-        const res = await areasAPI.getAll({ search: searchQuery.trim(), limit: 5 });
+        const res = await searchAPI.suggestions(searchQuery.trim());
         setSearchSuggestions(res.data || []);
         setShowSuggestions(true);
       } catch { setSearchSuggestions([]); }
@@ -116,18 +116,24 @@ function Navbar() {
                 placeholder="Search pincode, area..."
                 className={`flex-1 px-3 md:px-4 py-2 text-sm outline-none border-none min-w-0 ${b('bg-white text-gray-900 placeholder-gray-400', 'bg-slate-800 text-white placeholder-slate-400')}`}
               />
+              {searchQuery && (
+                <button type="button" onClick={() => { setSearchQuery(''); setSearchSuggestions([]); setShowSuggestions(false); }}
+                  className={`px-2 text-sm ${b('text-gray-400 hover:text-gray-600', 'text-slate-500 hover:text-slate-300')}`}>
+                  ✕
+                </button>
+              )}
               <button type="submit" className="px-3 md:px-5 py-2 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white text-sm font-semibold hover:opacity-90 transition-opacity whitespace-nowrap">
                 Search
               </button>
             </div>
             {showSuggestions && searchSuggestions.length > 0 && (
-              <div className={`absolute top-full left-0 right-0 mt-1 rounded-xl shadow-xl border overflow-hidden z-50 ${b('bg-white border-gray-200', 'bg-[#1e293b] border-[#334155]')}`}>
+              <div className={`absolute top-full left-0 right-0 mt-1 rounded-xl shadow-xl border overflow-hidden z-50 max-h-64 overflow-y-auto ${b('bg-white border-gray-200', 'bg-[#1e293b] border-[#334155]')}`}>
                 {searchSuggestions.map((s, i) => (
-                  <button key={s._id || i} type="button" onClick={() => { navigate(`/dashboard?search=${s.pincode}`); setSearchQuery(''); setShowSuggestions(false); }}
+                  <button key={s.id || i} type="button" onClick={() => { navigate(`/dashboard?search=${s.pincode}`); setSearchQuery(''); setShowSuggestions(false); }}
                     className={`flex items-center gap-3 w-full px-4 py-2.5 text-sm text-left transition-colors ${b('hover:bg-gray-50 text-gray-700', 'hover:bg-[#1e293b] text-gray-300')}`}>
                     <span className="text-xs opacity-50">📍</span>
-                    <span className="font-medium">{s.name}</span>
-                    <span className="text-xs opacity-50 ml-auto">{s.pincode}</span>
+                    <span className="font-medium">{s.name || s.pincode}</span>
+                    <span className="text-xs opacity-50 ml-auto">{s.district ? `${s.district} · ` : ''}{s.pincode}</span>
                   </button>
                 ))}
               </div>
@@ -241,8 +247,26 @@ function Navbar() {
               <form onSubmit={handleSearch} className="mb-4">
                 <div className={`flex rounded-lg overflow-hidden border-2 ${b('border-gray-300', 'border-slate-600')}`}>
                   <input type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} placeholder="Search pincode, area..." className={`flex-1 px-4 py-2.5 text-sm outline-none border-none ${b('bg-white text-gray-900 placeholder-gray-400', 'bg-slate-800 text-white placeholder-slate-400')}`} />
+                  {searchQuery && (
+                    <button type="button" onClick={() => { setSearchQuery(''); setSearchSuggestions([]); setShowSuggestions(false); }}
+                      className={`px-2 text-sm ${b('text-gray-400 hover:text-gray-600', 'text-slate-500 hover:text-slate-300')}`}>
+                      ✕
+                    </button>
+                  )}
                   <button type="submit" className="px-5 py-2.5 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white text-sm font-semibold">Go</button>
                 </div>
+                {showSuggestions && searchSuggestions.length > 0 && (
+                  <div className={`mt-1 rounded-lg shadow-xl border overflow-hidden max-h-48 overflow-y-auto ${b('bg-white border-gray-200', 'bg-[#1e293b] border-[#334155]')}`}>
+                    {searchSuggestions.map((s, i) => (
+                      <button key={s.id || i} type="button" onClick={() => { navigate(`/dashboard?search=${s.pincode}`); setSearchQuery(''); setShowSuggestions(false); setShowMobileNav(false); }}
+                        className={`flex items-center gap-3 w-full px-4 py-2.5 text-sm text-left ${b('hover:bg-gray-50 text-gray-700', 'hover:bg-[#1e293b] text-gray-300')}`}>
+                        <span className="text-xs opacity-50">📍</span>
+                        <span className="font-medium">{s.name || s.pincode}</span>
+                        <span className="text-xs opacity-50 ml-auto">{s.district ? `${s.district} · ` : ''}{s.pincode}</span>
+                      </button>
+                    ))}
+                  </div>
+                )}
               </form>
               <div className="grid grid-cols-2 gap-2">
                 {navLinks.map(link => (

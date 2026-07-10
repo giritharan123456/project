@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
 import { useAuth } from '../contexts/AuthContext';
 import { useToast } from '../contexts/ToastContext';
-import { areasAPI, contentAPI } from '../services/api';
+import { areasAPI, contentAPI, searchAPI } from '../services/api';
 import LandingPreview from '../components/LandingPreview';
 import { 
   Search, BarChart3, TrendingUp, MapPin, Users, Zap, 
@@ -20,10 +20,12 @@ function Landing() {
   const [activeFaq, setActiveFaq] = useState(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [searchSuggestions, setSearchSuggestions] = useState([]);
   const [searchPreview, setSearchPreview] = useState(null);
   const [searchLoading, setSearchLoading] = useState(false);
   const [searchError, setSearchError] = useState('');
   const [debounceTimer, setDebounceTimer] = useState(null);
+  const [showSuggestions, setShowSuggestions] = useState(false);
 
   const [faqs, setFaqs] = useState([]);
   const [features, setFeatures] = useState([]);
@@ -61,29 +63,26 @@ function Landing() {
 
   useEffect(() => {
     if (debounceTimer) clearTimeout(debounceTimer);
-    if (searchQuery.trim().length < 5) {
+    if (searchQuery.trim().length < 1) {
+      setSearchSuggestions([]);
       setSearchPreview(null);
       setSearchError('');
+      setShowSuggestions(false);
       return;
     }
     const timer = setTimeout(async () => {
       setSearchLoading(true);
       setSearchError('');
       try {
-        const res = await areasAPI.getByPincode(searchQuery.trim());
-        if (res.data) {
-          setSearchPreview(res.data);
-        } else {
-          setSearchPreview(null);
-          setSearchError('Area not found for this pincode');
-        }
+        const res = await searchAPI.suggestions(searchQuery.trim());
+        setSearchSuggestions(res.data || []);
+        setShowSuggestions(true);
       } catch {
-        setSearchPreview(null);
-        setSearchError('Area not found for this pincode');
+        setSearchSuggestions([]);
       } finally {
         setSearchLoading(false);
       }
-    }, 500);
+    }, 300);
     setDebounceTimer(timer);
     return () => clearTimeout(timer);
   }, [searchQuery]);
@@ -100,12 +99,11 @@ function Landing() {
   };
 
   const handlePreviewClick = () => {
-    if (!searchPreview) return;
-    const pincode = searchPreview.pincode || searchQuery.trim();
+    if (!searchQuery.trim()) return;
     if (isAuthenticated) {
-      navigate(`/dashboard?search=${encodeURIComponent(pincode)}`);
+      navigate(`/dashboard?search=${encodeURIComponent(searchQuery.trim())}`);
     } else {
-      navigate(`/login?redirect=${encodeURIComponent(`/dashboard?search=${pincode}`)}`);
+      navigate(`/login?redirect=${encodeURIComponent(`/dashboard?search=${searchQuery.trim()}`)}`);
     }
   };
 
@@ -248,7 +246,7 @@ function Landing() {
 
             <motion.div initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, delay: 0.2 }}>
               <div className={`p-5 sm:p-6 md:p-8 rounded-3xl border shadow-2xl ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-gray-200'}`}>
-                <form onSubmit={handleSearch}>
+                <form onSubmit={handleSearch} className="relative">
                   <div className="flex items-center gap-3 mb-4">
                     <div className="w-10 h-10 rounded-xl bg-[#2563eb]/10 flex items-center justify-center">
                       <Search className="text-[#2563eb]" size={20} />
@@ -257,33 +255,52 @@ function Landing() {
                       type="text" 
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
-                      placeholder="Enter 6-digit pincode..." 
+                      onFocus={() => searchSuggestions.length > 0 && setShowSuggestions(true)}
+                      placeholder="Search pincode, area..." 
                       className={`flex-1 px-4 py-3 rounded-xl border outline-none focus:ring-2 focus:ring-[#2563eb]/40 transition-all ${isDarkMode ? 'bg-[#0f172a] text-white border-[#334155] placeholder-gray-500' : 'bg-gray-50 text-gray-900 border-gray-200 placeholder-gray-400'}`}
                     />
+                    {searchQuery && (
+                      <button type="button" onClick={() => { setSearchQuery(''); setSearchSuggestions([]); setShowSuggestions(false); }}
+                        className={`text-sm px-2 ${isDarkMode ? 'text-gray-400 hover:text-white' : 'text-gray-400 hover:text-gray-700'}`}>
+                        ✕
+                      </button>
+                    )}
                     <button type="submit" className="px-6 py-3 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white rounded-xl font-medium hover:opacity-90 transition-opacity">
                       Search
                     </button>
                   </div>
+                  {showSuggestions && searchSuggestions.length > 0 && (
+                    <div className={`absolute top-full left-0 right-0 mt-1 rounded-xl shadow-xl border overflow-hidden z-50 max-h-48 overflow-y-auto ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-gray-200'}`}>
+                      {searchSuggestions.map((s, i) => (
+                        <button key={s.id || i} type="button"
+                          onClick={() => {
+                            setSearchQuery(s.pincode);
+                            setShowSuggestions(false);
+                            if (isAuthenticated) navigate(`/dashboard?search=${s.pincode}`);
+                            else navigate(`/login?redirect=${encodeURIComponent(`/dashboard?search=${s.pincode}`)}`);
+                          }}
+                          className={`flex items-center gap-3 w-full px-4 py-2.5 text-sm text-left ${isDarkMode ? 'hover:bg-white/10 text-gray-300' : 'hover:bg-gray-50 text-gray-700'}`}>
+                          <span className="text-xs opacity-50">📍</span>
+                          <span className="font-medium">{s.name || s.pincode}</span>
+                          <span className="text-xs opacity-50 ml-auto">{s.district ? `${s.district} · ` : ''}{s.pincode}</span>
+                        </button>
+                      ))}
+                    </div>
+                  )}
                 </form>
 
-                {/* Search Preview */}
+                {/* Search Loading */}
                 <AnimatePresence>
                   {searchLoading && (
                     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
                       className="flex items-center gap-2 p-3 rounded-xl mb-4 bg-blue-50 dark:bg-blue-900/20">
                       <Loader2 className="animate-spin text-blue-500" size={16} />
-                      <span className="text-sm text-blue-600 dark:text-blue-400 font-medium">Searching area data...</span>
-                    </motion.div>
-                  )}
-                  {searchError && searchQuery.trim().length >= 5 && !searchLoading && (
-                    <motion.div initial={{ opacity: 0, y: -5 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -5 }}
-                      className="p-3 rounded-xl mb-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800">
-                      <p className="text-sm text-red-600 dark:text-red-400 font-medium">{searchError}</p>
+                      <span className="text-sm text-blue-600 dark:text-blue-400 font-medium">Searching...</span>
                     </motion.div>
                   )}
                 </AnimatePresence>
                 
-                {!searchPreview && !searchLoading && (
+                {!searchLoading && !showSuggestions && (
                 <>
                 <div className="grid grid-cols-2 gap-4 mb-6">
                   {platformStats.map((stat, i) => (

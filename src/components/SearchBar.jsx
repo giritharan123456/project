@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Search, X } from 'lucide-react';
 import { historyAPI, searchAPI } from '../services/api';
 
-function SearchBar({ onSearch, placeholder = "Search by area or pincode...", suggestions = [], district, category, value }) {
+function SearchBar({ onSearch, onChange, placeholder = "Search by area or pincode...", suggestions = [], district, category, value }) {
   const { isDarkMode } = useTheme();
   const [searchTerm, setSearchTerm] = useState(value || '');
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -32,7 +32,7 @@ function SearchBar({ onSearch, placeholder = "Search by area or pincode...", sug
     }
     searchTimeoutRef.current = setTimeout(async () => {
       try {
-        const res = await searchAPI.suggestions(searchTerm);
+        const res = await searchAPI.suggestions(searchTerm, district);
         if (res.data) setServerSuggestions(res.data);
       } catch { setServerSuggestions([]); }
     }, 300);
@@ -85,8 +85,13 @@ function SearchBar({ onSearch, placeholder = "Search by area or pincode...", sug
             placeholder={placeholder}
             value={searchTerm}
             onChange={(e) => {
-              setSearchTerm(e.target.value);
-              setShowSuggestions(e.target.value.length > 0);
+              const val = e.target.value;
+              setSearchTerm(val);
+              setShowSuggestions(val.length > 0);
+              if (onChange) onChange(val);
+              if (!val || !val.trim()) {
+                onSearch('');
+              }
             }}
             onFocus={() => setShowSuggestions(searchTerm.length > 0)}
             onBlur={() => { blurTimeoutRef.current = setTimeout(() => setShowSuggestions(false), 200); }}

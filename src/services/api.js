@@ -120,8 +120,10 @@ export const districtsAPI = {
 
 // Search API
 export const searchAPI = {
-  suggestions: async (query) => {
-    return apiCall(`/search/suggestions?query=${encodeURIComponent(query)}`);
+  suggestions: async (query, district) => {
+    const params = new URLSearchParams({ query });
+    if (district) params.append('district', district);
+    return apiCall(`/search/suggestions?${params.toString()}`);
   },
   areas: async (query, district, limit) => {
     const params = new URLSearchParams();

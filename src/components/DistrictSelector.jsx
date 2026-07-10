@@ -3,9 +3,15 @@ import { useTheme } from '../contexts/ThemeContext';
 import { useDistrict } from '../contexts/DistrictContext';
 import { ChevronDown } from 'lucide-react';
 
-function DistrictSelector({ districts }) {
+function DistrictSelector({ districts, onDistrictChange }) {
   const { isDarkMode } = useTheme();
   const { selectedDistrict, setSelectedDistrict } = useDistrict();
+
+  const handleChange = (e) => {
+    const newDistrict = e.target.value;
+    setSelectedDistrict(newDistrict);
+    if (onDistrictChange) onDistrictChange(newDistrict);
+  };
 
   return (
     <div className="relative">
@@ -16,7 +22,7 @@ function DistrictSelector({ districts }) {
         <select
           id="district-select"
           value={selectedDistrict ?? ''}
-          onChange={(e) => setSelectedDistrict(e.target.value)}
+          onChange={handleChange}
           className={`w-full appearance-none px-3 py-2 pr-8 border-2 rounded-lg text-sm font-medium transition-all duration-200 outline-none cursor-pointer ${
             isDarkMode
               ? 'bg-[#0f172a] border-[#475569] text-white focus:border-blue-500'

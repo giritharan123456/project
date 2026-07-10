@@ -9,7 +9,7 @@ const FloatingAIChat = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([
-    { id: 1, text: 'Hi! I\'m your MarketVision AI assistant. Ask me about market opportunities, population stats, top areas, or district info.', isBot: true }
+    { id: 1, text: 'Hello! I\'m your MarketVision AI assistant. I can help you discover business opportunities, analyze market data, and explore trends across 38 districts in Tamil Nadu.\n\nAsk me anything about market opportunities, competition, or demographics.', isBot: true }
   ]);
   const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef(null);
@@ -39,7 +39,7 @@ const FloatingAIChat = () => {
     }
   };
 
-  const suggestions = ['Best opportunities', 'Population stats', 'Top districts', 'Market demand'];
+  const suggestions = ['Which area is best for business?', 'Show top 5 opportunities', 'Chennai market data', 'Competition analysis', 'Population demographics', 'Investment guidance'];
 
   return (
     <>

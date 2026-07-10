@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { useTheme } from '../contexts/ThemeContext';
@@ -39,6 +39,7 @@ function Dashboard() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const [searchPincode, setSearchPincode] = useState('');
+  const userClearedRef = useRef(sessionStorage.getItem('dashboardSearchCleared') === 'true');
   const [areas, setAreas] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -119,15 +120,22 @@ function Dashboard() {
   }, [pincodeData, currentDistrictName, selectedPincode]);
   const displayData = filteredPincodeData;
 
+  // Suggestions: all pincodes when no district, district pincodes when district selected
+  const searchSuggestions = useMemo(() => {
+    if (!selectedDistrict) return pincodeData.map(p => p.pincode).filter(Boolean);
+    return filteredPincodeData.map(p => p.pincode).filter(Boolean);
+  }, [pincodeData, filteredPincodeData, selectedDistrict]);
+
   useEffect(() => {
-    if (currentDistrictName && filteredPincodeData.length > 0 && !selectedPincode && !searchParams.get('search')) {
+    if (userClearedRef.current) return;
+    if (currentDistrictName && filteredPincodeData.length > 0 && !selectedPincode && !searchPincode && !searchParams.get('search')) {
       const firstPincode = filteredPincodeData[0].pincode;
       if (firstPincode) {
         setSearchPincode(firstPincode);
         setSelectedPincode(firstPincode);
       }
     }
-  }, [currentDistrictName, filteredPincodeData, selectedPincode, searchParams]);
+  }, [currentDistrictName, filteredPincodeData, selectedPincode, searchPincode, searchParams]);
 
   const categorySourceArea = useMemo(() =>
     selectedPincode ? areas.find(a => a.pincode === selectedPincode) : displayData.length > 0 ? areas.find(a => a.pincode === displayData[0]?.pincode) : null,
@@ -157,13 +165,22 @@ function Dashboard() {
     setSearchError(null);
     
     if (!pincode || !pincode.trim()) {
+      userClearedRef.current = true;
+      sessionStorage.setItem('dashboardSearchCleared', 'true');
       setSelectedPincode(null);
-      navigate('/dashboard', { replace: true });
+      setSearchPincode('');
+      setSearchLoading(true);
+      try {
+        const res = await areasAPI.getAll();
+        if (res.data) setAreas(res.data);
+      } catch { /* keep existing data */ }
+      finally { setSearchLoading(false); }
       return;
     }
+    userClearedRef.current = false;
+    sessionStorage.removeItem('dashboardSearchCleared');
     
     setSelectedPincode(pincode);
-    navigate(`/dashboard?search=${encodeURIComponent(pincode)}`, { replace: true });
     try {
       setSearchLoading(true);
       const response = await areasAPI.getByPincode(pincode);
@@ -215,14 +232,21 @@ function Dashboard() {
 
         <div className="max-w-[1600px] mx-auto px-2 md:px-4 py-0">
 
-          {/* ═══ ROW 1: LOCATION + FILTERS (Customer first asks "Where am I?") ═══ */}
+          {/* ═══ ROW 1: LOCATION + FILTERS (District-specific) ═══ */}
           <motion.div {...fadeIn(0.02)} className={`${card} p-2.5`}>
             <div className="flex flex-col md:flex-row items-stretch md:items-center gap-2">
               <div className="w-full md:w-48 flex-shrink-0">
-                <DistrictSelector districts={districts} />
+                <DistrictSelector districts={districts} onDistrictChange={() => {
+                  userClearedRef.current = false;
+                  sessionStorage.removeItem('dashboardSearchCleared');
+                  setSelectedPincode('');
+                  setSearchPincode('');
+                  setSearchError(null);
+                  setSearchLoading(false);
+                }} />
               </div>
               <div className="flex-1">
-                <SearchBar value={searchPincode} onSearch={handleSearch} placeholder={`Search pincode in ${currentDistrictName || 'selected district'}...`} suggestions={pincodeData.map(p => p.pincode).filter(Boolean)} district={currentDistrictName} category={selectedBusinessCategory} />
+                <SearchBar value={searchPincode} onSearch={handleSearch} placeholder={selectedDistrict ? `Search pincode in ${currentDistrictName}...` : 'Search pincode (all districts)...'} suggestions={searchSuggestions} district={currentDistrictName} category={selectedBusinessCategory} />
                 {searchLoading && <p className="mt-1 text-[10px] text-slate-400 font-medium">Fetching data...</p>}
                 {searchError && <p className="mt-1 text-[10px] text-red-500 font-medium">{searchError}</p>}
               </div>

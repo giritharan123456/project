@@ -1,4 +1,5 @@
 const Area = require('../models/Area');
+const District = require('../models/District');
 
 const escapeRegex = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
@@ -81,21 +82,30 @@ const searchByName = async (req, res) => {
 // @access  Public
 const getSearchSuggestions = async (req, res) => {
   try {
-    const { query } = req.query;
+    const { query, district } = req.query;
     
     if (!query) {
       return res.json({ success: true, data: [] });
     }
 
-    const suggestions = await Area.find({
+    const filter = {
       $or: [
         { name: { $regex: escapeRegex(query), $options: 'i' } },
         { pincode: { $regex: escapeRegex(query), $options: 'i' } }
-     ]
-   })
-    .select('name pincode district')
-    .populate('district', 'name')
-    .limit(10);
+      ]
+    };
+
+    if (district) {
+      const districtDoc = await District.findOne({ name: { $regex: `^${escapeRegex(district)}$`, $options: 'i' } }).select('_id');
+      if (districtDoc) {
+        filter.district = districtDoc._id;
+      }
+    }
+
+    const suggestions = await Area.find(filter)
+      .select('name pincode district')
+      .populate('district', 'name')
+      .limit(10);
       
     res.json({
       success: true,
