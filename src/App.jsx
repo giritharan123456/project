@@ -32,6 +32,7 @@ const CategoryExplorer = lazy(() => import('./pages/CategoryExplorer'));
 const AreaLeaderboard = lazy(() => import('./pages/AreaLeaderboard'));
 const CategoryPincodeMatrix = lazy(() => import('./pages/CategoryPincodeMatrix'));
 const InvestmentEstimator = lazy(() => import('./pages/InvestmentEstimator'));
+const PincodeExplorer = lazy(() => import('./pages/PincodeExplorer'));
 const ForgotPassword = lazy(() => import('./pages/ForgotPassword'));
 const ResetPassword = lazy(() => import('./pages/ResetPassword'));
 const AdminDashboard = lazy(() => import('./pages/AdminDashboard'));
@@ -72,6 +73,7 @@ function AppContent() {
         <Route path="/leaderboard" element={<ProtectedRoute><><Navbar /><AreaLeaderboard /></></ProtectedRoute>} />
         <Route path="/matrix" element={<ProtectedRoute><><Navbar /><CategoryPincodeMatrix /></></ProtectedRoute>} />
         <Route path="/investment-estimator" element={<ProtectedRoute><><Navbar /><InvestmentEstimator /></></ProtectedRoute>} />
+        <Route path="/pincode-explorer" element={<ProtectedRoute><><Navbar /><PincodeExplorer /></></ProtectedRoute>} />
         <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
         <Route path="/admin/districts" element={<AdminRoute><DistrictManagement /></AdminRoute>} />
         <Route path="/admin/areas" element={<AdminRoute><AreaManagement /></AdminRoute>} />

@@ -432,6 +432,10 @@ export const explorerAPI = {
     const qs = new URLSearchParams(params).toString();
     return apiCall(`/explorer/estimate${qs ? `?${qs}` : ''}`);
   },
+  getPincodeShops: async (params = {}) => {
+    const qs = new URLSearchParams(params).toString();
+    return apiCall(`/explorer/pincode-shops${qs ? `?${qs}` : ''}`);
+  },
 };
 
 // Content API

@@ -12,11 +12,12 @@ const navLinks = [
   { path: '/comparison', label: 'Compare', icon: '⚖️' },
   { path: '/ai-recommendations', label: 'AI Insights', icon: '🤖' },
   { path: '/reports', label: 'Reports', icon: '📋' },
-  { path: '/about', label: 'About', icon: 'ℹ️' },
+  { path: '/pincode-explorer', label: 'Shops', icon: '🏪' },
   { path: '/category-explorer', label: 'Explorer', icon: '🔬' },
   { path: '/leaderboard', label: 'Leaderboard', icon: '🏆' },
   { path: '/matrix', label: 'Matrix', icon: '📐' },
   { path: '/investment-estimator', label: 'Invest', icon: '💰' },
+  { path: '/about', label: 'About', icon: 'ℹ️' },
 ];
 
 function Navbar() {

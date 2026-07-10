@@ -194,4 +194,92 @@ const recalculateScores = async (req, res) => {
   }
 };
 
-module.exports = { getCategoryExplorer, getLeaderboard, getMatrix, getInvestmentEstimate, recalculateScores };
+const getPincodeShops = async (req, res) => {
+  try {
+    const { pincode, district, category, incomeLevel, minPopulation, maxPopulation, sortBy = 'opportunityScore', page = 1, limit = 50 } = req.query;
+
+    const filter = {};
+    if (pincode) filter.pincode = pincode;
+    if (district) {
+      const dist = await District.findOne({ name: { $regex: district, $options: 'i' } });
+      if (dist) filter.district = dist._id;
+    }
+    if (incomeLevel) filter.incomeLevel = incomeLevel;
+    if (minPopulation || maxPopulation) {
+      filter.population = {};
+      if (minPopulation) filter.population.$gte = Number(minPopulation);
+      if (maxPopulation) filter.population.$lte = Number(maxPopulation);
+    }
+
+    const pageNum = Math.max(parseInt(page) || 1, 1);
+    const limitNum = Math.min(Math.max(parseInt(limit) || 50, 1), 100);
+    const skip = (pageNum - 1) * limitNum;
+
+    const [areas, total] = await Promise.all([
+      Area.find(filter).populate('district', 'name').sort({ [sortBy]: -1 }).skip(skip).limit(limitNum),
+      Area.countDocuments(filter)
+    ]);
+
+    const categories = await BusinessCategory.find().select('name demand supply gap minInvestment maxInvestment');
+    const catMap = {};
+    categories.forEach(c => { catMap[c.name] = c; });
+
+    const enriched = areas.map(area => {
+      const competitors = area.competitors ? Object.fromEntries(area.competitors) : {};
+      const demands = area.demandScores ? Object.fromEntries(area.demandScores) : {};
+      const gaps = area.marketGapScores ? Object.fromEntries(area.marketGapScores) : {};
+
+      const businessList = categories.map(cat => {
+        const count = competitors[cat.name] || 0;
+        const demand = demands[cat.name] || 0;
+        const gap = gaps[cat.name] || 0;
+        return {
+          category: cat.name,
+          businessCount: count,
+          demandScore: Math.round(demand * 10) / 10,
+          gapScore: Math.round(gap * 10) / 10,
+          minInvestment: cat.minInvestment,
+          maxInvestment: cat.maxInvestment,
+          status: gap > 60 ? 'High Opportunity' : gap > 30 ? 'Moderate' : 'Saturated'
+        };
+      }).filter(b => !category || b.category.toLowerCase().includes(category.toLowerCase()));
+
+      const totalBusinesses = businessList.reduce((s, b) => s + b.businessCount, 0);
+      const highOppCount = businessList.filter(b => b.status === 'High Opportunity').length;
+
+      return {
+        _id: area._id,
+        pincode: area.pincode,
+        name: area.name,
+        district: area.district?.name || '',
+        population: area.population,
+        populationGrowth: area.populationGrowth,
+        incomeLevel: area.incomeLevel,
+        trafficLevel: area.trafficLevel,
+        literacyRate: area.literacyRate,
+        feasibilityScore: area.feasibilityScore,
+        opportunityScore: area.opportunityScore,
+        coordinates: area.coordinates,
+        landmarks: area.landmarks || [],
+        ageDistribution: area.ageDistribution,
+        residentialVsCommercial: area.residentialVsCommercial,
+        totalBusinesses,
+        highOpportunityCount: highOppCount,
+        businesses: businessList
+      };
+    });
+
+    res.json({
+      success: true,
+      areas: enriched,
+      categories: categories.map(c => c.name),
+      total,
+      page: pageNum,
+      totalPages: Math.ceil(total / limitNum)
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+module.exports = { getCategoryExplorer, getLeaderboard, getMatrix, getInvestmentEstimate, getPincodeShops, recalculateScores };
