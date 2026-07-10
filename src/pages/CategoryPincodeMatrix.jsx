@@ -62,8 +62,8 @@ function CategoryPincodeMatrix() {
         ) : matrix.length === 0 ? (
           <div className={`text-center py-20 ${b('text-gray-400', 'text-gray-500')}`}><p>No matrix data available</p></div>
         ) : (
-          <div className="overflow-x-auto rounded-xl border" style={{ WebkitOverflowScrolling: 'touch' }}>
-            <table className={`w-full text-xs sm:text-sm ${b('bg-white', 'bg-[#1e293b]')} ${b('text-gray-700', 'text-gray-200')}`}>
+          <div className="overflow-x-auto -mx-3 sm:mx-0 px-3 sm:px-0 rounded-xl border" style={{ WebkitOverflowScrolling: 'touch' }}>
+            <table className={`w-full text-xs sm:text-sm min-w-[600px] ${b('bg-white', 'bg-[#1e293b]')} ${b('text-gray-700', 'text-gray-200')}`}>
               <thead>
                 <tr className={`${b('bg-gray-100', 'bg-[#0f172a]')}`}>
                   <th className={`text-left px-3 sm:px-4 py-2 sm:py-3 font-semibold text-xs uppercase tracking-wider ${b('text-gray-600', 'text-gray-400')}`}>Category</th>

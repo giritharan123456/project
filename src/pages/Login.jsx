@@ -276,7 +276,7 @@ function Login() {
           <div className={`flex-1 h-px ${isDarkMode ? 'bg-[#334155]' : 'bg-[#e0e0e0]'}`}></div>
         </div>
 
-        <button className={`flex items-center justify-center gap-2 sm:gap-3 p-3 sm:p-3.5 border-2 rounded-xl text-xs sm:text-base font-semibold cursor-pointer transition-all duration-300 mb-3 sm:mb-4 hover:border-[#667eea] hover:-translate-y-0.5 ${isDarkMode ? 'bg-[#0f172a] border-[#334155] text-white hover:bg-[#1e293b]' : 'bg-white border-[#e0e0e0] text-[#333] hover:bg-[#f8f9ff]'}`} onClick={handleGoogleSignIn}>
+        <button className={`flex items-center justify-center gap-2 sm:gap-3 p-3 sm:p-3.5 border-2 rounded-xl text-xs sm:text-base font-semibold cursor-pointer transition-all duration-300 mb-3 sm:mb-4 hover:border-[#667eea] hover:-translate-y-0.5 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 outline-none ${isDarkMode ? 'bg-[#0f172a] border-[#334155] text-white hover:bg-[#1e293b]' : 'bg-white border-[#e0e0e0] text-[#333] hover:bg-[#f8f9ff]'}`} onClick={handleGoogleSignIn}>
           <svg className="w-5 h-5 sm:w-6 sm:h-6" viewBox="0 0 24 24">
             <path
               fill="#4285F4"

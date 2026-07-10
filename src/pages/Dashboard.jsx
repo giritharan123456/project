@@ -252,17 +252,17 @@ function Dashboard() {
               </div>
             </div>
             {businessCategories.length > 0 && (
-              <div className={`flex flex-wrap gap-1 mt-2 pt-2 border-t ${isDarkMode ? 'border-[#334155]' : 'border-slate-200'}`}>
+              <div className={`flex flex-wrap gap-1.5 mt-3 pt-3 border-t ${isDarkMode ? 'border-[#334155]' : 'border-slate-200'}`}>
                 {[{ name: 'all' }, ...businessCategories.map(c => ({ name: c.name || c }))].map(cat => (
                   <button
                     key={cat.name}
                     onClick={() => setSelectedBusinessCategory(cat.name)}
-                    className={`px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-bold transition-all duration-200 ${
+                    className={`px-2.5 sm:px-3 py-1.5 rounded-full text-[11px] sm:text-xs font-bold transition-all duration-200 ${
                       selectedBusinessCategory === cat.name
                         ? 'bg-blue-600 text-white shadow-md'
                         : isDarkMode
-                          ? 'bg-[#0f172a] text-slate-400 hover:text-white hover:bg-[#0f172a]/80'
-                          : 'bg-slate-100 text-slate-500 hover:text-slate-800 hover:bg-slate-200'
+                          ? 'bg-[#0f172a] text-slate-300 hover:text-white border border-[#334155] hover:border-blue-500'
+                          : 'bg-slate-100 text-slate-600 hover:text-slate-800 hover:bg-slate-200 border border-slate-200'
                     }`}
                   >
                     {cat.name === 'all' ? 'All' : cat.name}

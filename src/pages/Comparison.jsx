@@ -274,8 +274,8 @@ function Comparison() {
             </h3>
           </div>
 
-          <div className={`overflow-x-auto rounded-lg border-2 ${isDarkMode ? 'border-[#475569]' : 'border-slate-200'}`}>
-            <table className="w-full border-collapse">
+          <div className={`overflow-x-auto -mx-4 sm:mx-0 px-4 sm:px-0 rounded-lg border-2 ${isDarkMode ? 'border-[#475569]' : 'border-slate-200'}`}>
+            <table className="w-full border-collapse min-w-[500px]">
               <thead>
                 <tr className={isDarkMode ? 'bg-[#0f172a]' : 'bg-slate-100'}>
                   <th className={`text-left p-2 sm:p-3 text-[10px] font-extrabold uppercase tracking-wider ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>Metric</th>

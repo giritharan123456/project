@@ -105,8 +105,8 @@ function Navbar() {
             </span>
           </Link>
 
-          {/* Search Bar - Always visible */}
-          <form onSubmit={handleSearch} className="flex-1 max-w-2xl mx-1 sm:mx-2 md:mx-4 relative" ref={searchRef}>
+          {/* Search Bar - Hidden on mobile, visible on md+ */}
+          <form onSubmit={handleSearch} className="hidden md:flex flex-1 max-w-2xl mx-4 relative" ref={searchRef}>
             <div className={`flex w-full rounded-lg overflow-hidden border-2 ${b('border-gray-300 focus-within:border-[#2563eb]', 'border-slate-600 focus-within:border-[#2563eb]')} focus-within:ring-2 focus-within:ring-[#2563eb]/30 transition-all`}>
               <input
                 type="text"
