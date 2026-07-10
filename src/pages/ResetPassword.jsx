@@ -81,7 +81,7 @@ function ResetPassword() {
             <div className="flex flex-col gap-1.5 sm:gap-2">
               <label className={`text-xs sm:text-sm font-semibold ${isDarkMode ? 'text-gray-200' : 'text-[#333]'}`}>New Password</label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-[#999] size-18 sm:size-20" />
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-[#999] size-[18px] sm:size-5" />
                 <input type="password" value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Enter new password" required
@@ -93,7 +93,7 @@ function ResetPassword() {
             <div className="flex flex-col gap-1.5 sm:gap-2">
               <label className={`text-xs sm:text-sm font-semibold ${isDarkMode ? 'text-gray-200' : 'text-[#333]'}`}>Confirm Password</label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-[#999] size-18 sm:size-20" />
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-[#999] size-[18px] sm:size-5" />
                 <input type="password" value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   placeholder="Confirm new password" required

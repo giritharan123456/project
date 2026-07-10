@@ -17,21 +17,23 @@ function Pagination({ page, totalPages, onPageChange, isDarkMode }) {
   };
 
   return (
-    <div className="flex items-center justify-center gap-1 mt-6">
-      <button onClick={() => onPageChange(page - 1)} disabled={page <= 1}
-        className={`p-2 rounded-lg disabled:opacity-30 ${b('hover:bg-gray-100 text-gray-700', 'hover:bg-[#1e293b] text-gray-300')}`}>
-        <ChevronLeft size={18} />
-      </button>
-      {getPages().map((p, i) => (
-        <button key={i} onClick={() => typeof p === 'number' && onPageChange(p)}
-          className={`w-9 h-9 rounded-lg text-sm font-medium transition-colors ${p === page ? 'bg-[#2563eb] text-white' : b('text-gray-700 hover:bg-gray-100', 'text-gray-300 hover:bg-[#1e293b]')} ${typeof p !== 'number' ? 'cursor-default' : ''}`}>
-          {p}
+    <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
+      <div className="flex items-center justify-center gap-1 mt-6 min-w-max">
+        <button onClick={() => onPageChange(page - 1)} disabled={page <= 1}
+          className={`p-2.5 rounded-lg disabled:opacity-30 ${b('hover:bg-gray-100 text-gray-700', 'hover:bg-[#1e293b] text-gray-300')}`}>
+          <ChevronLeft size={18} />
         </button>
-      ))}
-      <button onClick={() => onPageChange(page + 1)} disabled={page >= totalPages}
-        className={`p-2 rounded-lg disabled:opacity-30 ${b('hover:bg-gray-100 text-gray-700', 'hover:bg-[#1e293b] text-gray-300')}`}>
-        <ChevronRight size={18} />
-      </button>
+        {getPages().map((p, i) => (
+          <button key={i} onClick={() => typeof p === 'number' && onPageChange(p)}
+            className={`w-10 h-10 rounded-lg text-sm font-medium transition-colors ${p === page ? 'bg-[#2563eb] text-white' : b('text-gray-700 hover:bg-gray-100', 'text-gray-300 hover:bg-[#1e293b]')} ${typeof p !== 'number' ? 'cursor-default' : ''}`}>
+            {p}
+          </button>
+        ))}
+        <button onClick={() => onPageChange(page + 1)} disabled={page >= totalPages}
+          className={`p-2.5 rounded-lg disabled:opacity-30 ${b('hover:bg-gray-100 text-gray-700', 'hover:bg-[#1e293b] text-gray-300')}`}>
+          <ChevronRight size={18} />
+        </button>
+      </div>
     </div>
   );
 }

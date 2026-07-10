@@ -407,8 +407,8 @@ function Comparison() {
             </span>
           </div>
 
-          <div className={`overflow-x-auto rounded-lg border-2 ${isDarkMode ? 'border-[#475569]' : 'border-slate-200'}`}>
-            <table className="w-full text-sm border-collapse">
+          <div className={`overflow-x-auto -mx-4 sm:mx-0 px-4 sm:px-0 rounded-lg border-2 ${isDarkMode ? 'border-[#475569]' : 'border-slate-200'}`}>
+            <table className="w-full text-sm border-collapse min-w-[700px]">
               <thead>
                 <tr className={isDarkMode ? 'bg-[#0f172a]' : 'bg-slate-100'}>
                   {['Area', 'Pincode', 'District', 'Population', 'Growth%', 'Income', 'Opp.Score', 'Feas.Score', 'Gap Score', 'Demand'].map(col => (

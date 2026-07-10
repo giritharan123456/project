@@ -150,8 +150,8 @@ function Profile() {
                 <div className="w-12 h-12 sm:w-16 sm:h-16 mx-auto rounded-full bg-gradient-to-r from-[#2563eb] to-[#7c3aed] flex items-center justify-center text-white text-xl sm:text-2xl font-bold mb-2">
                   {(user?.name || 'U').charAt(0).toUpperCase()}
                 </div>
-                <p className={`font-semibold text-sm ${b('text-gray-900', 'text-white')}`}>{user?.name || 'User'}</p>
-                <p className={`text-xs ${b('text-gray-500', 'text-gray-400')}`}>{user?.email || ''}</p>
+                <p className={`font-semibold text-sm truncate ${b('text-gray-900', 'text-white')}`}>{user?.name || 'User'}</p>
+                <p className={`text-xs truncate ${b('text-gray-500', 'text-gray-400')}`}>{user?.email || ''}</p>
                 {user?.role === 'admin' && (
                   <span className="inline-block mt-1 px-2 py-0.5 text-[10px] font-semibold rounded-full bg-amber-100 text-amber-700">Admin</span>
                 )}

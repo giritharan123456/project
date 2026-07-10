@@ -54,9 +54,9 @@ function AdminLogin() {
     <div className="min-h-screen flex justify-center items-center relative overflow-hidden bg-gradient-to-br from-red-600 to-red-900 p-3 sm:p-4">
       <div className="absolute top-0 left-0 right-0 bottom-0 z-0">
         <div className="relative w-full h-full">
-          <div className="absolute rounded-full opacity-10 animate-[float_6s_ease-in-out_infinite] bg-white w-[300px] h-[300px] -top-[100px] -left-[100px]" style={{ animationDelay: '0s' }}></div>
-          <div className="absolute rounded-full opacity-10 animate-[float_6s_ease-in-out_infinite] bg-white w-[200px] h-[200px] -bottom-[50px] -right-[50px]" style={{ animationDelay: '2s' }}></div>
-          <div className="absolute rounded-full opacity-10 animate-[float_6s_ease-in-out_infinite] bg-white w-[150px] h-[150px] top-1/2 right-[20%]" style={{ animationDelay: '4s' }}></div>
+          <div className="absolute rounded-full opacity-10 animate-[float_6s_ease-in-out_infinite] bg-white w-[150px] h-[150px] sm:w-[300px] sm:h-[300px] -top-[75px] -left-[75px] sm:-top-[100px] sm:-left-[100px]" style={{ animationDelay: '0s' }}></div>
+          <div className="absolute rounded-full opacity-10 animate-[float_6s_ease-in-out_infinite] bg-white w-[100px] h-[100px] sm:w-[200px] sm:h-[200px] -bottom-[25px] -right-[25px] sm:-bottom-[50px] sm:-right-[50px]" style={{ animationDelay: '2s' }}></div>
+          <div className="absolute rounded-full opacity-10 animate-[float_6s_ease-in-out_infinite] bg-white w-[75px] h-[75px] sm:w-[150px] sm:h-[150px] top-1/2 right-[20%]" style={{ animationDelay: '4s' }}></div>
         </div>
       </div>
 

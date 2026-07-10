@@ -186,7 +186,7 @@ function Signup() {
                   Full Name
                 </label>
                 <div className="relative">
-                  <User className={`absolute left-3 top-1/2 -translate-y-1/2 ${isDarkMode ? 'text-[#f1f5f9] opacity-50' : 'text-[#1e293b] opacity-50'} size-18 sm:size-20`} />
+                  <User className={`absolute left-3 top-1/2 -translate-y-1/2 ${isDarkMode ? 'text-[#f1f5f9] opacity-50' : 'text-[#1e293b] opacity-50'} size-[18px] sm:size-5`} />
                   <input
                     type="text"
                     name="name"
@@ -208,7 +208,7 @@ function Signup() {
                   Email Address
                 </label>
                 <div className="relative">
-                  <Mail className={`absolute left-3 top-1/2 -translate-y-1/2 ${isDarkMode ? 'text-[#f1f5f9] opacity-50' : 'text-[#1e293b] opacity-50'} size-18 sm:size-20`} />
+                  <Mail className={`absolute left-3 top-1/2 -translate-y-1/2 ${isDarkMode ? 'text-[#f1f5f9] opacity-50' : 'text-[#1e293b] opacity-50'} size-[18px] sm:size-5`} />
                   <input
                     type="email"
                     name="email"
@@ -230,7 +230,7 @@ function Signup() {
                   Password
                 </label>
 <div className="relative">
-                    <Lock className={`absolute left-3 top-1/2 -translate-y-1/2 ${isDarkMode ? 'text-[#f1f5f9] opacity-50' : 'text-[#1e293b] opacity-50'} size-18 sm:size-20`} />
+                    <Lock className={`absolute left-3 top-1/2 -translate-y-1/2 ${isDarkMode ? 'text-[#f1f5f9] opacity-50' : 'text-[#1e293b] opacity-50'} size-[18px] sm:size-5`} />
                     <input
                       type={showPassword ? 'text' : 'password'}
                       name="password"
@@ -259,7 +259,7 @@ function Signup() {
                   Confirm Password
                 </label>
 <div className="relative">
-                    <Lock className={`absolute left-3 top-1/2 -translate-y-1/2 ${isDarkMode ? 'text-[#f1f5f9] opacity-50' : 'text-[#1e293b] opacity-50'} size-18 sm:size-20`} />
+                    <Lock className={`absolute left-3 top-1/2 -translate-y-1/2 ${isDarkMode ? 'text-[#f1f5f9] opacity-50' : 'text-[#1e293b] opacity-50'} size-[18px] sm:size-5`} />
                     <input
                       type={showConfirmPassword ? 'text' : 'password'}
                       name="confirmPassword"

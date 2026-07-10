@@ -116,12 +116,12 @@ function About() {
               </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 px-3 sm:px-4">
               <Link to="/dashboard" className="flex items-center gap-2 bg-white text-[#1e293b] py-2 sm:py-3.5 px-6 sm:px-8 rounded-full no-underline font-bold text-xs sm:text-base transition-all duration-300 shadow-lg hover:-translate-y-1 hover:shadow-xl">
-                <BarChart3 size={16} className="sm:size-18" />
+                <BarChart3 size={16} className="sm:size-[18px]" />
                 <span className="hidden sm:inline">Explore Dashboard</span>
                 <ArrowRight size={14} className="sm:size-16" />
               </Link>
               <Link to="/ai-recommendations" className="flex items-center gap-2 bg-white/10 border border-white/30 text-white py-2 sm:py-3.5 px-6 sm:px-8 rounded-full no-underline font-bold text-xs sm:text-base transition-all duration-300 hover:bg-white/20 hover:-translate-y-1">
-                <Brain size={16} className="sm:size-18" />
+                <Brain size={16} className="sm:size-[18px]" />
                 <span className="hidden sm:inline">Get AI Insights</span>
               </Link>
             </div>
@@ -190,7 +190,7 @@ function About() {
           >
             <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
               <div className="w-8 sm:w-10 h-8 sm:h-10 rounded-xl bg-red-500/10 flex items-center justify-center">
-                <Target className="text-[#ef4444] size-18 sm:size-22" />
+                <Target className="text-[#ef4444] size-[18px] sm:size-[22px]" />
               </div>
               <h2 className={`text-lg sm:text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>The Problem</h2>
             </div>
@@ -207,7 +207,7 @@ function About() {
           >
             <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
               <div className="w-8 sm:w-10 h-8 sm:h-10 rounded-xl bg-green-500/10 flex items-center justify-center">
-                <Lightbulb className="text-[#059669] size-18 sm:size-22" />
+                <Lightbulb className="text-[#059669] size-[18px] sm:size-[22px]" />
               </div>
               <h2 className={`text-lg sm:text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Our Solution</h2>
             </div>
@@ -316,16 +316,16 @@ function About() {
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 px-3 sm:px-4">
             <Link to="/dashboard" className="flex items-center gap-2 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white py-2 sm:py-3.5 px-6 sm:px-8 rounded-full no-underline font-bold text-xs sm:text-base transition-all duration-300 shadow-lg hover:-translate-y-1 hover:shadow-xl">
-              <BarChart3 size={16} className="sm:size-18" />
+              <BarChart3 size={16} className="sm:size-[18px]" />
               <span className="hidden sm:inline">Explore Dashboard</span>
               <ArrowRight size={14} className="sm:size-16" />
             </Link>
             <Link to="/ai-recommendations" className={`flex items-center gap-2 py-2 sm:py-3.5 px-6 sm:px-8 rounded-full no-underline font-bold text-xs sm:text-base border-2 transition-all duration-300 hover:-translate-y-1 ${isDarkMode ? 'border-[#334155] text-[#f1f5f9] hover:bg-[#0f172a]' : 'border-[#e2e8f0] text-[#1e293b] hover:bg-white'}`}>
-              <Brain size={16} className="sm:size-18" />
+              <Brain size={16} className="sm:size-[18px]" />
               <span className="hidden sm:inline">Get AI Recommendations</span>
             </Link>
             <Link to="/reports" className={`flex items-center gap-2 py-2 sm:py-3.5 px-6 sm:px-8 rounded-full no-underline font-bold text-xs sm:text-base border-2 transition-all duration-300 hover:-translate-y-1 ${isDarkMode ? 'border-[#334155] text-[#f1f5f9] hover:bg-[#0f172a]' : 'border-[#e2e8f0] text-[#1e293b] hover:bg-white'}`}>
-              <FileText size={16} className="sm:size-18" />
+              <FileText size={16} className="sm:size-[18px]" />
               <span className="hidden sm:inline">View Reports</span>
             </Link>
           </div>

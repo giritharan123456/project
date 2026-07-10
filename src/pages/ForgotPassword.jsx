@@ -73,7 +73,7 @@ function ForgotPassword() {
           <div className="flex flex-col gap-1.5 sm:gap-2">
             <label htmlFor="email" className={`text-xs sm:text-sm font-semibold ${isDarkMode ? 'text-gray-200' : 'text-[#333]'}`}>Email Address</label>
             <div className="relative">
-              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-[#999] size-18 sm:size-20" />
+              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-[#999] size-[18px] sm:size-5" />
               <input
                 type="email" id="email" value={email}
                 onChange={(e) => setEmail(e.target.value)}

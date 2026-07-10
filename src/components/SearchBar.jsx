@@ -106,7 +106,7 @@ function SearchBar({ onSearch, onChange, placeholder = "Search by area or pincod
             <button
               type="button"
               onClick={() => { setSearchTerm(''); setShowSuggestions(false); setServerSuggestions([]); onSearch(''); }}
-              className={`absolute right-2.5 top-1/2 -translate-y-1/2 ${isDarkMode ? 'text-slate-500 hover:text-white' : 'text-slate-400 hover:text-slate-700'}`}
+              className={`absolute right-2.5 top-1/2 -translate-y-1/2 p-1 rounded ${isDarkMode ? 'text-slate-500 hover:text-white' : 'text-slate-400 hover:text-slate-700'}`}
             >
               <X size={14} />
             </button>

@@ -227,23 +227,23 @@ function AreaLeaderboard() {
               <div className="space-y-2">
                 <button onClick={() => shareToWhatsApp(shareModal.url, shareModal.area.name)}
                   className={`w-full flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2 sm:py-3 rounded-xl text-xs sm:text-sm font-medium transition-colors ${b('hover:bg-green-50 text-gray-700', 'hover:bg-green-900/20 text-gray-200')}`}>
-                  <div className="w-8 sm:w-9 h-8 sm:h-9 rounded-full bg-green-500 flex items-center justify-center"><MessageCircle size={16} className="sm:size-18 text-white" /></div>
+                  <div className="w-8 sm:w-9 h-8 sm:h-9 rounded-full bg-green-500 flex items-center justify-center"><MessageCircle size={16} className="sm:size-[18px] text-white" /></div>
                   WhatsApp
                 </button>
                 <button onClick={() => shareToGmail(shareModal.url, shareModal.area.name)}
                   className={`w-full flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2 sm:py-3 rounded-xl text-xs sm:text-sm font-medium transition-colors ${b('hover:bg-red-50 text-gray-700', 'hover:bg-red-900/20 text-gray-200')}`}>
-                  <div className="w-8 sm:w-9 h-8 sm:h-9 rounded-full bg-red-500 flex items-center justify-center"><Mail size={16} className="sm:size-18 text-white" /></div>
+                  <div className="w-8 sm:w-9 h-8 sm:h-9 rounded-full bg-red-500 flex items-center justify-center"><Mail size={16} className="sm:size-[18px] text-white" /></div>
                   Gmail
                 </button>
                 <button onClick={() => shareToTwitter(shareModal.url, shareModal.area.name)}
                   className={`w-full flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2 sm:py-3 rounded-xl text-xs sm:text-sm font-medium transition-colors ${b('hover:bg-blue-50 text-gray-700', 'hover:bg-blue-900/20 text-gray-200')}`}>
-                  <div className="w-8 sm:w-9 h-8 sm:h-9 rounded-full bg-blue-400 flex items-center justify-center"><ExternalLink size={16} className="sm:size-18 text-white" /></div>
+                  <div className="w-8 sm:w-9 h-8 sm:h-9 rounded-full bg-blue-400 flex items-center justify-center"><ExternalLink size={16} className="sm:size-[18px] text-white" /></div>
                   Twitter / X
                 </button>
                 <button onClick={() => copyLink(shareModal.url)}
                   className={`w-full flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2 sm:py-3 rounded-xl text-xs sm:text-sm font-medium transition-colors ${b('hover:bg-gray-100 text-gray-700', 'hover:bg-[#334155] text-gray-200')}`}>
                   <div className={`w-8 sm:w-9 h-8 sm:h-9 rounded-full flex items-center justify-center ${copiedId === shareModal.url ? 'bg-green-500' : 'bg-gray-500'}`}>
-                    {copiedId === shareModal.url ? <Check size={16} className="sm:size-18 text-white" /> : <Copy size={16} className="sm:size-18 text-white" />}
+                    {copiedId === shareModal.url ? <Check size={16} className="sm:size-[18px] text-white" /> : <Copy size={16} className="sm:size-[18px] text-white" />}
                   </div>
                   {copiedId === shareModal.url ? 'Copied!' : 'Copy Link'}
                 </button>

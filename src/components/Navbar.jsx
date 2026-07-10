@@ -281,9 +281,9 @@ function Navbar() {
         )}
       </AnimatePresence>
 
-      {/* Secondary Navigation - scrollable on all screens */}
-      <div className={`border-t ${b('border-gray-100 bg-gray-50/50', 'border-[#1e293b] bg-[#0f172a]/50')}`}>
-        <div className="max-w-[1600px] mx-auto px-8">
+      {/* Secondary Navigation - hidden on mobile, scrollable on md+ */}
+      <div className={`hidden md:block border-t ${b('border-gray-100 bg-gray-50/50', 'border-[#1e293b] bg-[#0f172a]/50')}`}>
+        <div className="max-w-[1600px] mx-auto px-4 md:px-8">
           <div className="flex items-center gap-1 overflow-x-auto py-1 scrollbar-hide">
             {navLinks.map(link => (
               <Link key={link.path} to={link.path} className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-md whitespace-nowrap no-underline transition-colors ${

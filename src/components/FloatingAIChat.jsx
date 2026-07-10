@@ -111,10 +111,10 @@ const FloatingAIChat = () => {
 
             {/* Quick suggestions */}
             {messages.length <= 1 && (
-              <div className="px-3 pb-2 flex flex-wrap gap-1">
+              <div className="px-3 pb-2 flex flex-wrap gap-1.5">
                 {suggestions.map(s => (
                   <button key={s} onClick={() => { setMessage(s); }}
-                    className={`px-2 py-1 rounded-lg text-[10px] font-bold transition-colors ${
+                    className={`px-2.5 py-1.5 rounded-lg text-[10px] font-bold transition-colors ${
                       isDarkMode ? 'bg-[#0f172a] text-slate-400 hover:text-white' : 'bg-slate-100 text-slate-500 hover:text-slate-800'
                     }`}>
                     {s}
