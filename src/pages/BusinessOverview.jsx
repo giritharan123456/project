@@ -198,7 +198,7 @@ function BusinessOverview() {
   };
 
   return (
-    <div className={`min-h-[calc(100vh-70px)] p-6 transition-colors duration-300 ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
+    <div className={`min-h-[calc(100vh-70px)] p-3 sm:p-4 md:p-6 transition-colors duration-300 ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <motion.div
@@ -208,45 +208,45 @@ function BusinessOverview() {
         >
           <Link 
             to="/dashboard"
-            className={`inline-flex items-center gap-2 mb-4 font-medium hover:text-[#2563eb] transition-colors ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}
+            className={`inline-flex items-center gap-1.5 sm:gap-2 mb-3 sm:mb-4 font-medium hover:text-[#2563eb] transition-colors text-sm sm:text-base ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}
           >
             <ArrowLeft size={20} />
             Back to Dashboard
           </Link>
           
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
             <div>
-              <div className="flex items-center gap-3 mb-2">
-                <Store className="text-[#2563eb]" size={28} />
-                <h1 className={`text-3xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+              <div className="flex items-center gap-2 sm:gap-3 mb-1.5 sm:mb-2">
+                <Store className="text-[#2563eb]" size={24} />
+                <h1 className={`text-2xl sm:text-3xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                   Business Overview
                 </h1>
               </div>
-              <p className={`text-lg opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+              <p className={`text-sm sm:text-base md:text-lg opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                 Pincode: {routePincode} — {apiArea.name || NO_DATA_LABEL}
               </p>
             </div>
             
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 sm:gap-3">
               <button 
                 onClick={handleFavorite}
-                className={`p-3 rounded-xl border transition-colors ${isFavorite ? 'bg-red-500 text-white border-red-500' : isDarkMode ? 'text-[#f1f5f9] border-[#334155] hover:bg-[#1e293b]' : 'text-[#1e293b] border-[#e2e8f0] hover:bg-gray-100'}`}
+                className={`p-2.5 sm:p-3 rounded-xl border transition-colors ${isFavorite ? 'bg-red-500 text-white border-red-500' : isDarkMode ? 'text-[#f1f5f9] border-[#334155] hover:bg-[#1e293b]' : 'text-[#1e293b] border-[#e2e8f0] hover:bg-gray-100'}`}
               >
-                <Heart size={20} fill={isFavorite ? 'currentColor' : 'none'} />
+                <Heart size={18} fill={isFavorite ? 'currentColor' : 'none'} />
               </button>
               <button 
                 onClick={handleShare}
                 title={copied ? 'Copied!' : 'Share'}
-                className={`p-3 rounded-xl border transition-colors ${copied ? 'bg-green-500 text-white border-green-500' : isDarkMode ? 'text-[#f1f5f9] border-[#334155] hover:bg-[#1e293b]' : 'text-[#1e293b] border-[#e2e8f0] hover:bg-gray-100'}`}
+                className={`p-2.5 sm:p-3 rounded-xl border transition-colors ${copied ? 'bg-green-500 text-white border-green-500' : isDarkMode ? 'text-[#f1f5f9] border-[#334155] hover:bg-[#1e293b]' : 'text-[#1e293b] border-[#e2e8f0] hover:bg-gray-100'}`}
               >
-                <Share2 size={20} />
+                <Share2 size={18} />
               </button>
             </div>
           </div>
         </motion.div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 mb-6 sm:mb-8">
           {[
             { icon: Store, label: 'Total Businesses', value: businessData.totalBusinesses ?? NO_DATA_LABEL, color: 'text-blue-500', bgLight: 'bg-blue-50', bgDark: 'bg-blue-900/20' },
             { icon: BarChart3, label: 'Competitor Density', value: businessData.competitorDensity, color: 'text-violet-500', bgLight: 'bg-violet-50', bgDark: 'bg-violet-900/20' },
@@ -259,17 +259,17 @@ function BusinessOverview() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 + (index * 0.1) }}
               whileHover={{ y: -4 }}
-              className={`p-5 rounded-2xl border-2 transition-all duration-300 hover:shadow-lg ${
+              className={`p-3 sm:p-5 rounded-2xl border-2 transition-all duration-300 hover:shadow-lg ${
                 isDarkMode 
                   ? 'bg-[#1e293b] border-[#334155] hover:border-[#2563eb]/40' 
                   : 'bg-white border-[#e2e8f0] hover:border-[#2563eb]/40 hover:shadow-md'
               }`}
             >
-              <div className={`inline-flex p-2.5 rounded-xl mb-3 ${isDarkMode ? stat.bgDark : stat.bgLight}`}>
-                <stat.icon className={stat.color} size={22} />
+              <div className={`inline-flex p-2 sm:p-2.5 rounded-xl mb-2 sm:mb-3 ${isDarkMode ? stat.bgDark : stat.bgLight}`}>
+                <stat.icon className={stat.color} size={20} />
               </div>
-              <p className={`text-xs font-medium mb-1 uppercase tracking-wide ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>{stat.label}</p>
-              <p className={`text-2xl font-extrabold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+              <p className={`text-[10px] sm:text-xs font-medium mb-0.5 sm:mb-1 uppercase tracking-wide ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>{stat.label}</p>
+              <p className={`text-lg sm:text-2xl font-extrabold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                 {stat.value}
               </p>
             </motion.div>
@@ -281,25 +281,25 @@ function BusinessOverview() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
-          className={`p-6 rounded-2xl border mb-8 ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
+          className={`p-4 sm:p-6 rounded-2xl border mb-6 sm:mb-8 ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
         >
-          <div className="flex items-center gap-3 mb-6">
-            <PieChart className="text-[#2563eb]" size={24} />
-            <h3 className={`text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+          <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
+            <PieChart className="text-[#2563eb]" size={22} />
+            <h3 className={`text-base sm:text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
               Popular Business Categories
             </h3>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-4">
             {businessData.popularCategories.map((category, index) => (
               <motion.div
                 key={index}
                 whileHover={{ scale: 1.05 }}
-                className={`p-4 rounded-xl border text-center ${isDarkMode ? 'bg-[#0f172a] border-[#334155]' : 'bg-[#f8fafc] border-[#e2e8f0]'}`}
+                className={`p-3 sm:p-4 rounded-xl border text-center ${isDarkMode ? 'bg-[#0f172a] border-[#334155]' : 'bg-[#f8fafc] border-[#e2e8f0]'}`}
               >
-                <div className="w-12 h-12 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] rounded-lg flex items-center justify-center mx-auto mb-3">
-                  <category.icon className="text-white" size={24} />
+                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] rounded-lg flex items-center justify-center mx-auto mb-2 sm:mb-3">
+                  <category.icon className="text-white" size={20} />
                 </div>
-                <p className={`text-sm font-semibold mb-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+                <p className={`text-xs sm:text-sm font-semibold mb-0.5 sm:mb-1 truncate ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                   {category.name}
                 </p>
                 <div className="flex items-center justify-center gap-1">
@@ -319,18 +319,18 @@ function BusinessOverview() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
-          className={`p-6 rounded-2xl border mb-8 ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
+          className={`p-4 sm:p-6 rounded-2xl border mb-6 sm:mb-8 ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
         >
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-            <div className="flex items-center gap-4">
-              <div className="relative">
-                <Search className={`absolute left-3 top-1/2 -translate-y-1/2 ${isDarkMode ? 'text-[#f1f5f9] opacity-50' : 'text-[#1e293b] opacity-50'}`} size={20} />
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-4">
+              <div className="relative flex-1">
+                <Search className={`absolute left-3 top-1/2 -translate-y-1/2 ${isDarkMode ? 'text-[#f1f5f9] opacity-50' : 'text-[#1e293b] opacity-50'}`} size={18} />
                 <input
                   type="text"
                   placeholder="Search businesses..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className={`pl-10 pr-4 py-2 rounded-lg border bg-transparent outline-none focus:border-[#2563eb] transition-colors ${isDarkMode ? 'text-[#f1f5f9] border-[#334155]' : 'text-[#1e293b] border-[#e2e8f0]'}`}
+                  className={`w-full pl-9 pr-3 sm:pr-4 py-2 rounded-lg border bg-transparent outline-none focus:border-[#2563eb] transition-colors text-sm ${isDarkMode ? 'text-[#f1f5f9] border-[#334155]' : 'text-[#1e293b] border-[#e2e8f0]'}`}
                 />
               </div>
               
@@ -338,7 +338,7 @@ function BusinessOverview() {
                 <select
                   value={selectedCategory}
                   onChange={(e) => setSelectedCategory(e.target.value)}
-                  className={`px-4 py-2 pr-10 rounded-lg border bg-transparent outline-none focus:border-[#2563eb] transition-colors appearance-none cursor-pointer ${isDarkMode ? 'text-[#f1f5f9] border-[#334155]' : 'text-[#1e293b] border-[#e2e8f0]'}`}
+                  className={`w-full sm:w-auto px-3 sm:px-4 py-2 pr-8 sm:pr-10 rounded-lg border bg-transparent outline-none focus:border-[#2563eb] transition-colors appearance-none cursor-pointer text-sm ${isDarkMode ? 'text-[#f1f5f9] border-[#334155]' : 'text-[#1e293b] border-[#e2e8f0]'}`}
                 >
                   {categories.map(category => (
                     <option key={category} value={category}>{category}</option>
@@ -383,7 +383,7 @@ function BusinessOverview() {
               message="Individual business listings are not available from census/map APIs. Category competitor counts are shown above from backend data."
             />
           ) : viewMode === 'grid' ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {filteredBusinesses.map((business, index) => {
                 const CategoryIcon = getCategoryIcon(business.category);
                 return (
@@ -393,7 +393,7 @@ function BusinessOverview() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.8 + (index * 0.1) }}
                     whileHover={{ scale: 1.02 }}
-                    className={`p-6 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155] hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.3)]' : 'bg-[#ffffff] border-[#e2e8f0] hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1)]'}`}
+                    className={`p-4 sm:p-6 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155] hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.3)]' : 'bg-[#ffffff] border-[#e2e8f0] hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1)]'}`}
                   >
                     <div className="flex items-start justify-between mb-4">
                       <div className="w-12 h-12 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] rounded-xl flex items-center justify-center">
@@ -443,11 +443,11 @@ function BusinessOverview() {
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.8 + (index * 0.1) }}
-                    className={`p-6 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155] hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.3)]' : 'bg-[#ffffff] border-[#e2e8f0] hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1)]'}`}
+                    className={`p-4 sm:p-6 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155] hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.3)]' : 'bg-[#ffffff] border-[#e2e8f0] hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1)]'}`}
                   >
-                    <div className="flex items-start gap-4">
-                      <div className="w-16 h-16 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] rounded-xl flex items-center justify-center flex-shrink-0">
-                        <CategoryIcon className="text-white" size={32} />
+                    <div className="flex items-start gap-3 sm:gap-4">
+                      <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] rounded-xl flex items-center justify-center flex-shrink-0">
+                        <CategoryIcon className="text-white" size={24} />
                       </div>
                       
                       <div className="flex-1">
@@ -498,10 +498,10 @@ function BusinessOverview() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1 }}
-            className={`mt-8 p-6 rounded-2xl border border-l-4 ${isDarkMode ? 'bg-orange-900/20 border-orange-500' : 'bg-orange-50 border-orange-500'}`}
+            className={`mt-6 sm:mt-8 p-4 sm:p-6 rounded-2xl border border-l-4 ${isDarkMode ? 'bg-orange-900/20 border-orange-500' : 'bg-orange-50 border-orange-500'}`}
           >
-            <div className="flex items-start gap-4">
-              <AlertCircle className="text-orange-500 flex-shrink-0" size={24} />
+            <div className="flex items-start gap-3 sm:gap-4">
+              <AlertCircle className="text-orange-500 flex-shrink-0" size={22} />
               <div>
                 <h4 className={`font-bold mb-2 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                   High Market Saturation

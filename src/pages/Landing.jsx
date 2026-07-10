@@ -196,7 +196,7 @@ function Landing() {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
+      <section className="relative pt-24 sm:pt-32 pb-12 sm:pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-20 left-10 w-96 h-96 bg-[#2563eb] rounded-full blur-[150px]" />
           <div className="absolute bottom-10 right-10 w-96 h-96 bg-[#7c3aed] rounded-full blur-[150px]" />
@@ -208,25 +208,25 @@ function Landing() {
                 <Zap size={16} />
                 AI-Powered Market Intelligence
               </div>
-              <h1 className={`text-4xl sm:text-5xl lg:text-6xl font-extrabold mb-6 leading-tight ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+              <h1 className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold mb-4 sm:mb-6 leading-tight ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
                 Find Your Next
                 <span className="block bg-gradient-to-r from-[#2563eb] to-[#7c3aed] bg-clip-text text-transparent">
                   Business Opportunity
                 </span>
               </h1>
-              <p className={`text-lg mb-8 leading-relaxed ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+              <p className={`text-sm sm:text-lg mb-6 sm:mb-8 leading-relaxed ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
                 Identify underserved markets, analyze competition, and make data-driven business decisions with real market intelligence across 38 districts.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 mb-10">
-                <Link to="/signup" className="px-8 py-4 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white rounded-xl font-semibold text-center hover:opacity-90 transition-opacity shadow-lg shadow-blue-500/25">
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-8 sm:mb-10">
+                <Link to="/signup" className="px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white rounded-xl font-semibold text-center hover:opacity-90 transition-opacity shadow-lg shadow-blue-500/25">
                   Get Started Free
                   <ArrowRight className="inline ml-2" size={20} />
                 </Link>
-                <Link to="/login" className={`px-8 py-4 rounded-xl font-semibold text-center border-2 transition-colors ${isDarkMode ? 'text-white border-[#334155] hover:bg-[#1e293b]' : 'text-gray-700 border-gray-200 hover:bg-gray-50'}`}>
+                <Link to="/login" className={`px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-semibold text-center border-2 transition-colors ${isDarkMode ? 'text-white border-[#334155] hover:bg-[#1e293b]' : 'text-gray-700 border-gray-200 hover:bg-gray-50'}`}>
                   View Demo Dashboard
                 </Link>
               </div>
-              <div className="flex items-center gap-8">
+              <div className="flex flex-wrap items-center gap-4 sm:gap-8">
                 <div className="flex items-center gap-2">
                   <div className="flex -space-x-2">
                     {[0,1,2,3].map(i => (
@@ -245,11 +245,11 @@ function Landing() {
             </motion.div>
 
             <motion.div initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, delay: 0.2 }}>
-              <div className={`p-5 sm:p-6 md:p-8 rounded-3xl border shadow-2xl ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-gray-200'}`}>
+              <div className={`p-4 sm:p-6 md:p-8 rounded-3xl border shadow-2xl ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-gray-200'}`}>
                 <form onSubmit={handleSearch} className="relative">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 rounded-xl bg-[#2563eb]/10 flex items-center justify-center">
-                      <Search className="text-[#2563eb]" size={20} />
+                  <div className="flex items-center gap-2 sm:gap-3 mb-4">
+                    <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-[#2563eb]/10 flex items-center justify-center">
+                      <Search className="text-[#2563eb]" size={18} />
                     </div>
                     <input 
                       type="text" 
@@ -257,7 +257,7 @@ function Landing() {
                       onChange={(e) => setSearchQuery(e.target.value)}
                       onFocus={() => searchSuggestions.length > 0 && setShowSuggestions(true)}
                       placeholder="Search pincode, area..." 
-                      className={`flex-1 px-4 py-3 rounded-xl border outline-none focus:ring-2 focus:ring-[#2563eb]/40 transition-all ${isDarkMode ? 'bg-[#0f172a] text-white border-[#334155] placeholder-gray-500' : 'bg-gray-50 text-gray-900 border-gray-200 placeholder-gray-400'}`}
+                      className={`flex-1 px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl border outline-none focus:ring-2 focus:ring-[#2563eb]/40 transition-all text-sm ${isDarkMode ? 'bg-[#0f172a] text-white border-[#334155] placeholder-gray-500' : 'bg-gray-50 text-gray-900 border-gray-200 placeholder-gray-400'}`}
                     />
                     {searchQuery && (
                       <button type="button" onClick={() => { setSearchQuery(''); setSearchSuggestions([]); setShowSuggestions(false); }}
@@ -265,7 +265,7 @@ function Landing() {
                         ✕
                       </button>
                     )}
-                    <button type="submit" className="px-6 py-3 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white rounded-xl font-medium hover:opacity-90 transition-opacity">
+                    <button type="submit" className="px-4 sm:px-6 py-2.5 sm:py-3 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white rounded-xl font-medium hover:opacity-90 transition-opacity text-sm">
                       Search
                     </button>
                   </div>
@@ -302,17 +302,17 @@ function Landing() {
                 
                 {!searchLoading && !showSuggestions && (
                 <>
-                <div className="grid grid-cols-2 gap-4 mb-6">
+                <div className="grid grid-cols-2 gap-3 sm:gap-4 mb-6">
                   {platformStats.map((stat, i) => (
-                    <div key={i} className={`p-4 rounded-xl ${isDarkMode ? 'bg-[#0f172a]' : 'bg-gray-50'}`}>
-                      <stat.icon className="text-[#2563eb] mb-2" size={20} />
-                      <p className={`text-2xl font-extrabold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>{stat.value}</p>
-                      <p className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>{stat.label}</p>
+                    <div key={i} className={`p-3 sm:p-4 rounded-xl ${isDarkMode ? 'bg-[#0f172a]' : 'bg-gray-50'}`}>
+                      <stat.icon className="text-[#2563eb] mb-1.5 sm:mb-2" size={18} />
+                      <p className={`text-lg sm:text-2xl font-extrabold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>{stat.value}</p>
+                      <p className={`text-[10px] sm:text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>{stat.label}</p>
                     </div>
                   ))}
                 </div>
 
-                <Link to="/signup" className="block w-full py-3 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white rounded-xl font-semibold text-center hover:opacity-90 transition-opacity">
+                <Link to="/signup" className="block w-full py-2.5 sm:py-3 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white rounded-xl font-semibold text-center hover:opacity-90 transition-opacity text-sm">
                   Explore Market Data
                   <ArrowRight className="inline ml-2" size={18} />
                 </Link>
@@ -334,11 +334,11 @@ function Landing() {
       )}
 
       {/* Features Section */}
-      <section id="features" className="py-20 px-4 sm:px-6 lg:px-8">
+      <section id="features" className="py-12 sm:py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
-            <span className="inline-block px-4 py-1.5 rounded-full bg-[#2563eb]/10 text-[#2563eb] text-sm font-semibold mb-4">Features</span>
-            <h2 className={`text-3xl sm:text-4xl font-bold mb-4 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-10 sm:mb-16">
+            <span className="inline-block px-3 sm:px-4 py-1 sm:py-1.5 rounded-full bg-[#2563eb]/10 text-[#2563eb] text-xs sm:text-sm font-semibold mb-3 sm:mb-4">Features</span>
+            <h2 className={`text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
               Everything You Need
             </h2>
             <p className={`text-lg max-w-2xl mx-auto ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
@@ -346,18 +346,18 @@ function Landing() {
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {displayFeatures.map((feature, index) => {
               const icons = [BarChart3, TrendingUp, MapPin, Users, Zap, Target, Globe, Shield, Award];
               const FeatureIcon = icons[index % icons.length];
               return (
                 <motion.div key={index} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
                   transition={{ delay: index * 0.08 }}
-                  className={`p-6 rounded-2xl border hover:shadow-lg transition-all duration-300 ${isDarkMode ? 'bg-[#1e293b] border-[#334155] hover:border-[#2563eb]/50' : 'bg-white border-gray-200 hover:shadow-xl'}`}>
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-[#2563eb] to-[#7c3aed] flex items-center justify-center mb-4">
-                    <FeatureIcon className="text-white" size={22} />
+                  className={`p-4 sm:p-6 rounded-2xl border hover:shadow-lg transition-all duration-300 ${isDarkMode ? 'bg-[#1e293b] border-[#334155] hover:border-[#2563eb]/50' : 'bg-white border-gray-200 hover:shadow-xl'}`}>
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-r from-[#2563eb] to-[#7c3aed] flex items-center justify-center mb-3 sm:mb-4">
+                    <FeatureIcon className="text-white" size={20} />
                   </div>
-                  <h3 className={`text-lg font-bold mb-2 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+                  <h3 className={`text-base sm:text-lg font-bold mb-1.5 sm:mb-2 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
                     {feature.title || feature.name}
                   </h3>
                   <p className={`text-sm leading-relaxed ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
@@ -371,11 +371,11 @@ function Landing() {
       </section>
 
       {/* How It Works */}
-      <section id="how-it-works" className={`py-20 px-4 sm:px-6 lg:px-8 ${isDarkMode ? 'bg-[#1e293b]/50' : 'bg-gray-50'}`}>
+      <section id="how-it-works" className={`py-12 sm:py-20 px-4 sm:px-6 lg:px-8 ${isDarkMode ? 'bg-[#1e293b]/50' : 'bg-gray-50'}`}>
         <div className="max-w-7xl mx-auto">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
-            <span className="inline-block px-4 py-1.5 rounded-full bg-[#2563eb]/10 text-[#2563eb] text-sm font-semibold mb-4">Process</span>
-            <h2 className={`text-3xl sm:text-4xl font-bold mb-4 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-10 sm:mb-16">
+            <span className="inline-block px-3 sm:px-4 py-1 sm:py-1.5 rounded-full bg-[#2563eb]/10 text-[#2563eb] text-xs sm:text-sm font-semibold mb-3 sm:mb-4">Process</span>
+            <h2 className={`text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
               How It Works
             </h2>
             <p className={`text-lg max-w-2xl mx-auto ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
@@ -383,7 +383,7 @@ function Landing() {
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
             {[
               { step: '01', title: 'Select Your Area', desc: 'Choose a district and pincode to analyze the local market conditions and demographics.', icon: MapPin },
               { step: '02', title: 'Analyze Market Data', desc: 'View market gap scores, demand indices, competition levels, and growth forecasts.', icon: BarChart3 },
@@ -391,12 +391,12 @@ function Landing() {
             ].map((item, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
                 transition={{ delay: i * 0.15 }} className="text-center">
-                <div className="w-16 h-16 rounded-2xl bg-gradient-to-r from-[#2563eb] to-[#7c3aed] flex items-center justify-center mx-auto mb-6">
-                  <item.icon className="text-white" size={28} />
+                <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-r from-[#2563eb] to-[#7c3aed] flex items-center justify-center mx-auto mb-4 sm:mb-6">
+                  <item.icon className="text-white" size={24} />
                 </div>
-                <div className={`text-sm font-bold mb-2 ${isDarkMode ? 'text-[#2563eb]' : 'text-[#2563eb]'}`}>Step {item.step}</div>
-                <h3 className={`text-xl font-bold mb-3 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>{item.title}</h3>
-                <p className={`text-sm leading-relaxed ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>{item.desc}</p>
+                <div className={`text-xs sm:text-sm font-bold mb-1.5 sm:mb-2 ${isDarkMode ? 'text-[#2563eb]' : 'text-[#2563eb]'}`}>Step {item.step}</div>
+                <h3 className={`text-lg sm:text-xl font-bold mb-2 sm:mb-3 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>{item.title}</h3>
+                <p className={`text-xs sm:text-sm leading-relaxed ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>{item.desc}</p>
               </motion.div>
             ))}
           </div>
@@ -404,9 +404,9 @@ function Landing() {
       </section>
 
       {/* Stats Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8">
+      <section className="py-12 sm:py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6">
             {[
               { value: '38', label: 'Districts', icon: MapPin },
               { value: '380+', label: 'Areas Covered', icon: Globe },
@@ -415,10 +415,10 @@ function Landing() {
             ].map((stat, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className={`p-6 rounded-2xl border text-center ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-gray-200'}`}>
-                <stat.icon className="text-[#2563eb] mx-auto mb-3" size={28} />
-                <p className={`text-3xl font-extrabold mb-1 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>{stat.value}</p>
-                <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>{stat.label}</p>
+                className={`p-4 sm:p-6 rounded-2xl border text-center ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-gray-200'}`}>
+                <stat.icon className="text-[#2563eb] mx-auto mb-2 sm:mb-3" size={24} />
+                <p className={`text-xl sm:text-3xl font-extrabold mb-0.5 sm:mb-1 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>{stat.value}</p>
+                <p className={`text-xs sm:text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>{stat.label}</p>
               </motion.div>
             ))}
           </div>
@@ -426,11 +426,11 @@ function Landing() {
       </section>
 
       {/* FAQ Section */}
-      <section id="faq" className={`py-20 px-4 sm:px-6 lg:px-8 ${isDarkMode ? 'bg-[#1e293b]/50' : 'bg-gray-50'}`}>
+      <section id="faq" className={`py-12 sm:py-20 px-4 sm:px-6 lg:px-8 ${isDarkMode ? 'bg-[#1e293b]/50' : 'bg-gray-50'}`}>
         <div className="max-w-3xl mx-auto">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-12">
-            <span className="inline-block px-4 py-1.5 rounded-full bg-[#2563eb]/10 text-[#2563eb] text-sm font-semibold mb-4">FAQ</span>
-            <h2 className={`text-3xl sm:text-4xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-8 sm:mb-12">
+            <span className="inline-block px-3 sm:px-4 py-1 sm:py-1.5 rounded-full bg-[#2563eb]/10 text-[#2563eb] text-xs sm:text-sm font-semibold mb-3 sm:mb-4">FAQ</span>
+            <h2 className={`text-2xl sm:text-3xl md:text-4xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
               Frequently Asked Questions
             </h2>
           </motion.div>
@@ -441,12 +441,12 @@ function Landing() {
                 transition={{ delay: index * 0.05 }}
                 className={`rounded-2xl border overflow-hidden ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-gray-200'}`}>
                 <button onClick={() => setActiveFaq(activeFaq === index ? null : index)}
-                  className="w-full flex items-center justify-between p-5 text-left">
-                  <span className={`font-semibold pr-4 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>{faq.question}</span>
+                  className="w-full flex items-center justify-between p-4 sm:p-5 text-left">
+                  <span className={`font-semibold pr-3 sm:pr-4 text-sm sm:text-base ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>{faq.question}</span>
                   <ChevronDown className={`flex-shrink-0 transition-transform duration-200 ${activeFaq === index ? 'rotate-180' : ''} ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`} size={20} />
                 </button>
                 {activeFaq === index && (
-                  <div className={`px-5 pb-5 pt-0 border-t ${isDarkMode ? 'border-[#334155]' : 'border-gray-100'}`}>
+                  <div className={`px-4 sm:px-5 pb-4 sm:pb-5 pt-0 border-t ${isDarkMode ? 'border-[#334155]' : 'border-gray-100'}`}>
                     <p className={`mt-3 text-sm leading-relaxed ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>{faq.answer}</p>
                   </div>
                 )}
@@ -457,27 +457,27 @@ function Landing() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8">
+      <section className="py-12 sm:py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-            className="relative p-6 sm:p-8 md:p-12 rounded-3xl bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-center overflow-hidden">
+            className="relative p-5 sm:p-8 md:p-12 rounded-3xl bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-center overflow-hidden">
             <div className="absolute inset-0 opacity-10">
               <div className="absolute top-0 right-0 w-64 h-64 bg-white rounded-full blur-[100px]" />
               <div className="absolute bottom-0 left-0 w-48 h-48 bg-white rounded-full blur-[80px]" />
             </div>
             <div className="relative">
-              <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3 sm:mb-4">
                 Ready to Find Your Opportunity?
               </h2>
-              <p className="text-lg text-white/80 mb-8 max-w-xl mx-auto">
+              <p className="text-sm sm:text-lg text-white/80 mb-6 sm:mb-8 max-w-xl mx-auto">
                 Join 1000+ entrepreneurs using MarketVision AI to make smarter business decisions.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Link to="/signup" className="px-8 py-4 bg-white text-[#2563eb] rounded-xl font-bold hover:bg-gray-100 transition-colors">
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
+                <Link to="/signup" className="px-6 sm:px-8 py-3 sm:py-4 bg-white text-[#2563eb] rounded-xl font-bold hover:bg-gray-100 transition-colors text-sm sm:text-base">
                   Start Free Trial
-                  <ArrowRight className="inline ml-2" size={20} />
+                  <ArrowRight className="inline ml-2" size={18} />
                 </Link>
-                <Link to="/login" className="px-8 py-4 border-2 border-white text-white rounded-xl font-bold hover:bg-white/10 transition-colors">
+                <Link to="/login" className="px-6 sm:px-8 py-3 sm:py-4 border-2 border-white text-white rounded-xl font-bold hover:bg-white/10 transition-colors text-sm sm:text-base">
                   Sign In
                 </Link>
               </div>
@@ -487,20 +487,20 @@ function Landing() {
       </section>
 
       {/* Footer */}
-      <footer className={`py-12 px-4 sm:px-6 lg:px-8 border-t ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-gray-200'}`}>
+      <footer className={`py-8 sm:py-12 px-4 sm:px-6 lg:px-8 border-t ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-gray-200'}`}>
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-8 md:mb-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
             <div>
-              <div className="flex items-center gap-2 mb-4">
-                <Target className="text-[#2563eb]" size={24} />
-                <span className="font-bold bg-gradient-to-r from-[#2563eb] to-[#7c3aed] bg-clip-text text-transparent">MarketVision AI</span>
+              <div className="flex items-center gap-2 mb-3 sm:mb-4">
+                <Target className="text-[#2563eb]" size={20} />
+                <span className={`font-bold text-sm sm:text-base bg-gradient-to-r from-[#2563eb] to-[#7c3aed] bg-clip-text text-transparent`}>MarketVision AI</span>
               </div>
               <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
                 AI-powered market intelligence platform for smart business decisions.
               </p>
             </div>
             <div>
-              <h4 className={`font-bold mb-4 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Product</h4>
+              <h4 className={`font-bold mb-3 sm:mb-4 text-sm sm:text-base ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Product</h4>
               <ul className="space-y-2">
                 <li><Link to="/dashboard" className={`text-sm hover:text-[#2563eb] transition-colors ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Dashboard</Link></li>
                 <li><Link to="/about" className={`text-sm hover:text-[#2563eb] transition-colors ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>About</Link></li>
@@ -508,7 +508,7 @@ function Landing() {
               </ul>
             </div>
             <div>
-              <h4 className={`font-bold mb-4 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Features</h4>
+              <h4 className={`font-bold mb-3 sm:mb-4 text-sm sm:text-base ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Features</h4>
               <ul className="space-y-2">
                 <li><Link to="/category-explorer" className={`text-sm hover:text-[#2563eb] transition-colors ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Explorer</Link></li>
                 <li><Link to="/forecast" className={`text-sm hover:text-[#2563eb] transition-colors ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Forecasting</Link></li>
@@ -516,7 +516,7 @@ function Landing() {
               </ul>
             </div>
             <div>
-              <h4 className={`font-bold mb-4 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Account</h4>
+              <h4 className={`font-bold mb-3 sm:mb-4 text-sm sm:text-base ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Account</h4>
               <ul className="space-y-2">
                 <li><Link to="/login" className={`text-sm hover:text-[#2563eb] transition-colors ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Login</Link></li>
                 <li><Link to="/signup" className={`text-sm hover:text-[#2563eb] transition-colors ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Sign Up</Link></li>
@@ -524,7 +524,7 @@ function Landing() {
               </ul>
             </div>
           </div>
-          <div className={`pt-8 border-t ${isDarkMode ? 'border-[#334155]' : 'border-gray-200'}`}>
+          <div className={`pt-6 sm:pt-8 border-t ${isDarkMode ? 'border-[#334155]' : 'border-gray-200'}`}>
             <p className={`text-center text-sm ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`}>
               © {new Date().getFullYear()} MarketVision AI. All rights reserved.
             </p>

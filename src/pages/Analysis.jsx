@@ -113,33 +113,33 @@ function Analysis() {
 
   if (!selectedDistrict) {
     return (
-      <div className={`min-h-[calc(100vh-70px)] p-6 md:p-10 transition-colors duration-300 ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
-        <div className="max-w-5xl mx-auto space-y-8">
+      <div className={`min-h-[calc(100vh-70px)] p-3 sm:p-4 md:p-10 transition-colors duration-300 ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
+      <div className="max-w-5xl mx-auto space-y-6 sm:space-y-8">
           <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }}>
-            <div className="flex items-center gap-3 mb-2">
-              <BarChart3 className="text-[#2563eb]" size={32} />
-              <h1 className={`text-3xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Market Gap Analysis</h1>
+            <div className="flex items-center gap-2 sm:gap-3 mb-2">
+              <BarChart3 className="text-[#2563eb]" size={28} />
+              <h1 className={`text-2xl sm:text-3xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Market Gap Analysis</h1>
             </div>
-            <p className={`text-lg opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+            <p className={`text-sm sm:text-lg opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
               Deep dive into market gaps, demand patterns, and business opportunities.
             </p>
           </motion.div>
 
           {/* Opportunity Levels */}
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
-            className={`p-6 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-[#e2e8f0]'}`}>
-            <h2 className={`text-2xl font-bold mb-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Opportunity Levels</h2>
-            <div className="flex flex-col gap-4">
+            className={`p-4 sm:p-6 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-[#e2e8f0]'}`}>
+            <h2 className={`text-xl sm:text-2xl font-bold mb-3 sm:mb-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Opportunity Levels</h2>
+            <div className="flex flex-col gap-3 sm:gap-4">
               {[
                 { level: 'High Opportunity', range: 'Score 70-100', color: 'bg-green-500', desc: 'Strong market gap with low competition. Ideal for new business entry.' },
                 { level: 'Medium Opportunity', range: 'Score 40-69', color: 'bg-yellow-500', desc: 'Moderate gap with some competition. Differentiation needed.' },
                 { level: 'Low Opportunity', range: 'Score 0-39', color: 'bg-red-500', desc: 'Saturated market or low demand. High risk for new entrants.' },
               ].map((item, i) => (
-                <div key={i} className={`flex items-start gap-4 p-4 rounded-xl ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
-                  <div className={`w-4 h-4 rounded-full ${item.color} mt-1 shrink-0`} />
+                <div key={i} className={`flex items-start gap-3 sm:gap-4 p-3 sm:p-4 rounded-xl ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
+                  <div className={`w-3 h-3 sm:w-4 sm:h-4 rounded-full ${item.color} mt-1 shrink-0`} />
                   <div>
-                    <p className={`font-bold text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{item.level} <span className="opacity-50 font-normal">{item.range}</span></p>
-                    <p className={`text-xs mt-0.5 opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{item.desc}</p>
+                    <p className={`font-bold text-xs sm:text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{item.level} <span className="opacity-50 font-normal">{item.range}</span></p>
+                    <p className={`text-[10px] sm:text-xs mt-0.5 opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{item.desc}</p>
                   </div>
                 </div>
               ))}
@@ -148,9 +148,9 @@ function Analysis() {
 
           {/* Data Sources */}
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
-            className={`p-6 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-[#e2e8f0]'}`}>
-            <h2 className={`text-2xl font-bold mb-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Data Sources</h2>
-            <ul className="space-y-2">
+            className={`p-4 sm:p-6 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-[#e2e8f0]'}`}>
+            <h2 className={`text-xl sm:text-2xl font-bold mb-3 sm:mb-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Data Sources</h2>
+            <ul className="space-y-1.5 sm:space-y-2">
               {[
                 'Census of India — Population and demographic data',
                 'District-level economic indicators',
@@ -178,25 +178,25 @@ function Analysis() {
   }
 
   return (
-    <div className={`min-h-[calc(100vh-70px)] p-6 md:p-10 transition-colors duration-300 ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
+    <div className={`min-h-[calc(100vh-70px)] p-3 sm:p-4 md:p-10 transition-colors duration-300 ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
       <div className="max-w-7xl mx-auto">
 
         {/* Header */}
-        <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
-          <div className="flex items-center gap-3 mb-2">
-            <BarChart3 className="text-[#2563eb]" size={32} />
-            <h1 className={`text-3xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+        <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-6 sm:mb-8">
+          <div className="flex items-center gap-2 sm:gap-3 mb-1.5 sm:mb-2">
+            <BarChart3 className="text-[#2563eb]" size={28} />
+            <h1 className={`text-2xl sm:text-3xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
               Market Gap Analysis
             </h1>
           </div>
-          <p className={`text-lg opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+          <p className={`text-sm sm:text-lg opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
             {districtName} — {currentDistrict?.state || '—'} — {pincodeData.length} area{pincodeData.length !== 1 ? 's' : ''} analyzed
           </p>
         </motion.div>
 
         {/* District Overview KPIs */}
         {stats && (
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6 sm:mb-8">
             {[
               { icon: Users, label: 'Total Population', value: stats.totalPop.toLocaleString(), color: 'text-blue-500', bg: 'bg-blue-50 dark:bg-blue-900/20' },
               { icon: MapPin, label: 'Areas Analyzed', value: pincodeData.length, color: 'text-violet-500', bg: 'bg-violet-50 dark:bg-violet-900/20' },
@@ -204,12 +204,12 @@ function Analysis() {
               { icon: Activity, label: 'Avg Demand', value: Number(stats.avgDemand).toFixed(2), color: 'text-amber-500', bg: 'bg-amber-50 dark:bg-amber-900/20' },
             ].map((m, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 + i * 0.1 }}
-                className={`p-5 rounded-2xl border transition-all hover:shadow-lg ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-[#e2e8f0]'}`}>
-                <div className={`inline-flex p-2.5 rounded-xl mb-3 ${isDarkMode ? 'bg-[#0f172a]' : m.bg}`}>
-                  <m.icon className={m.color} size={22} />
+                className={`p-3 sm:p-5 rounded-2xl border transition-all hover:shadow-lg ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-[#e2e8f0]'}`}>
+                <div className={`inline-flex p-2 sm:p-2.5 rounded-xl mb-2 sm:mb-3 ${isDarkMode ? 'bg-[#0f172a]' : m.bg}`}>
+                  <m.icon className={m.color} size={20} />
                 </div>
-                <p className={`text-xs font-medium mb-1 uppercase tracking-wide ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>{m.label}</p>
-                <p className={`text-2xl font-extrabold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{m.value}</p>
+                <p className={`text-[10px] sm:text-xs font-medium mb-0.5 sm:mb-1 uppercase tracking-wide ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>{m.label}</p>
+                <p className={`text-lg sm:text-2xl font-extrabold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{m.value}</p>
               </motion.div>
             ))}
           </div>
@@ -217,15 +217,15 @@ function Analysis() {
 
         {/* Opportunity Distribution + Key Factors */}
         {stats && (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-8">
             {/* Opportunity Distribution */}
             <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.4 }}
-              className={`p-6 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-[#e2e8f0]'}`}>
-              <div className="flex items-center gap-3 mb-6">
-                <Zap className="text-[#2563eb]" size={24} />
-                <h3 className={`text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Opportunity Distribution</h3>
+              className={`p-4 sm:p-6 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-[#e2e8f0]'}`}>
+              <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
+                <Zap className="text-[#2563eb]" size={22} />
+                <h3 className={`text-base sm:text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Opportunity Distribution</h3>
               </div>
-              <div className="space-y-4">
+              <div className="space-y-3 sm:space-y-4">
                 {[
                   { label: 'High Opportunity', count: stats.highOpp, total: pincodeData.length, color: 'bg-green-500', desc: 'Gap score ≥ 70' },
                   { label: 'Medium Opportunity', count: stats.medOpp, total: pincodeData.length, color: 'bg-yellow-500', desc: 'Gap score 40–69' },
@@ -234,9 +234,9 @@ function Analysis() {
                   const pct = item.total > 0 ? (item.count / item.total) * 100 : 0;
                   return (
                     <div key={i}>
-                      <div className="flex justify-between mb-1">
-                        <span className={`font-semibold text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{item.label}</span>
-                        <span className={`text-sm font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{item.count} ({Number(pct).toFixed(2)}%)</span>
+                      <div className="flex justify-between mb-0.5 sm:mb-1">
+                        <span className={`font-semibold text-xs sm:text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{item.label}</span>
+                        <span className={`text-xs sm:text-sm font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{item.count} ({Number(pct).toFixed(2)}%)</span>
                       </div>
                       <div className={`w-full h-3 rounded-full ${isDarkMode ? 'bg-[#0f172a]' : 'bg-gray-100'}`}>
                         <div className={`h-3 rounded-full ${item.color} transition-all duration-700`} style={{ width: `${pct}%` }} />
@@ -250,30 +250,30 @@ function Analysis() {
 
             {/* Key Analysis Factors */}
             <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.5 }}
-              className={`p-6 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-[#e2e8f0]'}`}>
-              <div className="flex items-center gap-3 mb-6">
-                <Target className="text-[#2563eb]" size={24} />
-                <h3 className={`text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Key Analysis Factors</h3>
+              className={`p-4 sm:p-6 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-[#e2e8f0]'}`}>
+              <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
+                <Target className="text-[#2563eb]" size={22} />
+                <h3 className={`text-base sm:text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Key Analysis Factors</h3>
               </div>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-2 sm:gap-4">
                 {[
                   { label: 'Population Size', desc: `${stats.totalPop.toLocaleString()} total`, icon: Users, color: 'text-blue-500' },
                   { label: 'Avg Competitors', desc: `${Number(stats.avgCompetitors).toFixed(2)} per area`, icon: AlertTriangle, color: 'text-orange-500' },
                   { label: 'Avg Market Gap', desc: `${Number(stats.avgGap).toFixed(2)} score`, icon: Target, color: 'text-emerald-500' },
                   { label: 'Avg Demand', desc: `${Number(stats.avgDemand).toFixed(2)} score`, icon: TrendingUp, color: 'text-violet-500' },
                 ].map((f, i) => (
-                  <div key={i} className={`p-4 rounded-xl border ${isDarkMode ? 'bg-[#0f172a] border-[#334155]' : 'bg-[#f8fafc] border-[#e2e8f0]'}`}>
-                    <f.icon className={`${f.color} mb-2`} size={20} />
-                    <p className={`font-bold text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{f.label}</p>
-                    <p className={`text-xs opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{f.desc}</p>
+                  <div key={i} className={`p-3 sm:p-4 rounded-xl border ${isDarkMode ? 'bg-[#0f172a] border-[#334155]' : 'bg-[#f8fafc] border-[#e2e8f0]'}`}>
+                    <f.icon className={`${f.color} mb-1.5 sm:mb-2`} size={18} />
+                    <p className={`font-bold text-xs sm:text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{f.label}</p>
+                    <p className={`text-[10px] sm:text-xs opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{f.desc}</p>
                   </div>
                 ))}
               </div>
               {/* Scoring Formula */}
-              <div className={`mt-4 p-4 rounded-xl border-2 text-center ${isDarkMode ? 'bg-[#0f172a] border-[#2563eb]' : 'bg-[#f8fafc] border-[#2563eb]'}`}>
-                <p className={`text-xs font-semibold mb-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>SCORING FORMULA</p>
-                <code className="text-[#2563eb] text-sm font-bold">Gap Score = Demand Score − Competition Score</code>
-                <p className={`text-xs mt-1 opacity-60 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Scores above 70 indicate high-potential business opportunities</p>
+              <div className={`mt-3 sm:mt-4 p-3 sm:p-4 rounded-xl border-2 text-center ${isDarkMode ? 'bg-[#0f172a] border-[#2563eb]' : 'bg-[#f8fafc] border-[#2563eb]'}`}>
+                <p className={`text-[10px] sm:text-xs font-semibold mb-0.5 sm:mb-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>SCORING FORMULA</p>
+                <code className="text-[#2563eb] text-xs sm:text-sm font-bold">Gap Score = Demand Score − Competition Score</code>
+                <p className={`text-[10px] sm:text-xs mt-0.5 sm:mt-1 opacity-60 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Scores above 70 indicate high-potential business opportunities</p>
               </div>
             </motion.div>
           </div>
@@ -282,21 +282,21 @@ function Analysis() {
         {/* Category Analysis */}
         {categories.length > 0 && (
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }}
-            className={`p-6 rounded-2xl border mb-8 ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-[#e2e8f0]'}`}>
-            <div className="flex items-center gap-3 mb-6">
-              <DollarSign className="text-[#2563eb]" size={24} />
-              <h3 className={`text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Business Category Analysis — {districtName}</h3>
+            className={`p-4 sm:p-6 rounded-2xl border mb-6 sm:mb-8 ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-[#e2e8f0]'}`}>
+            <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
+              <DollarSign className="text-[#2563eb]" size={22} />
+              <h3 className={`text-base sm:text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Business Category Analysis — {districtName}</h3>
             </div>
             <div className="overflow-x-auto">
-              <table className="w-full text-left">
+              <table className="w-full text-left min-w-[480px]">
                 <thead>
                   <tr className={`border-b ${isDarkMode ? 'border-[#334155]' : 'border-[#e2e8f0]'}`}>
-                    <th className={`pb-3 font-bold text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Category</th>
-                    <th className={`pb-3 font-bold text-sm text-right ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Demand</th>
-                    <th className={`pb-3 font-bold text-sm text-right ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Supply</th>
-                    <th className={`pb-3 font-bold text-sm text-right ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Gap</th>
-                    <th className={`pb-3 font-bold text-sm text-right ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Best Area</th>
-                    <th className={`pb-3 font-bold text-sm text-right ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Areas</th>
+                    <th className={`pb-2 sm:pb-3 font-bold text-xs sm:text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Category</th>
+                    <th className={`pb-2 sm:pb-3 font-bold text-xs sm:text-sm text-right ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Demand</th>
+                    <th className={`pb-2 sm:pb-3 font-bold text-xs sm:text-sm text-right ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Supply</th>
+                    <th className={`pb-2 sm:pb-3 font-bold text-xs sm:text-sm text-right ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Gap</th>
+                    <th className={`pb-2 sm:pb-3 font-bold text-xs sm:text-sm text-right ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Best Area</th>
+                    <th className={`pb-2 sm:pb-3 font-bold text-xs sm:text-sm text-right ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Areas</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -327,21 +327,21 @@ function Analysis() {
         {/* Top Opportunities */}
         {stats && stats.topAreas.length > 0 && (
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7 }}
-            className={`p-6 rounded-2xl border mb-8 ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-[#e2e8f0]'}`}>
-            <div className="flex items-center gap-3 mb-6">
-              <TrendingUp className="text-green-500" size={24} />
-              <h3 className={`text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Top Opportunities in {districtName}</h3>
+            className={`p-4 sm:p-6 rounded-2xl border mb-6 sm:mb-8 ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-[#e2e8f0]'}`}>
+            <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
+              <TrendingUp className="text-green-500" size={22} />
+              <h3 className={`text-base sm:text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Top Opportunities in {districtName}</h3>
             </div>
             <div className="overflow-x-auto">
-              <table className="w-full text-left">
+              <table className="w-full text-left min-w-[500px]">
                 <thead>
                   <tr className={`border-b ${isDarkMode ? 'border-[#334155]' : 'border-[#e2e8f0]'}`}>
-                    <th className={`pb-3 font-bold text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>#</th>
-                    <th className={`pb-3 font-bold text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Area</th>
-                    <th className={`pb-3 font-bold text-sm text-right ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Pincode</th>
-                    <th className={`pb-3 font-bold text-sm text-right ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Population</th>
-                    <th className={`pb-3 font-bold text-sm text-right ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Income</th>
-                    <th className={`pb-3 font-bold text-sm text-right ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Avg Gap Score</th>
+                    <th className={`pb-2 sm:pb-3 font-bold text-xs sm:text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>#</th>
+                    <th className={`pb-2 sm:pb-3 font-bold text-xs sm:text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Area</th>
+                    <th className={`pb-2 sm:pb-3 font-bold text-xs sm:text-sm text-right ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Pincode</th>
+                    <th className={`pb-2 sm:pb-3 font-bold text-xs sm:text-sm text-right ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Population</th>
+                    <th className={`pb-2 sm:pb-3 font-bold text-xs sm:text-sm text-right ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Income</th>
+                    <th className={`pb-2 sm:pb-3 font-bold text-xs sm:text-sm text-right ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Avg Gap Score</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -384,20 +384,20 @@ function Analysis() {
         {/* Risk Analysis */}
         {stats && stats.riskAreas.length > 0 && (
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8 }}
-            className={`p-6 rounded-2xl border mb-8 ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-[#e2e8f0]'}`}>
-            <div className="flex items-center gap-3 mb-6">
-              <AlertTriangle className="text-orange-500" size={24} />
-              <h3 className={`text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>High Competition Areas</h3>
+            className={`p-4 sm:p-6 rounded-2xl border mb-6 sm:mb-8 ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-[#e2e8f0]'}`}>
+            <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
+              <AlertTriangle className="text-orange-500" size={22} />
+              <h3 className={`text-base sm:text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>High Competition Areas</h3>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
               {stats.riskAreas.map((area, i) => {
                 const comps = Object.values(area.competitors || {});
                 const avgComp = comps.length ? comps.reduce((a, b) => a + b, 0) / comps.length : 0;
                 return (
-                  <div key={area.pincode || i} className={`p-4 rounded-xl border ${isDarkMode ? 'bg-[#0f172a] border-[#334155]' : 'bg-[#f8fafc] border-[#e2e8f0]'}`}>
-                    <div className="flex items-center justify-between mb-2">
-                      <span className={`font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{area.area || area.pincode}</span>
-                      <span className="px-2 py-1 rounded-full bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400 text-xs font-bold">
+                  <div key={area.pincode || i} className={`p-3 sm:p-4 rounded-xl border ${isDarkMode ? 'bg-[#0f172a] border-[#334155]' : 'bg-[#f8fafc] border-[#e2e8f0]'}`}>
+                    <div className="flex items-center justify-between mb-1.5 sm:mb-2">
+                      <span className={`font-bold text-sm sm:text-base ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{area.area || area.pincode}</span>
+                      <span className="px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400 text-[10px] sm:text-xs font-bold">
                         {Number(avgComp).toFixed(2)} competitors
                       </span>
                     </div>
@@ -414,21 +414,21 @@ function Analysis() {
         {/* Market Coverage from Analytics */}
         {analyticsData && analyticsData.marketCoverage && (
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.9 }}
-            className={`p-6 rounded-2xl border mb-8 ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-[#e2e8f0]'}`}>
-            <div className="flex items-center gap-3 mb-6">
-              <Globe className="text-[#2563eb]" size={24} />
-              <h3 className={`text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Platform-Wide Market Coverage</h3>
+            className={`p-4 sm:p-6 rounded-2xl border mb-6 sm:mb-8 ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-[#e2e8f0]'}`}>
+            <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
+              <Globe className="text-[#2563eb]" size={22} />
+              <h3 className={`text-base sm:text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Platform-Wide Market Coverage</h3>
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
               {[
                 { label: 'Districts Covered', value: `${analyticsData.marketCoverage.covered}/${analyticsData.marketCoverage.total}` },
                 { label: 'Coverage', value: `${Number(analyticsData.marketCoverage.percentage || 0).toFixed(2)}%` },
                 { label: 'Total Areas', value: analyticsData.marketCoverage.totalAreas },
                 { label: 'Data Quality', value: `${Number(analyticsData.dataQuality?.overall || 0).toFixed(2)}%` },
               ].map((m, i) => (
-                <div key={i} className={`p-4 rounded-xl text-center ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
-                  <p className={`text-xs font-medium mb-1 uppercase ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>{m.label}</p>
-                  <p className={`text-xl font-extrabold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{m.value}</p>
+                <div key={i} className={`p-3 sm:p-4 rounded-xl text-center ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
+                  <p className={`text-[10px] sm:text-xs font-medium mb-0.5 sm:mb-1 uppercase ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>{m.label}</p>
+                  <p className={`text-base sm:text-xl font-extrabold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{m.value}</p>
                 </div>
               ))}
             </div>
@@ -436,8 +436,8 @@ function Analysis() {
         )}
 
         {/* CTA */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.0 }} className="text-center mt-8">
-          <Link to="/dashboard" className="inline-flex items-center gap-2 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white py-4 px-10 rounded-full no-underline font-bold text-lg transition-all duration-300 shadow-lg hover:-translate-y-1 hover:shadow-xl active:-translate-y-0.5">
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.0 }} className="text-center mt-6 sm:mt-8">
+          <Link to="/dashboard" className="inline-flex items-center gap-2 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white py-3 sm:py-4 px-8 sm:px-10 rounded-full no-underline font-bold text-sm sm:text-lg transition-all duration-300 shadow-lg hover:-translate-y-1 hover:shadow-xl active:-translate-y-0.5">
             <BarChart3 size={20} /> View Full Dashboard
           </Link>
         </motion.div>

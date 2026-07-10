@@ -137,17 +137,17 @@ function Profile() {
   );
 
   return (
-    <div className={`min-h-[calc(100vh-120px)] p-4 lg:p-8 transition-colors ${b('bg-gray-50', 'bg-[#0f172a]')}`}>
+    <div className={`min-h-[calc(100vh-120px)] p-3 sm:p-4 lg:p-8 transition-colors ${b('bg-gray-50', 'bg-[#0f172a]')}`}>
       <div className="max-w-6xl mx-auto">
         <h1 className={`text-2xl font-bold mb-6 ${b('text-gray-900', 'text-white')}`}>My Account</h1>
 
-        <div className="flex flex-col lg:flex-row gap-6">
+        <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
           {/* Sidebar */}
-          <div className="lg:w-64 flex-shrink-0">
-            <div className={`rounded-xl border overflow-hidden ${b('bg-white border-gray-200', 'bg-[#1e293b] border-[#334155]')}`}>
+          <div className="sm:w-64 flex-shrink-0">
+              <div className={`rounded-xl border overflow-hidden ${b('bg-white border-gray-200', 'bg-[#1e293b] border-[#334155]')}`}>
               {/* User Card */}
-              <div className={`p-4 border-b text-center ${b('border-gray-100', 'border-[#334155]')}`}>
-                <div className="w-16 h-16 mx-auto rounded-full bg-gradient-to-r from-[#2563eb] to-[#7c3aed] flex items-center justify-center text-white text-2xl font-bold mb-2">
+              <div className={`px-3 py-2 sm:px-4 sm:py-3 border-b text-center ${b('border-gray-100', 'border-[#334155]')}`}>
+                <div className="w-12 h-12 sm:w-16 sm:h-16 mx-auto rounded-full bg-gradient-to-r from-[#2563eb] to-[#7c3aed] flex items-center justify-center text-white text-xl sm:text-2xl font-bold mb-2">
                   {(user?.name || 'U').charAt(0).toUpperCase()}
                 </div>
                 <p className={`font-semibold text-sm ${b('text-gray-900', 'text-white')}`}>{user?.name || 'User'}</p>
@@ -157,10 +157,10 @@ function Profile() {
                 )}
               </div>
               {/* Tabs */}
-              <div className="p-2">
+              <div className="p-1.5 sm:p-2">
                 {tabs.map(tab => (
                   <button key={tab.id} onClick={() => setActiveTab(tab.id)}
-                    className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all text-left ${
+                    className={`w-full flex items-center gap-2 sm:gap-3 px-2 sm:px-3 py-2 sm:py-2.5 rounded-lg text-xs sm:text-sm font-medium transition-all text-left ${
                       activeTab === tab.id
                         ? (b('bg-blue-50 text-blue-700', 'bg-blue-900/30 text-blue-400'))
                         : (b('text-gray-600 hover:bg-gray-50', 'text-gray-400 hover:bg-[#0f172a]'))
@@ -176,7 +176,7 @@ function Profile() {
 
           {/* Content */}
           <div className="flex-1 min-w-0">
-            <div className={`rounded-xl border p-4 lg:p-6 ${b('bg-white border-gray-200', 'bg-[#1e293b] border-[#334155]')}`}>
+            <div className={`rounded-xl border px-3 py-2 sm:px-4 sm:py-3 ${b('bg-white border-gray-200', 'bg-[#1e293b] border-[#334155]')}`}>
               {/* My Profile */}
               {activeTab === 'profile' && tabContent(
                 <div>
@@ -218,8 +218,8 @@ function Profile() {
                   ) : (
                     <div className="grid gap-3">
                       {favorites.map((fav, i) => (
-                        <Link key={i} to={`/area-overview/${fav.pincode || fav.id}`} className={`flex items-center justify-between p-4 rounded-lg border no-underline ${b('bg-white border-gray-200 hover:bg-gray-50', 'bg-[#0f172a] border-[#334155] hover:bg-[#0f172a]/80')}`}>
-                          <div>
+                        <Link key={i} to={`/area-overview/${fav.pincode || fav.id}`} className={`flex items-center justify-between p-3 sm:p-4 rounded-lg border no-underline ${b('bg-white border-gray-200 hover:bg-gray-50', 'bg-[#0f172a] border-[#334155] hover:bg-[#0f172a]/80')}`}>
+                          <div className="min-w-0">
                             <p className={`font-medium text-sm ${b('text-gray-900', 'text-white')}`}>{fav.name || 'Area'}</p>
                             <p className={`text-xs ${b('text-gray-500', 'text-gray-400')}`}>{fav.pincode || ''} - {fav.district || ''}</p>
                           </div>
@@ -259,7 +259,7 @@ function Profile() {
                     <div className="space-y-2">
                       {history.map((item, i) => (
                         <div key={item._id || i}
-                          className={`flex items-center gap-3 p-3 rounded-lg border transition-colors ${
+                          className={`flex items-center gap-2 sm:gap-3 p-2.5 sm:p-3 rounded-lg border transition-colors ${
                             b('bg-white border-gray-200 hover:bg-gray-50', 'bg-[#0f172a] border-[#334155] hover:bg-[#0f172a]/80')
                           }`}>
                           <span className="text-lg">

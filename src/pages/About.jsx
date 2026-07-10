@@ -92,61 +92,61 @@ function About() {
   return (
     <div className={`min-h-[calc(100vh-70px)] transition-colors duration-300 ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
 
-      <div className={`relative overflow-hidden ${isDarkMode ? 'bg-[#0f172a]' : 'bg-gradient-to-br from-[#1e3a5f] via-[#1e293b] to-[#0f172a]'}`}>
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-10 left-10 w-72 h-72 bg-[#2563eb] rounded-full blur-[120px]" />
-          <div className="absolute bottom-10 right-10 w-96 h-96 bg-[#7c3aed] rounded-full blur-[150px]" />
-        </div>
-        <div className="relative max-w-[1200px] mx-auto px-6 md:px-12 py-16 md:py-24">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-center"
-          >
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 mb-6">
-              <div className="w-2 h-2 rounded-full bg-[#059669] animate-pulse" />
-              <span className="text-white/80 text-sm font-medium">Live Market Intelligence Platform</span>
-            </div>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-4 leading-tight">
-              About <span className="bg-gradient-to-r from-[#60a5fa] to-[#a78bfa] bg-clip-text text-transparent">MarketVision AI</span>
-            </h1>
-            <p className="text-lg md:text-xl text-white/70 max-w-2xl mx-auto leading-relaxed mb-8">
-              AI-powered platform identifying business opportunities with real market intelligence across {stats.districts} districts and {stats.areas} areas
-            </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Link to="/dashboard" className="flex items-center gap-2 bg-white text-[#1e293b] py-3.5 px-8 rounded-full no-underline font-bold text-base transition-all duration-300 shadow-lg hover:-translate-y-1 hover:shadow-xl">
-                <BarChart3 size={18} />
-                Explore Dashboard
-                <ArrowRight size={16} />
+<div className={`relative overflow-hidden ${isDarkMode ? 'bg-[#0f172a]' : 'bg-gradient-to-br from-[#1e3a5f] via-[#1e293b] to-[#0f172a]'}`}>
+          <div className="absolute inset-0 opacity-10">
+            <div className="absolute top-10 left-10 w-72 h-72 bg-[#2563eb] rounded-full blur-[120px]" />
+            <div className="absolute bottom-10 right-10 w-96 h-96 bg-[#7c3aed] rounded-full blur-[150px]" />
+          </div>
+          <div className="relative max-w-[1200px] mx-auto px-3 sm:px-6 md:px-12 py-12 sm:py-16 md:py-24">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="text-center"
+            >
+              <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-white/10 border border-white/20 mb-4 sm:mb-6">
+                <div className="w-2 h-2 rounded-full bg-[#059669] animate-pulse" />
+                <span className="text-white/80 text-xs sm:text-sm font-medium">Live Market Intelligence Platform</span>
+              </div>
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-3 sm:mb-4 leading-tight">
+                About <span className="bg-gradient-to-r from-[#60a5fa] to-[#a78bfa] bg-clip-text text-transparent">MarketVision AI</span>
+              </h1>
+              <p className="text-base sm:text-lg md:text-xl text-white/70 max-w-2xl mx-auto leading-relaxed mb-6 sm:mb-8 px-3 sm:px-4">
+                AI-powered platform identifying business opportunities with real market intelligence across {stats.districts} districts and {stats.areas} areas
+              </p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 px-3 sm:px-4">
+              <Link to="/dashboard" className="flex items-center gap-2 bg-white text-[#1e293b] py-2 sm:py-3.5 px-6 sm:px-8 rounded-full no-underline font-bold text-xs sm:text-base transition-all duration-300 shadow-lg hover:-translate-y-1 hover:shadow-xl">
+                <BarChart3 size={16} className="sm:size-18" />
+                <span className="hidden sm:inline">Explore Dashboard</span>
+                <ArrowRight size={14} className="sm:size-16" />
               </Link>
-              <Link to="/ai-recommendations" className="flex items-center gap-2 bg-white/10 border border-white/30 text-white py-3.5 px-8 rounded-full no-underline font-bold text-base transition-all duration-300 hover:bg-white/20 hover:-translate-y-1">
-                <Brain size={18} />
-                Get AI Insights
+              <Link to="/ai-recommendations" className="flex items-center gap-2 bg-white/10 border border-white/30 text-white py-2 sm:py-3.5 px-6 sm:px-8 rounded-full no-underline font-bold text-xs sm:text-base transition-all duration-300 hover:bg-white/20 hover:-translate-y-1">
+                <Brain size={16} className="sm:size-18" />
+                <span className="hidden sm:inline">Get AI Insights</span>
               </Link>
             </div>
           </motion.div>
         </div>
       </div>
 
-      <div className="max-w-[1200px] mx-auto px-6 md:px-12 py-12 space-y-12">
+      <div className="max-w-[1200px] mx-auto px-3 sm:px-6 md:px-12 py-8 sm:py-12 space-y-8 sm:space-y-12">
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 px-3 sm:px-4">
           {displayStats.map((stat, i) => (
             <motion.div
               key={stat.label}
-              className={`relative p-6 rounded-2xl border overflow-hidden transition-all duration-300 hover:shadow-xl ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-[#e2e8f0]'}`}
+              className={`relative p-4 sm:p-6 rounded-2xl border overflow-hidden transition-all duration-300 hover:shadow-xl ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-[#e2e8f0]'}`}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 + (i * 0.1) }}
               whileHover={{ y: -5 }}
             >
-              <div className={`absolute top-0 right-0 w-24 h-24 bg-gradient-to-br ${stat.gradient} opacity-10 rounded-bl-[60px]`} />
-              <stat.icon size={32} className="mb-3" style={{ color: stat.color }} />
-              <p className={`text-4xl font-extrabold mb-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+              <div className={`absolute top-0 right-0 w-20 sm:w-24 h-20 sm:h-24 bg-gradient-to-br ${stat.gradient} opacity-10 rounded-bl-[60px]`} />
+              <stat.icon size={28} className="mb-3 sm:mb-3" style={{ color: stat.color }} />
+              <p className={`text-3xl sm:text-4xl font-extrabold mb-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                 {stat.value}
               </p>
-              <p className={`text-sm font-semibold ${isDarkMode ? 'text-[#94a3b8]' : 'text-[#64748b]'}`}>
+              <p className={`text-xs sm:text-sm font-semibold ${isDarkMode ? 'text-[#94a3b8]' : 'text-[#64748b]'}`}>
                 {stat.label}
               </p>
             </motion.div>
@@ -154,179 +154,179 @@ function About() {
         </div>
 
         <motion.div
-          className={`p-8 md:p-10 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-[#e2e8f0]'}`}
+          className={`p-4 sm:p-6 md:p-10 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-[#e2e8f0]'}`}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.3 }}
         >
-          <h2 className={`text-2xl md:text-3xl font-bold mb-8 text-center ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>How It Works</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+          <h2 className={`text-xl sm:text-2xl md:text-3xl font-bold mb-6 sm:mb-8 text-center ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>How It Works</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-8 relative px-3 sm:px-4">
             <div className="hidden md:block absolute top-8 left-[20%] right-[20%] h-0.5 bg-gradient-to-r from-[#2563eb] via-[#7c3aed] to-[#059669] opacity-30" />
             {steps.map((s, i) => (
-              <div key={s.step} className="flex flex-col items-center text-center gap-4 relative">
+              <div key={s.step} className="flex flex-col items-center text-center gap-3 sm:gap-4 relative">
                 <div className="relative">
-                  <div className="w-16 h-16 rounded-2xl flex items-center justify-center text-white font-bold text-xl shadow-lg" style={{ background: `linear-gradient(135deg, ${s.color}, ${s.color}dd)` }}>
-                    <s.icon size={28} />
+                  <div className="w-12 sm:w-16 h-12 sm:h-16 rounded-2xl flex items-center justify-center text-white font-bold text-base sm:text-xl shadow-lg" style={{ background: `linear-gradient(135deg, ${s.color}, ${s.color}dd)` }}>
+                    <s.icon size={22} className="sm:size-28" />
                   </div>
-                  <div className="absolute -top-2 -right-2 w-7 h-7 rounded-full bg-white shadow-md flex items-center justify-center">
-                    <span className="text-xs font-bold" style={{ color: s.color }}>{s.step}</span>
+                  <div className="absolute -top-2 -right-2 w-6 sm:w-7 h-6 sm:h-7 rounded-full bg-white shadow-md flex items-center justify-center">
+                    <span className="text-[10px] sm:text-xs font-bold" style={{ color: s.color }}>{s.step}</span>
                   </div>
                 </div>
                 <div>
-                  <h3 className={`font-bold text-lg mb-2 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{s.title}</h3>
-                  <p className={`text-sm leading-relaxed ${isDarkMode ? 'text-[#94a3b8]' : 'text-[#64748b]'}`}>{s.desc}</p>
+                  <h3 className={`font-bold text-base sm:text-lg mb-2 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{s.title}</h3>
+                  <p className={`text-xs sm:text-sm leading-relaxed ${isDarkMode ? 'text-[#94a3b8]' : 'text-[#64748b]'}`}>{s.desc}</p>
                 </div>
               </div>
             ))}
           </div>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 px-3 sm:px-4">
           <motion.div
-            className={`p-6 md:p-8 rounded-2xl border-l-4 border-l-[#ef4444] ${isDarkMode ? 'bg-[#1e293b] border border-[#334155]' : 'bg-white border border-[#e2e8f0]'}`}
+            className={`p-4 sm:p-6 md:p-8 rounded-2xl border-l-4 border-l-[#ef4444] ${isDarkMode ? 'bg-[#1e293b] border border-[#334155]' : 'bg-white border border-[#e2e8f0]'}`}
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.4 }}
           >
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-xl bg-red-500/10 flex items-center justify-center">
-                <Target className="text-[#ef4444]" size={22} />
+            <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
+              <div className="w-8 sm:w-10 h-8 sm:h-10 rounded-xl bg-red-500/10 flex items-center justify-center">
+                <Target className="text-[#ef4444]" size={18} className="sm:size-22" />
               </div>
-              <h2 className={`text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>The Problem</h2>
+              <h2 className={`text-lg sm:text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>The Problem</h2>
             </div>
-            <p className={`leading-relaxed m-0 ${isDarkMode ? 'text-[#94a3b8]' : 'text-[#64748b]'}`}>
+            <p className={`leading-relaxed m-0 text-sm sm:text-base ${isDarkMode ? 'text-[#94a3b8]' : 'text-[#64748b]'}`}>
               {content?.problem || 'Entrepreneurs and franchise companies often struggle to identify where demand exists but competition is low. Most business decisions are based on assumptions rather than data, leading to high failure rates.'}
             </p>
           </motion.div>
 
           <motion.div
-            className={`p-6 md:p-8 rounded-2xl border-l-4 border-l-[#059669] ${isDarkMode ? 'bg-[#1e293b] border border-[#334155]' : 'bg-white border border-[#e2e8f0]'}`}
+            className={`p-4 sm:p-6 md:p-8 rounded-2xl border-l-4 border-l-[#059669] ${isDarkMode ? 'bg-[#1e293b] border border-[#334155]' : 'bg-white border border-[#e2e8f0]'}`}
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.5 }}
           >
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-xl bg-green-500/10 flex items-center justify-center">
-                <Lightbulb className="text-[#059669]" size={22} />
+            <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
+              <div className="w-8 sm:w-10 h-8 sm:h-10 rounded-xl bg-green-500/10 flex items-center justify-center">
+                <Lightbulb className="text-[#059669]" size={18} className="sm:size-22" />
               </div>
-              <h2 className={`text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Our Solution</h2>
+              <h2 className={`text-lg sm:text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Our Solution</h2>
             </div>
-            <p className={`leading-relaxed m-0 ${isDarkMode ? 'text-[#94a3b8]' : 'text-[#64748b]'}`}>
+            <p className={`leading-relaxed m-0 text-sm sm:text-base ${isDarkMode ? 'text-[#94a3b8]' : 'text-[#64748b]'}`}>
               {content?.solution || 'MarketVision AI analyzes market data, demographics, and demand patterns to identify underserved business opportunities. We provide actionable insights backed by real data to help entrepreneurs, investors, and business strategists make informed decisions.'}
             </p>
           </motion.div>
         </div>
 
         <motion.div
-          className={`p-8 md:p-10 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-[#e2e8f0]'}`}
+          className={`p-4 sm:p-6 md:p-10 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-[#e2e8f0]'}`}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.6 }}
         >
-          <h2 className={`text-2xl md:text-3xl font-bold mb-8 text-center ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Key Features</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <h2 className={`text-xl sm:text-2xl md:text-3xl font-bold mb-6 sm:mb-8 text-center ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Key Features</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 px-3 sm:px-4">
             {features.map((f, i) => (
               <motion.div
                 key={f.title}
-                className={`p-5 rounded-xl border transition-all duration-300 hover:shadow-md ${isDarkMode ? 'bg-[#0f172a] border-[#334155] hover:border-[#475569]' : 'bg-[#f8fafc] border-[#e2e8f0] hover:border-[#cbd5e1]'}`}
+                className={`p-4 sm:p-5 rounded-xl border transition-all duration-300 hover:shadow-md ${isDarkMode ? 'bg-[#0f172a] border-[#334155] hover:border-[#475569]' : 'bg-[#f8fafc] border-[#e2e8f0] hover:border-[#cbd5e1]'}`}
                 whileHover={{ y: -3 }}
               >
-                <div className="w-10 h-10 rounded-lg flex items-center justify-center mb-3" style={{ backgroundColor: `${f.color}15` }}>
-                  <f.icon size={20} style={{ color: f.color }} />
+                <div className="w-9 sm:w-10 h-9 sm:h-10 rounded-lg flex items-center justify-center mb-3" style={{ backgroundColor: `${f.color}15` }}>
+                  <f.icon size={18} className="sm:size-20" style={{ color: f.color }} />
                 </div>
-                <h3 className={`font-bold mb-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{f.title}</h3>
-                <p className={`text-sm ${isDarkMode ? 'text-[#94a3b8]' : 'text-[#64748b]'}`}>{f.desc}</p>
+                <h3 className={`font-bold text-sm sm:text-base mb-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{f.title}</h3>
+                <p className={`text-xs sm:text-sm ${isDarkMode ? 'text-[#94a3b8]' : 'text-[#64748b]'}`}>{f.desc}</p>
               </motion.div>
             ))}
           </div>
         </motion.div>
 
         <motion.div
-          className={`p-8 md:p-10 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-[#e2e8f0]'}`}
+          className={`p-4 sm:p-6 md:p-10 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-[#e2e8f0]'}`}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.7 }}
         >
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center gap-3">
-              <MapPin className="text-[#7c3aed]" size={24} />
-              <h2 className={`text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Covered Districts</h2>
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-4 sm:mb-6 px-3 sm:px-4">
+            <div className="flex items-center gap-2 sm:gap-3">
+              <MapPin className="text-[#7c3aed]" size={20} className="sm:size-24" />
+              <h2 className={`text-lg sm:text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Covered Districts</h2>
             </div>
-            <span className={`text-sm font-bold px-4 py-2 rounded-full ${isDarkMode ? 'bg-[#7c3aed]/20 text-[#a78bfa]' : 'bg-[#7c3aed]/10 text-[#7c3aed]'}`}>
+            <span className={`text-xs sm:text-sm font-bold px-3 sm:px-4 py-1.5 sm:py-2 rounded-full ${isDarkMode ? 'bg-[#7c3aed]/20 text-[#a78bfa]' : 'bg-[#7c3aed]/10 text-[#7c3aed]'}`}>
               {stats.districts} Total
             </span>
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-3 px-3 sm:px-4">
             {districts.length > 0 ? districts.map((district, index) => (
               <motion.div
                 key={district._id}
-                className={`flex items-center gap-2 p-3 rounded-xl text-sm font-medium transition-all duration-200 ${isDarkMode ? 'bg-[#0f172a] text-[#f1f5f9] border border-[#334155] hover:border-[#7c3aed]' : 'bg-[#f8fafc] text-[#1e293b] border border-[#e2e8f0] hover:border-[#7c3aed]'}`}
+                className={`flex items-center gap-1.5 sm:gap-2 p-2 sm:p-3 rounded-xl text-xs sm:text-sm font-medium transition-all duration-200 ${isDarkMode ? 'bg-[#0f172a] text-[#f1f5f9] border border-[#334155] hover:border-[#7c3aed]' : 'bg-[#f8fafc] text-[#1e293b] border border-[#e2e8f0] hover:border-[#7c3aed]'}`}
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.3, delay: 0.8 + (index * 0.02) }}
                 whileHover={{ scale: 1.02 }}
               >
-                <MapPin size={14} className="text-[#7c3aed] shrink-0" />
-                {district.name}
+                <MapPin size={12} className="text-[#7c3aed] shrink-0 sm:size-14" />
+                <span className="truncate">{district.name}</span>
               </motion.div>
             )) : (
-              <p className={`text-sm col-span-full ${isDarkMode ? 'text-[#94a3b8]' : 'text-[#64748b]'}`}>Loading districts...</p>
+              <p className={`text-xs sm:text-sm col-span-full ${isDarkMode ? 'text-[#94a3b8]' : 'text-[#64748b]'}`}>Loading districts...</p>
             )}
           </div>
         </motion.div>
 
         <motion.div
-          className={`p-8 md:p-10 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-[#e2e8f0]'}`}
+          className={`p-4 sm:p-6 md:p-10 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-[#e2e8f0]'}`}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.8 }}
         >
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center gap-3">
-              <Zap className="text-[#f59e0b]" size={24} />
-              <h2 className={`text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Business Categories</h2>
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-4 sm:mb-6 px-3 sm:px-4">
+            <div className="flex items-center gap-2 sm:gap-3">
+              <Zap className="text-[#f59e0b]" size={20} className="sm:size-24" />
+              <h2 className={`text-lg sm:text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Business Categories</h2>
             </div>
-            <span className={`text-sm font-bold px-4 py-2 rounded-full ${isDarkMode ? 'bg-[#f59e0b]/20 text-[#fbbf24]' : 'bg-[#f59e0b]/10 text-[#d97706]'}`}>
+            <span className={`text-xs sm:text-sm font-bold px-3 sm:px-4 py-1.5 sm:py-2 rounded-full ${isDarkMode ? 'bg-[#f59e0b]/20 text-[#fbbf24]' : 'bg-[#f59e0b]/10 text-[#d97706]'}`}>
               {stats.categories} Categories
             </span>
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2 sm:gap-3 px-3 sm:px-4">
             {categories.map((cat, i) => (
               <motion.div
                 key={cat.name || cat._id}
-                className={`flex flex-col items-center gap-2 p-4 rounded-xl text-center transition-all duration-200 ${isDarkMode ? 'bg-[#0f172a] border border-[#334155] hover:border-[#f59e0b]' : 'bg-[#f8fafc] border border-[#e2e8f0] hover:border-[#f59e0b]'}`}
+                className={`flex flex-col items-center gap-1.5 sm:gap-2 p-3 sm:p-4 rounded-xl text-center transition-all duration-200 ${isDarkMode ? 'bg-[#0f172a] border border-[#334155] hover:border-[#f59e0b]' : 'bg-[#f8fafc] border border-[#e2e8f0] hover:border-[#f59e0b]'}`}
                 whileHover={{ y: -3 }}
               >
-                <span className="text-2xl">{cat.icon || '📊'}</span>
-                <span className={`text-xs font-semibold leading-tight ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{cat.name}</span>
+                <span className="text-xl sm:text-2xl">{cat.icon || '📊'}</span>
+                <span className={`text-[10px] sm:text-xs font-semibold leading-tight ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{cat.name}</span>
               </motion.div>
             ))}
           </div>
         </motion.div>
 
         <motion.div
-          className={`p-8 rounded-2xl border ${isDarkMode ? 'bg-gradient-to-br from-[#1e293b] to-[#0f172a] border-[#334155]' : 'bg-gradient-to-br from-[#f8fafc] to-[#e2e8f0] border-[#e2e8f0]'}`}
+          className={`p-4 sm:p-6 md:p-8 rounded-2xl border ${isDarkMode ? 'bg-gradient-to-br from-[#1e293b] to-[#0f172a] border-[#334155]' : 'bg-gradient-to-br from-[#f8fafc] to-[#e2e8f0] border-[#e2e8f0]'}`}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.9 }}
         >
-          <h2 className={`text-2xl font-bold mb-3 text-center ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Ready to Find Business Opportunities?</h2>
-          <p className={`text-center mb-6 max-w-xl mx-auto ${isDarkMode ? 'text-[#94a3b8]' : 'text-[#64748b]'}`}>
+          <h2 className={`text-xl sm:text-2xl font-bold mb-2 sm:mb-3 text-center ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Ready to Find Business Opportunities?</h2>
+          <p className={`text-center mb-4 sm:mb-6 max-w-xl mx-auto px-3 sm:px-4 ${isDarkMode ? 'text-[#94a3b8]' : 'text-[#64748b]'}`}>
             Start analyzing market gaps across {stats.districts} districts and {stats.areas} areas with AI-powered insights
           </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link to="/dashboard" className="flex items-center gap-2 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white py-3.5 px-8 rounded-full no-underline font-bold text-base transition-all duration-300 shadow-lg hover:-translate-y-1 hover:shadow-xl">
-              <BarChart3 size={18} />
-              Explore Dashboard
-              <ArrowRight size={16} />
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 px-3 sm:px-4">
+            <Link to="/dashboard" className="flex items-center gap-2 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white py-2 sm:py-3.5 px-6 sm:px-8 rounded-full no-underline font-bold text-xs sm:text-base transition-all duration-300 shadow-lg hover:-translate-y-1 hover:shadow-xl">
+              <BarChart3 size={16} className="sm:size-18" />
+              <span className="hidden sm:inline">Explore Dashboard</span>
+              <ArrowRight size={14} className="sm:size-16" />
             </Link>
-            <Link to="/ai-recommendations" className={`flex items-center gap-2 py-3.5 px-8 rounded-full no-underline font-bold text-base border-2 transition-all duration-300 hover:-translate-y-1 ${isDarkMode ? 'border-[#334155] text-[#f1f5f9] hover:bg-[#0f172a]' : 'border-[#e2e8f0] text-[#1e293b] hover:bg-white'}`}>
-              <Brain size={18} />
-              Get AI Recommendations
+            <Link to="/ai-recommendations" className={`flex items-center gap-2 py-2 sm:py-3.5 px-6 sm:px-8 rounded-full no-underline font-bold text-xs sm:text-base border-2 transition-all duration-300 hover:-translate-y-1 ${isDarkMode ? 'border-[#334155] text-[#f1f5f9] hover:bg-[#0f172a]' : 'border-[#e2e8f0] text-[#1e293b] hover:bg-white'}`}>
+              <Brain size={16} className="sm:size-18" />
+              <span className="hidden sm:inline">Get AI Recommendations</span>
             </Link>
-            <Link to="/reports" className={`flex items-center gap-2 py-3.5 px-8 rounded-full no-underline font-bold text-base border-2 transition-all duration-300 hover:-translate-y-1 ${isDarkMode ? 'border-[#334155] text-[#f1f5f9] hover:bg-[#0f172a]' : 'border-[#e2e8f0] text-[#1e293b] hover:bg-white'}`}>
-              <FileText size={18} />
-              View Reports
+            <Link to="/reports" className={`flex items-center gap-2 py-2 sm:py-3.5 px-6 sm:px-8 rounded-full no-underline font-bold text-xs sm:text-base border-2 transition-all duration-300 hover:-translate-y-1 ${isDarkMode ? 'border-[#334155] text-[#f1f5f9] hover:bg-[#0f172a]' : 'border-[#e2e8f0] text-[#1e293b] hover:bg-white'}`}>
+              <FileText size={16} className="sm:size-18" />
+              <span className="hidden sm:inline">View Reports</span>
             </Link>
           </div>
         </motion.div>

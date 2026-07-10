@@ -38,14 +38,14 @@ function SharePage() {
 
   if (loading) {
     return (
-      <div className={`min-h-[calc(100vh-70px)] flex items-center justify-center ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
+      <div className={`min-h-[calc(100vh-70px)] flex items-center justify-center px-3 py-2 sm:px-4 sm:py-3 ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
         <LoadingSpinner />
       </div>
     );
   }
 
   return (
-    <div className={`min-h-[calc(100vh-70px)] p-6 ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
+    <div className={`min-h-[calc(100vh-70px)] px-3 py-2 sm:px-4 sm:py-3 ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
       <EmptyState
         type="error"
         message={error || 'Link could not be resolved.'}

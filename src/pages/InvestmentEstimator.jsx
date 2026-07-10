@@ -67,17 +67,17 @@ function InvestmentEstimator() {
   };
 
   return (
-    <div className={`min-h-[calc(100vh-120px)] p-4 lg:p-8 transition-colors ${b('bg-gray-50', 'bg-[#0f172a]')}`}>
+    <div className={`min-h-[calc(100vh-120px)] px-3 sm:px-4 py-4 sm:py-8 transition-colors ${b('bg-gray-50', 'bg-[#0f172a]')}`}>
       <div className="max-w-4xl mx-auto">
         <div className="mb-6">
-          <h1 className={`text-2xl font-bold ${b('text-gray-900', 'text-white')}`}>Investment Estimator</h1>
-          <p className={`text-sm ${b('text-gray-500', 'text-gray-400')}`}>Get estimated investment range for any business category in a location</p>
+          <h1 className={`text-xl sm:text-2xl font-bold ${b('text-gray-900', 'text-white')}`}>Investment Estimator</h1>
+          <p className={`text-xs sm:text-sm ${b('text-gray-500', 'text-gray-400')}`}>Get estimated investment range for any business category in a location</p>
         </div>
 
-        <motion.div className={`rounded-xl border p-6 mb-6 ${b('bg-white border-gray-200', 'bg-[#1e293b] border-[#334155]')}`}>
-          <div className="grid md:grid-cols-2 gap-4 mb-4">
+        <motion.div className={`rounded-xl border p-4 sm:p-6 mb-6 ${b('bg-white border-gray-200', 'bg-[#1e293b] border-[#334155]')}`}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
             <div>
-              <label className={`block text-xs font-semibold mb-1 uppercase tracking-wider ${b('text-gray-600', 'text-gray-400')}`}>Business Category</label>
+              <label className={`block text-[10px] sm:text-xs font-semibold mb-1 uppercase tracking-wider ${b('text-gray-600', 'text-gray-400')}`}>Business Category</label>
               <select value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}
                 className={`w-full px-3 py-2.5 rounded-lg border text-sm outline-none ${b('bg-white border-gray-300 text-gray-700', 'bg-[#0f172a] border-[#334155] text-gray-200')}`}>
                 <option value="">Select category</option>
@@ -85,7 +85,7 @@ function InvestmentEstimator() {
               </select>
             </div>
             <div>
-              <label className={`block text-xs font-semibold mb-1 uppercase tracking-wider ${b('text-gray-600', 'text-gray-400')}`}>Select District</label>
+              <label className={`block text-[10px] sm:text-xs font-semibold mb-1 uppercase tracking-wider ${b('text-gray-600', 'text-gray-400')}`}>Select District</label>
               <select value={selectedDistrict || ''} onChange={(e) => setSelectedDistrict(e.target.value)}
                 className={`w-full px-3 py-2.5 rounded-lg border text-sm outline-none ${b('bg-white border-gray-300 text-gray-700', 'bg-[#0f172a] border-[#334155] text-gray-200')}`}>
                 <option value="">Select district</option>
@@ -94,55 +94,55 @@ function InvestmentEstimator() {
             </div>
           </div>
           <div className="mb-4">
-            <label className={`block text-xs font-semibold mb-1 uppercase tracking-wider ${b('text-gray-600', 'text-gray-400')}`}>Select Area</label>
+            <label className={`block text-[10px] sm:text-xs font-semibold mb-1 uppercase tracking-wider ${b('text-gray-600', 'text-gray-400')}`}>Select Area</label>
             <select value={selectedArea} onChange={(e) => setSelectedArea(e.target.value)}
               className={`w-full px-3 py-2.5 rounded-lg border text-sm outline-none ${b('bg-white border-gray-300 text-gray-700', 'bg-[#0f172a] border-[#334155] text-gray-200')}`}>
               <option value="">Select area</option>
               {areas.map(a => <option key={a._id} value={a._id}>{a.name} ({a.pincode})</option>)}
             </select>
-            {!selectedDistrict && <p className={`text-xs mt-1 ${b('text-gray-400', 'text-gray-500')}`}>Select a district first</p>}
+            {!selectedDistrict && <p className={`text-[10px] sm:text-xs mt-1 ${b('text-gray-400', 'text-gray-500')}`}>Select a district first</p>}
           </div>
           <button onClick={handleEstimate} disabled={!selectedCategory || !selectedArea || loading}
-            className={`px-6 py-2.5 rounded-lg text-sm font-semibold text-white transition ${
+            className={`px-4 sm:px-6 py-2 sm:py-2.5 rounded-lg text-xs sm:text-sm font-semibold text-white transition ${
               loading ? 'bg-blue-400' : 'bg-blue-600 hover:bg-blue-700'
-            } disabled:opacity-50 disabled:cursor-not-allowed`}>
+            } disabled:opacity-50 disabled:cursor-not-allowed w-full sm:w-auto`}>
             {loading ? 'Calculating...' : 'Get Estimate'}
           </button>
         </motion.div>
 
         {estimate && (
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-            className={`rounded-xl border p-6 ${b('bg-white border-gray-200', 'bg-[#1e293b] border-[#334155]')}`}>
-            <div className="flex items-center justify-between mb-4">
-              <h2 className={`text-lg font-bold ${b('text-gray-900', 'text-white')}`}>Investment Estimate Breakdown</h2>
+            className={`rounded-xl border p-4 sm:p-6 ${b('bg-white border-gray-200', 'bg-[#1e293b] border-[#334155]')}`}>
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-3">
+              <h2 className={`text-base sm:text-lg font-bold ${b('text-gray-900', 'text-white')}`}>Investment Estimate Breakdown</h2>
               <button onClick={() => {
                 const text = `Investment Estimate\nCategory: ${categories.find(c => c._id === selectedCategory)?.name || ''}\nMin: ${formatCurrency(estimate.minTotal)}\nMax: ${formatCurrency(estimate.maxTotal)}\nMultiplier: ${estimate.locationMultiplier?.toFixed(2)}x\n\nComponents:\n${(estimate.breakdown || []).map(i => `${i.label}: ${formatCurrency(i.min)} - ${formatCurrency(i.max)}`).join('\n')}`;
                 const blob = new Blob([text], { type: 'text/plain' });
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a'); a.href = url; a.download = 'investment-estimate.txt'; a.click();
                 URL.revokeObjectURL(url);
-              }} className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg transition-colors ${b('bg-gray-100 text-gray-700 hover:bg-gray-200', 'bg-[#0f172a] text-gray-300 hover:bg-[#0f172a]/80')}`}>
+              }} className={`flex items-center gap-1.5 px-3 py-1.5 text-[10px] sm:text-xs font-semibold rounded-lg transition-colors ${b('bg-gray-100 text-gray-700 hover:bg-gray-200', 'bg-[#0f172a] text-gray-300 hover:bg-[#0f172a]/80')}`}>
                 <span>📥</span> Export
               </button>
             </div>
-            <div className="grid md:grid-cols-2 gap-6 mb-6">
-              <div className={`p-4 rounded-lg ${b('bg-gray-50', 'bg-[#0f172a]')}`}>
-                <p className={`text-xs uppercase tracking-wider mb-1 ${b('text-gray-500', 'text-gray-400')}`}>Estimated Range</p>
-                <p className="text-2xl font-bold text-green-500">{formatCurrency(estimate.minTotal)} – {formatCurrency(estimate.maxTotal)}</p>
-                <p className={`text-xs mt-1 ${b('text-gray-400', 'text-gray-500')}`}>Base: {formatCurrency(estimate.baseMin)} – {formatCurrency(estimate.baseMax)}</p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-6">
+              <div className={`p-3 sm:p-4 rounded-lg ${b('bg-gray-50', 'bg-[#0f172a]')}`}>
+                <p className={`text-[10px] sm:text-xs uppercase tracking-wider mb-1 ${b('text-gray-500', 'text-gray-400')}`}>Estimated Range</p>
+                <p className="text-xl sm:text-2xl font-bold text-green-500">{formatCurrency(estimate.minTotal)} – {formatCurrency(estimate.maxTotal)}</p>
+                <p className={`text-[10px] sm:text-xs mt-1 ${b('text-gray-400', 'text-gray-500')}`}>Base: {formatCurrency(estimate.baseMin)} – {formatCurrency(estimate.baseMax)}</p>
               </div>
-              <div className={`p-4 rounded-lg ${b('bg-gray-50', 'bg-[#0f172a]')}`}>
-                <p className={`text-xs uppercase tracking-wider mb-1 ${b('text-gray-500', 'text-gray-400')}`}>Location Multiplier</p>
-                <p className="text-2xl font-bold text-blue-500">{estimate.locationMultiplier?.toFixed(2)}x</p>
-                <p className={`text-xs mt-1 ${b('text-gray-400', 'text-gray-500')}`}>Based on income, growth, and demand</p>
+              <div className={`p-3 sm:p-4 rounded-lg ${b('bg-gray-50', 'bg-[#0f172a]')}`}>
+                <p className={`text-[10px] sm:text-xs uppercase tracking-wider mb-1 ${b('text-gray-500', 'text-gray-400')}`}>Location Multiplier</p>
+                <p className="text-xl sm:text-2xl font-bold text-blue-500">{estimate.locationMultiplier?.toFixed(2)}x</p>
+                <p className={`text-[10px] sm:text-xs mt-1 ${b('text-gray-400', 'text-gray-500')}`}>Based on income, growth, and demand</p>
               </div>
             </div>
-            <h3 className={`font-semibold text-sm mb-3 ${b('text-gray-700', 'text-gray-300')}`}>Cost Components</h3>
+            <h3 className={`font-semibold text-xs sm:text-sm mb-3 ${b('text-gray-700', 'text-gray-300')}`}>Cost Components</h3>
             <div className="space-y-2">
               {(estimate.breakdown || []).map((item, i) => (
-                <div key={i} className={`flex justify-between items-center px-3 py-2 rounded-lg text-sm ${b('bg-gray-50', 'bg-[#0f172a]')}`}>
+                <div key={i} className={`flex flex-col sm:flex-row sm:justify-between sm:items-center px-3 py-2 rounded-lg text-[10px] sm:text-sm ${b('bg-gray-50', 'bg-[#0f172a]')}`}>
                   <span className={b('text-gray-600', 'text-gray-300')}>{item.label}</span>
-                  <span className="font-semibold">{formatCurrency(item.min)} – {formatCurrency(item.max)}</span>
+                  <span className="font-semibold mt-1 sm:mt-0">{formatCurrency(item.min)} – {formatCurrency(item.max)}</span>
                 </div>
               ))}
             </div>

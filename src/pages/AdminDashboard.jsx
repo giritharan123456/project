@@ -16,7 +16,6 @@ const AdminDashboard = () => {
     if (isAdmin) {
       fetchStats();
     } else {
-      // If not admin, redirect to admin login
       navigate('/admin-login');
     }
   }, [isAdmin, navigate]);
@@ -27,7 +26,6 @@ const AdminDashboard = () => {
       if (response.success) {
         setStats(response.data);
       } else {
-        // Set default stats if API fails
         setStats({
           districts: 0,
           areas: 0,
@@ -38,7 +36,6 @@ const AdminDashboard = () => {
         });
       }
     } catch (error) {
-      // Set default stats on error
       setStats({
         districts: 0,
         areas: 0,
@@ -61,34 +58,36 @@ const AdminDashboard = () => {
   }
 
   const StatCard = ({ title, value, icon, color }) => (
-    <div className={`${color} rounded-lg p-6 text-white shadow-lg`}>
+    <div className={`${color} rounded-lg p-3 sm:p-6 text-white shadow-lg`}>
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-sm opacity-90">{title}</p>
-          <p className="text-3xl font-bold mt-2">{value}</p>
+          <p className="text-xs sm:text-sm opacity-90">{title}</p>
+          <p className="text-xl sm:text-3xl font-bold mt-1 sm:mt-2">{value}</p>
         </div>
-        <div className="text-4xl opacity-80">{icon}</div>
+        <div className="text-2xl sm:text-4xl opacity-80">{icon}</div>
       </div>
     </div>
   );
 
+  const b = (light, dark) => isDarkMode ? dark : light;
+
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-[#1e293b]">
-      <div className="bg-white dark:bg-[#1e293b] shadow">
-        <div className="max-w-7xl mx-auto px-4 py-6">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">Admin Dashboard</h1>
-          <p className="text-gray-600 dark:text-gray-400 mt-1">Welcome, {user?.name}</p>
+    <div className={`min-h-screen ${b('bg-gray-100', 'bg-[#1e293b]')}`}>
+      <div className={`bg-white dark:bg-[#1e293b] shadow`}>
+        <div className="max-w-7xl mx-auto px-3 py-4 sm:px-4 sm:py-6">
+          <h1 className="text-xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100">Admin Dashboard</h1>
+          <p className="text-xs sm:text-base text-gray-600 dark:text-gray-400 mt-1">Welcome, {user?.name}</p>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 py-8">
+      <div className="max-w-7xl mx-auto px-3 py-4 sm:px-4 sm:py-8">
         {/* Navigation Tabs */}
-        <div className="flex space-x-4 mb-8 border-b border-gray-200 dark:border-gray-700 overflow-x-auto scrollbar-hide">
+        <div className="flex gap-2 sm:space-x-4 mb-6 sm:mb-8 border-b border-gray-200 dark:border-gray-700 overflow-x-auto scrollbar-hide pb-1">
           {['overview', 'districts', 'areas', 'categories', 'users'].map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`px-4 py-3 font-medium capitalize whitespace-nowrap ${
+              className={`px-3 sm:px-4 py-2 sm:py-3 font-medium capitalize whitespace-nowrap text-xs sm:text-sm ${
                 activeTab === tab
                   ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600'
                   : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100'
@@ -102,7 +101,7 @@ const AdminDashboard = () => {
         {activeTab === 'overview' && stats && (
           <div>
             <h2 className="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">Overview</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
               <StatCard
                 title="Total Districts"
                 value={stats.districts}
@@ -141,30 +140,30 @@ const AdminDashboard = () => {
               />
             </div>
 
-            <div className="mt-8 bg-white dark:bg-[#1e293b] rounded-lg shadow p-4 md:p-6">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Quick Actions</h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="mt-6 sm:mt-8 bg-white dark:bg-[#1e293b] rounded-lg shadow p-3 sm:p-4 md:p-6">
+              <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Quick Actions</h3>
+              <div className="grid grid-cols-2 gap-2 sm:gap-4">
                 <button
                   onClick={() => setActiveTab('districts')}
-                  className="bg-blue-600 text-white px-4 py-3 rounded-lg hover:bg-blue-700 transition"
+                  className="bg-blue-600 text-white px-3 sm:px-4 py-2 sm:py-3 rounded-lg hover:bg-blue-700 transition text-xs sm:text-sm"
                 >
                   Manage Districts
                 </button>
                 <button
                   onClick={() => setActiveTab('areas')}
-                  className="bg-green-600 text-white px-4 py-3 rounded-lg hover:bg-green-700 transition"
+                  className="bg-green-600 text-white px-3 sm:px-4 py-2 sm:py-3 rounded-lg hover:bg-green-700 transition text-xs sm:text-sm"
                 >
                   Manage Areas
                 </button>
                 <button
                   onClick={() => setActiveTab('categories')}
-                  className="bg-purple-600 text-white px-4 py-3 rounded-lg hover:bg-purple-700 transition"
+                  className="bg-purple-600 text-white px-3 sm:px-4 py-2 sm:py-3 rounded-lg hover:bg-purple-700 transition text-xs sm:text-sm"
                 >
                   Manage Categories
                 </button>
                 <button
                   onClick={() => setActiveTab('users')}
-                  className="bg-orange-600 text-white px-4 py-3 rounded-lg hover:bg-orange-700 transition"
+                  className="bg-orange-600 text-white px-3 sm:px-4 py-2 sm:py-3 rounded-lg hover:bg-orange-700 transition text-xs sm:text-sm"
                 >
                   Manage Users
                 </button>
@@ -175,9 +174,9 @@ const AdminDashboard = () => {
 
         {activeTab === 'districts' && (
           <div>
-            <h2 className="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">District Management</h2>
-            <div className="bg-white dark:bg-[#1e293b] rounded-lg shadow p-6">
-              <p className="text-gray-600 dark:text-gray-400">Manage your districts, add new ones, or edit existing data.</p>
+            <h2 className="text-lg sm:text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-4 sm:mb-6">District Management</h2>
+            <div className="bg-white dark:bg-[#1e293b] rounded-lg shadow p-3 sm:p-6">
+              <p className="text-xs sm:text-base text-gray-600 dark:text-gray-400">Manage your districts, add new ones, or edit existing data.</p>
               <button
                 onClick={() => navigate('/admin/districts')}
                 className="mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
@@ -190,8 +189,8 @@ const AdminDashboard = () => {
 
         {activeTab === 'areas' && (
           <div>
-            <h2 className="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">Area Management</h2>
-            <div className="bg-white dark:bg-[#1e293b] rounded-lg shadow p-6">
+            <h2 className="text-lg sm:text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-4 sm:mb-6">Area Management</h2>
+            <div className="bg-white dark:bg-[#1e293b] rounded-lg shadow p-3 sm:p-6">
               <p className="text-gray-600 dark:text-gray-400">Manage areas, assign districts, and update area data.</p>
               <button
                 onClick={() => navigate('/admin/areas')}
@@ -205,8 +204,8 @@ const AdminDashboard = () => {
 
         {activeTab === 'categories' && (
           <div>
-            <h2 className="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">Business Category Management</h2>
-            <div className="bg-white dark:bg-[#1e293b] rounded-lg shadow p-6">
+            <h2 className="text-lg sm:text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-4 sm:mb-6">Business Category Management</h2>
+            <div className="bg-white dark:bg-[#1e293b] rounded-lg shadow p-3 sm:p-6">
               <p className="text-gray-600 dark:text-gray-400">Add, edit, or remove business categories.</p>
               <button
                 onClick={() => navigate('/admin/categories')}
@@ -220,8 +219,8 @@ const AdminDashboard = () => {
 
         {activeTab === 'users' && (
           <div>
-            <h2 className="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">User Management</h2>
-            <div className="bg-white dark:bg-[#1e293b] rounded-lg shadow p-6">
+            <h2 className="text-lg sm:text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-4 sm:mb-6">User Management</h2>
+            <div className="bg-white dark:bg-[#1e293b] rounded-lg shadow p-3 sm:p-6">
               <p className="text-gray-600 dark:text-gray-400">View and manage user accounts and roles.</p>
               <button
                 onClick={() => navigate('/admin/users')}

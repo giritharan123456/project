@@ -217,10 +217,10 @@ function Dashboard() {
 
         {/* ═══ TOP NAV BAR ═══ */}
         <div className={`sticky top-0 z-40 border-b ${isDarkMode ? 'bg-[#1e293b]/95 backdrop-blur border-[#334155]' : 'bg-white/95 backdrop-blur border-slate-200'}`}>
-          <div className="max-w-[1600px] mx-auto px-4 md:px-6 py-2.5 flex items-center justify-between">
+          <div className="max-w-[1600px] mx-auto px-2 sm:px-4 md:px-6 py-2 sm:py-2.5 flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <span className="text-lg font-extrabold bg-gradient-to-r from-blue-600 to-violet-600 bg-clip-text text-transparent">MarketVision AI</span>
-              <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${isDarkMode ? 'bg-blue-900/40 text-blue-400' : 'bg-blue-50 text-blue-600'}`}>
+              <span className="text-sm sm:text-lg font-extrabold bg-gradient-to-r from-blue-600 to-violet-600 bg-clip-text text-transparent">MarketVision AI</span>
+              <span className={`text-[9px] sm:text-[10px] font-bold px-1.5 sm:px-2 py-0.5 rounded-full ${isDarkMode ? 'bg-blue-900/40 text-blue-400' : 'bg-blue-50 text-blue-600'}`}>
                 Dashboard
               </span>
             </div>
@@ -230,7 +230,7 @@ function Dashboard() {
           </div>
         </div>
 
-        <div className="max-w-[1600px] mx-auto px-2 md:px-4 py-0">
+        <div className="max-w-[1600px] mx-auto px-2 sm:px-3 md:px-4 py-0">
 
           {/* ═══ ROW 1: LOCATION + FILTERS (District-specific) ═══ */}
           <motion.div {...fadeIn(0.02)} className={`${card} p-2.5`}>
@@ -257,7 +257,7 @@ function Dashboard() {
                   <button
                     key={cat.name}
                     onClick={() => setSelectedBusinessCategory(cat.name)}
-                    className={`px-3 py-1 rounded-full text-[11px] font-bold transition-all duration-200 ${
+                    className={`px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-bold transition-all duration-200 ${
                       selectedBusinessCategory === cat.name
                         ? 'bg-blue-600 text-white shadow-md'
                         : isDarkMode

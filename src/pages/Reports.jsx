@@ -251,20 +251,20 @@ function Reports() {
     <div className={`min-h-[calc(100vh-70px)] p-4 sm:p-6 md:p-10 transition-colors duration-300 ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
         <div className="max-w-5xl mx-auto space-y-6 md:space-y-8">
           <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }}>
-            <div className="flex items-center gap-3 mb-2">
-              <FileText className="text-[#2563eb]" size={32} />
-              <h1 className={`text-3xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Reports</h1>
+            <div className="flex items-center gap-2 sm:gap-3 mb-2">
+              <FileText className="text-[#2563eb]" size={28} />
+              <h1 className={`text-2xl sm:text-3xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Reports</h1>
             </div>
-            <p className={`text-lg opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+            <p className={`text-sm sm:text-lg opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
               Generate professional market analysis reports for any area.
             </p>
           </motion.div>
 
           {/* Report Features */}
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
-            className={`p-6 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-[#e2e8f0]'}`}>
-            <h2 className={`text-2xl font-bold mb-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Report Features</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            className={`p-4 sm:p-6 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-[#e2e8f0]'}`}>
+            <h2 className={`text-xl sm:text-2xl font-bold mb-3 sm:mb-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Report Features</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
               {[
                 { icon: BarChart3, title: 'Market Gap Analysis', desc: 'Detailed breakdown of market gaps across all business categories' },
                 { icon: Users, title: 'Demographics', desc: 'Population, growth rate, income levels, and urban development data' },
@@ -273,8 +273,8 @@ function Reports() {
                 { icon: TrendingUp, title: 'Growth Projections', desc: '5-year forecasts based on current trends' },
                 { icon: Download, title: 'Export Options', desc: 'Download as PDF or CSV for offline analysis' },
               ].map((feature, i) => (
-                <div key={i} className={`flex items-start gap-3 p-4 rounded-xl ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
-                  <feature.icon className="text-[#2563eb] mt-0.5 shrink-0" size={20} />
+                <div key={i} className={`flex items-start gap-2 sm:gap-3 p-3 sm:p-4 rounded-xl ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
+                  <feature.icon className="text-[#2563eb] mt-0.5 shrink-0" size={18} />
                   <div>
                     <p className={`font-bold text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{feature.title}</p>
                     <p className={`text-xs mt-0.5 opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{feature.desc}</p>
@@ -286,18 +286,18 @@ function Reports() {
 
           {/* How to Export */}
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
-            className={`p-6 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-[#e2e8f0]'}`}>
-            <h2 className={`text-2xl font-bold mb-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>How to Export</h2>
-            <div className="space-y-4">
+            className={`p-4 sm:p-6 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-[#e2e8f0]'}`}>
+            <h2 className={`text-xl sm:text-2xl font-bold mb-3 sm:mb-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>How to Export</h2>
+            <div className="space-y-3 sm:space-y-4">
               {[
                 { step: '1', title: 'Search a Pincode', desc: 'Use the Dashboard search bar to find the area you want to analyze.' },
                 { step: '2', title: 'Navigate to Reports', desc: 'Click the Reports link in the navigation menu.' },
                 { step: '3', title: 'Choose Export Format', desc: 'Click "Export PDF" for a formatted report or "Export CSV" for raw data.' },
                 { step: '4', title: 'Download', desc: 'The file will be downloaded to your device automatically.' },
               ].map((item, i) => (
-                <div key={i} className="flex items-start gap-4">
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-r from-[#2563eb] to-[#7c3aed] flex items-center justify-center shrink-0">
-                    <span className="text-white text-sm font-bold">{item.step}</span>
+                <div key={i} className="flex items-start gap-3 sm:gap-4">
+                  <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-gradient-to-r from-[#2563eb] to-[#7c3aed] flex items-center justify-center shrink-0">
+                    <span className="text-white text-xs sm:text-sm font-bold">{item.step}</span>
                   </div>
                   <div>
                     <p className={`font-bold text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{item.title}</p>
@@ -310,9 +310,9 @@ function Reports() {
 
           {/* Report Contents */}
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
-            className={`p-6 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-[#e2e8f0]'}`}>
-            <h2 className={`text-2xl font-bold mb-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Report Contents</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            className={`p-4 sm:p-6 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-[#e2e8f0]'}`}>
+            <h2 className={`text-xl sm:text-2xl font-bold mb-3 sm:mb-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Report Contents</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
               {[
                 'Area Overview (name, pincode, district)',
                 'Population & Demographics',
@@ -325,8 +325,8 @@ function Reports() {
                 'Income Level Assessment',
                 'Growth Rate Analysis',
               ].map((item, i) => (
-                <div key={i} className={`flex items-center gap-2 p-3 rounded-lg ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
-                  <CheckCircle size={14} className="text-green-500 shrink-0" />
+                <div key={i} className={`flex items-center gap-2 p-2.5 sm:p-3 rounded-lg ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
+                  <CheckCircle size={12} className="text-green-500 shrink-0" />
                   <span className={`text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{item}</span>
                 </div>
               ))}
@@ -374,31 +374,31 @@ function Reports() {
           <Link to="/dashboard" className={`inline-flex items-center gap-2 mb-4 font-medium hover:text-[#2563eb] transition-colors ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
             <ArrowLeft size={20} /> Back to Dashboard
           </Link>
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
             <div>
-              <div className="flex items-center gap-3 mb-2">
-                <FileText className="text-[#2563eb]" size={32} />
-                <h1 className={`text-3xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Area Report</h1>
+              <div className="flex items-center gap-2 sm:gap-3 mb-1.5 sm:mb-2">
+                <FileText className="text-[#2563eb]" size={28} />
+                <h1 className={`text-2xl sm:text-3xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Area Report</h1>
               </div>
               <p className={`text-lg opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                 {areaData.name} — Pincode {areaData.pincode} — {districtName}
               </p>
             </div>
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3">
               <button onClick={handleExportPDF} disabled={exporting}
-                className="px-5 py-3 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white rounded-xl font-semibold hover:opacity-90 transition-opacity disabled:opacity-50 flex items-center gap-2">
-                <Download size={18} /> {exporting ? 'Exporting...' : 'Export PDF'}
+                className="px-4 sm:px-5 py-2.5 sm:py-3 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white rounded-xl font-semibold hover:opacity-90 transition-opacity disabled:opacity-50 flex items-center justify-center gap-2 text-sm">
+                <Download size={16} /> {exporting ? 'Exporting...' : 'Export PDF'}
               </button>
               <button onClick={handleExportCSV}
-                className="px-5 py-3 border-2 border-[#2563eb] text-[#2563eb] rounded-xl font-semibold hover:bg-[#2563eb] hover:text-white transition-all flex items-center gap-2">
-                <Download size={18} /> Export CSV
+                className="px-4 sm:px-5 py-2.5 sm:py-3 border-2 border-[#2563eb] text-[#2563eb] rounded-xl font-semibold hover:bg-[#2563eb] hover:text-white transition-all flex items-center justify-center gap-2 text-sm">
+                <Download size={16} /> Export CSV
               </button>
             </div>
           </div>
         </motion.div>
 
         {areaStats && (
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
             {[
               { icon: Users, label: 'Population', value: (areaData.population || 0).toLocaleString(), color: 'text-blue-500' },
               { icon: TrendingUp, label: 'Growth Rate', value: `${Number(areaData.populationGrowth || 0).toFixed(2)}%`, color: 'text-green-500' },
@@ -406,10 +406,10 @@ function Reports() {
               { icon: DollarSign, label: 'Income Level', value: areaData.incomeLevel || 'Low', color: 'text-purple-500' },
             ].map((m, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 + i * 0.1 }}
-                className={`p-5 rounded-2xl border transition-all hover:shadow-lg ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-[#e2e8f0]'}`}>
-                <m.icon className={`${m.color} mb-2`} size={22} />
-                <p className={`text-xs font-medium mb-1 uppercase ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>{m.label}</p>
-                <p className={`text-xl font-extrabold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{m.value}</p>
+                className={`p-3 sm:p-5 rounded-2xl border transition-all hover:shadow-lg ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-[#e2e8f0]'}`}>
+                <m.icon className={`${m.color} mb-1.5 sm:mb-2`} size={20} />
+                <p className={`text-[10px] sm:text-xs font-medium mb-0.5 sm:mb-1 uppercase ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>{m.label}</p>
+                <p className={`text-base sm:text-xl font-extrabold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{m.value}</p>
               </motion.div>
             ))}
           </div>
@@ -417,47 +417,47 @@ function Reports() {
 
         {areaStats && (
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
-            className={`p-6 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-[#e2e8f0]'}`}>
-            <div className="flex items-center gap-3 mb-5">
-              <Zap className="text-[#2563eb]" size={24} />
-              <h3 className={`text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Key Insights</h3>
+            className={`p-4 sm:p-6 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-[#e2e8f0]'}`}>
+            <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-5">
+              <Zap className="text-[#2563eb]" size={22} />
+              <h3 className={`text-lg sm:text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Key Insights</h3>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">
               {areaStats.bestCategory && (
-                <div className={`p-5 rounded-xl border-l-4 border-green-500 ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
-                  <div className="flex items-center gap-2 mb-2">
-                    <CheckCircle size={16} className="text-green-500" />
-                    <p className={`text-xs font-semibold uppercase ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Best Opportunity</p>
+                <div className={`p-3 sm:p-5 rounded-xl border-l-4 border-green-500 ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
+                  <div className="flex items-center gap-1.5 sm:gap-2 mb-1.5 sm:mb-2">
+                    <CheckCircle size={14} className="text-green-500" />
+                    <p className={`text-[10px] sm:text-xs font-semibold uppercase ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Best Opportunity</p>
                   </div>
-                  <p className={`font-bold text-lg ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{areaStats.bestCategory.name}</p>
-                  <p className={`text-sm mt-1 ${isDarkMode ? 'text-[#94a3b8]' : 'text-[#64748b]'}`}>Gap Score: {Number(areaStats.bestCategory.gap).toFixed(2)} | Demand: {Number(areaStats.bestCategory.demand).toFixed(2)}</p>
+                  <p className={`font-bold text-base sm:text-lg ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{areaStats.bestCategory.name}</p>
+                  <p className={`text-xs sm:text-sm mt-0.5 sm:mt-1 ${isDarkMode ? 'text-[#94a3b8]' : 'text-[#64748b]'}`}>Gap Score: {Number(areaStats.bestCategory.gap).toFixed(2)} | Demand: {Number(areaStats.bestCategory.demand).toFixed(2)}</p>
                 </div>
               )}
-              <div className={`p-5 rounded-xl border-l-4 border-blue-500 ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
-                <div className="flex items-center gap-2 mb-2">
-                  <Shield size={16} className="text-blue-500" />
-                  <p className={`text-xs font-semibold uppercase ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Market Coverage</p>
+              <div className={`p-3 sm:p-5 rounded-xl border-l-4 border-blue-500 ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
+                <div className="flex items-center gap-1.5 sm:gap-2 mb-1.5 sm:mb-2">
+                  <Shield size={14} className="text-blue-500" />
+                  <p className={`text-[10px] sm:text-xs font-semibold uppercase ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Market Coverage</p>
                 </div>
-                <p className={`font-bold text-lg ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{areaStats.categories.length} Categories</p>
-                <p className={`text-sm mt-1 ${isDarkMode ? 'text-[#94a3b8]' : 'text-[#64748b]'}`}>{areaStats.totalCompetitors} total competitors across all categories</p>
+                <p className={`font-bold text-base sm:text-lg ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{areaStats.categories.length} Categories</p>
+                <p className={`text-xs sm:text-sm mt-0.5 sm:mt-1 ${isDarkMode ? 'text-[#94a3b8]' : 'text-[#64748b]'}`}>{areaStats.totalCompetitors} total competitors across all categories</p>
               </div>
               {areaStats.riskCategories.length > 0 ? (
-                <div className={`p-5 rounded-xl border-l-4 border-orange-500 ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
-                  <div className="flex items-center gap-2 mb-2">
-                    <AlertTriangle size={16} className="text-orange-500" />
-                    <p className={`text-xs font-semibold uppercase ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Saturated Categories</p>
+                <div className={`p-3 sm:p-5 rounded-xl border-l-4 border-orange-500 ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
+                  <div className="flex items-center gap-1.5 sm:gap-2 mb-1.5 sm:mb-2">
+                    <AlertTriangle size={14} className="text-orange-500" />
+                    <p className={`text-[10px] sm:text-xs font-semibold uppercase ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Saturated Categories</p>
                   </div>
-                  <p className={`font-bold text-lg ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{areaStats.riskCategories.length} categories</p>
-                  <p className={`text-sm mt-1 ${isDarkMode ? 'text-[#94a3b8]' : 'text-[#64748b]'}`}>{areaStats.riskCategories.slice(0, 3).map(c => c.name).join(', ')}{areaStats.riskCategories.length > 3 ? '...' : ''}</p>
+                  <p className={`font-bold text-base sm:text-lg ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{areaStats.riskCategories.length} categories</p>
+                  <p className={`text-xs sm:text-sm mt-0.5 sm:mt-1 truncate ${isDarkMode ? 'text-[#94a3b8]' : 'text-[#64748b]'}`}>{areaStats.riskCategories.slice(0, 3).map(c => c.name).join(', ')}{areaStats.riskCategories.length > 3 ? '...' : ''}</p>
                 </div>
               ) : (
-                <div className={`p-5 rounded-xl border-l-4 border-green-500 ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
-                  <div className="flex items-center gap-2 mb-2">
-                    <CheckCircle size={16} className="text-green-500" />
-                    <p className={`text-xs font-semibold uppercase ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>No Saturated Categories</p>
+                <div className={`p-3 sm:p-5 rounded-xl border-l-4 border-green-500 ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
+                  <div className="flex items-center gap-1.5 sm:gap-2 mb-1.5 sm:mb-2">
+                    <CheckCircle size={14} className="text-green-500" />
+                    <p className={`text-[10px] sm:text-xs font-semibold uppercase ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>No Saturated Categories</p>
                   </div>
-                  <p className={`font-bold text-lg ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>All clear</p>
-                  <p className={`text-sm mt-1 ${isDarkMode ? 'text-[#94a3b8]' : 'text-[#64748b]'}`}>All categories have low competition</p>
+                  <p className={`font-bold text-base sm:text-lg ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>All clear</p>
+                  <p className={`text-xs sm:text-sm mt-0.5 sm:mt-1 ${isDarkMode ? 'text-[#94a3b8]' : 'text-[#64748b]'}`}>All categories have low competition</p>
                 </div>
               )}
             </div>
@@ -466,23 +466,23 @@ function Reports() {
 
         {areaStats && areaStats.categories.length > 0 && (
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}
-            className={`p-6 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-[#e2e8f0]'}`}>
-            <div className="flex items-center gap-3 mb-5">
-              <BarChart3 className="text-[#2563eb]" size={24} />
-              <h3 className={`text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Category Breakdown</h3>
+            className={`p-4 sm:p-6 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-[#e2e8f0]'}`}>
+            <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-5">
+              <BarChart3 className="text-[#2563eb]" size={22} />
+              <h3 className={`text-lg sm:text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Category Breakdown</h3>
               <span className={`ml-auto text-sm font-semibold px-3 py-1 rounded-full ${isDarkMode ? 'bg-[#334155] text-[#94a3b8]' : 'bg-[#e2e8f0] text-[#64748b]'}`}>
                 {areaStats.categories.length} categories
               </span>
             </div>
-            <div className="overflow-x-auto -mx-6 px-6">
-              <table className="w-full text-left min-w-[500px]">
+            <div className="overflow-x-auto -mx-4 sm:-mx-6 px-4 sm:px-6">
+              <table className="w-full text-left min-w-[480px]">
                 <thead>
                   <tr className={`border-b-2 ${isDarkMode ? 'border-[#334155]' : 'border-[#e2e8f0]'}`}>
-                    <th className={`pb-3 font-bold text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Category</th>
-                    <th className={`pb-3 font-bold text-sm text-right ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Gap Score</th>
-                    <th className={`pb-3 font-bold text-sm text-right ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Demand</th>
-                    <th className={`pb-3 font-bold text-sm text-right ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Competitors</th>
-                    <th className={`pb-3 font-bold text-sm text-right ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Status</th>
+                    <th className={`pb-2 sm:pb-3 font-bold text-xs sm:text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Category</th>
+                    <th className={`pb-2 sm:pb-3 font-bold text-xs sm:text-sm text-right ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Gap Score</th>
+                    <th className={`pb-2 sm:pb-3 font-bold text-xs sm:text-sm text-right ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Demand</th>
+                    <th className={`pb-2 sm:pb-3 font-bold text-xs sm:text-sm text-right ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Competitors</th>
+                    <th className={`pb-2 sm:pb-3 font-bold text-xs sm:text-sm text-right ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Status</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -516,11 +516,11 @@ function Reports() {
         )}
 
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7 }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">
           <Link to="/ai-recommendations"
-            className={`p-5 rounded-2xl border flex items-center gap-4 transition-all hover:-translate-y-1 hover:shadow-lg ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-[#e2e8f0]'}`}>
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-[#2563eb] to-[#7c3aed] flex items-center justify-center shrink-0">
-              <Zap className="text-white" size={22} />
+            className={`p-4 sm:p-5 rounded-2xl border flex items-center gap-3 sm:gap-4 transition-all hover:-translate-y-1 hover:shadow-lg ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-[#e2e8f0]'}`}>
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-r from-[#2563eb] to-[#7c3aed] flex items-center justify-center shrink-0">
+              <Zap className="text-white" size={20} />
             </div>
             <div className="min-w-0">
               <h4 className={`font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>AI Insights</h4>
@@ -529,9 +529,9 @@ function Reports() {
             <ChevronRight className={`ml-auto shrink-0 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`} size={20} />
           </Link>
           <Link to="/forecast"
-            className={`p-5 rounded-2xl border flex items-center gap-4 transition-all hover:-translate-y-1 hover:shadow-lg ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-[#e2e8f0]'}`}>
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-[#2563eb] to-[#7c3aed] flex items-center justify-center shrink-0">
-              <TrendingUp className="text-white" size={22} />
+            className={`p-4 sm:p-5 rounded-2xl border flex items-center gap-3 sm:gap-4 transition-all hover:-translate-y-1 hover:shadow-lg ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-[#e2e8f0]'}`}>
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-r from-[#2563eb] to-[#7c3aed] flex items-center justify-center shrink-0">
+              <TrendingUp className="text-white" size={20} />
             </div>
             <div className="min-w-0">
               <h4 className={`font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Forecast</h4>
@@ -540,9 +540,9 @@ function Reports() {
             <ChevronRight className={`ml-auto shrink-0 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`} size={20} />
           </Link>
           <Link to="/comparison"
-            className={`p-5 rounded-2xl border flex items-center gap-4 transition-all hover:-translate-y-1 hover:shadow-lg ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-[#e2e8f0]'}`}>
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-[#2563eb] to-[#7c3aed] flex items-center justify-center shrink-0">
-              <BarChart3 className="text-white" size={22} />
+            className={`p-4 sm:p-5 rounded-2xl border flex items-center gap-3 sm:gap-4 transition-all hover:-translate-y-1 hover:shadow-lg ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-[#e2e8f0]'}`}>
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-r from-[#2563eb] to-[#7c3aed] flex items-center justify-center shrink-0">
+              <BarChart3 className="text-white" size={20} />
             </div>
             <div className="min-w-0">
               <h4 className={`font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Compare</h4>

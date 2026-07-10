@@ -80,7 +80,7 @@ function Workspace() {
   ];
 
   return (
-    <div className={`min-h-[calc(100vh-70px)] p-6 transition-colors duration-300 ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
+    <div className={`min-h-[calc(100vh-70px)] px-3 py-2 sm:px-4 sm:py-3 transition-colors duration-300 ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <motion.div
@@ -90,11 +90,11 @@ function Workspace() {
         >
           <div className="flex items-center gap-3 mb-2">
             <User className="text-[#2563eb]" size={32} />
-            <h1 className={`text-3xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+            <h1 className={`text-2xl sm:text-3xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
               Personal Workspace
             </h1>
           </div>
-          <p className={`text-lg opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+          <p className={`text-sm sm:text-lg opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
             Manage your saved items, preferences, and account settings
           </p>
         </motion.div>
@@ -104,13 +104,13 @@ function Workspace() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className={`p-2 rounded-2xl  border mb-8 flex flex-wrap gap-2 ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
+          className={`p-2 rounded-2xl border mb-6 sm:mb-8 flex overflow-x-auto gap-1.5 sm:gap-2 ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
         >
           {tabs.map(tab => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`px-4 py-2 rounded-xl font-medium transition-all flex items-center gap-2 ${activeTab === tab.id ? 'bg-[#2563eb] text-white' : isDarkMode ? 'text-[#f1f5f9] hover:bg-[#1e293b]' : 'text-[#1e293b] hover:bg-[#ffffff]'}`}
+              className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl font-medium transition-all flex items-center gap-1.5 sm:gap-2 whitespace-nowrap text-xs sm:text-sm ${activeTab === tab.id ? 'bg-[#2563eb] text-white' : isDarkMode ? 'text-[#f1f5f9] hover:bg-[#1e293b]' : 'text-[#1e293b] hover:bg-[#ffffff]'}`}
             >
               <tab.icon size={18} />
               {tab.label}
@@ -126,35 +126,35 @@ function Workspace() {
         >
           {/* Profile Tab */}
           {activeTab === 'profile' && (
-            <div className={`p-6 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}>
-              <div className="flex flex-col md:flex-row items-start gap-8">
-                <div className="w-32 h-32 rounded-full bg-gradient-to-r from-[#2563eb] to-[#7c3aed] flex items-center justify-center text-white text-4xl font-bold">
+            <div className={`px-3 py-2 sm:px-4 sm:py-3 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}>
+              <div className="flex flex-col sm:flex-row items-start gap-6 sm:gap-8">
+                <div className="w-20 h-20 sm:w-32 sm:h-32 rounded-full bg-gradient-to-r from-[#2563eb] to-[#7c3aed] flex items-center justify-center text-white text-3xl sm:text-4xl font-bold flex-shrink-0">
                   {userProfile.avatar}
                 </div>
                 
-                <div className="flex-1">
-                  <h2 className={`text-2xl font-bold mb-2 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+                <div className="flex-1 min-w-0">
+                  <h2 className={`text-xl sm:text-2xl font-bold mb-2 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                     {userProfile.name}
                   </h2>
-                  <p className={`text-lg opacity-70 mb-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+                  <p className={`text-sm sm:text-lg opacity-70 mb-4 break-all ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                     {userProfile.email}
                   </p>
                   
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-                    <div className={`p-4 rounded-xl ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
-                      <p className={`text-sm opacity-70 mb-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Member Since</p>
-                      <p className={`font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{userProfile.memberSince}</p>
+                  <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mb-6">
+                    <div className={`p-3 sm:p-4 rounded-xl ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
+                      <p className={`text-xs sm:text-sm opacity-70 mb-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Member Since</p>
+                      <p className={`font-semibold text-sm sm:text-base ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{userProfile.memberSince}</p>
                     </div>
-                    <div className={`p-4 rounded-xl ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
-                      <p className={`text-sm opacity-70 mb-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Plan</p>
-                      <p className={`font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{userProfile.plan}</p>
+                    <div className={`p-3 sm:p-4 rounded-xl ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
+                      <p className={`text-xs sm:text-sm opacity-70 mb-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Plan</p>
+                      <p className={`font-semibold text-sm sm:text-base ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{userProfile.plan}</p>
                     </div>
-                    <div className={`p-4 rounded-xl ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
-                      <p className={`text-sm opacity-70 mb-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Saved Areas</p>
-                      <p className={`font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{favoriteLocations.length}</p>
+                    <div className={`p-3 sm:p-4 rounded-xl ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
+                      <p className={`text-xs sm:text-sm opacity-70 mb-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Saved Areas</p>
+                      <p className={`font-semibold text-sm sm:text-base ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{favoriteLocations.length}</p>
                     </div>
-                    <div className={`p-4 rounded-xl ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
-                      <p className={`text-sm opacity-70 mb-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Reports</p>
+                    <div className={`p-3 sm:p-4 rounded-xl ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
+                      <p className={`text-xs sm:text-sm opacity-70 mb-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Reports</p>
                       <p className={`font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{savedReports.length}</p>
                     </div>
                   </div>
@@ -172,7 +172,7 @@ function Workspace() {
           {activeTab === 'favorites' && (
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <h3 className={`text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+                <h3 className={`text-lg sm:text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                   Favorite Locations ({favoriteLocations.length})
                 </h3>
               </div>
@@ -182,23 +182,23 @@ function Workspace() {
                   key={location._id || location.id}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
-                  className={`p-6 rounded-2xl border flex items-center justify-between ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
+                  className={`px-3 py-2 sm:px-4 sm:py-3 rounded-2xl border flex items-center justify-between gap-3 ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
                 >
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-[#2563eb] to-[#7c3aed] flex items-center justify-center">
+                  <div className="flex items-center gap-3 sm:gap-4 min-w-0">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-r from-[#2563eb] to-[#7c3aed] flex items-center justify-center flex-shrink-0">
                       <MapPin className="text-white" size={24} />
                     </div>
-                    <div>
-                      <h4 className={`font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{location.name}</h4>
-                      <p className={`text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+                    <div className="min-w-0">
+                      <h4 className={`font-bold text-sm sm:text-base ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{location.name}</h4>
+                      <p className={`text-xs sm:text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                         {location.district} • {location.pincode}
                       </p>
                     </div>
                   </div>
                   
-                  <div className="flex items-center gap-6">
+                  <div className="flex items-center gap-3 sm:gap-6 flex-shrink-0">
                     <div className="text-right">
-                      <div className="text-2xl font-bold bg-gradient-to-r from-[#2563eb] to-[#7c3aed] bg-clip-text text-transparent">
+                      <div className="text-lg sm:text-2xl font-bold bg-gradient-to-r from-[#2563eb] to-[#7c3aed] bg-clip-text text-transparent">
                         {location.score}
                       </div>
                       <p className={`text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Score</p>
@@ -236,7 +236,7 @@ function Workspace() {
                   key={comparison._id || comparison.id}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
-                  className={`p-6 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
+                  className={`px-3 py-2 sm:px-4 sm:py-3 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
                 >
                   <div className="flex items-center justify-between mb-4">
                     <div>
@@ -310,12 +310,12 @@ function Workspace() {
           {/* Settings Tab */}
           {activeTab === 'settings' && (
             <div className="space-y-6">
-              <div className={`p-6 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}>
+              <div className={`px-3 py-2 sm:px-4 sm:py-3 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}>
                 <h3 className={`text-xl font-bold mb-6 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                   Appearance
                 </h3>
                 
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                   <div className="flex items-center gap-3">
                     {isDarkMode ? <Moon size={24} /> : <Sun size={24} />}
                     <div>
@@ -334,7 +334,7 @@ function Workspace() {
                 </div>
               </div>
 
-              <div className={`p-6 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}>
+              <div className={`px-3 py-2 sm:px-4 sm:py-3 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}>
                 <h3 className={`text-xl font-bold mb-6 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                   Notifications
                 </h3>
@@ -352,13 +352,13 @@ function Workspace() {
                 </div>
               </div>
 
-              <div className={`p-6 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}>
+              <div className={`px-3 py-2 sm:px-4 sm:py-3 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}>
                 <h3 className={`text-xl font-bold mb-6 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                   Account
                 </h3>
                 
                 <div className="space-y-4">
-                  <Link to="/profile" className={`w-full p-4 rounded-xl border flex items-center justify-between transition-colors ${isDarkMode ? 'border-[#334155] hover:border-blue-500' : 'border-[#e2e8f0] hover:border-blue-500'}`}>
+                  <Link to="/profile"                   className={`px-3 py-2 sm:px-4 sm:py-3 rounded-xl border flex items-center justify-between transition-colors ${isDarkMode ? 'border-[#334155] hover:border-blue-500' : 'border-[#e2e8f0] hover:border-blue-500'}`}>
                     <span className={`font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Edit Profile</span>
                     <ChevronRight size={18} className="opacity-50" />
                   </Link>

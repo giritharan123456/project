@@ -209,7 +209,7 @@ function Forecast() {
 
   if (!selectedPincode) {
     return (
-      <div className={`min-h-[calc(100vh-70px)] p-6 transition-colors duration-300 ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
+      <div className={`min-h-[calc(100vh-70px)] px-3 py-2 sm:px-4 sm:py-3 transition-colors duration-300 ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
         <div className="max-w-7xl mx-auto">
           <EmptyState
             type="noData"
@@ -224,7 +224,7 @@ function Forecast() {
 
   if (loading) {
     return (
-      <div className={`min-h-[calc(100vh-70px)] p-6 transition-colors duration-300 ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
+      <div className={`min-h-[calc(100vh-70px)] px-3 py-2 sm:px-4 sm:py-3 transition-colors duration-300 ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
         <div className="max-w-7xl mx-auto flex items-center justify-center min-h-[400px]">
           <div className="text-center">
             <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-[#2563eb] mx-auto mb-4"></div>
@@ -237,7 +237,7 @@ function Forecast() {
 
   if (error || !areaData || !forecastData) {
     return (
-      <div className={`min-h-[calc(100vh-70px)] p-6 transition-colors duration-300 ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
+      <div className={`min-h-[calc(100vh-70px)] px-3 py-2 sm:px-4 sm:py-3 transition-colors duration-300 ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
         <div className="max-w-7xl mx-auto">
           <EmptyState
             type={error ? 'error' : 'noData'}
@@ -252,7 +252,7 @@ function Forecast() {
 
 
   return (
-    <div className={`min-h-[calc(100vh-70px)] p-6 transition-colors duration-300 ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
+    <div className={`min-h-[calc(100vh-70px)] px-3 py-2 sm:px-6 sm:py-6 transition-colors duration-300 ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
       <div className="max-w-7xl mx-auto">
 
         {/* Header */}
@@ -269,15 +269,15 @@ function Forecast() {
             Back to Dashboard
           </Link>
           
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
               <div className="flex items-center gap-3 mb-2">
                 <TrendingUp className="text-[#2563eb]" size={28} />
-                <h1 className={`text-3xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+                <h1 className={`text-2xl sm:text-3xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                   Market Forecast
                 </h1>
               </div>
-              <p className={`text-lg opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+              <p className={`text-sm sm:text-lg opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                 Predictive analytics for future market trends in {selectedPincode ? `pincode ${selectedPincode}` : districtName}
               </p>
             </div>
@@ -315,7 +315,7 @@ function Forecast() {
         </motion.div>
 
         {/* Forecast Summary Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 mb-8">
           {[
             { icon: Users, label: 'Population Forecast', current: forecastData.population.current.toLocaleString(), future: forecastData.population.year5.toLocaleString(), growth: `+${Number(forecastData.population.growthRate).toFixed(2)}%`, color: 'text-blue-500' },
             { icon: Target, label: 'Demand Forecast', current: `${Number(forecastData.demand.current).toFixed(2)}%`, future: `${Number(forecastData.demand.year5).toFixed(2)}%`, growth: `+${Number(forecastData.demand.growthRate).toFixed(2)}%`, color: 'text-green-500' },
@@ -327,16 +327,16 @@ function Forecast() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 + (index * 0.1) }}
-              className={`p-6 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
+              className={`px-3 py-2 sm:px-4 sm:py-3 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
             >
               <forecast.icon className={`${forecast.color} mb-3`} size={24} />
-              <p className={`text-sm opacity-70 mb-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{forecast.label}</p>
+              <p className={`text-xs sm:text-sm opacity-70 mb-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{forecast.label}</p>
               <div className="flex items-end gap-2 mb-2">
-                <span className={`text-2xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+                <span className={`text-xl sm:text-2xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                   {forecast.current}
                 </span>
                 <TrendingUp className="text-green-500 mb-1" size={16} />
-                <span className={`text-lg font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+                <span className={`text-base sm:text-lg font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                   {forecast.future}
                 </span>
               </div>
@@ -350,18 +350,18 @@ function Forecast() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
-          className={`p-6 rounded-2xl border mb-8 ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
+          className={`px-3 py-2 sm:px-4 sm:py-3 rounded-2xl border mb-8 ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
         >
-          <div className="flex items-center justify-between mb-6">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-3">
             <div className="flex items-center gap-3">
               <LineChart className="text-[#2563eb]" size={24} />
-              <h3 className={`text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+              <h3 className={`text-lg sm:text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                 {timeframe === '10years' ? '10-Year' : '5-Year'} Prediction
               </h3>
             </div>
             <div className="flex items-center gap-2">
               <Info className={`opacity-50 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`} size={16} />
-              <span className={`text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+              <span className={`text-xs sm:text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                 Based on real area data and market trends
               </span>
             </div>
@@ -384,8 +384,8 @@ function Forecast() {
               ].map((bar, i) => (
                 <div key={i}>
                   <div className="flex justify-between mb-2">
-                    <span className={`text-sm font-medium ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{bar.label}</span>
-                    <span className={`text-sm font-medium ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+                    <span className={`text-xs sm:text-sm font-medium ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{bar.label}</span>
+                    <span className={`text-xs sm:text-sm font-medium ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                       {bar.from} → {bar.to}
                     </span>
                   </div>
@@ -408,24 +408,24 @@ function Forecast() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
-          className={`p-6 rounded-2xl border mb-8 ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
+          className={`px-3 py-2 sm:px-4 sm:py-3 rounded-2xl border mb-8 ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
         >
           <div className="flex items-center gap-3 mb-6">
             <Calendar className="text-[#2563eb]" size={24} />
-            <h3 className={`text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+            <h3 className={`text-lg sm:text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
               Year-by-Year Predictions
             </h3>
           </div>
 
           <div className="overflow-x-auto">
-            <table className="w-full">
+            <table className="w-full min-w-[400px]">
               <thead>
                 <tr className={`border-b ${isDarkMode ? 'border-[#334155]' : 'border-[#e2e8f0]'}`}>
-                  <th className={`text-left p-4 font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Year</th>
-                  <th className={`text-left p-4 font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Population</th>
-                  <th className={`text-left p-4 font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Demand</th>
-                  <th className={`text-left p-4 font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Competition</th>
-                  <th className={`text-left p-4 font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Revenue</th>
+                  <th className={`text-left p-2 sm:p-4 font-semibold text-xs sm:text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Year</th>
+                  <th className={`text-left p-2 sm:p-4 font-semibold text-xs sm:text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Population</th>
+                  <th className={`text-left p-2 sm:p-4 font-semibold text-xs sm:text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Demand</th>
+                  <th className={`text-left p-2 sm:p-4 font-semibold text-xs sm:text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Competition</th>
+                  <th className={`text-left p-2 sm:p-4 font-semibold text-xs sm:text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Revenue</th>
                 </tr>
               </thead>
               <tbody>
@@ -437,11 +437,11 @@ function Forecast() {
                     transition={{ delay: 0.7 + (index * 0.1) }}
                     className={`border-b ${isDarkMode ? 'border-[#334155]' : 'border-[#e2e8f0]'} hover:bg-opacity-50 ${isDarkMode ? 'hover:bg-[#1e293b]' : 'hover:bg-[#ffffff]'}`}
                   >
-                    <td className={`p-4 font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{prediction.year}</td>
-                    <td className={`p-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{prediction.population}</td>
-                    <td className={`p-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{prediction.demand}</td>
-                    <td className={`p-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{prediction.competition}</td>
-                    <td className={`p-4 font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{prediction.revenue}</td>
+                    <td className={`p-2 sm:p-4 font-semibold text-xs sm:text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{prediction.year}</td>
+                    <td className={`p-2 sm:p-4 text-xs sm:text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{prediction.population}</td>
+                    <td className={`p-2 sm:p-4 text-xs sm:text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{prediction.demand}</td>
+                    <td className={`p-2 sm:p-4 text-xs sm:text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{prediction.competition}</td>
+                    <td className={`p-2 sm:p-4 font-semibold text-xs sm:text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{prediction.revenue}</td>
                   </motion.tr>
                 ))}
               </tbody>
@@ -454,16 +454,16 @@ function Forecast() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8 }}
-          className={`p-6 rounded-2xl border mb-8 ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
+          className={`px-3 py-2 sm:px-4 sm:py-3 rounded-2xl border mb-8 ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
         >
           <div className="flex items-center gap-3 mb-6">
             <Zap className="text-[#2563eb]" size={24} />
-            <h3 className={`text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+            <h3 className={`text-lg sm:text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
               Future Trends Analysis
             </h3>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
             {futureTrends.map((trend, index) => (
               <motion.div
                 key={index}
@@ -503,37 +503,37 @@ function Forecast() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1 }}
-          className={`p-6 rounded-2xl border mb-8 ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
+          className={`px-3 py-2 sm:px-4 sm:py-3 rounded-2xl border mb-8 ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
         >
           <div className="flex items-center gap-3 mb-6">
             <CheckCircle className="text-[#2563eb]" size={24} />
-            <h3 className={`text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+            <h3 className={`text-lg sm:text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
               Forecast Confidence
             </h3>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
             <div className="text-center">
-              <div className="text-4xl font-extrabold bg-gradient-to-r from-[#2563eb] to-[#7c3aed] bg-clip-text text-transparent mb-2">
+              <div className="text-2xl sm:text-4xl font-extrabold bg-gradient-to-r from-[#2563eb] to-[#7c3aed] bg-clip-text text-transparent mb-2">
                 {Number(confidenceScores.accuracy).toFixed(2)}%
               </div>
-              <p className={`text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+              <p className={`text-xs sm:text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                 Overall Accuracy
               </p>
             </div>
             <div className="text-center">
-              <div className="text-4xl font-extrabold bg-gradient-to-r from-[#2563eb] to-[#7c3aed] bg-clip-text text-transparent mb-2">
+              <div className="text-2xl sm:text-4xl font-extrabold bg-gradient-to-r from-[#2563eb] to-[#7c3aed] bg-clip-text text-transparent mb-2">
                 {Number(confidenceScores.dataQuality).toFixed(2)}%
               </div>
-              <p className={`text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+              <p className={`text-xs sm:text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                 Data Quality
               </p>
             </div>
             <div className="text-center">
-              <div className="text-4xl font-extrabold bg-gradient-to-r from-[#2563eb] to-[#7c3aed] bg-clip-text text-transparent mb-2">
+              <div className="text-2xl sm:text-4xl font-extrabold bg-gradient-to-r from-[#2563eb] to-[#7c3aed] bg-clip-text text-transparent mb-2">
                 {Number(confidenceScores.precision).toFixed(2)}%
               </div>
-              <p className={`text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+              <p className={`text-xs sm:text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                 Model Precision
               </p>
             </div>
@@ -545,9 +545,9 @@ function Forecast() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.1 }}
-          className={`p-6 rounded-2xl border border-l-4 ${isDarkMode ? 'bg-blue-900/20 border-blue-500' : 'bg-blue-50 border-blue-500'}`}
+          className={`px-3 py-2 sm:px-4 sm:py-3 rounded-2xl border border-l-4 ${isDarkMode ? 'bg-blue-900/20 border-blue-500' : 'bg-blue-50 border-blue-500'}`}
         >
-          <div className="flex items-start gap-4">
+          <div className="flex items-start gap-3 sm:gap-4">
             <AlertCircle className="text-blue-500 flex-shrink-0" size={24} />
             <div>
               <h4 className={`font-bold mb-2 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>

@@ -37,10 +37,10 @@ function Home() {
   if (loading) return <PageSkeleton />;
 
   return (
-    <div className={`min-h-[calc(100vh-70px)] flex items-center justify-center p-4 sm:p-6 md:p-8 transition-colors duration-300 ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
-      <div className={`max-w-[1200px] text-center ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+    <div className={`min-h-[calc(100vh-70px)] flex items-center justify-center px-3 py-2 sm:px-4 sm:py-3 transition-colors duration-300 ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
+      <div className={`max-w-[1200px] w-full px-3 py-2 sm:px-4 sm:py-3 text-center ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
           <motion.h1
-              className="text-3xl sm:text-5xl md:text-[3.5rem] font-extrabold mb-4 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] bg-clip-text text-transparent leading-tight"
+              className="text-2xl sm:text-3xl md:text-4xl font-extrabold mb-4 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] bg-clip-text text-transparent leading-tight"
               initial={{ opacity: 0, y: -30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
@@ -48,7 +48,7 @@ function Home() {
               {content?.title || '🚀 MarketVision AI'}
             </motion.h1>
             <motion.p 
-              className="text-lg sm:text-xl md:text-2xl mb-6 md:mb-8 opacity-80 font-medium"
+              className="text-base sm:text-lg md:text-xl mb-4 md:mb-6 opacity-80 font-medium"
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
@@ -61,12 +61,12 @@ function Home() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
-              <p className="text-sm sm:text-base md:text-lg leading-relaxed m-0 opacity-90">
+              <p className="text-xs sm:text-sm leading-relaxed m-0 opacity-90">
                 {content?.description || 'An advanced AI-powered platform that analyzes market data, demographics, and demand patterns to identify untapped business opportunities. Perfect for entrepreneurs, investors, and business strategists looking for data-driven insights.'}
               </p>
         </motion.div>
-        <motion.div 
-          className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-6 mb-12"
+<motion.div 
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.3 }}
@@ -105,7 +105,7 @@ function Home() {
           </motion.div>
         </motion.div>
         <motion.div 
-          className="flex flex-wrap justify-center gap-4 mt-8"
+          className="flex flex-col sm:flex-row justify-center gap-4 mt-8"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
