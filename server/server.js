@@ -4,6 +4,7 @@ const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const morgan = require('morgan');
 const dotenv = require('dotenv');
+const cookieParser = require('cookie-parser');
 const path = require('path');
 
 dotenv.config({ path: path.join(__dirname, '.env') });
@@ -21,15 +22,33 @@ connectDB().catch(err => {
 });
 
 app.use(passport.initialize());
+app.use(cookieParser());
 
 // Start guest user cleanup (only in production, not during tests or on Vercel)
 if (process.env.NODE_ENV !== 'test' && process.env.VERCEL !== '1') {
   const { cleanupGuestUsers } = require('./controllers/authController');
   setInterval(cleanupGuestUsers, 6 * 60 * 60 * 1000);
+} else if (process.env.VERCEL === '1') {
+  // On Vercel, use cron job instead of setInterval
+  const { cleanupGuestUsers } = require('./controllers/authController');
+  // This will be triggered by Vercel cron
+  module.exports.cleanupGuestUsers = cleanupGuestUsers;
 }
 
-app.use(helmet({
-  contentSecurityPolicy: false,
+app.use(morgan('short'));
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+      fontSrc: ["'self'", "https://fonts.gstatic.com"],
+      imgSrc: ["'self'", "data:", "https:"],
+      connectSrc: ["'self'", "https://*.googleapis.com", "https://*.googleusercontent.com"],
+      frameSrc: ["'self'"],
+      objectSrc: ["'none'"],
+      frameAncestors: ["'self'"]
+    }
+  },
   crossOriginEmbedderPolicy: false
 }));
 
@@ -72,8 +91,19 @@ const authLimiter = rateLimit({
 });
 app.use('/api/auth/login', authLimiter);
 app.use('/api/auth/register', authLimiter);
+app.use('/api/auth/forgot-password', authLimiter);
+app.use('/api/auth/reset-password', authLimiter);
+app.use('/api/auth/google', authLimiter);
+app.use('/api/auth/refresh', authLimiter);
 
-app.use(morgan('short'));
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 1000,
+  message: { success: false, message: 'Too many requests, please try again later.' },
+  legacyHeaders: false,
+  validate: false,
+});
+app.use('/api', apiLimiter);
 
 app.use(express.json({ limit: '10kb' }));
 app.use(express.urlencoded({ extended: true, limit: '10kb' }));
@@ -95,6 +125,21 @@ app.use('/api/ai', require('./routes/ai'));
 app.use('/api/history', require('./routes/history'));
 app.use('/api/favorites', require('./routes/favorites'));
 app.use('/api/shares', require('./routes/shares'));
+
+// Health check endpoint
+app.get('/api/health', async (req, res) => {
+  const mongoose = require('mongoose');
+  const dbState = mongoose.connection.readyState;
+  const states = ['disconnected', 'connected', 'connecting', 'disconnecting'];
+  res.json({
+    success: true,
+    status: 'ok',
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime(),
+    mongodb: states[dbState] || 'unknown',
+    env: process.env.NODE_ENV
+  });
+});
 
 app.use(require('./middleware/errorHandler'));
 

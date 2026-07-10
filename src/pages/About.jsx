@@ -190,7 +190,7 @@ function About() {
           >
             <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
               <div className="w-8 sm:w-10 h-8 sm:h-10 rounded-xl bg-red-500/10 flex items-center justify-center">
-                <Target className="text-[#ef4444]" size={18} className="sm:size-22" />
+                <Target className="text-[#ef4444] size-18 sm:size-22" />
               </div>
               <h2 className={`text-lg sm:text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>The Problem</h2>
             </div>
@@ -207,7 +207,7 @@ function About() {
           >
             <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
               <div className="w-8 sm:w-10 h-8 sm:h-10 rounded-xl bg-green-500/10 flex items-center justify-center">
-                <Lightbulb className="text-[#059669]" size={18} className="sm:size-22" />
+                <Lightbulb className="text-[#059669] size-18 sm:size-22" />
               </div>
               <h2 className={`text-lg sm:text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Our Solution</h2>
             </div>
@@ -249,7 +249,7 @@ function About() {
         >
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-4 sm:mb-6 px-3 sm:px-4">
             <div className="flex items-center gap-2 sm:gap-3">
-              <MapPin className="text-[#7c3aed]" size={20} className="sm:size-24" />
+              <MapPin className="text-[#7c3aed] size-20 sm:size-24" />
               <h2 className={`text-lg sm:text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Covered Districts</h2>
             </div>
             <span className={`text-xs sm:text-sm font-bold px-3 sm:px-4 py-1.5 sm:py-2 rounded-full ${isDarkMode ? 'bg-[#7c3aed]/20 text-[#a78bfa]' : 'bg-[#7c3aed]/10 text-[#7c3aed]'}`}>
@@ -283,7 +283,7 @@ function About() {
         >
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-4 sm:mb-6 px-3 sm:px-4">
             <div className="flex items-center gap-2 sm:gap-3">
-              <Zap className="text-[#f59e0b]" size={20} className="sm:size-24" />
+              <Zap className="text-[#f59e0b] size-20 sm:size-24" />
               <h2 className={`text-lg sm:text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Business Categories</h2>
             </div>
             <span className={`text-xs sm:text-sm font-bold px-3 sm:px-4 py-1.5 sm:py-2 rounded-full ${isDarkMode ? 'bg-[#f59e0b]/20 text-[#fbbf24]' : 'bg-[#f59e0b]/10 text-[#d97706]'}`}>

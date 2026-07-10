@@ -25,6 +25,15 @@ const protect = async (req, res, next) => {
   }
 };
 
+// Verify token without requiring it (for optional auth)
+const verifyToken = (token) => {
+  try {
+    return jwt.verify(token, process.env.JWT_SECRET);
+  } catch {
+    return null;
+  }
+};
+
 const admin = (req, res, next) => {
   if (req.user && req.user.role === 'admin') {
     next();
@@ -47,4 +56,4 @@ const optionalAuth = async (req, res, next) => {
   next();
 };
 
-module.exports = { protect, admin, optionalAuth };
+module.exports = { protect, admin, optionalAuth, verifyToken };

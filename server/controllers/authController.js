@@ -1,6 +1,7 @@
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const RefreshToken = require('../models/RefreshToken');
 const logger = require('../utils/logger');
 
 // Clean up old guest users (called periodically)
@@ -19,11 +20,45 @@ const cleanupGuestUsers = async () => {
   }
 };
 
-// Generate JWT Token
-const generateToken = (id) => {
+// Generate JWT Access Token (short-lived: 15 min)
+const generateAccessToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
-    expiresIn: '30d'
+    expiresIn: '15m'
   });
+};
+
+// Generate Refresh Token (long-lived: 30 days, stored in DB)
+const generateRefreshToken = async (userId, userAgent, ip) => {
+  const token = crypto.randomBytes(64).toString('hex');
+  const expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000); // 30 days
+
+  await RefreshToken.create({
+    user: userId,
+    token,
+    expiresAt,
+    userAgent,
+    ip
+  });
+
+  return token;
+};
+
+// Revoke a specific refresh token
+const revokeRefreshToken = async (token) => {
+  await RefreshToken.findOneAndUpdate({ token }, { revoked: true });
+};
+
+// Revoke all refresh tokens for a user
+const revokeAllUserRefreshTokens = async (userId) => {
+  await RefreshToken.updateMany({ user: userId }, { revoked: true });
+};
+
+// Verify refresh token
+const verifyRefreshToken = async (token) => {
+  const refreshTokenDoc = await RefreshToken.findOne({ token, revoked: false });
+  if (!refreshTokenDoc) return null;
+  if (refreshTokenDoc.expiresAt < new Date()) return null;
+  return refreshTokenDoc.user;
 };
 
 // @desc    Register new user
@@ -37,8 +72,19 @@ const registerUser = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Name, email, and password are required' });
     }
 
-    if (password.length < 6) {
-      return res.status(400).json({ success: false, message: 'Password must be at least 6 characters' });
+    // Password strength validation
+    const passwordErrors = [];
+    if (password.length < 8) passwordErrors.push('at least 8 characters');
+    if (!/[A-Z]/.test(password)) passwordErrors.push('one uppercase letter');
+    if (!/[a-z]/.test(password)) passwordErrors.push('one lowercase letter');
+    if (!/[0-9]/.test(password)) passwordErrors.push('one number');
+    if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) passwordErrors.push('one special character');
+
+    if (passwordErrors.length > 0) {
+      return res.status(400).json({
+        success: false,
+        message: `Password must contain: ${passwordErrors.join(', ')}`
+      });
     }
 
     // Check if user exists
@@ -55,13 +101,22 @@ const registerUser = async (req, res) => {
       isGuest: false
     });
 
-    // Generate token
-    const token = generateToken(user._id);
+    // Generate tokens
+    const accessToken = generateAccessToken(user._id);
+    const refreshToken = await generateRefreshToken(user._id, req.get('user-agent'), req.ip);
+
+    // Set refresh token in httpOnly cookie
+    res.cookie('refreshToken', refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days
+    });
 
     res.status(201).json({
       success: true,
       message: 'User registered successfully',
-      token,
+      accessToken,
       user: {
         id: user._id,
         name: user.name,
@@ -94,13 +149,22 @@ const loginUser = async (req, res) => {
       return res.status(401).json({ success: false, message: 'Invalid credentials' });
     }
 
-    // Generate token
-    const token = generateToken(user._id);
+    // Generate tokens
+    const accessToken = generateAccessToken(user._id);
+    const refreshToken = await generateRefreshToken(user._id, req.get('user-agent'), req.ip);
+
+    // Set refresh token in httpOnly cookie
+    res.cookie('refreshToken', refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days
+    });
 
     res.json({
       success: true,
       message: 'Login successful',
-      token,
+      accessToken,
       user: {
         id: user._id,
         name: user.name,
@@ -109,6 +173,80 @@ const loginUser = async (req, res) => {
         avatar: user.avatar
       }
     });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// @desc    Refresh access token
+// @route   POST /api/auth/refresh
+// @access  Public (uses refresh token cookie)
+const refreshAccessToken = async (req, res) => {
+  try {
+    const refreshToken = req.cookies.refreshToken;
+    if (!refreshToken) {
+      return res.status(401).json({ success: false, message: 'No refresh token provided' });
+    }
+
+    const userId = await verifyRefreshToken(refreshToken);
+    if (!userId) {
+      return res.status(401).json({ success: false, message: 'Invalid or expired refresh token' });
+    }
+
+    // Rotate refresh token (revoke old, create new)
+    await revokeRefreshToken(refreshToken);
+    const newRefreshToken = await generateRefreshToken(userId, req.get('user-agent'), req.ip);
+    const accessToken = generateAccessToken(userId);
+
+    res.cookie('refreshToken', newRefreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 30 * 24 * 60 * 60 * 1000
+    });
+
+    res.json({ success: true, accessToken });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// @desc    Logout user
+// @route   POST /api/auth/logout
+// @access  Private
+const logoutUser = async (req, res) => {
+  try {
+    const refreshToken = req.cookies.refreshToken;
+    if (refreshToken) {
+      await revokeRefreshToken(refreshToken);
+    }
+
+    res.clearCookie('refreshToken', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax'
+    });
+
+    res.json({ success: true, message: 'Logged out successfully' });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// @desc    Logout from all devices
+// @route   POST /api/auth/logout-all
+// @access  Private
+const logoutAllDevices = async (req, res) => {
+  try {
+    await revokeAllUserRefreshTokens(req.user._id);
+
+    res.clearCookie('refreshToken', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax'
+    });
+
+    res.json({ success: true, message: 'Logged out from all devices' });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
@@ -128,13 +266,21 @@ const guestLogin = async (req, res) => {
       isGuest: true
     });
 
-    // Generate token
-    const token = generateToken(guestUser._id);
+    // Generate tokens
+    const accessToken = generateAccessToken(guestUser._id);
+    const refreshToken = await generateRefreshToken(guestUser._id, req.get('user-agent'), req.ip);
+
+    res.cookie('refreshToken', refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 30 * 24 * 60 * 60 * 1000
+    });
 
     res.status(201).json({
       success: true,
       message: 'Guest access granted',
-      token,
+      accessToken,
       user: {
         id: guestUser._id,
         name: guestUser.name,
@@ -187,7 +333,22 @@ const updateUserProfile = async (req, res) => {
       user.name = req.body.name || user.name;
       user.email = req.body.email || user.email;
       if (req.body.password) {
-        user.password = req.body.password;
+        // Validate new password strength
+        const password = req.body.password;
+        const passwordErrors = [];
+        if (password.length < 8) passwordErrors.push('at least 8 characters');
+        if (!/[A-Z]/.test(password)) passwordErrors.push('one uppercase letter');
+        if (!/[a-z]/.test(password)) passwordErrors.push('one lowercase letter');
+        if (!/[0-9]/.test(password)) passwordErrors.push('one number');
+        if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) passwordErrors.push('one special character');
+
+        if (passwordErrors.length > 0) {
+          return res.status(400).json({
+            success: false,
+            message: `Password must contain: ${passwordErrors.join(', ')}`
+          });
+        }
+        user.password = password;
       }
       if (req.body.recentSearches) {
         user.recentSearches = req.body.recentSearches;
@@ -226,6 +387,7 @@ const updateUserProfile = async (req, res) => {
 const forgotPassword = async (req, res) => {
   try {
     const { email } = req.body;
+
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(404).json({ success: false, message: 'User not found with that email' });
@@ -269,17 +431,37 @@ const resetPassword = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Invalid or expired token' });
     }
 
-    user.password = req.body.password;
+    // Validate new password strength
+    const password = req.body.password;
+    const passwordErrors = [];
+    if (password.length < 8) passwordErrors.push('at least 8 characters');
+    if (!/[A-Z]/.test(password)) passwordErrors.push('one uppercase letter');
+    if (!/[a-z]/.test(password)) passwordErrors.push('one lowercase letter');
+    if (!/[0-9]/.test(password)) passwordErrors.push('one number');
+    if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) passwordErrors.push('one special character');
+
+    if (passwordErrors.length > 0) {
+      return res.status(400).json({
+        success: false,
+        message: `Password must contain: ${passwordErrors.join(', ')}`
+      });
+    }
+
+    user.password = password;
     user.resetPasswordToken = undefined;
     user.resetPasswordExpire = undefined;
     await user.save();
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '30d' });
+    // Revoke all existing refresh tokens (force re-login)
+    await revokeAllUserRefreshTokens(user._id);
+
+    const accessToken = generateAccessToken(user._id);
+    const refreshToken = await generateRefreshToken(user._id, 'password-reset', 'reset');
 
     res.json({
       success: true,
       message: 'Password reset successful',
-      token,
+      accessToken,
       user: {
         id: user._id,
         name: user.name,
@@ -296,10 +478,14 @@ module.exports = {
   registerUser,
   loginUser,
   guestLogin,
-  generateToken,
+  refreshAccessToken,
+  logoutUser,
+  logoutAllDevices,
   getUserProfile,
   updateUserProfile,
   forgotPassword,
   resetPassword,
-  cleanupGuestUsers
+  cleanupGuestUsers,
+  generateAccessToken,
+  generateRefreshToken
 };

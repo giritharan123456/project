@@ -1,10 +1,25 @@
 const API_BASE_URL = import.meta.env.VITE_API_URL || '/api';
 
+let isRefreshing = false;
+let failedQueue = [];
+
+const processQueue = (error, token = null) => {
+  failedQueue.forEach(prom => {
+    if (error) {
+      prom.reject(error);
+    } else {
+      prom.resolve(token);
+    }
+  });
+  failedQueue = [];
+};
+
 // Helper function to make API calls
 const apiCall = async (endpoint, options = {}) => {
   const token = localStorage.getItem('token');
   
   const defaultOptions = {
+    credentials: 'include', // Include cookies for refresh token
     headers: {
       'Content-Type': 'application/json',
       ...(token && { Authorization: `Bearer ${token}` }),
@@ -28,13 +43,55 @@ const apiCall = async (endpoint, options = {}) => {
 
     clearTimeout(timer);
 
+    if (response.status === 401 && !endpoint.includes('/auth/refresh') && !endpoint.includes('/auth/logout')) {
+      // Try to refresh token
+      if (!isRefreshing) {
+        isRefreshing = true;
+        try {
+          const refreshResponse = await fetch(`${API_BASE_URL}/auth/refresh`, {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' }
+          });
+          if (refreshResponse.ok) {
+            const refreshData = await refreshResponse.json();
+            localStorage.setItem('token', refreshData.accessToken);
+            isRefreshing = false;
+            processQueue(null, refreshData.accessToken);
+            // Retry original request with new token
+            return apiCall(endpoint, options);
+          } else {
+            // Refresh failed, logout
+            throw new Error('Session expired. Please log in again.');
+          }
+        } catch (refreshError) {
+          isRefreshing = false;
+          processQueue(refreshError, null);
+          localStorage.removeItem('token');
+          localStorage.removeItem('user');
+          window.location.href = '/login';
+          throw refreshError;
+        }
+      } else {
+        // Wait for token refresh
+        try {
+          const newToken = await new Promise((resolve, reject) => {
+            failedQueue.push({ resolve, reject });
+          });
+          // Retry with new token
+          return apiCall(endpoint, options);
+        } catch (err) {
+          throw err;
+        }
+      }
+    }
+
     if (!response.ok) {
       let errorMsg = `HTTP error! status: ${response.status}`;
       try {
         const errorData = await response.json();
         errorMsg = errorData.message || errorMsg;
       } catch (e) {
-        // Response body is not JSON, use status-based message
         if (response.status === 401) errorMsg = 'Please log in again.';
         else if (response.status === 429) errorMsg = 'Too many requests. Please wait a moment and try again.';
         else if (response.status >= 500) errorMsg = 'Server error. Please try again later.';

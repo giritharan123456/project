@@ -146,14 +146,14 @@ function Login() {
     <div className={`min-h-screen flex justify-center items-center relative overflow-hidden ${isDarkMode ? 'bg-[#0f172a]' : 'bg-gradient-to-br from-[#667eea] to-[#764ba2]'}`}>
       <div className="absolute top-0 left-0 right-0 bottom-0 z-0">
         <div className="relative w-full h-full">
-          <div className="absolute rounded-full opacity-10 animate-[float_6s_ease-in-out_infinite] bg-white w-[300px] h-[300px] -top-[100px] -left-[100px]" style={{ animationDelay: '0s' }}></div>
-          <div className="absolute rounded-full opacity-10 animate-[float_6s_ease-in-out_infinite] bg-white w-[200px] h-[200px] -bottom-[50px] -right-[50px]" style={{ animationDelay: '2s' }}></div>
-          <div className="absolute rounded-full opacity-10 animate-[float_6s_ease-in-out_infinite] bg-white w-[150px] h-[150px] top-1/2 right-[20%]" style={{ animationDelay: '4s' }}></div>
+          <div className="absolute rounded-full opacity-10 animate-[float_6s_ease-in-out_infinite] bg-white w-[300px] h-[300px] -top-[100px] -left-[100px] sm:w-[400px] sm:h-[400px]" style={{ animationDelay: '0s' }}></div>
+          <div className="absolute rounded-full opacity-10 animate-[float_6s_ease-in-out_infinite] bg-white w-[200px] h-[200px] -bottom-[50px] -right-[50px] sm:w-[300px] sm:h-[300px]" style={{ animationDelay: '2s' }}></div>
+          <div className="absolute rounded-full opacity-10 animate-[float_6s_ease-in-out_infinite] bg-white w-[150px] h-[150px] top-1/2 right-[20%] sm:w-[200px] sm:h-[200px]" style={{ animationDelay: '4s' }}></div>
         </div>
       </div>
 
       <motion.div
-        className={`relative z-10 rounded-3xl p-4 sm:p-6 lg:p-10 w-full max-w-[450px] m-3 sm:m-4 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)] ${isDarkMode ? 'bg-[#1e293b]' : 'bg-white'}`}
+        className={`relative z-10 rounded-3xl p-4 sm:p-6 lg:p-10 w-full max-w-[450px] m-2 sm:m-4 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)] ${isDarkMode ? 'bg-[#1e293b]' : 'bg-white'}`}
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}

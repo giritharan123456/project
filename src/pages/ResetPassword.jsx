@@ -50,60 +50,60 @@ function ResetPassword() {
   };
 
   return (
-    <div className="min-h-screen flex justify-center items-center relative overflow-hidden bg-gradient-to-br from-[#667eea] to-[#764ba2]">
+    <div className="min-h-screen flex justify-center items-center relative overflow-hidden bg-gradient-to-br from-[#667eea] to-[#764ba2] py-4 sm:py-8 px-2 sm:px-4">
       <motion.div
-        className={`relative z-10 rounded-3xl p-6 sm:p-10 w-full max-w-[450px] m-4 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)] ${isDarkMode ? 'bg-[#1e293b]' : 'bg-white'}`}
+        className={`relative z-10 rounded-3xl p-4 sm:p-6 lg:p-8 w-full max-w-[450px] m-2 sm:m-4 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)] ${isDarkMode ? 'bg-[#1e293b]' : 'bg-white'}`}
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold mb-2 bg-gradient-to-r from-[#667eea] to-[#764ba2] bg-clip-text text-transparent">
+        <div className="text-center mb-6 sm:mb-8">
+          <h1 className="text-2xl sm:text-3xl font-bold mb-2 bg-gradient-to-r from-[#667eea] to-[#764ba2] bg-clip-text text-transparent">
             Reset Password
           </h1>
-          <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-[#666]'}`}>Enter your new password</p>
+          <p className={`text-xs sm:text-sm ${isDarkMode ? 'text-gray-400' : 'text-[#666]'}`}>Enter your new password</p>
         </div>
 
         {success && (
-          <div className={`mb-6 p-3 rounded-lg text-sm flex items-center gap-2 ${isDarkMode ? 'bg-green-900/30 border border-green-800 text-green-300' : 'bg-green-50 border border-green-200 text-green-600'}`}>
+          <div className={`mb-4 sm:mb-6 p-3 rounded-lg text-xs sm:text-sm flex items-center gap-2 ${isDarkMode ? 'bg-green-900/30 border border-green-800 text-green-300' : 'bg-green-50 border border-green-200 text-green-600'}`}>
             <CheckCircle size={16} /> Password reset successful! Redirecting to login...
           </div>
         )}
 
         {error && (
-          <div className={`mb-6 p-3 rounded-lg text-sm flex items-center gap-2 ${isDarkMode ? 'bg-red-900/30 border border-red-800 text-red-300' : 'bg-red-50 border border-red-200 text-red-600'}`}>
+          <div className={`mb-4 sm:mb-6 p-3 rounded-lg text-xs sm:text-sm flex items-center gap-2 ${isDarkMode ? 'bg-red-900/30 border border-red-800 text-red-300' : 'bg-red-50 border border-red-200 text-red-600'}`}>
             <AlertCircle size={16} /> {error}
           </div>
         )}
 
         {!success && (
-          <form className="flex flex-col gap-5 mb-6" onSubmit={handleSubmit}>
-            <div className="flex flex-col gap-2">
-              <label className={`text-sm font-semibold ${isDarkMode ? 'text-gray-200' : 'text-[#333]'}`}>New Password</label>
+          <form className="flex flex-col gap-4 sm:gap-5 mb-6" onSubmit={handleSubmit}>
+            <div className="flex flex-col gap-1.5 sm:gap-2">
+              <label className={`text-xs sm:text-sm font-semibold ${isDarkMode ? 'text-gray-200' : 'text-[#333]'}`}>New Password</label>
               <div className="relative">
-                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-[#999]" size={20} />
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-[#999] size-18 sm:size-20" />
                 <input type="password" value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Enter new password" required
-                  className={`w-full pl-12 pr-4 py-3.5 border-2 rounded-xl text-base outline-none focus:border-[#667eea] placeholder:text-[#999] ${isDarkMode ? 'bg-[#0f172a] border-[#334155] text-white' : 'border-[#e0e0e0]'}`}
+                  className={`w-full pl-9 pr-3 sm:pr-4 py-2.5 sm:py-3 border-2 rounded-xl text-sm sm:text-base outline-none focus:border-[#667eea] placeholder:text-[#999] ${isDarkMode ? 'bg-[#0f172a] border-[#334155] text-white' : 'border-[#e0e0e0]'}`}
                 />
               </div>
             </div>
 
-            <div className="flex flex-col gap-2">
-              <label className={`text-sm font-semibold ${isDarkMode ? 'text-gray-200' : 'text-[#333]'}`}>Confirm Password</label>
+            <div className="flex flex-col gap-1.5 sm:gap-2">
+              <label className={`text-xs sm:text-sm font-semibold ${isDarkMode ? 'text-gray-200' : 'text-[#333]'}`}>Confirm Password</label>
               <div className="relative">
-                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-[#999]" size={20} />
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-[#999] size-18 sm:size-20" />
                 <input type="password" value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   placeholder="Confirm new password" required
-                  className={`w-full pl-12 pr-4 py-3.5 border-2 rounded-xl text-base outline-none focus:border-[#667eea] placeholder:text-[#999] ${isDarkMode ? 'bg-[#0f172a] border-[#334155] text-white' : 'border-[#e0e0e0]'}`}
+                  className={`w-full pl-9 pr-3 sm:pr-4 py-2.5 sm:py-3 border-2 rounded-xl text-sm sm:text-base outline-none focus:border-[#667eea] placeholder:text-[#999] ${isDarkMode ? 'bg-[#0f172a] border-[#334155] text-white' : 'border-[#e0e0e0]'}`}
                 />
               </div>
             </div>
 
             <button type="submit" disabled={loading}
-              className="py-4 bg-gradient-to-r from-[#667eea] to-[#764ba2] text-white border-none rounded-xl text-base font-semibold cursor-pointer transition-all duration-300 shadow-[0_4px_15px_rgba(102,126,234,0.3)] hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="py-3 sm:py-4 bg-gradient-to-r from-[#667eea] to-[#764ba2] text-white border-none rounded-xl text-sm sm:text-base font-semibold cursor-pointer transition-all duration-300 shadow-[0_4px_15px_rgba(102,126,234,0.3)] hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? 'Resetting...' : 'Reset Password'}
             </button>
@@ -111,8 +111,8 @@ function ResetPassword() {
         )}
 
         <div className="text-center">
-          <Link to="/login" className="text-[#667eea] no-underline font-semibold text-sm inline-flex items-center gap-1 hover:text-[#764ba2]">
-            <ArrowLeft size={16} /> Back to Login
+          <Link to="/login" className="text-[#667eea] no-underline font-semibold text-xs sm:text-sm inline-flex items-center gap-1 hover:text-[#764ba2]">
+            <ArrowLeft size={14} className="sm:size-16" /> Back to Login
           </Link>
         </div>
       </motion.div>

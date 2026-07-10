@@ -100,7 +100,7 @@ function Signup() {
             
             <div className={`relative p-8 sm:p-12 rounded-3xl border-2 backdrop-blur-xl ${isDarkMode ? 'bg-[#1e293b] border-[#2563eb]' : 'bg-[#ffffff] border-[#2563eb]'}`}>
               <div className="flex items-center gap-3 mb-8">
-                <Target className="text-[#2563eb]" size={32} className="sm:size-40" />
+                <Target className="text-[#2563eb] size-32 sm:size-40" />
                 <div>
                   <h1 className={`text-2xl sm:text-3xl font-bold bg-gradient-to-r from-[#2563eb] to-[#7c3aed] bg-clip-text text-transparent`}>
                     MarketVision AI
@@ -114,7 +114,7 @@ function Signup() {
               <div className="space-y-5 sm:space-y-6">
                 <div className="flex items-start gap-3 sm:gap-4">
                   <div className="w-10 sm:w-12 h-10 sm:h-12 rounded-xl bg-gradient-to-r from-[#2563eb] to-[#7c3aed] flex items-center justify-center flex-shrink-0">
-                    <Zap className="text-white" size={20} className="sm:size-24" />
+                    <Zap className="text-white size-20 sm:size-24" />
                   </div>
                   <div>
                     <h3 className={`font-bold mb-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>AI-Powered Insights</h3>
@@ -126,7 +126,7 @@ function Signup() {
 
                 <div className="flex items-start gap-3 sm:gap-4">
                   <div className="w-10 sm:w-12 h-10 sm:h-12 rounded-xl bg-gradient-to-r from-[#2563eb] to-[#7c3aed] flex items-center justify-center flex-shrink-0">
-                    <Shield className="text-white" size={20} className="sm:size-24" />
+                    <Shield className="text-white size-20 sm:size-24" />
                   </div>
                   <div>
                     <h3 className={`font-bold mb-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Data-Driven Decisions</h3>
@@ -138,7 +138,7 @@ function Signup() {
 
                 <div className="flex items-start gap-3 sm:gap-4">
                   <div className="w-10 sm:w-12 h-10 sm:h-12 rounded-xl bg-gradient-to-r from-[#2563eb] to-[#7c3aed] flex items-center justify-center flex-shrink-0">
-                    <Globe className="text-white" size={20} className="sm:size-24" />
+                    <Globe className="text-white size-20 sm:size-24" />
                   </div>
                   <div>
                     <h3 className={`font-bold mb-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Comprehensive Coverage</h3>
@@ -186,7 +186,7 @@ function Signup() {
                   Full Name
                 </label>
                 <div className="relative">
-                  <User className={`absolute left-3 top-1/2 -translate-y-1/2 ${isDarkMode ? 'text-[#f1f5f9] opacity-50' : 'text-[#1e293b] opacity-50'}`} size={18} className="sm:size-20" />
+                  <User className={`absolute left-3 top-1/2 -translate-y-1/2 ${isDarkMode ? 'text-[#f1f5f9] opacity-50' : 'text-[#1e293b] opacity-50'} size-18 sm:size-20`} />
                   <input
                     type="text"
                     name="name"
@@ -208,7 +208,7 @@ function Signup() {
                   Email Address
                 </label>
                 <div className="relative">
-                  <Mail className={`absolute left-3 top-1/2 -translate-y-1/2 ${isDarkMode ? 'text-[#f1f5f9] opacity-50' : 'text-[#1e293b] opacity-50'}`} size={18} className="sm:size-20" />
+                  <Mail className={`absolute left-3 top-1/2 -translate-y-1/2 ${isDarkMode ? 'text-[#f1f5f9] opacity-50' : 'text-[#1e293b] opacity-50'} size-18 sm:size-20`} />
                   <input
                     type="email"
                     name="email"
@@ -229,11 +229,11 @@ function Signup() {
                 <label className={`block text-xs sm:text-sm font-semibold mb-2 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                   Password
                 </label>
-                <div className="relative">
-                  <Lock className={`absolute left-3 top-1/2 -translate-y-1/2 ${isDarkMode ? 'text-[#f1f5f9] opacity-50' : 'text-[#1e293b] opacity-50'}`} size={18} className="sm:size-20" />
-                  <input
-                    type={showPassword ? 'text' : 'password'}
-                    name="password"
+<div className="relative">
+                    <Lock className={`absolute left-3 top-1/2 -translate-y-1/2 ${isDarkMode ? 'text-[#f1f5f9] opacity-50' : 'text-[#1e293b] opacity-50'} size-18 sm:size-20`} />
+                    <input
+                      type={showPassword ? 'text' : 'password'}
+                      name="password"
                     value={formData.password}
                     onChange={handleChange}
                     placeholder="Create a password"
@@ -258,11 +258,11 @@ function Signup() {
                 <label className={`block text-xs sm:text-sm font-semibold mb-2 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                   Confirm Password
                 </label>
-                <div className="relative">
-                  <Lock className={`absolute left-3 top-1/2 -translate-y-1/2 ${isDarkMode ? 'text-[#f1f5f9] opacity-50' : 'text-[#1e293b] opacity-50'}`} size={18} className="sm:size-20" />
-                  <input
-                    type={showConfirmPassword ? 'text' : 'password'}
-                    name="confirmPassword"
+<div className="relative">
+                    <Lock className={`absolute left-3 top-1/2 -translate-y-1/2 ${isDarkMode ? 'text-[#f1f5f9] opacity-50' : 'text-[#1e293b] opacity-50'} size-18 sm:size-20`} />
+                    <input
+                      type={showConfirmPassword ? 'text' : 'password'}
+                      name="confirmPassword"
                     value={formData.confirmPassword}
                     onChange={handleChange}
                     placeholder="Confirm your password"
@@ -369,7 +369,7 @@ function Signup() {
           {/* Mobile branding */}
           <div className="lg:hidden mt-6 sm:mt-8 text-center">
             <div className="flex items-center justify-center gap-2 mb-3 sm:mb-4">
-              <Target className="text-[#2563eb]" size={28} className="sm:size-32" />
+              <Target className="text-[#2563eb] size-28 sm:size-32" />
               <span className={`text-lg sm:text-xl font-bold bg-gradient-to-r from-[#2563eb] to-[#7c3aed] bg-clip-text text-transparent`}>
                 MarketVision AI
               </span>

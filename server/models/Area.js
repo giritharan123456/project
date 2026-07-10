@@ -102,4 +102,7 @@ const areaSchema = new mongoose.Schema({
   }
 });
 
+areaSchema.index({ district: 1, pincode: 1 });
+areaSchema.index({ name: 'text', pincode: 'text' });
+
 module.exports = mongoose.model('Area', areaSchema);

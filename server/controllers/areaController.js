@@ -71,7 +71,10 @@ const getAreaByPincode = async (req, res) => {
 // @access  Public
 const getAllAreas = async (req, res) => {
   try {
-    const { district, limit, search } = req.query;
+    const { district, limit, search, page } = req.query;
+    const pageNum = Math.max(parseInt(page) || 1, 1);
+    const limitNum = Math.min(Math.max(parseInt(limit) || 50, 1), 100);
+    const skip = (pageNum - 1) * limitNum;
     let query = {};
     
     if (district) {
@@ -88,13 +91,21 @@ const getAllAreas = async (req, res) => {
       ];
     }
 
-    const areas = await Area.find(query)
-      .populate('district', 'name')
-      .limit(parseInt(limit) || 0);
-      
+    const [areas, total] = await Promise.all([
+      Area.find(query)
+        .populate('district', 'name')
+        .sort({ name: 1 })
+        .skip(skip)
+        .limit(limitNum),
+      Area.countDocuments(query)
+    ]);
+    
     res.json({
       success: true,
       count: areas.length,
+      total,
+      page: pageNum,
+      totalPages: Math.ceil(total / limitNum),
       data: areas
     });
   } catch (error) {

@@ -9,21 +9,39 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Check if user is logged in from localStorage
-    try {
-      const token = localStorage.getItem('token');
-      const storedUser = localStorage.getItem('user');
-      if (token && storedUser) {
-        const parsedUser = JSON.parse(storedUser);
-        setIsAuthenticated(true);
-        setUser(parsedUser);
+    // Check if user is logged in from localStorage and validate token with server
+    const initAuth = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const storedUser = localStorage.getItem('user');
+        if (token && storedUser) {
+          // Validate token with server
+          try {
+            const response = await authAPI.getProfile();
+            if (response.success) {
+              const parsedUser = response.user;
+              setIsAuthenticated(true);
+              setUser(parsedUser);
+              localStorage.setItem('user', JSON.stringify(parsedUser));
+            } else {
+              // Token invalid, clear localStorage
+              localStorage.removeItem('token');
+              localStorage.removeItem('user');
+            }
+          } catch {
+            // Token validation failed, clear localStorage
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+          }
+        }
+      } catch (error) {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
       }
-    } catch (error) {
-      // Clear corrupted data
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
-    }
-    setLoading(false);
+      setLoading(false);
+    };
+
+    initAuth();
   }, []);
 
   const login = async (email, password) => {
