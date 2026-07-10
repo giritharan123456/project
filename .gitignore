@@ -43,3 +43,5 @@ coverage/
 .npm-cache/
 .tmp/
 server/server.log
+
+.vercel
