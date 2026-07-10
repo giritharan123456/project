@@ -36,6 +36,7 @@ if (process.env.NODE_ENV !== 'test' && process.env.VERCEL !== '1') {
 }
 
 app.use(morgan('short'));
+app.use(helmet({
   contentSecurityPolicy: {
     directives: {
       defaultSrc: ["'self'"],

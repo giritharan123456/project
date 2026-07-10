@@ -1,8 +1,25 @@
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
+const nodemailer = require('nodemailer');
 const User = require('../models/User');
 const RefreshToken = require('../models/RefreshToken');
 const logger = require('../utils/logger');
+
+// Create nodemailer transport
+const createTransport = () => {
+  if (process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS) {
+    return nodemailer.createTransport({
+      host: process.env.SMTP_HOST,
+      port: parseInt(process.env.SMTP_PORT || '587'),
+      secure: parseInt(process.env.SMTP_PORT || '587') === 465,
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS,
+      },
+    });
+  }
+  return null;
+};
 
 // Clean up old guest users (called periodically)
 const cleanupGuestUsers = async () => {
@@ -396,20 +413,42 @@ const forgotPassword = async (req, res) => {
     const resetToken = user.getResetPasswordToken();
     await user.save({ validateBeforeSave: false });
 
-    // In development, return the token directly (no email service configured)
-    if (process.env.NODE_ENV === 'development') {
-      return res.json({
-        success: true,
-        message: 'Password reset token generated',
-        resetToken,
-        resetUrl: `${process.env.FRONTEND_URL || 'http://localhost:5173'}/reset-password/${resetToken}`
-      });
+    const resetUrl = `${process.env.FRONTEND_URL || 'http://localhost:5173'}/reset-password/${resetToken}`;
+
+    const transport = createTransport();
+    if (transport) {
+      try {
+        await transport.sendMail({
+          from: process.env.SMTP_FROM || process.env.SMTP_USER,
+          to: user.email,
+          subject: 'MarketVision AI - Password Reset Request',
+          html: `
+            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+              <h2 style="color: #2563eb;">Password Reset Request</h2>
+              <p>Hello ${user.name},</p>
+              <p>You requested a password reset for your MarketVision AI account.</p>
+              <p>Click the button below to reset your password. This link expires in 10 minutes.</p>
+              <a href="${resetUrl}" style="display: inline-block; background: #2563eb; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; margin: 16px 0;">Reset Password</a>
+              <p style="color: #666; font-size: 14px;">If you didn't request this, please ignore this email. Your password will remain unchanged.</p>
+              <hr style="border: none; border-top: 1px solid #eee; margin: 24px 0;">
+              <p style="color: #999; font-size: 12px;">MarketVision AI - Market Intelligence Platform</p>
+            </div>
+          `,
+        });
+        logger.info(`Password reset email sent to ${user.email}`);
+      } catch (emailError) {
+        logger.error('Failed to send reset email:', emailError.message);
+        // Still return success to not reveal whether email exists
+      }
+      transport.close();
     }
 
-    // In production, would send email here (requires SMTP config)
+    // Always return success message (don't reveal whether email exists)
     res.json({
       success: true,
-      message: 'If that email is registered, a password reset link has been sent.'
+      message: 'If that email is registered, a password reset link has been sent.',
+      // Include resetUrl in dev mode for testing
+      ...(process.env.NODE_ENV !== 'production' && { resetToken, resetUrl })
     });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });

@@ -38,7 +38,6 @@ const shareSchema = new mongoose.Schema({
   timestamps: true
 });
 
-shareSchema.index({ shareToken: 1 });
 shareSchema.index({ user: 1, createdAt: -1 });
 
 module.exports = mongoose.model('Share', shareSchema);

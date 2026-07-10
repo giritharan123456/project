@@ -83,7 +83,7 @@ const areaValidation = [
   handleValidationErrors
 ];
 
-const districtValidation = [
+const districtCreateValidation = [
   body('name').trim().isLength({ min: 2, max: 50 }).withMessage('District name required'),
   body('state').trim().isLength({ min: 2, max: 50 }).withMessage('State required'),
   body('population').optional().isInt({ min: 0 }).withMessage('Population must be positive'),
@@ -106,7 +106,7 @@ module.exports = {
   districtValidation,
   areaSearchValidation,
   areaValidation,
-  districtValidation,
+  districtCreateValidation,
   comparisonValidation,
   handleValidationErrors
 };
