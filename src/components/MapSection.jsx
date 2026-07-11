@@ -3,9 +3,9 @@ import { MapContainer, TileLayer, Popup, CircleMarker } from 'react-leaflet';
 import { useTheme } from '../contexts/ThemeContext';
 import { motion } from 'framer-motion';
 import { MapPin, TrendingUp, Users, BarChart3, Maximize2 } from 'lucide-react';
+import { averageOfValues } from '../utils/dataUtils';
 import 'leaflet/dist/leaflet.css';
 import EmptyState from './EmptyState';
-import { averageOfValues } from '../utils/dataUtils';
 
 function MapSection({ pincodeData, selectedDistrict }) {
   const { isDarkMode } = useTheme();
@@ -117,7 +117,7 @@ function MapSection({ pincodeData, selectedDistrict }) {
             maxZoom={20}
           />
           {validPincodeData.map((pincode, index) => {
-            const avgGapScore = pincode.opportunityScore ?? 0;
+            const avgGapScore = pincode.opportunityScore ?? averageOfValues(pincode.marketGapScores) ?? 0;
             const colors = getGapColor(avgGapScore);
             const radius = getRadiusByPopulation(pincode.population);
             

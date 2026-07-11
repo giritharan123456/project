@@ -85,7 +85,6 @@ function Dashboard() {
 
   useEffect(() => {
     let cancelled = false;
-    const controller = new AbortController();
 
     const fetchAll = async () => {
       setLoading(true);
@@ -104,8 +103,8 @@ function Dashboard() {
           if (districtId) setSelectedDistrict(districtId);
         }
 
-        // Step 3: load areas for that district
-        if (districtId) {
+        // Step 3: load areas for that district (only if no search is active)
+        if (districtId && !searchParams.get('search')) {
           const areasRes = await areasAPI.getAll({ district: districtId, limit: 50 });
           if (!cancelled) setAreas(areasRes.data || []);
         }
@@ -117,7 +116,7 @@ function Dashboard() {
     };
 
     fetchAll();
-    return () => { cancelled = true; controller.abort(); };
+    return () => { cancelled = true; };
   }, []);
 
   // Re-fetch areas when district changes (after initial load)
@@ -313,6 +312,8 @@ function Dashboard() {
                   loading={searchLoading}
                   error={searchError}
                   onClose={() => {
+                    userClearedRef.current = true;
+                    sessionStorage.setItem('dashboardSearchCleared', 'true');
                     setSelectedPincode(null);
                     setSearchPincode('');
                     setSearchError(null);
@@ -328,7 +329,7 @@ function Dashboard() {
             <HeroBanner pincodeData={displayData} selectedDistrict={currentDistrictName} />
           </motion.div>
 
-          {!hasAreaData(displayData) && !loading && (
+          {!hasAreaData(displayData) && !loading && !searchLoading && (
             <motion.div {...fadeIn(0.1)}>
               <EmptyState type="noData" message="Select a district and search a pincode to view market opportunities." />
             </motion.div>

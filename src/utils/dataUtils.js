@@ -105,7 +105,10 @@ export function getBusinessCategoriesFromArea(area) {
 
 /** Average of numeric values in an object; null if empty */
 export function averageOfValues(obj) {
-  const values = Object.values(toPlainObject(obj)).map(Number).filter((v) => !isNaN(v));
+  const values = Object.values(toPlainObject(obj))
+    .filter(v => v != null && v !== '')
+    .map(Number)
+    .filter(v => !isNaN(v) && isFinite(v));
   if (values.length === 0) return null;
   return values.reduce((a, b) => a + b, 0) / values.length;
 }
