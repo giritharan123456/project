@@ -3,6 +3,8 @@ import { motion } from 'framer-motion';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, AreaChart, Area } from 'recharts';
 import { useTheme } from '../contexts/ThemeContext';
 import { useToast } from '../contexts/ToastContext';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 import ChartTooltip from './ChartTooltip';
 
 function AdvancedForecasting({ pincodeData, businessCategories }) {
@@ -17,53 +19,64 @@ function AdvancedForecasting({ pincodeData, businessCategories }) {
     }
 
     try {
-      let reportContent = `
-MARKETVISION AI - MARKET GAP FORECASTING REPORT
-Generated: ${new Date().toLocaleDateString()}
+      const doc = new jsPDF();
+      const pageWidth = doc.internal.pageSize.getWidth();
+      const margin = 14;
 
-FORECAST SUMMARY
-===============
-Total Pincodes Analyzed: ${pincodeData.length}
-Total Population: ${pincodeData.reduce((sum, p) => sum + (Number(p.population) || 0), 0).toLocaleString()}
-Average Growth Rate: ${(pincodeData.reduce((sum, p) => sum + (Number(p.populationGrowth) || 0), 0) / (pincodeData.length || 1)).toFixed(2)}%
+      doc.setFillColor(37, 99, 235);
+      doc.rect(0, 0, pageWidth, 24, 'F');
+      doc.setFontSize(16);
+      doc.setTextColor(255, 255, 255);
+      doc.text('MarketVision AI — Forecast Report', margin, 10);
+      doc.setFontSize(9);
+      doc.text(`Generated: ${new Date().toLocaleDateString('en-IN')}`, margin, 17);
 
-BUSINESS CATEGORIES
-==================
-`;
+      const totalPop = pincodeData.reduce((sum, p) => sum + (Number(p.population) || 0), 0);
+      const avgGrowth = (pincodeData.reduce((sum, p) => sum + (Number(p.populationGrowth) || 0), 0) / (pincodeData.length || 1)).toFixed(2);
 
-      businessCategories.forEach(cat => {
-        reportContent += `${cat.name}: Demand=${cat.demand}, Supply=${cat.supply}, Gap=${cat.gap}\n`;
+      autoTable(doc, {
+        startY: 30,
+        head: [['Metric', 'Value']],
+        body: [
+          ['Pincodes Analyzed', String(pincodeData.length)],
+          ['Total Population', totalPop.toLocaleString()],
+          ['Average Growth Rate', `${avgGrowth}%`],
+        ],
+        styles: { fontSize: 9, cellPadding: 3 },
+        headStyles: { fillColor: [37, 99, 235], textColor: 255 },
+        margin: { left: margin, right: margin },
       });
 
-      reportContent += `
-PINCODE DETAILS
-==============
-`;
-
-      pincodeData.forEach((pincode, index) => {
-        reportContent += `
-${index + 1}. ${pincode.area} (${pincode.pincode})
-   Population: ${(pincode.population || 0).toLocaleString()}
-   Growth Rate: ${Number(pincode.populationGrowth || 0).toFixed(2)}%
-   Income Level: ${pincode.incomeLevel || 'N/A'}
-   Urban Development: ${pincode.urbanDevelopment || 'N/A'}
-
-   Category Analysis:
-`;
-        businessCategories.forEach(cat => {
-          reportContent += `   ${cat.name}: Gap=${pincode.marketGapScores[cat.name] || 0}, Demand=${pincode.demandScores[cat.name] || 0}, Competitors=${pincode.competitors[cat.name] || 0}\n`;
+      if (businessCategories && businessCategories.length > 0) {
+        autoTable(doc, {
+          startY: doc.lastAutoTable.finalY + 10,
+          head: [['Category', 'Demand', 'Supply', 'Gap']],
+          body: businessCategories.map(cat => [cat.name, String(cat.demand), String(cat.supply), String(cat.gap)]),
+          styles: { fontSize: 8, cellPadding: 2 },
+          headStyles: { fillColor: [37, 99, 235], textColor: 255 },
+          alternateRowStyles: { fillColor: [245, 247, 250] },
+          margin: { left: margin, right: margin },
         });
+      }
+
+      autoTable(doc, {
+        startY: doc.lastAutoTable.finalY + 10,
+        head: [['Area', 'Pincode', 'Population', 'Growth %', 'Income']],
+        body: pincodeData.map(p => [
+          (p.area || '').substring(0, 25),
+          p.pincode || '',
+          (Number(p.population) || 0).toLocaleString(),
+          `${Number(p.populationGrowth || 0).toFixed(2)}%`,
+          p.incomeLevel || '-',
+        ]),
+        styles: { fontSize: 7, cellPadding: 2 },
+        headStyles: { fillColor: [37, 99, 235], textColor: 255 },
+        alternateRowStyles: { fillColor: [245, 247, 250] },
+        margin: { left: margin, right: margin },
       });
 
-      const blob = new Blob([reportContent], { type: 'text/plain' });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = `market-gap-forecast-report.txt`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      URL.revokeObjectURL(url);
+      doc.save('market-gap-forecast-report.pdf');
+      addToast('Forecast PDF exported successfully', 'success');
     } catch (error) {
       addToast('Report export failed', 'error');
     }
