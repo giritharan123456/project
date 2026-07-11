@@ -34,7 +34,7 @@ function ForgotPassword() {
   };
 
   return (
-    <div className="min-h-screen flex justify-center items-center relative overflow-hidden bg-gradient-to-br from-[#667eea] to-[#764ba2] py-4 sm:py-8 px-2 sm:px-4">
+    <div className={`min-h-screen flex justify-center items-center relative overflow-hidden bg-gradient-to-br ${isDarkMode ? 'from-[#1e3a5f] to-[#1e293b]' : 'from-[#667eea] to-[#764ba2]'} py-4 sm:py-8 px-2 sm:px-4`}>
       <motion.div
         className={`relative z-10 rounded-3xl p-4 sm:p-6 lg:p-8 w-full max-w-[450px] m-2 sm:m-4 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)] ${isDarkMode ? 'bg-[#1e293b]' : 'bg-white'}`}
         initial={{ opacity: 0, y: 20 }}

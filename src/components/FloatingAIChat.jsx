@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useTheme } from '../contexts/ThemeContext';
 import { MessageCircle, X, Send, Bot, User } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -13,12 +13,18 @@ const FloatingAIChat = () => {
   ]);
   const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef(null);
+  const mountedRef = useRef(true);
+
+  useEffect(() => {
+    mountedRef.current = true;
+    return () => { mountedRef.current = false; };
+  }, []);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  const handleSendMessage = async () => {
+  const handleSendMessage = useCallback(async () => {
     const msg = message.trim();
     if (!msg || loading) return;
 
@@ -29,14 +35,16 @@ const FloatingAIChat = () => {
 
     try {
       const res = await aiAPI.chat(msg);
+      if (!mountedRef.current) return;
       const reply = res.data?.response || 'Sorry, I could not process that request.';
       setMessages(prev => [...prev, { id: Date.now() + 1, text: reply, isBot: true }]);
-    } catch (error) {
+    } catch {
+      if (!mountedRef.current) return;
       setMessages(prev => [...prev, { id: Date.now() + 1, text: 'Connection error. Please try again.', isBot: true }]);
     } finally {
-      setLoading(false);
+      if (mountedRef.current) setLoading(false);
     }
-  };
+  }, [message, loading]);
 
   const suggestions = ['Which area is best for business?', 'Show top 5 opportunities', 'Chennai market data', 'Competition analysis', 'Population demographics', 'Investment guidance'];
 

@@ -40,6 +40,10 @@ export const ToastProvider = ({ children }) => {
   };
 
   const removeToast = (id) => {
+    if (timeoutsRef.current[id]) {
+      clearTimeout(timeoutsRef.current[id]);
+      delete timeoutsRef.current[id];
+    }
     setToasts(prev => prev.filter(toast => toast.id !== id));
   };
 

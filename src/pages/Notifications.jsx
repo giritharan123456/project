@@ -84,8 +84,8 @@ function Notifications() {
       (filter === 'unread' && !n.read) ||
       (filter === 'read' && n.read);
     const matchSearch =
-      n.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      n.message.toLowerCase().includes(searchQuery.toLowerCase());
+      (n.title || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (n.message || '').toLowerCase().includes(searchQuery.toLowerCase());
     return matchFilter && matchSearch;
   });
 

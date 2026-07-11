@@ -85,7 +85,7 @@ function ExecutiveSummary({ pincodeData }) {
     if (topArea) {
       topActions.push({
         action: `Explore ${topArea.area}`,
-        detail: `Highest market gap score: ${topArea.avgGap.toFixed(0)}`,
+        detail: `Highest market gap score: ${(topArea.avgGap ?? 0).toFixed(0)}`,
         color: 'blue',
         path: '/leaderboard',
       });

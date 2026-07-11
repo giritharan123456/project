@@ -129,13 +129,13 @@ function TopPerformers({ pincodeData }) {
                   <td className="px-2.5 py-1.5 hidden md:table-cell">
                     <div className={`flex items-center gap-1 font-bold ${growthInfo.color}`}>
                       <GrowthIcon size={12} />
-                      {area.growth.toFixed(2)}%
+                      {(area.growth ?? 0).toFixed(2)}%
                     </div>
                   </td>
                   <td className="px-2.5 py-1.5">
-                    <span className={`font-extrabold ${getScoreColor(area.gap)}`}>{area.gap.toFixed(0)}</span>
+                    <span className={`font-extrabold ${getScoreColor(area.gap)}`}>{(area.gap ?? 0).toFixed(0)}</span>
                   </td>
-                  <td className={`px-3 py-2 font-bold hidden lg:table-cell ${b('text-slate-300', 'text-slate-600')}`}>{area.demand.toFixed(0)}</td>
+                  <td className={`px-3 py-2 font-bold hidden lg:table-cell ${b('text-slate-300', 'text-slate-600')}`}>{(area.demand ?? 0).toFixed(0)}</td>
                   <td className="px-2.5 py-1.5">
                     <span className={`px-2 py-0.5 rounded-md font-extrabold ${
                       Number(area.score) >= 70 ? isDarkMode ? 'bg-emerald-900/30 text-emerald-400' : 'bg-emerald-50 text-emerald-600'

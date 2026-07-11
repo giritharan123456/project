@@ -186,7 +186,7 @@ function DataTable({ pincodeData, onAreaClick, onCompare, compareList, favorites
                             <div className={`p-1.5 rounded-lg ${isDarkMode ? 'bg-[#0f172a]' : 'bg-slate-50'}`}>
                               <span className={`text-[9px] font-bold block ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>Opportunity</span>
                               <span className={`text-[10px] font-extrabold ${row._avgGap >= 65 ? 'text-red-500' : row._avgGap >= 50 ? 'text-amber-500' : 'text-emerald-500'}`}>
-                                {row._avgGap.toFixed(1)}
+                                {(row._avgGap ?? 0).toFixed(1)}
                               </span>
                             </div>
                             <div className={`p-1.5 rounded-lg ${isDarkMode ? 'bg-[#0f172a]' : 'bg-slate-50'}`}>

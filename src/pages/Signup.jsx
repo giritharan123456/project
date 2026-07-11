@@ -288,13 +288,13 @@ function Signup() {
                   Password requirements:
                 </p>
                 <ul className="space-y-1">
-                  <li className={`text-[10px] sm:text-xs flex items-center gap-1.5 ${formData.password.length >= 8 ? 'text-green-500' : 'opacity-50'}`}>
+                  <li key="chars" className={`text-[10px] sm:text-xs flex items-center gap-1.5 ${formData.password.length >= 8 ? 'text-green-500' : 'opacity-50'}`}>
                     <CheckCircle size={10} className="sm:size-12" /> At least 8 characters
                   </li>
-                  <li className={`text-[10px] sm:text-xs flex items-center gap-1.5 ${/[A-Z]/.test(formData.password) ? 'text-green-500' : 'opacity-50'}`}>
+                  <li key="upper" className={`text-[10px] sm:text-xs flex items-center gap-1.5 ${/[A-Z]/.test(formData.password) ? 'text-green-500' : 'opacity-50'}`}>
                     <CheckCircle size={10} className="sm:size-12" /> One uppercase letter
                   </li>
-                  <li className={`text-[10px] sm:text-xs flex items-center gap-1.5 ${/[0-9]/.test(formData.password) ? 'text-green-500' : 'opacity-50'}`}>
+                  <li key="number" className={`text-[10px] sm:text-xs flex items-center gap-1.5 ${/[0-9]/.test(formData.password) ? 'text-green-500' : 'opacity-50'}`}>
                     <CheckCircle size={10} className="sm:size-12" /> One number
                   </li>
                 </ul>

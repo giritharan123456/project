@@ -149,17 +149,21 @@ const getSearchHistory = async (req, res) => {
     }
 
     // Enrich each pincode with area name if available
-    const enriched = await Promise.all(
-      (user.recentSearches || []).slice(0, 20).map(async (pincode, idx) => {
-        const area = await Area.findOne({ pincode }).populate('district', 'name').select('name district');
-        return {
-          id: idx + 1,
-          pincode,
-          areaName: area?.name || pincode,
-          district: area?.district?.name || ''
-        };
-      })
-    );
+    const pincodes = (user.recentSearches || []).slice(0, 20);
+    const areas = await Area.find({ pincode: { $in: pincodes } })
+      .populate('district', 'name')
+      .select('name pincode district');
+    const areaMap = new Map(areas.map(a => [a.pincode, a]));
+
+    const enriched = pincodes.map((pincode, idx) => {
+      const area = areaMap.get(pincode);
+      return {
+        id: idx + 1,
+        pincode,
+        areaName: area?.name || pincode,
+        district: area?.district?.name || ''
+      };
+    });
 
     res.json({
       success: true,

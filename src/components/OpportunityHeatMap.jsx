@@ -119,7 +119,7 @@ function OpportunityHeatMap({ pincodeData }) {
       <div className="grid grid-cols-[repeat(auto-fill,minmax(120px,1fr))] gap-3">
         {heatmapData.map((data, index) => (
           <motion.div
-            key={data.pincode}
+            key={data.pincode || index}
             className="p-3 rounded-lg cursor-pointer transition-all duration-300 hover:scale-105"
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}

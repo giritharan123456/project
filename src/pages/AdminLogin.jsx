@@ -23,7 +23,8 @@ function AdminLogin() {
     try {
       const result = await login(formData.email, formData.password);
       if (result.success) {
-        const user = JSON.parse(localStorage.getItem('user'));
+        let user = null;
+        try { user = JSON.parse(localStorage.getItem('user')); } catch { /* ignore */ }
         
         if (user?.role === 'admin') {
           navigate('/admin');
@@ -51,7 +52,7 @@ function AdminLogin() {
   };
 
   return (
-    <div className="min-h-screen flex justify-center items-center relative overflow-hidden bg-gradient-to-br from-red-600 to-red-900 p-3 sm:p-4">
+    <div className={`min-h-screen flex justify-center items-center relative overflow-hidden bg-gradient-to-br ${isDarkMode ? 'from-red-900 to-[#1e293b]' : 'from-red-600 to-red-900'} p-3 sm:p-4`}>
       <div className="absolute top-0 left-0 right-0 bottom-0 z-0">
         <div className="relative w-full h-full">
           <div className="absolute rounded-full opacity-10 animate-[float_6s_ease-in-out_infinite] bg-white w-[150px] h-[150px] sm:w-[300px] sm:h-[300px] -top-[75px] -left-[75px] sm:-top-[100px] sm:-left-[100px]" style={{ animationDelay: '0s' }}></div>
