@@ -82,11 +82,19 @@ function TopPerformers({ pincodeData }) {
         <table className="w-full text-xs">
           <thead>
             <tr className={isDarkMode ? 'bg-[#0f172a]/60' : 'bg-slate-50'}>
-              {['Rank', 'Area', 'Population', 'Growth', 'Gap Score', 'Demand', 'Score'].map(h => (
-                <th key={h} className={`px-2.5 py-1.5 text-left text-xs font-extrabold uppercase tracking-wider ${
+              {[
+                { label: 'Rank', cls: '' },
+                { label: 'Area', cls: '' },
+                { label: 'Population', cls: 'hidden sm:table-cell' },
+                { label: 'Growth', cls: 'hidden md:table-cell' },
+                { label: 'Gap Score', cls: '' },
+                { label: 'Demand', cls: 'hidden lg:table-cell' },
+                { label: 'Score', cls: '' },
+              ].map(h => (
+                <th key={h.label} className={`px-2.5 py-1.5 text-left text-xs font-extrabold uppercase tracking-wider ${h.cls} ${
                   isDarkMode ? 'text-slate-400' : 'text-slate-500'
                 }`}>
-                  {h}
+                  {h.label}
                 </th>
               ))}
             </tr>
@@ -115,10 +123,10 @@ function TopPerformers({ pincodeData }) {
                       <p className={`text-[10px] ${b('text-slate-500', 'text-slate-400')}`}>{area.pincode}</p>
                     </div>
                   </td>
-                  <td className={`px-3 py-2 font-bold ${b('text-slate-300', 'text-slate-600')}`}>
+                  <td className={`px-3 py-2 font-bold hidden sm:table-cell ${b('text-slate-300', 'text-slate-600')}`}>
                     {area.population > 1000 ? `${(area.population / 1000).toFixed(0)}K` : area.population}
                   </td>
-                  <td className="px-2.5 py-1.5">
+                  <td className="px-2.5 py-1.5 hidden md:table-cell">
                     <div className={`flex items-center gap-1 font-bold ${growthInfo.color}`}>
                       <GrowthIcon size={12} />
                       {area.growth.toFixed(2)}%
@@ -127,7 +135,7 @@ function TopPerformers({ pincodeData }) {
                   <td className="px-2.5 py-1.5">
                     <span className={`font-extrabold ${getScoreColor(area.gap)}`}>{area.gap.toFixed(0)}</span>
                   </td>
-                  <td className={`px-3 py-2 font-bold ${b('text-slate-300', 'text-slate-600')}`}>{area.demand.toFixed(0)}</td>
+                  <td className={`px-3 py-2 font-bold hidden lg:table-cell ${b('text-slate-300', 'text-slate-600')}`}>{area.demand.toFixed(0)}</td>
                   <td className="px-2.5 py-1.5">
                     <span className={`px-2 py-0.5 rounded-md font-extrabold ${
                       Number(area.score) >= 70 ? isDarkMode ? 'bg-emerald-900/30 text-emerald-400' : 'bg-emerald-50 text-emerald-600'

@@ -292,16 +292,16 @@ function Dashboard() {
 
         {/* ═══ TOP NAV BAR ═══ */}
         <div className={`sticky top-0 z-40 border-b ${isDarkMode ? 'bg-[#1e293b]/95 backdrop-blur border-[#334155]' : 'bg-white/95 backdrop-blur border-slate-200'}`}>
-          <div className="max-w-[1600px] mx-auto px-2 sm:px-4 md:px-6 py-2 sm:py-2.5 flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <span className="text-sm sm:text-lg font-extrabold bg-gradient-to-r from-blue-600 to-violet-600 bg-clip-text text-transparent">MarketVision AI</span>
-              <span className={`text-[9px] sm:text-[10px] font-bold px-1.5 sm:px-2 py-0.5 rounded-full ${isDarkMode ? 'bg-blue-900/40 text-blue-400' : 'bg-blue-50 text-blue-600'}`}>
+          <div className="max-w-[1600px] mx-auto px-2 sm:px-4 md:px-6 py-2 sm:py-2.5 flex items-center justify-between gap-2 min-w-0">
+            <div className="flex items-center gap-2 flex-shrink-0">
+              <span className="text-xs sm:text-lg font-extrabold bg-gradient-to-r from-blue-600 to-violet-600 bg-clip-text text-transparent whitespace-nowrap">MarketVision AI</span>
+              <span className={`hidden sm:inline text-[9px] sm:text-[10px] font-bold px-1.5 sm:px-2 py-0.5 rounded-full ${isDarkMode ? 'bg-blue-900/40 text-blue-400' : 'bg-blue-50 text-blue-600'}`}>
                 Dashboard
               </span>
             </div>
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-1 min-w-0 overflow-x-auto scrollbar-hide">
               {/* View Tabs */}
-              <div className={`flex items-center gap-0.5 p-0.5 rounded-lg ${isDarkMode ? 'bg-[#0f172a]' : 'bg-slate-100'}`}>
+              <div className={`flex items-center gap-0.5 p-0.5 rounded-lg flex-shrink-0 ${isDarkMode ? 'bg-[#0f172a]' : 'bg-slate-100'}`}>
                 {[
                   { key: 'dashboard', icon: '📊', label: 'Dash' },
                   { key: 'table', icon: '📋', label: 'Table' },
@@ -311,7 +311,7 @@ function Dashboard() {
                     key={tab.key}
                     onClick={() => setActiveView(tab.key)}
                     title={tab.label}
-                    className={`flex items-center gap-1 px-1.5 sm:px-2.5 py-1 rounded-md text-[10px] sm:text-[11px] font-bold transition-all ${
+                    className={`flex items-center gap-1 px-1.5 sm:px-2.5 py-1 rounded-md text-[10px] sm:text-[11px] font-bold transition-all whitespace-nowrap ${
                       activeView === tab.key
                         ? 'bg-blue-600 text-white shadow-sm'
                         : isDarkMode ? 'text-slate-400 hover:text-white' : 'text-slate-500 hover:text-slate-800'
@@ -322,7 +322,9 @@ function Dashboard() {
                   </button>
                 ))}
               </div>
-              <QuickActions onRefresh={handleRefresh} />
+              <div className="flex-shrink-0">
+                <QuickActions onRefresh={handleRefresh} />
+              </div>
             </div>
           </div>
         </div>

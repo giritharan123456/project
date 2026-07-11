@@ -17,7 +17,7 @@ export default function QuickActions({ onRefresh }) {
   ];
 
   return (
-    <div className="flex flex-wrap gap-2">
+    <div className="flex gap-1 sm:gap-1.5">
       {actions.map((action, i) => (
         <motion.button
           key={action.label}
@@ -25,7 +25,8 @@ export default function QuickActions({ onRefresh }) {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: i * 0.04 }}
           onClick={action.onClick}
-          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all duration-200 ${
+          title={action.label}
+          className={`flex items-center gap-1 px-1.5 sm:px-2.5 py-1 rounded-lg text-[10px] sm:text-xs font-bold transition-all duration-200 whitespace-nowrap ${
             isDarkMode
               ? 'bg-[#0f172a] border border-[#475569] text-slate-300 hover:border-blue-500 hover:text-blue-400'
               : 'bg-slate-50 border border-slate-200 text-slate-600 hover:border-blue-400 hover:text-blue-600'
@@ -33,7 +34,7 @@ export default function QuickActions({ onRefresh }) {
           whileHover={{ scale: 1.03 }}
           whileTap={{ scale: 0.97 }}
         >
-          <action.icon size={13} />
+          <action.icon size={12} />
           <span className="hidden sm:inline">{action.label}</span>
         </motion.button>
       ))}

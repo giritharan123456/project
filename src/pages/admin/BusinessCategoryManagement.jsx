@@ -163,7 +163,7 @@ const BusinessCategoryManagement = () => {
                 {editingCategory ? 'Edit Category' : 'Add Category'}
               </h2>
             </div>
-            <form onSubmit={handleSave} className="p-6 space-y-4">
+            <form onSubmit={handleSave} className="p-4 sm:p-6 space-y-4 max-h-[70vh] overflow-y-auto">
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Category Name</label>
                 <input

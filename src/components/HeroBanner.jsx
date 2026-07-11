@@ -109,7 +109,7 @@ export default function HeroBanner({ pincodeData, selectedDistrict }) {
       }`}
     >
       {/* Executive Summary Header */}
-      <div className={`px-4 py-3 border-b flex items-center justify-between ${
+      <div className={`px-3 sm:px-4 py-3 border-b flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 ${
         isDarkMode ? 'border-[#334155] bg-[#0f172a]/40' : 'border-slate-100 bg-slate-50/50'
       }`}>
         <div className="flex items-center gap-3">
@@ -125,7 +125,7 @@ export default function HeroBanner({ pincodeData, selectedDistrict }) {
             </p>
           </div>
         </div>
-        <div className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border text-xs font-bold ${
+        <div className={`flex items-center gap-1.5 px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg border text-[10px] sm:text-xs font-bold ${
           avgGap >= 70
             ? isDarkMode ? 'bg-emerald-900/20 border-emerald-700/40 text-emerald-400' : 'bg-emerald-50 border-emerald-200 text-emerald-700'
             : avgGap >= 50
@@ -133,7 +133,7 @@ export default function HeroBanner({ pincodeData, selectedDistrict }) {
               : isDarkMode ? 'bg-slate-800 border-slate-600 text-slate-400' : 'bg-slate-50 border-slate-200 text-slate-500'
         }`}>
           <div className={`w-1.5 h-1.5 rounded-full ${avgGap >= 70 ? 'bg-emerald-500' : avgGap >= 50 ? 'bg-amber-500' : 'bg-slate-400'}`} />
-          {avgGap >= 70 ? 'Excellent Opportunity' : avgGap >= 50 ? 'Moderate Potential' : 'Developing Market'}
+          {avgGap >= 70 ? 'Excellent' : avgGap >= 50 ? 'Moderate' : 'Developing'}
         </div>
       </div>
 
