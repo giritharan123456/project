@@ -149,7 +149,7 @@ const Competitors = ({ pincodeData }) => {
         <h4 className={`text-sm font-bold uppercase tracking-wide mb-3 ${b('text-gray-400', 'text-gray-500')}`}>
           Competition vs Demand by Category
         </h4>
-        <ResponsiveContainer width="100%" height="min(340px, 60vw)">
+        <ResponsiveContainer width="100%" height={340}>
           <BarChart data={chartData.barData} barCategoryGap="20%" margin={{ top: 8, right: 15, left: 5, bottom: 5 }}>
             <CartesianGrid strokeDasharray="3 3" stroke={gridStroke} vertical={false} />
             <XAxis dataKey="name" tick={getAxis()} axisLine={axisLine} tickLine={false} angle={-35} textAnchor="end" height={55} interval={0} />
@@ -173,7 +173,7 @@ const Competitors = ({ pincodeData }) => {
               Competition vs Demand by Area
             </h4>
           </div>
-          <ResponsiveContainer width="100%" height="min(340px, 60vw)">
+          <ResponsiveContainer width="100%" height={340}>
             <BarChart data={engagementData} barCategoryGap="20%" margin={{ top: 8, right: 15, left: 5, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" stroke={gridStroke} vertical={false} />
               <XAxis dataKey="area" tick={getAxis()} axisLine={axisLine} tickLine={false} angle={-35} textAnchor="end" height={55} interval={0} />
@@ -199,7 +199,7 @@ const Competitors = ({ pincodeData }) => {
               Competitive Strengths Matrix
             </h4>
           </div>
-          <ResponsiveContainer width="100%" height="min(340px, 60vw)">
+          <ResponsiveContainer width="100%" height={340}>
             <RadarChart cx="50%" cy="50%" outerRadius="70%" data={radarData}>
               <PolarGrid stroke={gridStroke} />
               <PolarAngleAxis dataKey="subject" tick={getAxis()} />

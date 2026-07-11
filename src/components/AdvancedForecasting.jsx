@@ -197,7 +197,7 @@ function AdvancedForecasting({ pincodeData, businessCategories }) {
           transition={{ duration: 0.5, delay: 0.1 }}
         >
           <h4 className={`text-base font-semibold mb-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Population & Demand Forecast</h4>
-          <ResponsiveContainer width="100%" height="min(340px, 60vw)">
+          <ResponsiveContainer width="100%" height={340}>
             <AreaChart data={forecastData}>
               <defs>
                 <linearGradient id="colorPopulation" x1="0" y1="0" x2="0" y2="1">
@@ -227,7 +227,7 @@ function AdvancedForecasting({ pincodeData, businessCategories }) {
           transition={{ duration: 0.5, delay: 0.2 }}
         >
           <h4 className={`text-base font-semibold mb-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Market Gap Trend</h4>
-          <ResponsiveContainer width="100%" height="min(340px, 60vw)">
+          <ResponsiveContainer width="100%" height={340}>
             <LineChart data={forecastData}>
               <CartesianGrid strokeDasharray="3 3" stroke={isDarkMode ? '#475569' : '#cbd5e1'} vertical={false} />
               <XAxis dataKey="month" tick={{ fontSize: 13, fontWeight: 700, fill: isDarkMode ? '#e2e8f0' : '#1e293b' }} axisLine={{ stroke: isDarkMode ? '#64748b' : '#94a3b8' }} tickLine={false} />
@@ -247,7 +247,7 @@ function AdvancedForecasting({ pincodeData, businessCategories }) {
         transition={{ duration: 0.5, delay: 0.3 }}
       >
         <h4 className={`text-base font-semibold mb-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Quarterly Trend Analysis</h4>
-        <ResponsiveContainer width="100%" height="min(320px, 55vw)">
+        <ResponsiveContainer width="100%" height={320}>
           <LineChart data={trendAnalysis}>
             <CartesianGrid strokeDasharray="3 3" stroke={isDarkMode ? '#475569' : '#cbd5e1'} vertical={false} />
             <XAxis dataKey="quarter" tick={{ fontSize: 13, fontWeight: 700, fill: isDarkMode ? '#e2e8f0' : '#1e293b' }} axisLine={{ stroke: isDarkMode ? '#64748b' : '#94a3b8' }} tickLine={false} />

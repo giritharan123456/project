@@ -127,7 +127,7 @@ function BusinessInsights({ pincodeData }) {
               Category Opportunity Scores
             </h4>
             <div className={`rounded-xl border p-3 mb-3 ${isDarkMode ? 'border-[#334155] bg-[#0f172a]/50' : 'border-[#e2e8f0] bg-gray-50'}`}>
-              <ResponsiveContainer width="100%" height="min(340px, 60vw)">
+              <ResponsiveContainer width="100%" height={340}>
                 <BarChart data={opportunityData} barCategoryGap="20%" margin={{ top: 8, right: 15, left: 5, bottom: 5 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke={gridStroke} vertical={false} />
                   <XAxis dataKey="category" tick={{ ...getAxis(), fontSize: 13, fontWeight: 800 }} axisLine={axisLine} tickLine={false} angle={-40} textAnchor="end" height={65} interval={0} />
@@ -180,7 +180,7 @@ function BusinessInsights({ pincodeData }) {
               Area Competition Levels
             </h4>
             <div className={`rounded-xl border p-3 mb-3 ${isDarkMode ? 'border-[#334155] bg-[#0f172a]/50' : 'border-[#e2e8f0] bg-gray-50'}`}>
-              <ResponsiveContainer width="100%" height="min(340px, 60vw)">
+              <ResponsiveContainer width="100%" height={340}>
                 <BarChart data={competitionData} barCategoryGap="20%" margin={{ top: 8, right: 15, left: 5, bottom: 5 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke={gridStroke} vertical={false} />
                   <XAxis dataKey="area" tick={{ ...getAxis(), fontSize: 13, fontWeight: 800 }} axisLine={axisLine} tickLine={false} angle={-40} textAnchor="end" height={65} interval={0} />
@@ -217,7 +217,7 @@ function BusinessInsights({ pincodeData }) {
               Demand Distribution
             </h4>
             <div className={`rounded-xl border p-3 mb-3 ${isDarkMode ? 'border-[#334155] bg-[#0f172a]/50' : 'border-[#e2e8f0] bg-gray-50'}`}>
-              <ResponsiveContainer width="100%" height="min(340px, 60vw)">
+              <ResponsiveContainer width="100%" height={340}>
                 <PieChart>
                   <Pie data={demandDistribution} cx="50%" cy="50%" innerRadius={55} outerRadius={110} paddingAngle={3} dataKey="value">
                     {demandDistribution.map((_, index) => (
