@@ -86,7 +86,7 @@ function Workspace() {
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mb-8"
+          className="mb-4 sm:mb-8"
         >
           <div className="flex items-center gap-3 mb-2">
             <User className="text-[#2563eb]" size={32} />
@@ -172,7 +172,7 @@ function Workspace() {
           {activeTab === 'favorites' && (
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <h3 className={`text-lg sm:text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+                <h3 className={`text-lg sm:text-lg sm:text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                   Favorite Locations ({favoriteLocations.length})
                 </h3>
               </div>
@@ -219,7 +219,7 @@ function Workspace() {
           {activeTab === 'comparisons' && (
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <h3 className={`text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+                <h3 className={`text-lg sm:text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                   Saved Comparisons ({savedComparisons.length})
                 </h3>
                 <Link 
@@ -274,7 +274,7 @@ function Workspace() {
           {activeTab === 'history' && (
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <h3 className={`text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+                <h3 className={`text-lg sm:text-xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                   Search History ({searchHistory.length})
                 </h3>
                 <button onClick={async () => {
@@ -311,7 +311,7 @@ function Workspace() {
           {activeTab === 'settings' && (
             <div className="space-y-6">
               <div className={`px-3 py-2 sm:px-4 sm:py-3 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}>
-                <h3 className={`text-xl font-bold mb-6 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+                <h3 className={`text-lg sm:text-xl font-bold mb-6 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                   Appearance
                 </h3>
                 
@@ -335,7 +335,7 @@ function Workspace() {
               </div>
 
               <div className={`px-3 py-2 sm:px-4 sm:py-3 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}>
-                <h3 className={`text-xl font-bold mb-6 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+                <h3 className={`text-lg sm:text-xl font-bold mb-6 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                   Notifications
                 </h3>
                 
@@ -353,7 +353,7 @@ function Workspace() {
               </div>
 
               <div className={`px-3 py-2 sm:px-4 sm:py-3 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}>
-                <h3 className={`text-xl font-bold mb-6 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+                <h3 className={`text-lg sm:text-xl font-bold mb-6 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                   Account
                 </h3>
                 

@@ -142,14 +142,14 @@ function InvestmentEstimator() {
             {roi && (roi.annualROI != null || roi.breakEvenMonths != null) && (
               <div className={`grid grid-cols-2 gap-3`}>
                 {roi.breakEvenMonths && (
-                  <div className={`rounded-xl border p-4 ${b('bg-white border-gray-200', 'bg-[#1e293b] border-[#334155]')}`}>
+                  <div className={`rounded-xl border p-3 sm:p-4 ${b('bg-white border-gray-200', 'bg-[#1e293b] border-[#334155]')}`}>
                     <div className="flex items-center gap-2 mb-2"><Clock size={16} className="text-purple-500" /><span className={`text-xs font-semibold ${b('text-gray-600', 'text-gray-400')}`}>Break-Even Period</span></div>
                     <p className={`text-2xl font-bold ${b('text-gray-900', 'text-white')}`}>{roi.breakEvenMonths} months</p>
                     <p className={`text-[10px] mt-1 ${b('text-gray-400', 'text-gray-500')}`}>{roi.breakEvenMonths <= 12 ? 'Excellent — fast payback' : roi.breakEvenMonths <= 24 ? 'Good — reasonable recovery' : 'Longer payback period'}</p>
                   </div>
                 )}
                 {roi.annualROI != null && (
-                  <div className={`rounded-xl border p-4 ${b('bg-white border-gray-200', 'bg-[#1e293b] border-[#334155]')}`}>
+                  <div className={`rounded-xl border p-3 sm:p-4 ${b('bg-white border-gray-200', 'bg-[#1e293b] border-[#334155]')}`}>
                     <div className="flex items-center gap-2 mb-2"><BarChart3 size={16} className="text-emerald-500" /><span className={`text-xs font-semibold ${b('text-gray-600', 'text-gray-400')}`}>Expected Annual ROI</span></div>
                     <p className={`text-2xl font-bold ${roi.annualROI > 20 ? 'text-emerald-500' : roi.annualROI > 0 ? 'text-yellow-500' : 'text-red-500'}`}>{roi.annualROI}%</p>
                     <p className={`text-[10px] mt-1 ${b('text-gray-400', 'text-gray-500')}`}>{roi.annualROI > 30 ? 'Excellent return potential' : roi.annualROI > 15 ? 'Good return on investment' : 'Conservative estimate'}</p>

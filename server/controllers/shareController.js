@@ -16,7 +16,7 @@ exports.createShare = async (req, res) => {
       return res.json({ success: true, data: existing });
     }
 
-    const shareToken = crypto.randomBytes(8).toString('hex');
+    const shareToken = crypto.randomBytes(32).toString('hex');
 
     const share = await Share.create({
       user: req.user._id,

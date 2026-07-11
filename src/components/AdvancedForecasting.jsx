@@ -60,7 +60,7 @@ function AdvancedForecasting({ pincodeData, businessCategories }) {
       }
 
       autoTable(doc, {
-        startY: doc.lastAutoTable.finalY + 10,
+        startY: (doc.lastAutoTable?.finalY || 30) + 10,
         head: [['Area', 'Pincode', 'Population', 'Growth %', 'Income']],
         body: pincodeData.map(p => [
           (p.area || '').substring(0, 25),

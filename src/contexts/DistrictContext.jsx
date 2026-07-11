@@ -16,7 +16,7 @@ export const DistrictProvider = ({ children }) => {
     if (districts.length > 0 && selectedDistrict) {
       const validDistrict = districts.find(d => d._id === selectedDistrict);
       if (!validDistrict) {
-        setSelectedDistrict(districts[0]._id);
+        setSelectedDistrict(districts[0]?._id || null);
       }
     }
   }, [districts, selectedDistrict]);

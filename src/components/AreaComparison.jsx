@@ -45,7 +45,7 @@ function AreaComparison({ areas, onRemove, onClear, onOpenDetail }) {
 
       {/* Comparison Grid */}
       <div className="p-3">
-        <div className={`grid gap-2`} style={{ gridTemplateColumns: `repeat(${Math.min(areas.length, 3)}, 1fr)` }}>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
           {areas.map((area, idx) => {
             const avgGap = area.opportunityScore || averageOfValues(area.marketGapScores) || 0;
             const avgDemand = averageOfValues(area.demandScores) ?? 0;

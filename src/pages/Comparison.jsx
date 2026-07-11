@@ -274,11 +274,11 @@ function Comparison() {
             </h3>
           </div>
 
-          <div className={`overflow-x-auto -mx-4 sm:mx-0 px-4 sm:px-0 rounded-lg border-2 ${isDarkMode ? 'border-[#475569]' : 'border-slate-200'}`}>
-            <table className="w-full border-collapse min-w-[500px]">
+          <div className={`overflow-x-auto -mx-3 sm:mx-0 px-3 sm:px-0 rounded-lg border-2 ${isDarkMode ? 'border-[#475569]' : 'border-slate-200'}`}>
+            <table className="w-full border-collapse min-w-[320px] sm:min-w-[500px]">
               <thead>
                 <tr className={isDarkMode ? 'bg-[#0f172a]' : 'bg-slate-100'}>
-                  <th className={`text-left p-2 sm:p-3 text-[10px] font-extrabold uppercase tracking-wider ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>Metric</th>
+                  <th className={`text-left p-1.5 sm:p-3 text-[9px] sm:text-[10px] font-extrabold uppercase tracking-wider ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>Metric</th>
                   {selectedAreas.map(area => (
                     <th key={area.id} className={`text-center p-2 sm:p-3 text-[10px] font-extrabold uppercase tracking-wider ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
                       <div className="flex items-center justify-center gap-1">
@@ -291,16 +291,16 @@ function Comparison() {
               </thead>
               <tbody>
                 {[
-                  { label: 'Market Score', icon: Award, isHigherBetter: true, key: 'score' },
-                  { label: 'Opportunity Score', icon: TrendingUp, isHigherBetter: true, key: 'opportunityScore' },
-                  { label: 'Feasibility Score', icon: Award, isHigherBetter: true, key: 'feasibilityScore' },
-                  { label: 'Population', icon: Users, isHigherBetter: true, key: 'population' },
-                  { label: 'Demand', icon: TrendingUp, isHigherBetter: true, key: 'demand' },
-                  { label: 'Competition', icon: Target, isHigherBetter: false, key: 'competition' },
-                  { label: 'Income Level', icon: DollarSign, isHigherBetter: true, key: 'incomeValue' }
+                  { label: 'Market Score', icon: Award, isHigherBetter: true, key: 'score', hideClass: '' },
+                  { label: 'Opportunity Score', icon: TrendingUp, isHigherBetter: true, key: 'opportunityScore', hideClass: '' },
+                  { label: 'Feasibility Score', icon: Award, isHigherBetter: true, key: 'feasibilityScore', hideClass: 'hidden sm:table-row' },
+                  { label: 'Population', icon: Users, isHigherBetter: true, key: 'population', hideClass: 'hidden md:table-row' },
+                  { label: 'Demand', icon: TrendingUp, isHigherBetter: true, key: 'demand', hideClass: '' },
+                  { label: 'Competition', icon: Target, isHigherBetter: false, key: 'competition', hideClass: 'hidden lg:table-row' },
+                  { label: 'Income Level', icon: DollarSign, isHigherBetter: true, key: 'incomeValue', hideClass: 'hidden lg:table-row' }
                 ].map((metric, rowIndex) => (
-                  <tr key={rowIndex} className={`border-b-2 transition-colors ${isDarkMode ? 'border-[#475569] hover:bg-[#0f172a]/60' : 'border-slate-200 hover:bg-slate-50'}`}>
-                    <td className={`p-2 sm:p-3 ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>
+                  <tr key={rowIndex} className={`border-b-2 transition-colors ${metric.hideClass} ${isDarkMode ? 'border-[#475569] hover:bg-[#0f172a]/60' : 'border-slate-200 hover:bg-slate-50'}`}>
+                    <td className={`p-1.5 sm:p-3 ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>
                       <div className="flex items-center gap-2">
                         <div className={`p-1 rounded ${isDarkMode ? 'bg-[#0f172a]' : 'bg-blue-50'}`}>
                           <metric.icon className="text-blue-600" size={14} />
@@ -327,7 +327,7 @@ function Comparison() {
                         : rawValue === Math.min(...numericValues);
                       return (
                         <td key={colIndex} className="text-center p-2 sm:p-3">
-                          <span className={`inline-flex items-center gap-1 px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg text-xs sm:text-sm font-extrabold ${
+                          <span className={`inline-flex items-center gap-1 px-1.5 sm:px-3 py-1 sm:py-1.5 rounded-lg text-[10px] sm:text-sm font-extrabold ${
                             isBest && rawValue != null 
                               ? isDarkMode ? 'bg-emerald-900/40 text-emerald-300' : 'bg-emerald-100 text-emerald-700' 
                               : isDarkMode ? 'text-white' : 'text-slate-800'

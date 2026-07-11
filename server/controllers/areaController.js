@@ -130,8 +130,10 @@ const getAreaById = async (req, res) => {
 // @access  Public
 const getAreasByDistrict = async (req, res) => {
   try {
+    const limit = Math.min(Math.max(parseInt(req.query.limit) || 500, 1), 1000);
     const areas = await Area.find({ district: req.params.districtId })
-      .populate('district', 'name');
+      .populate('district', 'name')
+      .limit(limit);
       
     res.json({
       success: true,

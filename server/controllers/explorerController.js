@@ -8,13 +8,15 @@ const sanitizeSortBy = (sortBy, defaultField = 'opportunityScore') => ALLOWED_SO
 
 const getCategoryExplorer = async (req, res) => {
   try {
-    const { district, sortBy: rawSortBy = 'gap', limit = 50 } = req.query;
+    const { district, sortBy: rawSortBy = 'gap', limit: rawLimit = 50 } = req.query;
     const sortBy = sanitizeSortBy(rawSortBy, 'gap');
-    const categories = await BusinessCategory.find().sort({ [sortBy]: -1 }).limit(Number(limit));
+    const limit = Math.min(Math.max(parseInt(rawLimit) || 50, 1), 200);
+    const categories = await BusinessCategory.find().sort({ [sortBy]: -1 }).limit(limit);
 
     const filter = {};
     if (district) filter.district = district;
-    const areas = await Area.find(filter).populate('district', 'name');
+    const areaLimit = Math.min(Math.max(parseInt(req.query.areaLimit) || 500, 1), 1000);
+    const areas = await Area.find(filter).populate('district', 'name').limit(areaLimit);
 
     const enriched = categories.map(cat => {
       const areasWithCat = areas.filter(a => a.marketGapScores && a.marketGapScores.get(cat.name) != null);

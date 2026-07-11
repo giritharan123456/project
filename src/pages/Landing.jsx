@@ -37,10 +37,10 @@ function Landing() {
     const token = searchParams.get('token');
     if (token) {
       handleGoogleCallback(token).then(result => {
-        if (result && result.success) {
+        if (result?.success) {
           navigate('/dashboard', { replace: true });
         }
-      });
+      }).catch(() => {});
     }
   }, [searchParams, handleGoogleCallback, navigate]);
 

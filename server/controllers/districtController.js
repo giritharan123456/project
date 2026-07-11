@@ -87,9 +87,10 @@ const updateDistrict = async (req, res) => {
 // @access  Private/Admin
 const deleteDistrict = async (req, res) => {
   try {
-    const district = await District.findByIdAndDelete(req.params.id);
+    const district = await District.findById(req.params.id);
     if (district) {
       await Area.deleteMany({ district: req.params.id });
+      await District.findByIdAndDelete(req.params.id);
       res.json({
         success: true,
         message: 'District and associated areas deleted successfully'

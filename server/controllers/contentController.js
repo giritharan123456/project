@@ -21,7 +21,7 @@ const getLandingContent = async (req, res) => {
       let totalHouseholds = 0;
       
       // Aggregate population and households from all areas
-      const areas = await Area.find({});
+      const areas = await Area.find({}).limit(1000);
       areas.forEach(area => {
         totalPopulation += area.population || 0;
         totalHouseholds += Math.floor((area.population || 0) / 4); // Estimate households

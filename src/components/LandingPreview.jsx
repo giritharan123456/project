@@ -44,13 +44,13 @@ export default function LandingPreview({ area, onNavigate }) {
       }`}
     >
       {/* Header */}
-      <div className={`px-6 py-4 flex items-center justify-between ${isDarkMode ? 'bg-blue-500/10 border-b border-[#334155]' : 'bg-gradient-to-r from-blue-50 to-violet-50 border-b border-blue-100'}`}>
+      <div className={`px-3 sm:px-6 py-3 sm:py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 ${isDarkMode ? 'bg-blue-500/10 border-b border-[#334155]' : 'bg-gradient-to-r from-blue-50 to-violet-50 border-b border-blue-100'}`}>
         <div className="flex items-center gap-3">
           <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#2563eb] to-[#7c3aed] flex items-center justify-center shadow-lg">
             <MapPin className="text-white" size={24} />
           </div>
           <div>
-            <h3 className={`text-xl font-extrabold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+            <h3 className={`text-base sm:text-xl font-extrabold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
               {area.name || area.area}
             </h3>
             <div className="flex items-center gap-2 text-sm">
@@ -60,19 +60,19 @@ export default function LandingPreview({ area, onNavigate }) {
             </div>
           </div>
         </div>
-        <span className={`text-sm font-bold px-3 py-1 rounded-full border ${opp.cls}`}>
+        <span className={`text-[10px] sm:text-sm font-bold px-2 sm:px-3 py-0.5 sm:py-1 rounded-full border ${opp.cls}`}>
           {opp.label}
         </span>
       </div>
 
       {/* Key Metrics */}
       <div className={`grid grid-cols-2 md:grid-cols-4 divide-x divide-y md:divide-y-0 ${isDarkMode ? 'divide-[#334155]' : 'divide-gray-100'}`}>
-        <div className="px-5 py-4">
+        <div className="px-3 sm:px-5 py-3 sm:py-4">
           <div className="flex items-center gap-2 mb-1">
             <Users size={14} className="text-blue-500" />
             <span className={`text-[10px] font-bold uppercase tracking-wider ${isDarkMode ? 'text-slate-500' : 'text-gray-400'}`}>Population</span>
           </div>
-          <p className={`text-2xl font-extrabold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+          <p className={`text-lg sm:text-2xl font-extrabold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
             {area.population != null ? Number(area.population).toLocaleString() : 'N/A'}
           </p>
           {area.populationGrowth != null && (
@@ -81,32 +81,32 @@ export default function LandingPreview({ area, onNavigate }) {
             </p>
           )}
         </div>
-        <div className="px-5 py-4">
+        <div className="px-3 sm:px-5 py-3 sm:py-4">
           <div className="flex items-center gap-2 mb-1">
             <Target size={14} className="text-violet-500" />
             <span className={`text-[10px] font-bold uppercase tracking-wider ${isDarkMode ? 'text-slate-500' : 'text-gray-400'}`}>Opportunity</span>
           </div>
-          <p className={`text-2xl font-extrabold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>{avgGap.toFixed(2)}</p>
+          <p className={`text-lg sm:text-2xl font-extrabold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>{avgGap.toFixed(2)}</p>
         </div>
-        <div className="px-5 py-4">
+        <div className="px-3 sm:px-5 py-3 sm:py-4">
           <div className="flex items-center gap-2 mb-1">
             <BarChart3 size={14} className="text-amber-500" />
             <span className={`text-[10px] font-bold uppercase tracking-wider ${isDarkMode ? 'text-slate-500' : 'text-gray-400'}`}>Avg Demand</span>
           </div>
-          <p className={`text-2xl font-extrabold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>{avgDemand.toFixed(2)}</p>
+          <p className={`text-lg sm:text-2xl font-extrabold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>{avgDemand.toFixed(2)}</p>
         </div>
-        <div className="px-5 py-4">
+        <div className="px-3 sm:px-5 py-3 sm:py-4">
           <div className="flex items-center gap-2 mb-1">
             <Building2 size={14} className="text-red-500" />
             <span className={`text-[10px] font-bold uppercase tracking-wider ${isDarkMode ? 'text-slate-500' : 'text-gray-400'}`}>Competitors</span>
           </div>
-          <p className={`text-2xl font-extrabold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>{totalCompetitors}</p>
+          <p className={`text-lg sm:text-2xl font-extrabold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>{totalCompetitors}</p>
         </div>
       </div>
 
       {/* Category Breakdown Bar Chart */}
       {sortedCategories.length > 0 && (
-        <div className={`px-6 py-4 border-t ${isDarkMode ? 'border-[#334155]' : 'border-gray-100'}`}>
+        <div className={`px-3 sm:px-6 py-3 sm:py-4 border-t ${isDarkMode ? 'border-[#334155]' : 'border-gray-100'}`}>
           <h4 className={`text-xs font-bold uppercase tracking-wider mb-3 ${isDarkMode ? 'text-slate-500' : 'text-gray-400'}`}>
             Market Gap by Category
           </h4>
@@ -115,8 +115,8 @@ export default function LandingPreview({ area, onNavigate }) {
               const colors = getScoreColor(score);
               const width = Math.max(8, (score / maxScore) * 100);
               return (
-                <div key={cat} className="flex items-center gap-3">
-                  <span className={`text-xs font-semibold w-32 text-right truncate ${isDarkMode ? 'text-slate-300' : 'text-gray-700'}`}>
+                <div key={cat} className="flex items-center gap-2 sm:gap-3">
+                  <span className={`text-[10px] sm:text-xs font-semibold w-16 sm:w-32 text-right truncate ${isDarkMode ? 'text-slate-300' : 'text-gray-700'}`}>
                     {cat}
                   </span>
                   <div className={`flex-1 h-5 rounded-full overflow-hidden ${isDarkMode ? 'bg-[#0f172a]' : 'bg-gray-100'}`}>
@@ -127,7 +127,7 @@ export default function LandingPreview({ area, onNavigate }) {
                       className={`h-full rounded-full ${colors.bar}`}
                     />
                   </div>
-                  <span className={`text-xs font-extrabold w-12 ${colors.text}`}>{score.toFixed(0)}</span>
+                  <span className={`text-[10px] sm:text-xs font-extrabold w-8 sm:w-12 ${colors.text}`}>{score.toFixed(0)}</span>
                 </div>
               );
             })}
@@ -136,7 +136,7 @@ export default function LandingPreview({ area, onNavigate }) {
       )}
 
       {/* Location Info */}
-      <div className={`px-6 py-2.5 border-t flex items-center gap-4 text-[11px] font-semibold ${
+      <div className={`px-3 sm:px-6 py-2.5 border-t flex flex-wrap items-center gap-2 sm:gap-4 text-[10px] sm:text-[11px] font-semibold ${
         isDarkMode ? 'border-[#334155] text-slate-500' : 'border-gray-100 text-gray-400'
       }`}>
         {area.incomeLevel && <span>Income: <strong className={isDarkMode ? 'text-slate-300' : 'text-gray-700'}>{area.incomeLevel}</strong></span>}

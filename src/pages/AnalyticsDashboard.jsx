@@ -99,22 +99,22 @@ function AnalyticsDashboard() {
           <div className="absolute top-10 left-10 w-72 h-72 bg-[#2563eb] rounded-full blur-[120px]" />
           <div className="absolute bottom-10 right-10 w-96 h-96 bg-[#7c3aed] rounded-full blur-[150px]" />
         </div>
-        <div className="relative max-w-7xl mx-auto px-6 md:px-10 py-12 md:py-16">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 md:px-10 py-8 sm:py-12 md:py-16">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
             <div className="flex items-center gap-3 mb-3">
               <BarChart3 className="text-[#60a5fa]" size={36} />
-              <h1 className="text-3xl md:text-4xl font-extrabold text-white">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white">
                 Analytics Dashboard
               </h1>
             </div>
-            <p className="text-lg text-white/70 max-w-2xl">
+            <p className="text-sm sm:text-lg text-white/70 max-w-2xl">
               Real-time insights computed from <span className="text-white font-bold">{marketCoverage.totalAreas}</span> area{marketCoverage.totalAreas !== 1 ? 's' : ''} across <span className="text-white font-bold">{marketCoverage.covered}</span> district{marketCoverage.covered !== 1 ? 's' : ''}
             </p>
           </motion.div>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 md:px-10 py-10 space-y-8">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 md:px-10 py-6 sm:py-10 space-y-6 sm:space-y-8">
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
@@ -129,12 +129,12 @@ function AnalyticsDashboard() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 + (index * 0.1) }}
               whileHover={{ y: -4 }}
-              className={`relative p-5 rounded-2xl border overflow-hidden transition-all duration-300 hover:shadow-xl ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-[#e2e8f0]'}`}
+              className={`relative p-3 sm:p-5 rounded-2xl border overflow-hidden transition-all duration-300 hover:shadow-xl ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-[#e2e8f0]'}`}
             >
               <div className={`absolute top-0 right-0 w-20 h-20 bg-gradient-to-br ${metric.gradient} opacity-10 rounded-bl-[50px]`} />
               <metric.icon size={26} className="mb-3" style={{ color: metric.color }} />
               <p className={`text-xs font-semibold mb-1 uppercase tracking-wide ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>{metric.label}</p>
-              <p className={`text-3xl font-extrabold mb-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{metric.value}</p>
+              <p className={`text-2xl sm:text-3xl font-extrabold mb-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{metric.value}</p>
               <p className={`text-xs ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`}>{metric.detail}</p>
             </motion.div>
           ))}
@@ -144,7 +144,7 @@ function AnalyticsDashboard() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
-          className={`p-6 md:p-8 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-[#e2e8f0]'}`}
+          className={`p-4 sm:p-6 md:p-8 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-[#e2e8f0]'}`}
         >
           <div className="flex items-center gap-3 mb-6">
             <div className="w-10 h-10 rounded-xl bg-[#2563eb]/10 flex items-center justify-center">
@@ -194,7 +194,7 @@ function AnalyticsDashboard() {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.7 }}
-            className={`p-6 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-[#e2e8f0]'}`}
+            className={`p-4 sm:p-6 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-[#e2e8f0]'}`}
           >
             <div className="flex items-center gap-3 mb-5">
               <div className="w-10 h-10 rounded-xl bg-green-500/10 flex items-center justify-center">
@@ -241,7 +241,7 @@ function AnalyticsDashboard() {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.7 }}
-            className={`p-6 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-[#e2e8f0]'}`}
+            className={`p-4 sm:p-6 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-[#e2e8f0]'}`}
           >
             <div className="flex items-center gap-3 mb-5">
               <div className="w-10 h-10 rounded-xl bg-orange-500/10 flex items-center justify-center">
@@ -290,7 +290,7 @@ function AnalyticsDashboard() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.9 }}
-          className={`p-6 md:p-8 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-[#e2e8f0]'}`}
+          className={`p-4 sm:p-6 md:p-8 rounded-2xl border ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-[#e2e8f0]'}`}
         >
           <div className="flex items-center gap-3 mb-5">
             <div className="w-10 h-10 rounded-xl bg-[#7c3aed]/10 flex items-center justify-center">

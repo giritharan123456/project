@@ -105,7 +105,7 @@ function AreaOverview() {
 
   if (!routePincode) {
     return (
-      <div className={`min-h-[calc(100vh-70px)] p-6 ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
+      <div className={`min-h-[calc(100vh-70px)] p-4 sm:p-6 ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
         <EmptyState type="noData" message="No pincode specified. Search a pincode on the Dashboard." actionText="Go to Dashboard" onAction={() => navigate('/dashboard')} />
       </div>
     );
@@ -113,7 +113,7 @@ function AreaOverview() {
 
   if (loading) {
     return (
-      <div className={`min-h-[calc(100vh-70px)] p-6 flex items-center justify-center ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
+      <div className={`min-h-[calc(100vh-70px)] p-4 sm:p-6 flex items-center justify-center ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-[#2563eb] mx-auto mb-4"></div>
           <p className={isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}>Fetching census and map data...</p>
@@ -217,7 +217,7 @@ function AreaOverview() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className={`p-6 rounded-2xl border mb-8 ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
+          className={`p-4 sm:p-6 rounded-2xl border mb-6 sm:mb-8 ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
         >
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 sm:gap-6">
             <div>

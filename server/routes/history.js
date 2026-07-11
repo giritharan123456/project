@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const SearchHistory = require('../models/SearchHistory');
 const { protect } = require('../middleware/auth');
+const logger = require('../utils/logger');
 
 router.get('/', protect, async (req, res) => {
   try {
@@ -20,7 +21,7 @@ router.get('/', protect, async (req, res) => {
 
     res.json({ success: true, data: history, pagination: { total, page, limit } });
   } catch (err) {
-    res.status(500).json({ success: false, message: 'Failed to load history' });
+    res.status(500).json({ success: false, message: logger.getClientMessage(err) });
   }
 });
 
@@ -42,7 +43,7 @@ router.post('/', protect, async (req, res) => {
 
     res.status(201).json({ success: true, data: entry });
   } catch (err) {
-    res.status(500).json({ success: false, message: 'Failed to save search' });
+    res.status(500).json({ success: false, message: logger.getClientMessage(err) });
   }
 });
 
@@ -51,7 +52,7 @@ router.delete('/', protect, async (req, res) => {
     await SearchHistory.deleteMany({ userId: req.user._id });
     res.json({ success: true, message: 'History cleared' });
   } catch (err) {
-    res.status(500).json({ success: false, message: 'Failed to clear history' });
+    res.status(500).json({ success: false, message: logger.getClientMessage(err) });
   }
 });
 

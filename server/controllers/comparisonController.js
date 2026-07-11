@@ -9,10 +9,10 @@ const compareAreas = async (req, res) => {
   try {
     const { areaIds } = req.body;
     
-    if (!areaIds || !Array.isArray(areaIds) || areaIds.length < 2 || areaIds.length > 4) {
+    if (!areaIds || !Array.isArray(areaIds) || areaIds.length < 2 || areaIds.length > 5) {
       return res.status(400).json({ 
         success: false, 
-        message: 'Please provide 2-4 area IDs for comparison' 
+        message: 'Please provide 2-5 area IDs for comparison' 
       });
     }
 

@@ -139,7 +139,7 @@ function Profile() {
   return (
     <div className={`min-h-[calc(100vh-120px)] p-3 sm:p-4 lg:p-8 transition-colors ${b('bg-gray-50', 'bg-[#0f172a]')}`}>
       <div className="max-w-6xl mx-auto">
-        <h1 className={`text-2xl font-bold mb-6 ${b('text-gray-900', 'text-white')}`}>My Account</h1>
+        <h1 className={`text-lg sm:text-2xl font-bold mb-4 sm:mb-6 ${b('text-gray-900', 'text-white')}`}>My Account</h1>
 
         <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
           {/* Sidebar */}

@@ -123,7 +123,8 @@ const deleteDistrict = async (req, res) => {
 // @access  Admin
 const getAllAreas = async (req, res) => {
   try {
-    const areas = await Area.find({}).populate('district', 'name').sort({ name: 1 });
+    const limit = Math.min(Math.max(parseInt(req.query.limit) || 500, 1), 1000);
+    const areas = await Area.find({}).populate('district', 'name').sort({ name: 1 }).limit(limit);
     res.json({
       success: true,
       count: areas.length,
@@ -376,7 +377,8 @@ const deleteBusinessCategory = async (req, res) => {
 // @access  Admin
 const getAllUsers = async (req, res) => {
   try {
-    const users = await User.find({}).select('-password').sort({ createdAt: -1 });
+    const limit = Math.min(Math.max(parseInt(req.query.limit) || 200, 1), 500);
+    const users = await User.find({}).select('-password').sort({ createdAt: -1 }).limit(limit);
     res.json({
       success: true,
       count: users.length,
@@ -415,8 +417,14 @@ const updateUser = async (req, res) => {
       return res.status(404).json({ success: false, message: 'User not found' });
     }
 
+    if (req.body.email && req.body.email !== user.email) {
+      const existing = await User.findOne({ email: req.body.email });
+      if (existing) {
+        return res.status(400).json({ success: false, message: 'Email already in use' });
+      }
+      user.email = req.body.email;
+    }
     user.name = req.body.name || user.name;
-    user.email = req.body.email || user.email;
     user.role = req.body.role || user.role;
     if (req.body.password) {
       if (req.body.password.length < 6) {

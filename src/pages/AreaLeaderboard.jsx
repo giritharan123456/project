@@ -120,7 +120,7 @@ function AreaLeaderboard() {
   ];
 
   return (
-    <div className={`min-h-[calc(100vh-120px)] p-4 lg:p-8 transition-colors ${b('bg-gray-50', 'bg-[#0f172a]')}`}>
+    <div className={`min-h-[calc(100vh-120px)] p-3 sm:p-4 lg:p-8 transition-colors ${b('bg-gray-50', 'bg-[#0f172a]')}`}>
       <div className="max-w-6xl mx-auto">
         <div className="flex flex-col sm:flex-row lg:flex-row lg:items-center justify-between gap-3 sm:gap-4 mb-4 sm:mb-6 px-3 sm:px-4">
           <div>

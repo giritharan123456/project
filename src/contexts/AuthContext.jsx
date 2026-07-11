@@ -9,39 +9,41 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Check if user is logged in from localStorage and validate token with server
+    const controller = new AbortController();
     const initAuth = async () => {
       try {
         const token = localStorage.getItem('token');
         const storedUser = localStorage.getItem('user');
         if (token && storedUser) {
-          // Validate token with server
           try {
             const response = await authAPI.getProfile();
+            if (controller.signal.aborted) return;
             if (response.success) {
               const parsedUser = response.user;
               setIsAuthenticated(true);
               setUser(parsedUser);
               localStorage.setItem('user', JSON.stringify(parsedUser));
             } else {
-              // Token invalid, clear localStorage
               localStorage.removeItem('token');
               localStorage.removeItem('user');
             }
           } catch {
-            // Token validation failed, clear localStorage
+            if (controller.signal.aborted) return;
             localStorage.removeItem('token');
             localStorage.removeItem('user');
           }
         }
-      } catch (error) {
+      } catch {
         localStorage.removeItem('token');
         localStorage.removeItem('user');
       }
-      setLoading(false);
+      if (!controller.signal.aborted) {
+        setLoading(false);
+      }
     };
 
     initAuth();
+    return () => controller.abort();
   }, []);
 
   const login = async (email, password) => {

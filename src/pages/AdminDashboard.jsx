@@ -100,7 +100,7 @@ const AdminDashboard = () => {
 
         {activeTab === 'overview' && stats && (
           <div>
-            <h2 className="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">Overview</h2>
+            <h2 className="text-lg sm:text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-4 sm:mb-6">Overview</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
               <StatCard
                 title="Total Districts"

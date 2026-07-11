@@ -8,9 +8,13 @@ export const PincodeProvider = ({ children }) => {
 
   // Load selected pincode from localStorage on mount
   useEffect(() => {
-    const storedPincode = localStorage.getItem('selectedPincode');
-    if (storedPincode) {
-      setSelectedPincode(storedPincode);
+    try {
+      const storedPincode = localStorage.getItem('selectedPincode');
+      if (storedPincode) {
+        setSelectedPincode(storedPincode);
+      }
+    } catch {
+      // localStorage may be unavailable in private browsing
     }
   }, []);
 

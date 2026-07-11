@@ -159,7 +159,7 @@ function BusinessOverview() {
 
   if (!routePincode || loading) {
     return (
-      <div className={`min-h-[calc(100vh-70px)] p-6 flex items-center justify-center ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
+      <div className={`min-h-[calc(100vh-70px)] p-4 sm:p-6 flex items-center justify-center ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
         <p className={isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}>
           {loading ? 'Loading business data from backend...' : 'No pincode specified.'}
         </p>
@@ -169,7 +169,7 @@ function BusinessOverview() {
 
   if (error || !apiArea) {
     return (
-      <div className={`min-h-[calc(100vh-70px)] p-6 ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
+      <div className={`min-h-[calc(100vh-70px)] p-4 sm:p-6 ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
         <EmptyState type={error ? 'error' : 'noData'} message={error || NO_DATA_LABEL} actionText="Go to Dashboard" onAction={() => navigate('/dashboard')} />
       </div>
     );

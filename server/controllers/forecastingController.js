@@ -14,7 +14,8 @@ const getForecastData = async (req, res) => {
       query.district = district;
     }
 
-    const areas = await Area.find(query).populate('district', 'name');
+    const areaLimit = Math.min(Math.max(parseInt(req.query.limit) || 500, 1), 1000);
+    const areas = await Area.find(query).populate('district', 'name').limit(areaLimit);
     
     // Generate forecast data based on timeframe
     const forecastData = areas.map(area => {

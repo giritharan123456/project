@@ -26,7 +26,7 @@ const getAnalyticsOverview = async (req, res) => {
     const totalAreas = await Area.countDocuments();
 
     // ── Business opportunity counts ──────────────────────────────────
-    const allAreas = await Area.find({}, 'marketGapScores');
+    const allAreas = await Area.find({}, 'marketGapScores').limit(500);
     let highOpportunity = 0;
     let mediumOpportunity = 0;
     let lowOpportunity = 0;

@@ -407,7 +407,7 @@ const forgotPassword = async (req, res) => {
 
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(404).json({ success: false, message: 'User not found with that email' });
+      return res.status(200).json({ success: true, message: 'If an account exists, a reset email has been sent.' });
     }
 
     const resetToken = user.getResetPasswordToken();
