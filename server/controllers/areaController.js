@@ -19,7 +19,34 @@ const getAreaByPincode = async (req, res) => {
       });
     }
 
-    // Create a notification for the authenticated user when new area data is fetched
+    // Create a notification for the authenticated user when area is loaded
+    if (req.user) {
+      const districtName = area.district?.name || '';
+      const gapScores = area.marketGapScores ? Object.fromEntries(area.marketGapScores) : {};
+      const values = Object.values(gapScores).map(v => Number(v) || 0);
+      const avgScore = values.length > 0
+        ? Math.round(values.reduce((a, b) => a + b, 0) / values.length)
+        : 0;
+
+      await createNotification(
+        req.user._id,
+        'area_loaded',
+        `Area data loaded: ${area.name} (${pincode})`,
+        `Market data for ${area.name}, ${districtName} accessed. Population: ${(area.population || 0).toLocaleString()}. Avg market gap score: ${avgScore}.`,
+        { pincode, areaName: area.name, districtName, score: avgScore }
+      );
+
+      if (avgScore >= 70) {
+        await createNotification(
+          req.user._id,
+          'market',
+          `High Opportunity Area: ${area.name}`,
+          `${area.name} (${pincode}) has an average market gap score of ${avgScore} — indicating strong business opportunity with relatively low competition.`,
+          { pincode, areaName: area.name, districtName, score: avgScore }
+        );
+      }
+    }
+
     res.json({
       success: true,
       data: area

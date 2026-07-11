@@ -3,6 +3,7 @@ const Area = require('../models/Area');
 const BusinessCategory = require('../models/BusinessCategory');
 const User = require('../models/User');
 const calculateScores = require('../utils/calculateScores');
+const { createNotification } = require('./notificationController');
 
 // @desc    Get all districts
 // @route   GET /api/admin/districts
@@ -119,14 +120,31 @@ const getAreasByDistrict = async (req, res) => {
 // @access  Admin
 const createArea = async (req, res) => {
   try {
-    const { name, pincode, population, competitors, demandScores, marketGapScores, searchTrends, district } = req.body;
+    const { name, pincode, population, populationGrowth, incomeLevel, coordinates, urbanDevelopment, searchTrends, competitors, demandScores, marketGapScores, district, literacyRate, trafficLevel, landmarks, ageDistribution, residentialVsCommercial } = req.body;
     if (!name || !pincode || !district) {
       return res.status(400).json({ success: false, message: 'Name, pincode, and district are required' });
     }
-    const area = new Area({ name, pincode, population, competitors, demandScores, marketGapScores, searchTrends, district });
+    const area = new Area({
+      name, pincode, population, populationGrowth, incomeLevel,
+      coordinates: coordinates || { lat: 0, lng: 0 },
+      urbanDevelopment, searchTrends, competitors, demandScores, marketGapScores, district,
+      literacyRate, trafficLevel, landmarks, ageDistribution, residentialVsCommercial
+    });
     calculateScores(area);
     await area.save();
     const populatedArea = await Area.findById(area._id).populate('district', 'name');
+
+    if (req.user) {
+      const districtName = populatedArea.district?.name || '';
+      await createNotification(
+        req.user._id,
+        'admin',
+        `New area created: ${name} (${pincode})`,
+        `Admin created area "${name}" in ${districtName} with pincode ${pincode}.`,
+        { pincode, areaName: name, districtName }
+      );
+    }
+
     res.status(201).json({
       success: true,
       message: 'Area created successfully',
@@ -144,7 +162,7 @@ const updateArea = async (req, res) => {
   try {
     const area = await Area.findById(req.params.id);
     if (!area) return res.status(404).json({ success: false, message: 'Area not found' });
-    const allowed = ['name', 'pincode', 'population', 'populationGrowth', 'competitors', 'demandScores', 'marketGapScores', 'searchTrends', 'district', 'coordinates', 'incomeLevel', 'urbanDevelopment'];
+    const allowed = ['name', 'pincode', 'population', 'populationGrowth', 'competitors', 'demandScores', 'marketGapScores', 'searchTrends', 'district', 'coordinates', 'incomeLevel', 'urbanDevelopment', 'literacyRate', 'trafficLevel', 'landmarks', 'ageDistribution', 'residentialVsCommercial'];
     for (const key of allowed) {
       if (req.body[key] !== undefined) {
         area[key] = req.body[key];
@@ -153,6 +171,18 @@ const updateArea = async (req, res) => {
     calculateScores(area);
     await area.save();
     const populated = await Area.findById(area._id).populate('district', 'name');
+
+    if (req.user) {
+      const districtName = populated.district?.name || '';
+      await createNotification(
+        req.user._id,
+        'admin',
+        `Area updated: ${area.name} (${area.pincode})`,
+        `Admin updated area "${area.name}" in ${districtName}.`,
+        { pincode: area.pincode, areaName: area.name, districtName }
+      );
+    }
+
     res.json({
       success: true,
       message: 'Area updated successfully',
