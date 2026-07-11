@@ -153,9 +153,9 @@ function BusinessInsights({ pincodeData }) {
                       <td className={`p-3 text-sm font-bold ${b('text-slate-200', 'text-slate-700')}`}>{item.avgCompetitors}</td>
                       <td className="p-3">
                         <span className={`inline-block px-2.5 py-1 rounded-lg text-xs font-bold ${
-                          getScoreClass(item.opportunityScore) === 'high' ? 'bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400' :
-                          getScoreClass(item.opportunityScore) === 'medium' ? 'bg-amber-100 text-amber-600 dark:bg-amber-900/30 dark:text-amber-400' :
-                          'bg-emerald-100 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400'
+                          getScoreClass(item.opportunityScore) === 'high' ? isDarkMode ? 'bg-red-900/30 text-red-400' : 'bg-red-100 text-red-600' :
+                          getScoreClass(item.opportunityScore) === 'medium' ? isDarkMode ? 'bg-amber-900/30 text-amber-400' : 'bg-amber-100 text-amber-600' :
+                          isDarkMode ? 'bg-emerald-900/30 text-emerald-400' : 'bg-emerald-100 text-emerald-600'
                         }`}>
                           {item.opportunityScore}
                         </span>

@@ -81,7 +81,7 @@ function ExecutiveSummary({ pincodeData }) {
     }
 
     // Top actions
-    const topArea = areaAnalysis.sort((a, b) => b.avgGap - a.avgGap)[0];
+    const topArea = [...areaAnalysis].sort((a, b) => b.avgGap - a.avgGap)[0];
     if (topArea) {
       topActions.push({
         action: `Explore ${topArea.area}`,
@@ -91,7 +91,7 @@ function ExecutiveSummary({ pincodeData }) {
       });
     }
 
-    const fastGrowing = areaAnalysis.sort((a, b) => (b.populationGrowth || 0) - (a.populationGrowth || 0))[0];
+    const fastGrowing = [...areaAnalysis].sort((a, b) => (b.populationGrowth || 0) - (a.populationGrowth || 0))[0];
     if (fastGrowing && fastGrowing !== topArea) {
       topActions.push({
         action: `Target ${fastGrowing.area}`,
@@ -101,7 +101,7 @@ function ExecutiveSummary({ pincodeData }) {
       });
     }
 
-    const leastCompetitive = areaAnalysis.sort((a, b) => a.totalComps - b.totalComps)[0];
+    const leastCompetitive = [...areaAnalysis].sort((a, b) => a.totalComps - b.totalComps)[0];
     if (leastCompetitive) {
       topActions.push({
         action: `Enter ${leastCompetitive.area}`,

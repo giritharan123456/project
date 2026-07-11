@@ -104,7 +104,7 @@ export default function SearchResultCard({ area, loading, error, onClose }) {
               <span className={`font-semibold ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
                 Pincode: {area.pincode || 'N/A'}
               </span>
-              <span className="text-slate-300 dark:text-slate-600">|</span>
+              <span className={isDarkMode ? 'text-slate-600' : 'text-slate-300'}>|</span>
               <span className={`font-semibold ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
                 {area.district?.name || area.district || 'N/A'}
               </span>
@@ -136,7 +136,7 @@ export default function SearchResultCard({ area, loading, error, onClose }) {
           </p>
           {area.populationGrowth != null && (
             <p className={`text-[10px] font-bold mt-0.5 ${Number(area.populationGrowth) >= 1 ? 'text-emerald-500' : Number(area.populationGrowth) >= 0 ? 'text-amber-500' : 'text-red-500'}`}>
-              +{Number(area.populationGrowth).toFixed(2)}% growth
+              {Number(area.populationGrowth) >= 0 ? '+' : ''}{Number(area.populationGrowth).toFixed(2)}% growth
             </p>
           )}
         </div>

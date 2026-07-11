@@ -32,7 +32,6 @@ const FloatingAIChat = () => {
       const reply = res.data?.response || 'Sorry, I could not process that request.';
       setMessages(prev => [...prev, { id: Date.now() + 1, text: reply, isBot: true }]);
     } catch (error) {
-      console.error('AI chat error:', error);
       setMessages(prev => [...prev, { id: Date.now() + 1, text: 'Connection error. Please try again.', isBot: true }]);
     } finally {
       setLoading(false);

@@ -37,7 +37,7 @@ function SearchBar({ onSearch, onChange, placeholder = "Search by area or pincod
       } catch { setServerSuggestions([]); }
     }, 300);
     return () => { if (searchTimeoutRef.current) clearTimeout(searchTimeoutRef.current); };
-  }, [searchTerm]);
+  }, [searchTerm, district]);
 
   const localFiltered = suggestions.filter(suggestion =>
     String(suggestion).toLowerCase().includes(searchTerm.toLowerCase())

@@ -181,12 +181,12 @@ function OpportunityHeatMap({ pincodeData, selectedDistrict }) {
                     <div 
                       className="h-full"
                       style={{ 
-                        width: `${score}%`,
-                        background: getHeatmapColor(score)
+                        width: `${Number(score)}%`,
+                        background: getHeatmapColor(Number(score))
                       }}
                     ></div>
                   </div>
-                  <span className={`text-xs font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{score.toFixed(2)}</span>
+                  <span className={`text-xs font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{Number(score).toFixed(2)}</span>
                 </div>
               ))}
             </div>

@@ -178,7 +178,7 @@ function Dashboard() {
       setSearchPincode('');
       setSearchLoading(true);
       try {
-        const res = await areasAPI.getAll();
+        const res = await areasAPI.getAll({ district: selectedDistrict, limit: 50 });
         if (res.data) setAreas(res.data);
       } catch { /* keep existing data */ }
       finally { setSearchLoading(false); }
@@ -246,7 +246,7 @@ function Dashboard() {
                 <DistrictSelector districts={districts} onDistrictChange={() => {
                   userClearedRef.current = false;
                   sessionStorage.removeItem('dashboardSearchCleared');
-                  setSelectedPincode('');
+                  setSelectedPincode(null);
                   setSearchPincode('');
                   setSearchError(null);
                   setSearchLoading(false);
@@ -289,7 +289,7 @@ function Dashboard() {
                   loading={searchLoading}
                   error={searchError}
                   onClose={() => {
-                    setSelectedPincode('');
+                    setSelectedPincode(null);
                     setSearchPincode('');
                     setSearchError(null);
                     navigate('/dashboard', { replace: true });

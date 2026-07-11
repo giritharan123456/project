@@ -1,5 +1,5 @@
 import React from 'react';
-import { MapContainer, TileLayer, Marker, Popup, CircleMarker, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, Popup, CircleMarker, useMap } from 'react-leaflet';
 import { useTheme } from '../contexts/ThemeContext';
 import { motion } from 'framer-motion';
 import { MapPin, TrendingUp, Users, BarChart3, Maximize2 } from 'lucide-react';
@@ -134,24 +134,24 @@ function MapSection({ pincodeData, selectedDistrict }) {
                 }}
               >
                 <Popup>
-                  <div className="p-4 min-w-[280px] bg-white dark:bg-[#1e293b] text-[#1e293b] dark:text-gray-100">
-                    <h4 className="text-lg font-bold mb-2">{pincode.area} ({pincode.pincode})</h4>
-                    <p className="text-sm mb-1"><strong>District:</strong> {pincode.district}</p>
-                    <p className="text-sm mb-1"><strong>Population:</strong> {pincode.population != null ? Number(pincode.population).toLocaleString() : 'N/A'}</p>
-                    <p className="text-sm mb-1"><strong>Population Growth:</strong> {pincode.populationGrowth != null ? `${Number(pincode.populationGrowth).toFixed(2)}%` : 'N/A'}</p>
-                    <p className="text-sm mb-1"><strong>Income Level:</strong> {pincode.incomeLevel || 'N/A'}</p>
-                    <p className="text-sm mb-1"><strong>Urban Dev:</strong> {pincode.urbanDevelopment != null ? `${pincode.urbanDevelopment}/100` : 'N/A'}</p>
-                    <hr className="my-2 border-gray-200 dark:border-[#475569]" />
-                    <p className="text-sm mb-2"><strong>Opportunity Score:</strong> <span className="font-bold" style={{ color: colors.fill }}>{avgGapScore.toFixed(2)}</span></p>
-                    <div className="mt-2">
-                      <strong className="text-sm">Top Categories:</strong>
+                  <div style={{ padding: '16px', minWidth: '280px', background: isDarkMode ? '#1e293b' : '#ffffff', color: isDarkMode ? '#f1f5f9' : '#1e293b' }}>
+                    <h4 style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '8px' }}>{pincode.area} ({pincode.pincode})</h4>
+                    <p style={{ fontSize: '14px', marginBottom: '4px' }}><strong>District:</strong> {pincode.district}</p>
+                    <p style={{ fontSize: '14px', marginBottom: '4px' }}><strong>Population:</strong> {pincode.population != null ? Number(pincode.population).toLocaleString() : 'N/A'}</p>
+                    <p style={{ fontSize: '14px', marginBottom: '4px' }}><strong>Population Growth:</strong> {pincode.populationGrowth != null ? `${Number(pincode.populationGrowth).toFixed(2)}%` : 'N/A'}</p>
+                    <p style={{ fontSize: '14px', marginBottom: '4px' }}><strong>Income Level:</strong> {pincode.incomeLevel || 'N/A'}</p>
+                    <p style={{ fontSize: '14px', marginBottom: '4px' }}><strong>Urban Dev:</strong> {pincode.urbanDevelopment != null ? `${pincode.urbanDevelopment}/100` : 'N/A'}</p>
+                    <hr style={{ margin: '8px 0', borderColor: isDarkMode ? '#475569' : '#e5e7eb' }} />
+                    <p style={{ fontSize: '14px', marginBottom: '8px' }}><strong>Opportunity Score:</strong> <span style={{ fontWeight: 'bold', color: colors.fill }}>{avgGapScore.toFixed(2)}</span></p>
+                    <div style={{ marginTop: '8px' }}>
+                      <strong style={{ fontSize: '14px' }}>Top Categories:</strong>
                       {Object.entries(pincode.marketGapScores || {})
-                        .sort(([, a], [, b]) => b - a)
+                        .sort(([, a], [, b]) => Number(b) - Number(a))
                         .slice(0, 3)
                         .map(([cat, score]) => (
-                          <div key={cat} className="flex justify-between items-center mt-1">
-                            <span className="text-sm">{cat}:</span>
-                            <span className="text-sm font-bold" style={{ color: colors.fill }}>{Number(score).toFixed(2)}</span>
+                          <div key={cat} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '4px' }}>
+                            <span style={{ fontSize: '14px' }}>{cat}:</span>
+                            <span style={{ fontSize: '14px', fontWeight: 'bold', color: colors.fill }}>{Number(score).toFixed(2)}</span>
                           </div>
                         ))}
                     </div>

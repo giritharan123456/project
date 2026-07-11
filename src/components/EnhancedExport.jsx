@@ -28,6 +28,7 @@ function EnhancedExport({ data, selectedDistrict, businessCategories, leaderboar
 
   const exportToPDF = async () => {
     if (!data || data.length === 0) {
+      toastError('No data to export');
       return;
     }
 
@@ -164,6 +165,14 @@ function EnhancedExport({ data, selectedDistrict, businessCategories, leaderboar
     }
   };
 
+  const escapeCSV = (val) => {
+    const str = String(val ?? '');
+    if (str.includes(',') || str.includes('"') || str.includes('\n')) {
+      return `"${str.replace(/"/g, '""')}"`;
+    }
+    return str;
+  };
+
   const exportCSV = () => {
     if (!data || data.length === 0) return;
     const headers = ['Pincode', 'Area', 'District', 'Population', 'Growth %', 'Income Level', 'Opp. Score', 'Feas. Score'];
@@ -174,10 +183,10 @@ function EnhancedExport({ data, selectedDistrict, businessCategories, leaderboar
       pincode.opportunityScore ?? '', pincode.feasibilityScore ?? '',
       ...businessCategories.map(cat => (pincode.marketGapScores && pincode.marketGapScores[cat.name]) || 0)
     ]);
-    const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+    const csv = [headers.map(escapeCSV).join(','), ...rows.map(r => r.map(escapeCSV).join(','))].join('\n');
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a'); a.href = url; a.download = `market-gap-analysis-${selectedDistrict}.csv`; a.click();
+    const a = document.createElement('a'); a.href = url; a.download = `market-gap-analysis-${districtName}.csv`; a.click();
     URL.revokeObjectURL(url);
   };
 
