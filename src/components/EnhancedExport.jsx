@@ -12,7 +12,7 @@ function EnhancedExport({ data, selectedDistrict, businessCategories, leaderboar
   const { error: toastError } = useToast();
   const [isExporting, setIsExporting] = useState(false);
   
-  const districtName = districts.find(d => d._id === selectedDistrict)?.name || 'All Districts';
+  const districtName = districts.find(d => d._id === selectedDistrict || d.name === selectedDistrict)?.name || selectedDistrict || 'All Districts';
 
   const handleExport = async () => {
     setIsExporting(true);
