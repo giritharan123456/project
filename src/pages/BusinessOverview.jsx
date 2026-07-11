@@ -3,6 +3,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
 import { useAuth } from '../contexts/AuthContext';
+import { useToast } from '../contexts/ToastContext';
 import { areasAPI, favoriteAPI, shareAPI } from '../services/api';
 import EmptyState from '../components/EmptyState';
 import { toPlainObject, averageOfValues, NO_DATA_LABEL } from '../utils/dataUtils';
@@ -25,6 +26,7 @@ const categoryIcons = {
 function BusinessOverview() {
   const { isDarkMode } = useTheme();
   const { user } = useAuth();
+  const { error: toastError } = useToast();
   const { pincode: routePincode } = useParams();
   const navigate = useNavigate();
   const [viewMode, setViewMode] = useState('grid');
@@ -100,7 +102,7 @@ function BusinessOverview() {
       const url = `${window.location.origin}/share/${res.data.shareToken}`;
       setShareModal({ name: apiArea.name, pincode: apiArea.pincode, url });
     } catch (err) {
-      alert(err.message || 'Failed to create share link');
+      toastError(err.message || 'Failed to create share link');
     }
   };
 
@@ -406,11 +408,11 @@ function BusinessOverview() {
                       </div>
                       <div className={`flex items-center justify-between ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                         <span className="opacity-70">Gap Score</span>
-                        <span className="font-bold">{business.gapScore.toFixed(2)}</span>
+                        <span className="font-bold">{Number(business.gapScore || 0).toFixed(2)}</span>
                       </div>
                       <div className={`flex items-center justify-between ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                         <span className="opacity-70">Demand Score</span>
-                        <span className="font-bold">{business.demandScore.toFixed(2)}</span>
+                        <span className="font-bold">{Number(business.demandScore || 0).toFixed(2)}</span>
                       </div>
                       <div className={`flex items-center justify-between ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                         <span className="opacity-70">Population</span>
@@ -460,11 +462,11 @@ function BusinessOverview() {
                           </div>
                           <div className={`flex items-center gap-2 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                             <span className="opacity-70">Gap:</span>
-                            <span className="font-bold">{business.gapScore.toFixed(2)}</span>
+                            <span className="font-bold">{Number(business.gapScore || 0).toFixed(2)}</span>
                           </div>
                           <div className={`flex items-center gap-2 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                             <span className="opacity-70">Demand:</span>
-                            <span className="font-bold">{business.demandScore.toFixed(2)}</span>
+                            <span className="font-bold">{Number(business.demandScore || 0).toFixed(2)}</span>
                           </div>
                           <div className={`flex items-center gap-2 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                             <span className="opacity-70">Pop:</span>

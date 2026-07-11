@@ -3,6 +3,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
 import { useAuth } from '../contexts/AuthContext';
+import { useToast } from '../contexts/ToastContext';
 import { areasAPI, favoriteAPI, shareAPI } from '../services/api';
 import EmptyState from '../components/EmptyState';
 import { averageOfValues, toPlainObject, NO_DATA_LABEL } from '../utils/dataUtils';
@@ -15,6 +16,7 @@ import {
 function AreaOverview() {
   const { isDarkMode } = useTheme();
   const { user } = useAuth();
+  const { error: toastError } = useToast();
   const { pincode: routePincode } = useParams();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -82,7 +84,7 @@ function AreaOverview() {
       const url = `${window.location.origin}/share/${res.data.shareToken}`;
       setShareModal({ name: apiArea.name, pincode: apiArea.pincode, url });
     } catch (err) {
-      alert(err.message || 'Failed to create share link');
+      toastError(err.message || 'Failed to create share link');
     }
   };
 

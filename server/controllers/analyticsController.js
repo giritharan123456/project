@@ -1,5 +1,6 @@
 const Area = require('../models/Area');
 const District = require('../models/District');
+const logger = require('../utils/logger');
 
 // @desc    Get analytics overview — computed from real DB data
 // @route   GET /api/analytics/overview
@@ -144,7 +145,7 @@ const getAnalyticsOverview = async (req, res) => {
       }
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 
@@ -192,7 +193,7 @@ const getDistrictAnalytics = async (req, res) => {
       }
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 

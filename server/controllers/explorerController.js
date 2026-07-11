@@ -1,10 +1,15 @@
 const Area = require('../models/Area');
 const BusinessCategory = require('../models/BusinessCategory');
 const District = require('../models/District');
+const logger = require('../utils/logger');
+
+const ALLOWED_SORT_FIELDS = ['opportunityScore', 'feasibilityScore', 'population', 'populationGrowth', 'demand', 'supply', 'gap', 'name', 'createdAt'];
+const sanitizeSortBy = (sortBy, defaultField = 'opportunityScore') => ALLOWED_SORT_FIELDS.includes(sortBy) ? sortBy : defaultField;
 
 const getCategoryExplorer = async (req, res) => {
   try {
-    const { district, sortBy = 'gap', limit = 50 } = req.query;
+    const { district, sortBy: rawSortBy = 'gap', limit = 50 } = req.query;
+    const sortBy = sanitizeSortBy(rawSortBy, 'gap');
     const categories = await BusinessCategory.find().sort({ [sortBy]: -1 }).limit(Number(limit));
 
     const filter = {};
@@ -29,13 +34,14 @@ const getCategoryExplorer = async (req, res) => {
 
     res.json({ success: true, categories: enriched });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 
 const getLeaderboard = async (req, res) => {
   try {
-    const { district, sortBy = 'opportunityScore', page = 1, limit = 20 } = req.query;
+    const { district, sortBy: rawSortBy = 'opportunityScore', page = 1, limit = 20 } = req.query;
+    const sortBy = sanitizeSortBy(rawSortBy);
     const filter = {};
     if (district) filter.district = district;
 
@@ -69,7 +75,7 @@ const getLeaderboard = async (req, res) => {
 
     res.json({ success: true, areas: enriched, total, page: Number(page), pages: Math.ceil(total / Number(limit)) });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 
@@ -112,7 +118,7 @@ const getMatrix = async (req, res) => {
 
     res.json({ success: true, matrix });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 
@@ -256,7 +262,7 @@ const getInvestmentEstimate = async (req, res) => {
       }
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 
@@ -282,13 +288,14 @@ const recalculateScores = async (req, res) => {
     }
     res.json({ success: true, message: `Recalculated scores for ${updated} areas` });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 
 const getPincodeShops = async (req, res) => {
   try {
-    const { pincode, district, category, incomeLevel, minPopulation, maxPopulation, sortBy = 'opportunityScore', page = 1, limit = 50 } = req.query;
+    const { pincode, district, category, incomeLevel, minPopulation, maxPopulation, sortBy: rawSortBy = 'opportunityScore', page = 1, limit = 50 } = req.query;
+    const sortBy = sanitizeSortBy(rawSortBy);
 
     const filter = {};
     if (pincode) filter.pincode = pincode;
@@ -374,7 +381,7 @@ const getPincodeShops = async (req, res) => {
       totalPages: Math.ceil(total / limitNum)
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 

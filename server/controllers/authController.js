@@ -143,7 +143,7 @@ const registerUser = async (req, res) => {
       }
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 
@@ -191,7 +191,7 @@ const loginUser = async (req, res) => {
       }
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 
@@ -224,7 +224,7 @@ const refreshAccessToken = async (req, res) => {
 
     res.json({ success: true, accessToken });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 
@@ -246,7 +246,7 @@ const logoutUser = async (req, res) => {
 
     res.json({ success: true, message: 'Logged out successfully' });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 
@@ -265,7 +265,7 @@ const logoutAllDevices = async (req, res) => {
 
     res.json({ success: true, message: 'Logged out from all devices' });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 
@@ -307,7 +307,7 @@ const guestLogin = async (req, res) => {
       }
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 
@@ -336,7 +336,7 @@ const getUserProfile = async (req, res) => {
       res.status(404).json({ success: false, message: 'User not found' });
     }
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 
@@ -394,7 +394,7 @@ const updateUserProfile = async (req, res) => {
       res.status(404).json({ success: false, message: 'User not found' });
     }
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 
@@ -451,7 +451,7 @@ const forgotPassword = async (req, res) => {
       ...(process.env.NODE_ENV !== 'production' && { resetToken, resetUrl })
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 
@@ -509,7 +509,7 @@ const resetPassword = async (req, res) => {
       }
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 

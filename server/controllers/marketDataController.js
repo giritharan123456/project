@@ -1,5 +1,6 @@
 const Area = require('../models/Area');
 const District = require('../models/District');
+const logger = require('../utils/logger');
 
 // @desc    Get market data for all areas
 // @route   GET /api/market-data
@@ -23,7 +24,7 @@ const getMarketData = async (req, res) => {
       data: areas
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 
@@ -54,7 +55,7 @@ const getMarketDataByArea = async (req, res) => {
       res.status(404).json({ success: false, message: 'Area not found' });
     }
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 
@@ -72,7 +73,7 @@ const getMarketDataByDistrict = async (req, res) => {
       data: areas
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 
@@ -97,7 +98,7 @@ const updateMarketData = async (req, res) => {
       res.status(404).json({ success: false, message: 'Area not found' });
     }
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 

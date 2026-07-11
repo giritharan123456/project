@@ -2,6 +2,7 @@ const Area = require('../models/Area');
 const District = require('../models/District');
 const { createNotification } = require('./notificationController');
 const calculateScores = require('../utils/calculateScores');
+const logger = require('../utils/logger');
 
 const escapeRegex = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
@@ -54,7 +55,7 @@ const getAreaByPincode = async (req, res) => {
       data: area
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 
@@ -101,7 +102,7 @@ const getAllAreas = async (req, res) => {
       data: areas
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 
@@ -120,7 +121,7 @@ const getAreaById = async (req, res) => {
       res.status(404).json({ success: false, message: 'Area not found' });
     }
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 
@@ -138,7 +139,7 @@ const getAreasByDistrict = async (req, res) => {
       data: areas
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 
@@ -161,7 +162,7 @@ const createArea = async (req, res) => {
       data: area
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 
@@ -189,7 +190,7 @@ const updateArea = async (req, res) => {
       res.status(404).json({ success: false, message: 'Area not found' });
     }
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 
@@ -208,7 +209,7 @@ const deleteArea = async (req, res) => {
       res.status(404).json({ success: false, message: 'Area not found' });
     }
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 

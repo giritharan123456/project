@@ -91,16 +91,8 @@ const areaSchema = new mongoose.Schema({
     type: { type: String, enum: ['Temple', 'Hospital', 'School', 'Market', 'Park', 'Station', 'Mall', 'Other'], default: 'Other' }
   }],
   feasibilityScore: { type: Number, default: 0, min: 0, max: 100 },
-  opportunityScore: { type: Number, default: 0, min: 0, max: 100 },
-  createdAt: {
-    type: Date,
-    default: Date.now
-  },
-  updatedAt: {
-    type: Date,
-    default: Date.now
-  }
-});
+  opportunityScore: { type: Number, default: 0, min: 0, max: 100 }
+}, { timestamps: true });
 
 areaSchema.index({ district: 1, pincode: 1 });
 areaSchema.index({ name: 'text', pincode: 'text' });

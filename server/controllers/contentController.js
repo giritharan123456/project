@@ -1,6 +1,7 @@
 const Content = require('../models/Content');
 const Area = require('../models/Area');
 const District = require('../models/District');
+const logger = require('../utils/logger');
 
 // @desc    Get landing page content
 // @route   GET /api/content/landing
@@ -50,8 +51,17 @@ const getLandingContent = async (req, res) => {
       data: content
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
+};
+
+const filterContentFields = (body) => {
+  const allowed = ['title', 'description', 'subtitle', 'problem', 'solution', 'features', 'stats', 'factors', 'formula', 'algorithm', 'faqs'];
+  const filtered = {};
+  for (const key of allowed) {
+    if (body[key] !== undefined) filtered[key] = body[key];
+  }
+  return filtered;
 };
 
 // @desc    Update landing page content (admin only)
@@ -59,12 +69,13 @@ const getLandingContent = async (req, res) => {
 // @access  Admin
 const updateLandingContent = async (req, res) => {
   try {
+    const filtered = filterContentFields(req.body);
     let content = await Content.findOne({ type: 'landing' });
     
     if (content) {
-      content = await Content.findOneAndUpdate({ type: 'landing' }, req.body, { new: true, runValidators: true });
+      content = await Content.findOneAndUpdate({ type: 'landing' }, filtered, { new: true, runValidators: true });
     } else {
-      content = await Content.create({ type: 'landing', ...req.body });
+      content = await Content.create({ type: 'landing', ...filtered });
     }
 
     res.json({
@@ -72,7 +83,7 @@ const updateLandingContent = async (req, res) => {
       data: content
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 
@@ -108,7 +119,7 @@ const getAboutContent = async (req, res) => {
       data: content
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 
@@ -117,12 +128,13 @@ const getAboutContent = async (req, res) => {
 // @access  Admin
 const updateAboutContent = async (req, res) => {
   try {
+    const filtered = filterContentFields(req.body);
     let content = await Content.findOne({ type: 'about' });
     
     if (content) {
-      content = await Content.findOneAndUpdate({ type: 'about' }, req.body, { new: true, runValidators: true });
+      content = await Content.findOneAndUpdate({ type: 'about' }, filtered, { new: true, runValidators: true });
     } else {
-      content = await Content.create({ type: 'about', ...req.body });
+      content = await Content.create({ type: 'about', ...filtered });
     }
 
     res.json({
@@ -130,7 +142,7 @@ const updateAboutContent = async (req, res) => {
       data: content
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 
@@ -183,7 +195,7 @@ const getAnalysisContent = async (req, res) => {
       data: content
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 
@@ -192,12 +204,13 @@ const getAnalysisContent = async (req, res) => {
 // @access  Admin
 const updateAnalysisContent = async (req, res) => {
   try {
+    const filtered = filterContentFields(req.body);
     let content = await Content.findOne({ type: 'analysis' });
     
     if (content) {
-      content = await Content.findOneAndUpdate({ type: 'analysis' }, req.body, { new: true, runValidators: true });
+      content = await Content.findOneAndUpdate({ type: 'analysis' }, filtered, { new: true, runValidators: true });
     } else {
-      content = await Content.create({ type: 'analysis', ...req.body });
+      content = await Content.create({ type: 'analysis', ...filtered });
     }
 
     res.json({
@@ -205,7 +218,7 @@ const updateAnalysisContent = async (req, res) => {
       data: content
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 
@@ -251,7 +264,7 @@ const getHomeContent = async (req, res) => {
       data: content
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 
@@ -260,12 +273,13 @@ const getHomeContent = async (req, res) => {
 // @access  Admin
 const updateHomeContent = async (req, res) => {
   try {
+    const filtered = filterContentFields(req.body);
     let content = await Content.findOne({ type: 'home' });
     
     if (content) {
-      content = await Content.findOneAndUpdate({ type: 'home' }, req.body, { new: true, runValidators: true });
+      content = await Content.findOneAndUpdate({ type: 'home' }, filtered, { new: true, runValidators: true });
     } else {
-      content = await Content.create({ type: 'home', ...req.body });
+      content = await Content.create({ type: 'home', ...filtered });
     }
 
     res.json({
@@ -273,7 +287,7 @@ const updateHomeContent = async (req, res) => {
       data: content
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 

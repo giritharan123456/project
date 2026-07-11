@@ -78,7 +78,7 @@ function AreaLeaderboard() {
       const res = await shareAPI.create('area', area._id, { name: area.name, pincode: area.pincode, district: area.district });
       const url = `${window.location.origin}/share/${res.data.shareToken}`;
       setShareModal({ area, url });
-    } catch (err) { alert(err.message || 'Failed to create share link'); }
+    } catch (err) { toastError(err.message || 'Failed to create share link'); }
   };
 
   const shareToWhatsApp = (url, name) => {

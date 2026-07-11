@@ -1,5 +1,6 @@
 const Area = require('../models/Area');
 const District = require('../models/District');
+const logger = require('../utils/logger');
 
 const escapeRegex = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
@@ -33,7 +34,7 @@ const searchAreas = async (req, res) => {
       data: areas
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 
@@ -53,7 +54,7 @@ const searchByPincode = async (req, res) => {
       res.status(404).json({ success: false, message: 'Area not found with this pincode' });
     }
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 
@@ -73,7 +74,7 @@ const searchByName = async (req, res) => {
       data: areas
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 
@@ -117,7 +118,7 @@ const getSearchSuggestions = async (req, res) => {
       }))
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 

@@ -1,5 +1,6 @@
 const Area = require('../models/Area');
 const District = require('../models/District');
+const logger = require('../utils/logger');
 
 // @desc    Get forecast data for all areas
 // @route   GET /api/forecasting
@@ -48,7 +49,7 @@ const getForecastData = async (req, res) => {
       data: forecastData
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 
@@ -111,7 +112,7 @@ const getForecastByArea = async (req, res) => {
       data: forecast
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 
@@ -151,7 +152,7 @@ const getForecastByDistrict = async (req, res) => {
       data: forecastData
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 

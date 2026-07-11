@@ -15,7 +15,7 @@ const processQueue = (error, token = null) => {
 };
 
 // Helper function to make API calls
-const apiCall = async (endpoint, options = {}) => {
+const apiCall = async (endpoint, options = {}, _retryCount = 0) => {
   const token = localStorage.getItem('token');
   
   const defaultOptions = {
@@ -43,7 +43,7 @@ const apiCall = async (endpoint, options = {}) => {
 
     clearTimeout(timer);
 
-    if (response.status === 401 && !endpoint.includes('/auth/refresh') && !endpoint.includes('/auth/logout')) {
+    if (response.status === 401 && !endpoint.includes('/auth/refresh') && !endpoint.includes('/auth/logout') && _retryCount < 1) {
       // Try to refresh token
       if (!isRefreshing) {
         isRefreshing = true;
@@ -59,7 +59,7 @@ const apiCall = async (endpoint, options = {}) => {
             isRefreshing = false;
             processQueue(null, refreshData.accessToken || refreshData.token);
             // Retry original request with new token
-            return apiCall(endpoint, options);
+            return apiCall(endpoint, options, _retryCount + 1);
           } else {
             // Refresh failed, logout
             throw new Error('Session expired. Please log in again.');
@@ -79,7 +79,7 @@ const apiCall = async (endpoint, options = {}) => {
             failedQueue.push({ resolve, reject });
           });
           // Retry with new token
-          return apiCall(endpoint, options);
+          return apiCall(endpoint, options, _retryCount + 1);
         } catch (err) {
           throw err;
         }

@@ -4,6 +4,7 @@ const BusinessCategory = require('../models/BusinessCategory');
 const User = require('../models/User');
 const calculateScores = require('../utils/calculateScores');
 const { createNotification } = require('./notificationController');
+const logger = require('../utils/logger');
 
 // @desc    Get all districts
 // @route   GET /api/admin/districts
@@ -17,7 +18,7 @@ const getAllDistricts = async (req, res) => {
       data: districts
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 
@@ -48,7 +49,7 @@ const createDistrict = async (req, res) => {
       data: district
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 
@@ -79,7 +80,7 @@ const updateDistrict = async (req, res) => {
       data: district
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 
@@ -113,7 +114,7 @@ const deleteDistrict = async (req, res) => {
       message: 'District and associated areas deleted successfully'
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 
@@ -129,7 +130,7 @@ const getAllAreas = async (req, res) => {
       data: areas
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 
@@ -145,7 +146,7 @@ const getAreasByDistrict = async (req, res) => {
       data: areas
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 
@@ -185,7 +186,7 @@ const createArea = async (req, res) => {
       data: populatedArea
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 
@@ -223,7 +224,7 @@ const updateArea = async (req, res) => {
       data: populated
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 
@@ -257,7 +258,7 @@ const deleteArea = async (req, res) => {
       message: 'Area deleted successfully'
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 
@@ -273,7 +274,7 @@ const getAllBusinessCategories = async (req, res) => {
       data: categories
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 
@@ -304,7 +305,7 @@ const createBusinessCategory = async (req, res) => {
       data: category
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 
@@ -335,7 +336,7 @@ const updateBusinessCategory = async (req, res) => {
       data: category
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 
@@ -366,7 +367,7 @@ const deleteBusinessCategory = async (req, res) => {
       message: 'Business category deleted successfully'
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 
@@ -382,7 +383,7 @@ const getAllUsers = async (req, res) => {
       data: users
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 
@@ -400,7 +401,7 @@ const getUserById = async (req, res) => {
       data: user
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 
@@ -439,7 +440,7 @@ const updateUser = async (req, res) => {
       }
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 
@@ -458,7 +459,7 @@ const deleteUser = async (req, res) => {
       message: 'User deleted successfully'
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 
@@ -487,7 +488,7 @@ const getDashboardStats = async (req, res) => {
       }
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 

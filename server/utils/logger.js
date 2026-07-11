@@ -7,11 +7,26 @@ const formatMsg = (level, msg, meta) => {
   return meta ? `${base} ${JSON.stringify(meta)}` : base;
 };
 
+const SAFE_MESSAGES = {
+  CastError: 'Resource not found',
+  ValidationError: 'Validation failed',
+  JsonWebTokenError: 'Invalid token',
+  TokenExpiredError: 'Token expired',
+  MongoServerError: 'Server error',
+  MongooseServerSelectionError: 'Database connection error',
+};
+
+const getClientMessage = (error) => {
+  if (process.env.NODE_ENV === 'development') return error.message;
+  return SAFE_MESSAGES[error.name] || 'Internal server error';
+};
+
 const logger = {
   error: (msg, meta) => { if (CURRENT_LEVEL >= 0) console.error(formatMsg('error', msg, meta)); },
   warn:  (msg, meta) => { if (CURRENT_LEVEL >= 1) console.warn(formatMsg('warn', msg, meta)); },
   info:  (msg, meta) => { if (CURRENT_LEVEL >= 2) console.log(formatMsg('info', msg, meta)); },
   debug: (msg, meta) => { if (CURRENT_LEVEL >= 3) console.log(formatMsg('debug', msg, meta)); },
+  getClientMessage,
 };
 
 module.exports = logger;

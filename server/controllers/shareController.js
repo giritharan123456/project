@@ -46,8 +46,7 @@ exports.getShareByToken = async (req, res) => {
       return res.status(404).json({ success: false, message: 'Share link expired or invalid' });
     }
 
-    share.accessCount += 1;
-    await share.save();
+    await Share.findOneAndUpdate({ _id: share._id }, { $inc: { accessCount: 1 } });
 
     res.json({ success: true, data: share });
   } catch (error) {

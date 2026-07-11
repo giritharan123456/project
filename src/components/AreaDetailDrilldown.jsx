@@ -172,7 +172,7 @@ function AreaDetailDrilldown({ area, onClose, onCompare, isComparing }) {
                 <h4 className={`text-xs font-extrabold mb-3 ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>Competitors by Category</h4>
                 <div className="space-y-1.5">
                   {sortedCompetitors.map(([cat, count]) => (
-                    <ScoreBar key={cat} label={cat} score={count} max={Math.max(...sortedCompetitors.map(([, v]) => Number(v) || 0), 1)} />
+                    <ScoreBar key={cat} label={cat} score={count} max={sortedCompetitors.reduce((max, [, v]) => Math.max(max, Number(v) || 0), 1)} />
                   ))}
                 </div>
               </div>

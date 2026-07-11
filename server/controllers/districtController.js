@@ -1,5 +1,6 @@
 const District = require('../models/District');
 const Area = require('../models/Area');
+const logger = require('../utils/logger');
 
 // @desc    Get all districts
 // @route   GET /api/districts
@@ -13,7 +14,7 @@ const getAllDistricts = async (req, res) => {
       data: districts
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 
@@ -32,7 +33,7 @@ const getDistrictById = async (req, res) => {
       res.status(404).json({ success: false, message: 'District not found' });
     }
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 
@@ -52,7 +53,7 @@ const createDistrict = async (req, res) => {
       data: district
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 
@@ -77,7 +78,7 @@ const updateDistrict = async (req, res) => {
       res.status(404).json({ success: false, message: 'District not found' });
     }
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 
@@ -97,7 +98,7 @@ const deleteDistrict = async (req, res) => {
       res.status(404).json({ success: false, message: 'District not found' });
     }
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 

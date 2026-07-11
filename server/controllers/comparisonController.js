@@ -1,5 +1,6 @@
 const Area = require('../models/Area');
 const User = require('../models/User');
+const logger = require('../utils/logger');
 
 // @desc    Compare multiple areas
 // @route   POST /api/comparison/compare
@@ -55,7 +56,7 @@ const compareAreas = async (req, res) => {
       }
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 
@@ -88,7 +89,7 @@ const saveComparison = async (req, res) => {
       data: comparison
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 
@@ -107,7 +108,7 @@ const getSavedComparisons = async (req, res) => {
       data: user.savedComparisons
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 
@@ -131,7 +132,7 @@ const deleteComparison = async (req, res) => {
       message: 'Comparison deleted successfully'
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 

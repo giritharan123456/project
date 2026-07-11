@@ -1,5 +1,6 @@
 const User = require('../models/User');
 const Area = require('../models/Area');
+const logger = require('../utils/logger');
 
 // @desc    Get authenticated user's workspace profile
 // @route   GET /api/workspace/profile
@@ -47,7 +48,7 @@ const getProfile = async (req, res) => {
       }
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 
@@ -90,7 +91,7 @@ const getFavorites = async (req, res) => {
       data: formatted
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 
@@ -122,7 +123,7 @@ const addFavorite = async (req, res) => {
 
     res.json({ success: true, message: 'Area added to favorites' });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 
@@ -143,7 +144,7 @@ const removeFavorite = async (req, res) => {
 
     res.json({ success: true, message: 'Area removed from favorites' });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 
@@ -176,7 +177,7 @@ const getSearchHistory = async (req, res) => {
       data: enriched
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 
@@ -205,7 +206,7 @@ const addSearchHistory = async (req, res) => {
 
     res.json({ success: true, message: 'Search history updated' });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 
@@ -217,7 +218,7 @@ const clearSearchHistory = async (req, res) => {
     await User.findByIdAndUpdate(req.user._id, { recentSearches: [] });
     res.json({ success: true, message: 'Search history cleared' });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 

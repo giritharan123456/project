@@ -29,7 +29,7 @@ const getNotifications = async (req, res) => {
       data: notifications
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 
@@ -50,7 +50,7 @@ const markAsRead = async (req, res) => {
 
     res.json({ success: true, data: notification });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 
@@ -66,7 +66,7 @@ const markAllAsRead = async (req, res) => {
 
     res.json({ success: true, message: 'All notifications marked as read' });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 
@@ -86,7 +86,7 @@ const deleteNotification = async (req, res) => {
 
     res.json({ success: true, message: 'Notification deleted' });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 
