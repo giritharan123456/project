@@ -44,7 +44,7 @@ function OpportunityHeatMap({ pincodeData }) {
 
     return pincodeData.map(pincode => {
       const categories = Object.entries(toPlainObject(pincode.marketGapScores));
-      const avgGap = averageOfValues(pincode.marketGapScores) ?? 0;
+      const avgGap = pincode.opportunityScore || averageOfValues(pincode.marketGapScores) || 0;
       
       let categoryScores = {};
       if (selectedCategory === 'all') {
@@ -78,40 +78,40 @@ function OpportunityHeatMap({ pincodeData }) {
 
   return (
     <div className={`p-3 rounded-xl border mb-1 transition-all duration-300 ${isDarkMode ? 'bg-[#1e293b] border-[#334155] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.3),0_2px_4px_-1px_rgba(0,0,0,0.2)]' : 'bg-[#ffffff] border-[#e2e8f0] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-1px_rgba(0,0,0,0.06)]'}`}>
-      <div className="flex justify-between items-center mb-2">
-        <h3 className={`text-xl font-bold bg-gradient-to-r from-[#2563eb] to-[#7c3aed] bg-clip-text text-transparent ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>🗺️ Opportunity Heat Map</h3>
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 mb-2">
+        <h3 className={`text-lg sm:text-xl font-bold bg-gradient-to-r from-[#2563eb] to-[#7c3aed] bg-clip-text text-transparent ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>🗺️ Opportunity Heat Map</h3>
         <div className="flex gap-2">
           <select 
-            className={`px-3 py-2 border-2 rounded-lg ${isDarkMode ? 'bg-[#0f172a] border-[#334155] text-[#f1f5f9]' : 'bg-[#f8fafc] border-[#e2e8f0] text-[#1e293b]'}`}
+            className={`px-2 sm:px-3 py-1.5 sm:py-2 border-2 rounded-lg text-xs sm:text-sm ${isDarkMode ? 'bg-[#0f172a] border-[#334155] text-[#f1f5f9]' : 'bg-[#f8fafc] border-[#e2e8f0] text-[#1e293b]'}`}
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
           >
-            <option value="all">All Categories</option>
+            <option value="all">All</option>
             {categories.map(cat => (
               <option key={cat} value={cat}>{cat}</option>
             ))}
           </select>
-          <button onClick={() => setShowLegend(!showLegend)} className={`px-4 py-2 border-2 rounded-lg transition-all duration-300 ${isDarkMode ? 'bg-[#0f172a] border-[#334155] text-[#f1f5f9] hover:border-[#2563eb]' : 'bg-[#f8fafc] border-[#e2e8f0] text-[#1e293b] hover:border-[#2563eb]'}`}>📊 Legend</button>
+          <button onClick={() => setShowLegend(!showLegend)} className={`px-2 sm:px-4 py-1.5 sm:py-2 border-2 rounded-lg text-xs sm:text-sm transition-all duration-300 ${isDarkMode ? 'bg-[#0f172a] border-[#334155] text-[#f1f5f9] hover:border-[#2563eb]' : 'bg-[#f8fafc] border-[#e2e8f0] text-[#1e293b] hover:border-[#2563eb]'}`}>📊 Legend</button>
         </div>
       </div>
 
       {showLegend && (
-      <div className="flex flex-wrap gap-4 mb-6">
-        <div className="flex items-center gap-2">
-          <div className="w-4 h-4 rounded" style={{ background: 'rgba(34, 197, 94, 0.8)' }}></div>
-          <span className={`text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>High Opportunity (80-100)</span>
+      <div className="flex flex-wrap gap-2 sm:gap-4 mb-4 p-2 sm:p-3 rounded-lg border border-dashed">
+        <div className="flex items-center gap-1.5">
+          <div className="w-3 h-3 sm:w-4 sm:h-4 rounded flex-shrink-0" style={{ background: 'rgba(34, 197, 94, 0.8)' }}></div>
+          <span className={`text-[10px] sm:text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>High (80-100)</span>
         </div>
-        <div className="flex items-center gap-2">
-          <div className="w-4 h-4 rounded" style={{ background: 'rgba(234, 179, 8, 0.8)' }}></div>
-          <span className={`text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Medium Opportunity (60-79)</span>
+        <div className="flex items-center gap-1.5">
+          <div className="w-3 h-3 sm:w-4 sm:h-4 rounded flex-shrink-0" style={{ background: 'rgba(234, 179, 8, 0.8)' }}></div>
+          <span className={`text-[10px] sm:text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Medium (60-79)</span>
         </div>
-        <div className="flex items-center gap-2">
-          <div className="w-4 h-4 rounded" style={{ background: 'rgba(249, 115, 22, 0.8)' }}></div>
-          <span className={`text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Low Opportunity (40-59)</span>
+        <div className="flex items-center gap-1.5">
+          <div className="w-3 h-3 sm:w-4 sm:h-4 rounded flex-shrink-0" style={{ background: 'rgba(249, 115, 22, 0.8)' }}></div>
+          <span className={`text-[10px] sm:text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Low (40-59)</span>
         </div>
-        <div className="flex items-center gap-2">
-          <div className="w-4 h-4 rounded" style={{ background: 'rgba(239, 68, 68, 0.8)' }}></div>
-          <span className={`text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Critical (0-39)</span>
+        <div className="flex items-center gap-1.5">
+          <div className="w-3 h-3 sm:w-4 sm:h-4 rounded flex-shrink-0" style={{ background: 'rgba(239, 68, 68, 0.8)' }}></div>
+          <span className={`text-[10px] sm:text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Critical (0-39)</span>
         </div>
       </div>
       )}
