@@ -14,7 +14,7 @@ function TopPerformers({ pincodeData }) {
 
     return pincodeData
       .map(p => {
-        const avgGap = p.opportunityScore || averageOfValues(p.marketGapScores) || 0;
+        const avgGap = p.opportunityScore ?? averageOfValues(p.marketGapScores) ?? 0;
         const avgDemand = averageOfValues(p.demandScores) ?? 0;
         const totalComps = Object.values(p.competitors || {}).reduce((s, v) => s + (Number(v) || 0), 0);
         const score = avgGap * 0.5 + avgDemand * 0.3 + Math.max(0, 100 - totalComps) * 0.2;

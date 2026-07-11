@@ -198,10 +198,10 @@ function Analysis() {
         {stats && (
           <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6 sm:mb-8">
             {[
-              { icon: Users, label: 'Total Population', value: stats.totalPop.toLocaleString(), color: 'text-blue-500', bg: 'bg-blue-50 dark:bg-blue-900/20' },
-              { icon: MapPin, label: 'Areas Analyzed', value: pincodeData.length, color: 'text-violet-500', bg: 'bg-violet-50 dark:bg-violet-900/20' },
-              { icon: Target, label: 'Avg Market Gap', value: Number(stats.avgGap).toFixed(2), color: 'text-emerald-500', bg: 'bg-emerald-50 dark:bg-emerald-900/20' },
-              { icon: Activity, label: 'Avg Demand', value: Number(stats.avgDemand).toFixed(2), color: 'text-amber-500', bg: 'bg-amber-50 dark:bg-amber-900/20' },
+              { icon: Users, label: 'Total Population', value: stats.totalPop.toLocaleString(), color: 'text-blue-500', bg: 'bg-blue-50' },
+              { icon: MapPin, label: 'Areas Analyzed', value: pincodeData.length, color: 'text-violet-500', bg: 'bg-violet-50' },
+              { icon: Target, label: 'Avg Market Gap', value: Number(stats.avgGap).toFixed(2), color: 'text-emerald-500', bg: 'bg-emerald-50' },
+              { icon: Activity, label: 'Avg Demand', value: Number(stats.avgDemand).toFixed(2), color: 'text-amber-500', bg: 'bg-amber-50' },
             ].map((m, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 + i * 0.1 }}
                 className={`p-3 sm:p-5 rounded-2xl border transition-all hover:shadow-lg ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-[#e2e8f0]'}`}>
@@ -307,9 +307,9 @@ function Analysis() {
                       <td className={`hidden sm:table-cell py-3 text-right ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{Number(cat.supply || 0).toFixed(2)}</td>
                       <td className="py-3 text-right">
                         <span className={`px-2 py-1 rounded-full text-xs font-bold ${
-                          (cat.gap || 0) >= 50 ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' :
-                          (cat.gap || 0) >= 25 ? 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400' :
-                          'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'
+                          (cat.gap || 0) >= 50 ? isDarkMode ? 'bg-green-900/30 text-green-400' : 'bg-green-100 text-green-700' :
+                          (cat.gap || 0) >= 25 ? isDarkMode ? 'bg-yellow-900/30 text-yellow-400' : 'bg-yellow-100 text-yellow-700' :
+                          isDarkMode ? 'bg-red-900/30 text-red-400' : 'bg-red-100 text-red-700'
                         }`}>{Number(cat.gap || 0).toFixed(2)}</span>
                       </td>
                       <td className={`hidden md:table-cell py-3 text-right text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
@@ -360,16 +360,16 @@ function Analysis() {
                         <td className={`hidden md:table-cell py-3 text-right ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{(area.population || 0).toLocaleString()}</td>
                         <td className="hidden md:table-cell py-3 text-right">
                           <span className={`px-2 py-1 rounded-full text-xs font-bold ${
-                            area.incomeLevel === 'High' ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' :
-                            area.incomeLevel === 'Medium' ? 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400' :
-                            'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'
+                            area.incomeLevel === 'High' ? isDarkMode ? 'bg-green-900/30 text-green-400' : 'bg-green-100 text-green-700' :
+                            area.incomeLevel === 'Medium' ? isDarkMode ? 'bg-yellow-900/30 text-yellow-400' : 'bg-yellow-100 text-yellow-700' :
+                            isDarkMode ? 'bg-red-900/30 text-red-400' : 'bg-red-100 text-red-700'
                           }`}>{area.incomeLevel || '—'}</span>
                         </td>
                         <td className="py-3 text-right">
                           <span className={`px-2 py-1 rounded-full text-xs font-bold ${
-                            avgGap >= 70 ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' :
-                            avgGap >= 40 ? 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400' :
-                            'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'
+                            avgGap >= 70 ? isDarkMode ? 'bg-green-900/30 text-green-400' : 'bg-green-100 text-green-700' :
+                            avgGap >= 40 ? isDarkMode ? 'bg-yellow-900/30 text-yellow-400' : 'bg-yellow-100 text-yellow-700' :
+                            isDarkMode ? 'bg-red-900/30 text-red-400' : 'bg-red-100 text-red-700'
                           }`}>{Number(avgGap).toFixed(2)}</span>
                         </td>
                       </tr>
@@ -397,7 +397,7 @@ function Analysis() {
                   <div key={area.pincode || i} className={`p-3 sm:p-4 rounded-xl border ${isDarkMode ? 'bg-[#0f172a] border-[#334155]' : 'bg-[#f8fafc] border-[#e2e8f0]'}`}>
                     <div className="flex items-center justify-between mb-1.5 sm:mb-2">
                       <span className={`font-bold text-sm sm:text-base ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{area.area || area.pincode}</span>
-                      <span className="px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400 text-[10px] sm:text-xs font-bold">
+                      <span className={`px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-bold ${isDarkMode ? 'bg-orange-900/30 text-orange-400' : 'bg-orange-100 text-orange-700'}`}>
                         {Number(avgComp).toFixed(2)} competitors
                       </span>
                     </div>

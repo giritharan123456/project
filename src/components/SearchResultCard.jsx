@@ -62,7 +62,7 @@ export default function SearchResultCard({ area, loading, error, onClose }) {
   const gapScores = area.marketGapScores || {};
   const demandScores = area.demandScores || {};
   const competitors = area.competitors || {};
-  const avgGap = area.opportunityScore || averageOfValues(gapScores) || 0;
+  const avgGap = area.opportunityScore ?? averageOfValues(gapScores) ?? 0;
   const avgDemand = averageOfValues(demandScores) ?? 0;
   const totalCompetitors = Object.values(competitors).reduce((s, v) => s + (Number(v) || 0), 0);
 

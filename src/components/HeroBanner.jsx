@@ -11,7 +11,7 @@ export default function HeroBanner({ pincodeData, selectedDistrict }) {
 
   const totalAreas = pincodeData.length;
   const highOpp = pincodeData.filter(p => {
-    const score = p.opportunityScore || averageOfValues(p.marketGapScores) || 0;
+    const score = p.opportunityScore ?? averageOfValues(p.marketGapScores) ?? 0;
     return score != null && score >= 65;
   }).length;
   const totalPop = pincodeData.reduce((s, p) => s + (p.population || 0), 0);

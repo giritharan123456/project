@@ -32,7 +32,7 @@ if (process.env.NODE_ENV !== 'test' && process.env.VERCEL !== '1') {
   // On Vercel, use cron job instead of setInterval
   const { cleanupGuestUsers } = require('./controllers/authController');
   // This will be triggered by Vercel cron
-  module.exports.cleanupGuestUsers = cleanupGuestUsers;
+  exports.cleanupGuestUsers = cleanupGuestUsers;
 }
 
 app.use(morgan('short'));

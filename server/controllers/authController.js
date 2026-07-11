@@ -472,6 +472,9 @@ const resetPassword = async (req, res) => {
 
     // Validate new password strength
     const password = req.body.password;
+    if (!password) {
+      return res.status(400).json({ success: false, message: 'Password is required' });
+    }
     const passwordErrors = [];
     if (password.length < 8) passwordErrors.push('at least 8 characters');
     if (!/[A-Z]/.test(password)) passwordErrors.push('one uppercase letter');

@@ -60,7 +60,7 @@ function AnalyticsPanel({ pincodeData, selectedDistrict }) {
       Object.keys(p.demandScores || {}).length > 0
     ).length;
 
-    const highOppAreas = pincodeData.filter(p => (p.opportunityScore || 0) >= 70).length;
+    const highOppAreas = pincodeData.filter(p => (p.opportunityScore ?? 0) >= 70).length;
 
     return [
       {

@@ -24,8 +24,13 @@ if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
             return done(null, user);
           }
 
+          const email = profile.emails?.[0]?.value;
+          if (!email) {
+            return done(null, false, { message: 'No email found in Google profile' });
+          }
+
           // Check if user exists with same email
-          user = await User.findOne({ email: profile.emails[0].value });
+          user = await User.findOne({ email });
 
           if (user) {
             // Link Google account to existing user

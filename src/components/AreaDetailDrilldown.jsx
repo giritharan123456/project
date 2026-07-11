@@ -9,7 +9,7 @@ function AreaDetailDrilldown({ area, onClose, onCompare, isComparing }) {
 
   if (!area) return null;
 
-  const avgGap = area.opportunityScore || averageOfValues(area.marketGapScores) || 0;
+  const avgGap = area.opportunityScore ?? averageOfValues(area.marketGapScores) ?? 0;
   const avgDemand = averageOfValues(area.demandScores) ?? 0;
   const totalComps = Object.values(area.competitors || {}).reduce((s, v) => s + (Number(v) || 0), 0);
 

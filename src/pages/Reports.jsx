@@ -491,9 +491,9 @@ function Reports() {
                       <td className={`py-3 font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{cat.name}</td>
                       <td className="py-3 text-right">
                         <span className={`px-2.5 py-1 rounded-full text-xs font-bold ${
-                          cat.gap >= 70 ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' :
-                          cat.gap >= 40 ? 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400' :
-                          'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'
+                          cat.gap >= 70 ? isDarkMode ? 'bg-green-900/30 text-green-400' : 'bg-green-100 text-green-700' :
+                          cat.gap >= 40 ? isDarkMode ? 'bg-yellow-900/30 text-yellow-400' : 'bg-yellow-100 text-yellow-700' :
+                          isDarkMode ? 'bg-red-900/30 text-red-400' : 'bg-red-100 text-red-700'
                         }`}>{Number(cat.gap).toFixed(2)}</span>
                       </td>
                       <td className={`hidden md:table-cell py-3 text-right font-medium ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{Number(cat.demand).toFixed(2)}</td>

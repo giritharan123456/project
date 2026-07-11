@@ -18,7 +18,7 @@ function ExecutiveSummary({ pincodeData }) {
 
     // Analyze each area
     const areaAnalysis = pincodeData.map(p => {
-      const avgGap = p.opportunityScore || averageOfValues(p.marketGapScores) || 0;
+      const avgGap = p.opportunityScore ?? averageOfValues(p.marketGapScores) ?? 0;
       const avgDemand = averageOfValues(p.demandScores) ?? 0;
       const totalComps = Object.values(p.competitors || {}).reduce((s, v) => s + (Number(v) || 0), 0);
       return { ...p, avgGap, avgDemand, totalComps };

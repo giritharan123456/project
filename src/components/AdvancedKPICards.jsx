@@ -56,7 +56,7 @@ function AdvancedKPICards({ data, selectedDistrict }) {
   ];
 
   const formatValue = (value, format) => {
-    if (value === null || value === undefined) return NO_DATA_LABEL;
+    if (value === null || value === undefined || Number.isNaN(Number(value))) return NO_DATA_LABEL;
     switch (format) {
       case 'percentage':
         return `${Number(value).toFixed(2)}%`;

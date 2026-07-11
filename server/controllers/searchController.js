@@ -26,7 +26,7 @@ const searchAreas = async (req, res) => {
 
     const areas = await Area.find(searchQuery)
       .populate('district', 'name')
-      .limit(parseInt(limit) || 20);
+      .limit(Math.min(parseInt(limit) || 20, 100));
       
     res.json({
       success: true,

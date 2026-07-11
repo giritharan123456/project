@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
@@ -24,7 +24,7 @@ function Landing() {
   const [searchPreview, setSearchPreview] = useState(null);
   const [searchLoading, setSearchLoading] = useState(false);
   const [searchError, setSearchError] = useState('');
-  const [debounceTimer, setDebounceTimer] = useState(null);
+  const debounceTimerRef = useRef(null);
   const [showSuggestions, setShowSuggestions] = useState(false);
 
   const [faqs, setFaqs] = useState([]);
@@ -62,7 +62,7 @@ function Landing() {
   }, []);
 
   useEffect(() => {
-    if (debounceTimer) clearTimeout(debounceTimer);
+    if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current);
     if (searchQuery.trim().length < 1) {
       setSearchSuggestions([]);
       setSearchPreview(null);
@@ -83,7 +83,7 @@ function Landing() {
         setSearchLoading(false);
       }
     }, 300);
-    setDebounceTimer(timer);
+    debounceTimerRef.current = timer;
     return () => clearTimeout(timer);
   }, [searchQuery]);
 
@@ -230,7 +230,7 @@ function Landing() {
                 <div className="flex items-center gap-2">
                   <div className="flex -space-x-2">
                     {[0,1,2,3].map(i => (
-                      <div key={i} className="w-8 h-8 rounded-full bg-gradient-to-r from-[#2563eb] to-[#7c3aed] border-2 border-white dark:border-gray-800 flex items-center justify-center text-white text-xs font-bold">
+                      <div key={i} className={`w-8 h-8 rounded-full bg-gradient-to-r from-[#2563eb] to-[#7c3aed] border-2 flex items-center justify-center text-white text-xs font-bold ${isDarkMode ? 'border-gray-800' : 'border-white'}`}>
                         {String.fromCharCode(65 + i)}
                       </div>
                     ))}
@@ -293,9 +293,9 @@ function Landing() {
                 <AnimatePresence>
                   {searchLoading && (
                     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-                      className="flex items-center gap-2 p-3 rounded-xl mb-4 bg-blue-50 dark:bg-blue-900/20">
+                      className={`flex items-center gap-2 p-3 rounded-xl mb-4 ${isDarkMode ? 'bg-blue-900/20' : 'bg-blue-50'}`}>
                       <Loader2 className="animate-spin text-blue-500" size={16} />
-                      <span className="text-sm text-blue-600 dark:text-blue-400 font-medium">Searching...</span>
+                      <span className={`text-sm font-medium ${isDarkMode ? 'text-blue-400' : 'text-blue-600'}`}>Searching...</span>
                     </motion.div>
                   )}
                 </AnimatePresence>

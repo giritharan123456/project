@@ -138,6 +138,9 @@ function Dashboard() {
         const districtsData = districtsRes.data || [];
         setDistricts(districtsData);
 
+        // Mark initial load done so district-change effect doesn't double-fetch
+        initialLoadDone.current = true;
+
         // Step 2: ensure a valid district is selected
         let districtId = selectedDistrict;
         if (!districtId || !districtsData.find(d => d._id === districtId)) {
@@ -223,10 +226,10 @@ function Dashboard() {
   if (error) {
     return (
       <div className={`min-h-screen flex items-center justify-center ${isDarkMode ? 'bg-[#0f172a]' : 'bg-slate-100'}`}>
-        <div className="text-center max-w-md p-8 bg-white dark:bg-[#1e293b] rounded-2xl shadow-xl border-2 border-slate-200 dark:border-[#475569]">
+        <div className={`text-center max-w-md p-8 rounded-2xl shadow-xl border-2 ${isDarkMode ? 'bg-[#1e293b] border-[#475569]' : 'bg-white border-slate-200'}`}>
           <div className="text-5xl mb-4">⚠️</div>
-          <h1 className="text-xl font-extrabold text-slate-800 dark:text-white mb-3">Unable to Load Data</h1>
-          <p className="text-sm text-slate-600 dark:text-slate-300 mb-4">{error}</p>
+          <h1 className={`text-xl font-extrabold mb-3 ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>Unable to Load Data</h1>
+          <p className={`text-sm mb-4 ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>{error}</p>
           <button onClick={() => window.location.reload()} className="px-5 py-2.5 bg-blue-600 text-white rounded-lg font-bold hover:bg-blue-700 transition-colors">
             Retry
           </button>

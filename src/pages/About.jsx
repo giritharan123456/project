@@ -30,6 +30,7 @@ function About() {
           setContent(contentRes.value.data);
         }
 
+        const contentData = contentRes.status === 'fulfilled' ? contentRes.value.data : null;
         const totalAreas = areasRes.status === 'fulfilled' ? (areasRes.value.data?.length || areasRes.value.count || 0) : 0;
         const districtList = districtsRes.status === 'fulfilled' ? (districtsRes.value.data || []) : [];
         const totalDistricts = districtList.length || districts.length;
@@ -45,7 +46,7 @@ function About() {
 
         setStats({
           districts: totalDistricts,
-          areas: totalAreas || content?.stats?.areas || 0,
+          areas: totalAreas || contentData?.stats?.areas || 0,
           categories: categoryList.length || 0
         });
       } catch (error) {

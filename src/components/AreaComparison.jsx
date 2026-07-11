@@ -10,7 +10,7 @@ function AreaComparison({ areas, onRemove, onClear, onOpenDetail }) {
   if (!areas || areas.length === 0) return null;
 
   const maxPop = areas.reduce((max, a) => Math.max(max, a.population || 0), 0);
-  const maxOpp = areas.reduce((max, a) => Math.max(max, a.opportunityScore || averageOfValues(a.marketGapScores) || 0), 0);
+  const maxOpp = areas.reduce((max, a) => Math.max(max, a.opportunityScore ?? averageOfValues(a.marketGapScores) ?? 0), 0);
 
   const getBarWidth = (value, max) => max > 0 ? `${(value / max) * 100}%` : '0%';
 
@@ -47,7 +47,7 @@ function AreaComparison({ areas, onRemove, onClear, onOpenDetail }) {
       <div className="p-3">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
           {areas.map((area, idx) => {
-            const avgGap = area.opportunityScore || averageOfValues(area.marketGapScores) || 0;
+            const avgGap = area.opportunityScore ?? averageOfValues(area.marketGapScores) ?? 0;
             const avgDemand = averageOfValues(area.demandScores) ?? 0;
             const totalComps = Object.values(area.competitors || {}).reduce((s, v) => s + (Number(v) || 0), 0);
             const colors = getScoreColor(avgGap);

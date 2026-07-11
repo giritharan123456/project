@@ -40,7 +40,7 @@ function MapSection({ pincodeData, selectedDistrict }) {
   // Compute district summary stats
   const totalPop = validPincodeData.reduce((s, p) => s + (Number(p.population) || 0), 0);
   const avgGap = validPincodeData.length > 0
-    ? validPincodeData.reduce((s, p) => s + (p.opportunityScore || averageOfValues(p.marketGapScores) || 0), 0) / validPincodeData.length
+    ? validPincodeData.reduce((s, p) => s + (p.opportunityScore ?? averageOfValues(p.marketGapScores) ?? 0), 0) / validPincodeData.length
     : 0;
   const highOpp = validPincodeData.filter(p => (p.opportunityScore ?? 0) >= 65).length;
 
@@ -117,7 +117,7 @@ function MapSection({ pincodeData, selectedDistrict }) {
             maxZoom={20}
           />
           {validPincodeData.map((pincode, index) => {
-            const avgGapScore = pincode.opportunityScore || averageOfValues(pincode.marketGapScores) || 0;
+            const avgGapScore = pincode.opportunityScore ?? averageOfValues(pincode.marketGapScores) ?? 0;
             const colors = getGapColor(avgGapScore);
             const radius = getRadiusByPopulation(pincode.population);
             

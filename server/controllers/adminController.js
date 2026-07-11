@@ -427,8 +427,8 @@ const updateUser = async (req, res) => {
     user.name = req.body.name || user.name;
     user.role = req.body.role || user.role;
     if (req.body.password) {
-      if (req.body.password.length < 6) {
-        return res.status(400).json({ success: false, message: 'Password must be at least 6 characters' });
+      if (req.body.password.length < 8) {
+        return res.status(400).json({ success: false, message: 'Password must be at least 8 characters' });
       }
       user.password = req.body.password;
     }

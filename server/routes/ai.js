@@ -31,9 +31,9 @@ const getSmartResponse = async (query) => {
       const gaps = Object.fromEntries(area.marketGapScores || new Map());
       const comps = Object.fromEntries(area.competitors || new Map());
 
-      const avgDemand = demands.length ? Object.values(demands).reduce((a, b) => a + (Number(b) || 0), 0) / Object.values(demands).length : 0;
-      const avgGap = gaps.length ? Object.values(gaps).reduce((a, b) => a + (Number(b) || 0), 0) / Object.values(gaps).length : 0;
-      const avgComp = comps.length ? Object.values(comps).reduce((a, b) => a + (Number(b) || 0), 0) / Object.values(comps).length : 0;
+      const avgDemand = Object.keys(demands).length ? Object.values(demands).reduce((a, b) => a + (Number(b) || 0), 0) / Object.keys(demands).length : 0;
+      const avgGap = Object.keys(gaps).length ? Object.values(gaps).reduce((a, b) => a + (Number(b) || 0), 0) / Object.keys(gaps).length : 0;
+      const avgComp = Object.keys(comps).length ? Object.values(comps).reduce((a, b) => a + (Number(b) || 0), 0) / Object.keys(comps).length : 0;
 
       // Find best category for this area
       let bestCat = 'N/A';

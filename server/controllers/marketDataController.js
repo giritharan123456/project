@@ -65,7 +65,8 @@ const getMarketDataByArea = async (req, res) => {
 const getMarketDataByDistrict = async (req, res) => {
   try {
     const areas = await Area.find({ district: req.params.districtId })
-      .populate('district', 'name');
+      .populate('district', 'name')
+      .limit(500);
       
     res.json({
       success: true,
