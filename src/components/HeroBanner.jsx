@@ -63,7 +63,7 @@ export default function HeroBanner({ pincodeData, selectedDistrict }) {
     },
     {
       label: 'Population Reach',
-      value: totalPop > 1000000 ? `${(totalPop / 1000000).toFixed(1)}M` : totalPop > 1000 ? `${(totalPop / 1000).toFixed(0)}K` : totalPop,
+      value: totalPop > 1000000 ? `${(totalPop / 1000000).toFixed(1)}M` : totalPop > 1000 ? `${(totalPop / 1000).toFixed(0)}K` : (totalPop || 0),
       suffix: '',
       icon: Users,
       trend: growthTrend,

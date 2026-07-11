@@ -3,6 +3,7 @@ import { useTheme } from '../contexts/ThemeContext';
 
 function FilterPanel({ onFilter, selectedCategory, categories }) {
   const { isDarkMode } = useTheme();
+  if (!categories || categories.length === 0) return null;
   // 'all' is a UI filter option, not hardcoded data
   const allCategories = ['all', ...categories.map(cat => cat.name)];
 

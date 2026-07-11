@@ -1,8 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Clock } from 'lucide-react';
+import { useTheme } from '../contexts/ThemeContext';
 
-function RecentlyViewed({ isDarkMode }) {
+function RecentlyViewed() {
+  const { isDarkMode } = useTheme();
   const [items, setItems] = React.useState(() => {
     try { return JSON.parse(localStorage.getItem('recentlyViewed') || '[]'); } catch { return []; }
   });
@@ -17,7 +19,7 @@ function RecentlyViewed({ isDarkMode }) {
 
   if (items.length === 0) return null;
 
-  const b = (light, dark) => isDarkMode ? dark : light;
+  const b = (dark, light) => isDarkMode ? dark : light;
   const clear = () => { localStorage.removeItem('recentlyViewed'); setItems([]); };
 
   return (

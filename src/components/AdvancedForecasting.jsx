@@ -49,7 +49,7 @@ function AdvancedForecasting({ pincodeData, businessCategories }) {
 
       if (businessCategories && businessCategories.length > 0) {
         autoTable(doc, {
-          startY: doc.lastAutoTable.finalY + 10,
+        startY: (doc.lastAutoTable?.finalY || 30) + 10,
           head: [['Category', 'Demand', 'Supply', 'Gap']],
           body: businessCategories.map(cat => [cat.name, String(cat.demand), String(cat.supply), String(cat.gap)]),
           styles: { fontSize: 8, cellPadding: 2 },
@@ -114,7 +114,7 @@ function AdvancedForecasting({ pincodeData, businessCategories }) {
     if (!businessCategories || businessCategories.length === 0) return [];
 
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'].slice(0, timePeriod);
-    const avgGrowth = pincodeData?.length > 0
+    const avgGrowth = (pincodeData && pincodeData.length > 0)
       ? pincodeData.reduce((sum, p) => sum + (Number(p.populationGrowth) || 0), 0) / pincodeData.length
       : 2;
     

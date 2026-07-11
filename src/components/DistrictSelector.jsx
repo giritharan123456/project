@@ -29,7 +29,9 @@ function DistrictSelector({ districts, onDistrictChange }) {
               : 'bg-slate-50 border-slate-200 text-slate-800 focus:border-blue-500'
           }`}
         >
-          {districts.map(district => (
+          {(!districts || districts.length === 0) ? (
+            <option value="">No districts available</option>
+          ) : districts.map(district => (
             <option key={district._id || district} value={district._id || district}>
               {district.name || district}
             </option>

@@ -9,8 +9,8 @@ function AreaComparison({ areas, onRemove, onClear, onOpenDetail }) {
 
   if (!areas || areas.length === 0) return null;
 
-  const maxPop = Math.max(...areas.map(a => a.population || 0));
-  const maxOpp = Math.max(...areas.map(a => a.opportunityScore || averageOfValues(a.marketGapScores) || 0));
+  const maxPop = areas.reduce((max, a) => Math.max(max, a.population || 0), 0);
+  const maxOpp = areas.reduce((max, a) => Math.max(max, a.opportunityScore || averageOfValues(a.marketGapScores) || 0), 0);
 
   const getBarWidth = (value, max) => max > 0 ? `${(value / max) * 100}%` : '0%';
 

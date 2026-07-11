@@ -221,7 +221,7 @@ export default function SearchResultCard({ area, loading, error, onClose }) {
         {area.urbanDevelopment != null && (
           <span>Urban Dev: <strong className={isDarkMode ? 'text-slate-300' : 'text-slate-700'}>{area.urbanDevelopment}/100</strong></span>
         )}
-        {area.lat != null && area.lng != null && (
+        {area.lat != null && area.lng != null && !isNaN(Number(area.lat)) && !isNaN(Number(area.lng)) && (
           <span>Coords: <strong className={isDarkMode ? 'text-slate-300' : 'text-slate-700'}>{Number(area.lat).toFixed(4)}, {Number(area.lng).toFixed(4)}</strong></span>
         )}
       </div>
