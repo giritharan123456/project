@@ -46,38 +46,26 @@ function AreaOverview() {
   }, [routePincode]);
 
   useEffect(() => {
-    const checkFavorite = async () => {
-      if (!user || !apiArea) return;
-      try {
-        const res = await favoriteAPI.check('area', apiArea._id);
-        setIsFavorite(res.isFavorite);
-      } catch (err) {
-        // Ignore
-      }
-    };
-    checkFavorite();
-  }, [user, apiArea]);
+    if (!apiArea) return;
+    try {
+      const stored = new Set(JSON.parse(localStorage.getItem('mv_favorites') || '[]'));
+      setIsFavorite(stored.has(String(apiArea.pincode)));
+    } catch { /* ignore */ }
+  }, [apiArea]);
 
   const handleFavorite = async () => {
-    if (!user) {
-      navigate('/login?redirect=' + encodeURIComponent(window.location.pathname));
-      return;
-    }
     try {
+      const stored = new Set(JSON.parse(localStorage.getItem('mv_favorites') || '[]'));
+      const pincode = String(apiArea.pincode);
       if (isFavorite) {
-        await favoriteAPI.remove('area', apiArea._id);
+        stored.delete(pincode);
         setIsFavorite(false);
       } else {
-        await favoriteAPI.add('area', apiArea._id, {
-          name: apiArea.name,
-          pincode: apiArea.pincode,
-          district: apiArea.district?.name || apiArea.district
-        });
+        stored.add(pincode);
         setIsFavorite(true);
       }
-    } catch (err) {
-      alert(err.message || 'Failed to update favorite');
-    }
+      localStorage.setItem('mv_favorites', JSON.stringify([...stored]));
+    } catch (err) { /* ignore */ }
   };
 
   const handleShare = async () => {

@@ -299,25 +299,26 @@ function Dashboard() {
                 Dashboard
               </span>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1">
               {/* View Tabs */}
               <div className={`flex items-center gap-0.5 p-0.5 rounded-lg ${isDarkMode ? 'bg-[#0f172a]' : 'bg-slate-100'}`}>
                 {[
-                  { key: 'dashboard', label: 'Dashboard', icon: '📊' },
-                  { key: 'table', label: 'Table', icon: '📋' },
-                  { key: 'favorites', label: 'Favorites', icon: '❤️' },
+                  { key: 'dashboard', icon: '📊', label: 'Dash' },
+                  { key: 'table', icon: '📋', label: 'Table' },
+                  { key: 'favorites', icon: '❤️', label: 'Favs' },
                 ].map(tab => (
                   <button
                     key={tab.key}
                     onClick={() => setActiveView(tab.key)}
-                    className={`flex items-center gap-1 px-2 sm:px-2.5 py-1 rounded-md text-[10px] font-bold transition-all ${
+                    title={tab.label}
+                    className={`flex items-center gap-1 px-1.5 sm:px-2.5 py-1 rounded-md text-[10px] sm:text-[11px] font-bold transition-all ${
                       activeView === tab.key
                         ? 'bg-blue-600 text-white shadow-sm'
                         : isDarkMode ? 'text-slate-400 hover:text-white' : 'text-slate-500 hover:text-slate-800'
                     }`}
                   >
-                    <span className="text-[11px]">{tab.icon}</span>
-                    <span className="hidden xs:inline">{tab.label}</span>
+                    <span className="text-[11px] sm:text-[12px]">{tab.icon}</span>
+                    <span className="hidden sm:inline">{tab.label}</span>
                   </button>
                 ))}
               </div>
@@ -530,10 +531,10 @@ function Dashboard() {
                     </button>
                   </div>
                   {(() => {
-                    const favData = displayData.filter(p => favorites.has(String(p.pincode)));
+                    const favData = pincodeData.filter(p => favorites.has(String(p.pincode)));
                     if (favData.length === 0) {
                       return (
-                        <EmptyState type="noData" message="None of your favorites are in the current district. Switch districts or add new favorites." />
+                        <EmptyState type="noData" message="No favorites found. Try switching districts or adding new favorites." />
                       );
                     }
                     return (

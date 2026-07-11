@@ -31,19 +31,17 @@ function AreaLeaderboard() {
   }, [sortBy, filterDistrict, page]);
 
   useEffect(() => {
-    if (!user || areas.length === 0) return;
-    const checkFavorites = async () => {
+    if (areas.length === 0) return;
+    try {
+      const stored = JSON.parse(localStorage.getItem('mv_favorites') || '[]');
+      const favSet = new Set(stored);
       const favMap = {};
       for (const area of areas) {
-        try {
-          const res = await favoriteAPI.check('area', area._id);
-          favMap[area._id] = res.isFavorite;
-        } catch { /* ignore */ }
+        favMap[area._id] = favSet.has(String(area.pincode));
       }
       setFavorites(favMap);
-    };
-    checkFavorites();
-  }, [user, areas]);
+    } catch { /* ignore */ }
+  }, [areas]);
 
   const loadLeaderboard = async () => {
     setLoading(true);
@@ -58,16 +56,18 @@ function AreaLeaderboard() {
   const handleFavorite = async (e, area) => {
     e.preventDefault();
     e.stopPropagation();
-    if (!user) { navigate('/login?redirect=/leaderboard'); return; }
     try {
+      const stored = new Set(JSON.parse(localStorage.getItem('mv_favorites') || '[]'));
+      const pincode = String(area.pincode);
       if (favorites[area._id]) {
-        await favoriteAPI.remove('area', area._id);
+        stored.delete(pincode);
         setFavorites(prev => ({ ...prev, [area._id]: false }));
       } else {
-        await favoriteAPI.add('area', area._id, { name: area.name, pincode: area.pincode, district: area.district });
+        stored.add(pincode);
         setFavorites(prev => ({ ...prev, [area._id]: true }));
       }
-    } catch (err) { alert(err.message || 'Failed to update favorite'); }
+      localStorage.setItem('mv_favorites', JSON.stringify([...stored]));
+    } catch (err) { /* ignore */ }
   };
 
   const handleShare = async (e, area) => {
