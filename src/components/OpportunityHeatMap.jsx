@@ -126,6 +126,7 @@ function OpportunityHeatMap({ pincodeData }) {
             transition={{ duration: 0.3, delay: index * 0.05 }}
             onMouseEnter={() => handlePincodeHover(data)}
             onMouseLeave={handlePincodeLeave}
+            onClick={() => handlePincodeHover(hoveredPincode?.pincode === data.pincode ? null : data)}
             style={{
               background: getHeatmapColor(data.avgGap),
               opacity: getHeatmapIntensity(data.avgGap) / 100

@@ -173,8 +173,8 @@ function AdvancedForecasting({ pincodeData, businessCategories }) {
 
   return (
     <div className={`p-3 rounded-xl border mb-1 transition-all duration-300 ${isDarkMode ? 'bg-[#1e293b] border-[#475569] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.3),0_2px_4px_-1px_rgba(0,0,0,0.2)]' : 'bg-white border-slate-200 shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-1px_rgba(0,0,0,0.06)]'}`}>
-      <div className="flex justify-between items-center mb-2">
-        <h3 className={`text-xl font-bold bg-gradient-to-r from-[#2563eb] to-[#7c3aed] bg-clip-text text-transparent ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>📈 Advanced Forecasting & Trend Analysis</h3>
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 mb-2">
+        <h3 className={`text-lg sm:text-xl font-bold bg-gradient-to-r from-[#2563eb] to-[#7c3aed] bg-clip-text text-transparent ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>📈 Advanced Forecasting & Trend Analysis</h3>
         <div className="flex gap-2">
           <select value={timePeriod} onChange={(e) => setTimePeriod(Number(e.target.value))} className={`px-3 py-2 border-2 rounded-lg ${isDarkMode ? 'bg-[#0f172a] border-[#334155] text-[#f1f5f9]' : 'bg-[#f8fafc] border-[#e2e8f0] text-[#1e293b]'}`}>
             <option value={12}>12 Months</option>
@@ -189,7 +189,7 @@ function AdvancedForecasting({ pincodeData, businessCategories }) {
         <p className={`text-sm text-center py-8 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>No forecast data available for this area.</p>
       ) : (<>
 
-      <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-0">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-0">
         <motion.div
           className={`p-3 rounded-lg border ${isDarkMode ? 'bg-[#0f172a] border-[#334155]' : 'bg-[#f8fafc] border-[#e2e8f0]'}`}
           initial={{ opacity: 0, y: 20 }}
@@ -197,7 +197,7 @@ function AdvancedForecasting({ pincodeData, businessCategories }) {
           transition={{ duration: 0.5, delay: 0.1 }}
         >
           <h4 className={`text-base font-semibold mb-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Population & Demand Forecast</h4>
-          <ResponsiveContainer width="100%" height={340}>
+          <ResponsiveContainer width="100%" height="min(340px, 60vw)">
             <AreaChart data={forecastData}>
               <defs>
                 <linearGradient id="colorPopulation" x1="0" y1="0" x2="0" y2="1">
@@ -227,7 +227,7 @@ function AdvancedForecasting({ pincodeData, businessCategories }) {
           transition={{ duration: 0.5, delay: 0.2 }}
         >
           <h4 className={`text-base font-semibold mb-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Market Gap Trend</h4>
-          <ResponsiveContainer width="100%" height={340}>
+          <ResponsiveContainer width="100%" height="min(340px, 60vw)">
             <LineChart data={forecastData}>
               <CartesianGrid strokeDasharray="3 3" stroke={isDarkMode ? '#475569' : '#cbd5e1'} vertical={false} />
               <XAxis dataKey="month" tick={{ fontSize: 13, fontWeight: 700, fill: isDarkMode ? '#e2e8f0' : '#1e293b' }} axisLine={{ stroke: isDarkMode ? '#64748b' : '#94a3b8' }} tickLine={false} />
@@ -247,7 +247,7 @@ function AdvancedForecasting({ pincodeData, businessCategories }) {
         transition={{ duration: 0.5, delay: 0.3 }}
       >
         <h4 className={`text-base font-semibold mb-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Quarterly Trend Analysis</h4>
-        <ResponsiveContainer width="100%" height={320}>
+        <ResponsiveContainer width="100%" height="min(320px, 55vw)">
           <LineChart data={trendAnalysis}>
             <CartesianGrid strokeDasharray="3 3" stroke={isDarkMode ? '#475569' : '#cbd5e1'} vertical={false} />
             <XAxis dataKey="quarter" tick={{ fontSize: 13, fontWeight: 700, fill: isDarkMode ? '#e2e8f0' : '#1e293b' }} axisLine={{ stroke: isDarkMode ? '#64748b' : '#94a3b8' }} tickLine={false} />
@@ -276,7 +276,7 @@ function AdvancedForecasting({ pincodeData, businessCategories }) {
         transition={{ duration: 0.5, delay: 0.4 }}
       >
         <h4 className={`text-base font-semibold mb-4 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Category-wise Forecast</h4>
-        <div className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
           {categoryForecast.map((cat, index) => (
             <div key={index} className={`p-3 rounded-lg border ${isDarkMode ? 'bg-[#0f172a] border-[#334155]' : 'bg-[#f8fafc] border-[#e2e8f0]'}`}>
               <h5 className={`font-bold mb-3 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{cat.category}</h5>

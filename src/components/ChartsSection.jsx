@@ -78,7 +78,7 @@ function ChartsSection({ businessCategories, selectedCategory, pincodeData }) {
         </div>
         <div className="p-2 sm:p-3">
           {filteredCategories.length > 0 ? (
-          <ResponsiveContainer width="100%" height={280}>
+          <ResponsiveContainer width="100%" height={280} minHeight={200}>
             <BarChart data={filteredCategories} barGap={2} barCategoryGap="18%" margin={{ top: 8, right: 15, left: 5, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" stroke={gridStroke} vertical={false} />
               <XAxis dataKey="name" tick={{ ...getXAxis(), fontSize: 11 }} axisLine={axisLine} tickLine={false} angle={-25} textAnchor="end" height={48} interval={0} />
@@ -104,7 +104,7 @@ function ChartsSection({ businessCategories, selectedCategory, pincodeData }) {
         </div>
         <div className="p-3">
           {forecastData.length > 0 ? (
-          <ResponsiveContainer width="100%" height={280}>
+          <ResponsiveContainer width="100%" height={280} minHeight={200}>
             <LineChart data={forecastData} margin={{ top: 8, right: 15, left: 5, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" stroke={gridStroke} vertical={false} />
               <XAxis dataKey="name" tick={{ ...getXAxis(), fontSize: 11 }} axisLine={axisLine} tickLine={false} label={{ value: 'Pincode', position: 'insideBottom', offset: -2, style: { fontSize: 11, fontWeight: 700, fill: isDarkMode ? '#e2e8f0' : '#1e293b' } }} interval={0} angle={-30} textAnchor="end" height={44} />
@@ -129,7 +129,7 @@ function ChartsSection({ businessCategories, selectedCategory, pincodeData }) {
         </div>
         <div className="p-3">
           {gapChartData.length > 0 ? (
-          <ResponsiveContainer width="100%" height={280}>
+          <ResponsiveContainer width="100%" height={280} minHeight={200}>
             <BarChart data={gapChartData} barCategoryGap="22%" margin={{ top: 8, right: 15, left: 5, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" stroke={gridStroke} vertical={false} />
               <XAxis dataKey="name" tick={{ ...getXAxis(), fontSize: 11 }} axisLine={axisLine} tickLine={false} angle={-35} textAnchor="end" height={54} interval={0} />

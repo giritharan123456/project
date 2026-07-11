@@ -227,8 +227,8 @@ function AnalyticsPanel({ pincodeData, selectedDistrict }) {
 
   return (
     <div className={`p-3 rounded-xl border mb-1 transition-all duration-300 ${isDarkMode ? 'bg-[#1e293b] border-[#475569]' : 'bg-white border-slate-200'}`}>
-      <div className="flex justify-between items-center mb-4">
-        <h3 className={`text-xl font-bold bg-gradient-to-r from-[#2563eb] to-[#7c3aed] bg-clip-text text-transparent ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>📊 Analytics — {selectedDistrict || 'All Districts'}</h3>
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 mb-4">
+        <h3 className={`text-lg sm:text-xl font-bold bg-gradient-to-r from-[#2563eb] to-[#7c3aed] bg-clip-text text-transparent ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>📊 Analytics — {selectedDistrict || 'All Districts'}</h3>
         <div className="flex gap-2">
           <button disabled={!hasData} className={`px-4 py-2 border-2 rounded-lg transition-all duration-300 ${!hasData ? 'opacity-40 cursor-not-allowed' : ''} ${isDarkMode ? 'bg-[#0f172a] border-[#334155] text-[#f1f5f9] hover:border-[#2563eb]' : 'bg-[#f8fafc] border-[#e2e8f0] text-[#1e293b] hover:border-[#2563eb]'}`} onClick={handleExportReport}>📥 Export</button>
         </div>
@@ -241,10 +241,10 @@ function AnalyticsPanel({ pincodeData, selectedDistrict }) {
       {hasData && (
         <>
           {/* Row 1: Category Distribution + Performance Metrics */}
-          <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-2">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
             <motion.div className={`p-3 rounded-lg border ${isDarkMode ? 'bg-[#0f172a] border-[#334155]' : 'bg-[#f8fafc] border-[#e2e8f0]'}`} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }}>
               <h4 className={`text-base font-semibold mb-2 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Category Distribution</h4>
-              <ResponsiveContainer width="100%" height={320}>
+              <ResponsiveContainer width="100%" height="min(320px, 55vw)">
                 <PieChart>
                   <Pie data={categoryDistribution} cx="50%" cy="50%" outerRadius={100} innerRadius={40} paddingAngle={2} dataKey="count">
                     {categoryDistribution.map((entry, index) => (
@@ -279,7 +279,7 @@ function AnalyticsPanel({ pincodeData, selectedDistrict }) {
           {/* Row 2: District Comparison */}
           <motion.div className={`p-3 rounded-lg border mt-2 ${isDarkMode ? 'bg-[#0f172a] border-[#334155]' : 'bg-[#f8fafc] border-[#e2e8f0]'}`} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.3 }}>
             <h4 className={`text-base font-bold mb-2 ${isDarkMode ? 'text-gray-200' : 'text-gray-700'}`}>District Comparison</h4>
-            <ResponsiveContainer width="100%" height={340}>
+            <ResponsiveContainer width="100%" height="min(340px, 60vw)">
               <BarChart data={districtComparison} margin={{ top: 8, right: 15, left: 5, bottom: 5 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke={isDarkMode ? '#475569' : '#cbd5e1'} vertical={false} />
                 <XAxis dataKey="district" tick={{ fontSize: 13, fontWeight: 700, fill: isDarkMode ? '#e2e8f0' : '#1e293b' }} axisLine={{ stroke: isDarkMode ? '#64748b' : '#94a3b8' }} tickLine={false} angle={-40} textAnchor="end" height={65} interval={0} />

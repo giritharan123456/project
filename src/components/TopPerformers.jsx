@@ -101,7 +101,7 @@ function TopPerformers({ pincodeData }) {
                   initial={{ opacity: 0, x: -8 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.05 * i }}
-                  onClick={() => navigate('/area-leaderboard')}
+                  onClick={() => navigate('/leaderboard')}
                   className={`border-t transition-colors cursor-pointer ${
                     isDarkMode ? 'border-[#334155] hover:bg-[#0f172a]/40' : 'border-slate-100 hover:bg-slate-50'
                   }`}

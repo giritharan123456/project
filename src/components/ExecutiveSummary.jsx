@@ -87,7 +87,7 @@ function ExecutiveSummary({ pincodeData }) {
         action: `Explore ${topArea.area}`,
         detail: `Highest market gap score: ${topArea.avgGap.toFixed(0)}`,
         color: 'blue',
-        path: '/area-leaderboard',
+        path: '/leaderboard',
       });
     }
 
@@ -97,7 +97,7 @@ function ExecutiveSummary({ pincodeData }) {
         action: `Target ${fastGrowing.area}`,
         detail: `Fastest growing: ${(fastGrowing.populationGrowth || 0).toFixed(2)}%`,
         color: 'emerald',
-        path: '/area-overview',
+        path: '/leaderboard',
       });
     }
 
