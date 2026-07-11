@@ -105,21 +105,12 @@ const addFavorite = async (req, res) => {
       return res.status(400).json({ success: false, message: 'areaId is required' });
     }
 
-    const area = await Area.findById(areaId);
-    if (!area) {
-      return res.status(404).json({ success: false, message: 'Area not found' });
-    }
-
-    const user = await User.findById(req.user._id);
-    if (!user) {
-      return res.status(404).json({ success: false, message: 'User not found' });
-    }
-
-    // Avoid duplicates
-    if (!user.favoriteAreas.includes(areaId)) {
-      user.favoriteAreas.push(areaId);
-      await user.save();
-    }
+    const [area, user] = await Promise.all([
+      Area.findById(areaId),
+      User.findByIdAndUpdate(req.user._id, { $addToSet: { favoriteAreas: areaId } }, { new: true })
+    ]);
+    if (!area) return res.status(404).json({ success: false, message: 'Area not found' });
+    if (!user) return res.status(404).json({ success: false, message: 'User not found' });
 
     res.json({ success: true, message: 'Area added to favorites' });
   } catch (error) {
@@ -132,15 +123,14 @@ const addFavorite = async (req, res) => {
 // @access  Private
 const removeFavorite = async (req, res) => {
   try {
-    const user = await User.findById(req.user._id);
+    const user = await User.findByIdAndUpdate(
+      req.user._id,
+      { $pull: { favoriteAreas: req.params.areaId } },
+      { new: true }
+    );
     if (!user) {
       return res.status(404).json({ success: false, message: 'User not found' });
     }
-
-    user.favoriteAreas = user.favoriteAreas.filter(
-      id => id.toString() !== req.params.areaId
-    );
-    await user.save();
 
     res.json({ success: true, message: 'Area removed from favorites' });
   } catch (error) {

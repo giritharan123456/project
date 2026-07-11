@@ -58,8 +58,8 @@ const createDistrict = async (req, res) => {
 // @access  Admin
 const updateDistrict = async (req, res) => {
   try {
-    const { name, state, region } = req.body;
-    const district = await District.findByIdAndUpdate(req.params.id, { name, state, region }, { new: true, runValidators: true });
+    const { name, state } = req.body;
+    const district = await District.findByIdAndUpdate(req.params.id, { name, state }, { new: true, runValidators: true });
     if (!district) {
       return res.status(404).json({ success: false, message: 'District not found' });
     }

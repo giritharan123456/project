@@ -23,17 +23,14 @@ const notificationSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
-  // Optional metadata for linking to relevant area/district
   metadata: {
     pincode: { type: String },
     areaName: { type: String },
     districtName: { type: String },
     score: { type: Number }
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now
   }
+}, {
+  timestamps: { createdAt: 'createdAt', updatedAt: false }
 });
 
 // Index for quick per-user queries sorted by date

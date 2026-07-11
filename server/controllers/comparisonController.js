@@ -117,15 +117,14 @@ const getSavedComparisons = async (req, res) => {
 // @access  Private
 const deleteComparison = async (req, res) => {
   try {
-    const user = await User.findById(req.user._id);
+    const user = await User.findByIdAndUpdate(
+      req.user._id,
+      { $pull: { savedComparisons: { _id: req.params.id } } },
+      { new: true }
+    );
     if (!user) {
       return res.status(404).json({ success: false, message: 'User not found' });
     }
-
-    user.savedComparisons = user.savedComparisons.filter(
-      comp => comp._id.toString() !== req.params.id
-    );
-    await user.save();
 
     res.json({
       success: true,

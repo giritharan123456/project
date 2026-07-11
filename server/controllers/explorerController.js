@@ -269,7 +269,7 @@ const getInvestmentEstimate = async (req, res) => {
 const recalculateScores = async (req, res) => {
   try {
     const areas = await Area.find();
-    let updated = 0;
+    const bulkOps = [];
     for (const area of areas) {
       const gaps = area.marketGapScores ? Object.fromEntries(area.marketGapScores) : {};
       const demands = area.demandScores ? Object.fromEntries(area.demandScores) : {};
@@ -281,12 +281,17 @@ const recalculateScores = async (req, res) => {
       const incomeScore = area.incomeLevel === 'High' ? 85 : area.incomeLevel === 'Medium' ? 60 : 35;
       const growthScore = Math.min((area.populationGrowth || 0) * 10, 100);
 
-      area.feasibilityScore = Math.round((avgDemand * 0.35 + incomeScore * 0.25 + growthScore * 0.25 + (area.urbanDevelopment || 50) * 0.15) * 10) / 10;
-      area.opportunityScore = Math.round((avgGap * 0.4 + avgDemand * 0.3 + growthScore * 0.2 + incomeScore * 0.1) * 10) / 10;
-      await area.save();
-      updated++;
+      const feasibilityScore = Math.round((avgDemand * 0.35 + incomeScore * 0.25 + growthScore * 0.25 + (area.urbanDevelopment || 50) * 0.15) * 10) / 10;
+      const opportunityScore = Math.round((avgGap * 0.4 + avgDemand * 0.3 + growthScore * 0.2 + incomeScore * 0.1) * 10) / 10;
+
+      bulkOps.push({
+        updateOne: { filter: { _id: area._id }, update: { $set: { feasibilityScore, opportunityScore } } }
+      });
     }
-    res.json({ success: true, message: `Recalculated scores for ${updated} areas` });
+    if (bulkOps.length > 0) {
+      await Area.bulkWrite(bulkOps);
+    }
+    res.json({ success: true, message: `Recalculated scores for ${bulkOps.length} areas` });
   } catch (error) {
     res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }

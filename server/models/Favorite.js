@@ -13,8 +13,7 @@ const favoriteSchema = new mongoose.Schema({
   },
   itemId: {
     type: mongoose.Schema.Types.ObjectId,
-    required: true,
-    refPath: 'itemType'
+    required: true
   },
   itemData: {
     name: String,

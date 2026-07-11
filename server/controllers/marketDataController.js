@@ -16,7 +16,7 @@ const getMarketData = async (req, res) => {
 
     const areas = await Area.find(query)
       .populate('district', 'name')
-      .limit(parseInt(limit) || 0);
+      .limit(Math.min(parseInt(limit) || 100, 500));
       
     res.json({
       success: true,

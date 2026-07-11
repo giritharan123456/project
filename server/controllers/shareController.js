@@ -29,7 +29,7 @@ exports.createShare = async (req, res) => {
     res.status(201).json({ success: true, data: share });
   } catch (error) {
     logger.error('Create share error:', error);
-    res.status(500).json({ success: false, message: 'Server error' });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 
@@ -51,7 +51,7 @@ exports.getShareByToken = async (req, res) => {
     res.json({ success: true, data: share });
   } catch (error) {
     logger.error('Get share error:', error);
-    res.status(500).json({ success: false, message: 'Server error' });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 
@@ -64,7 +64,7 @@ exports.getShares = async (req, res) => {
     res.json({ success: true, data: shares, count: shares.length });
   } catch (error) {
     logger.error('Get shares error:', error);
-    res.status(500).json({ success: false, message: 'Server error' });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
 
@@ -82,6 +82,6 @@ exports.deleteShare = async (req, res) => {
     res.json({ success: true, message: 'Share deleted' });
   } catch (error) {
     logger.error('Delete share error:', error);
-    res.status(500).json({ success: false, message: 'Server error' });
+    res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
 };
