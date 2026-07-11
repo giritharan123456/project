@@ -201,8 +201,12 @@ const getPincodeShops = async (req, res) => {
     const filter = {};
     if (pincode) filter.pincode = pincode;
     if (district) {
-      const dist = await District.findOne({ name: { $regex: district, $options: 'i' } });
-      if (dist) filter.district = dist._id;
+      if (/^[0-9a-fA-F]{24}$/.test(district)) {
+        filter.district = district;
+      } else {
+        const dist = await District.findOne({ name: { $regex: district, $options: 'i' } });
+        if (dist) filter.district = dist._id;
+      }
     }
     if (incomeLevel) filter.incomeLevel = incomeLevel;
     if (minPopulation || maxPopulation) {
