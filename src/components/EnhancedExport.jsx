@@ -12,7 +12,7 @@ function EnhancedExport({ data, selectedDistrict, businessCategories }) {
   const { error: toastError } = useToast();
   const [isExporting, setIsExporting] = useState(false);
   
-  const districtName = districts.find(d => d._id === selectedDistrict || d.name === selectedDistrict)?.name || selectedDistrict || 'All Districts';
+  const districtName = (districts || []).find(d => d._id === selectedDistrict || d.name === selectedDistrict)?.name || selectedDistrict || 'All Districts';
 
   const handleExport = async () => {
     setIsExporting(true);
@@ -73,9 +73,9 @@ function EnhancedExport({ data, selectedDistrict, businessCategories }) {
 
       // Summary stats
       let yPos = infoY + 14;
-      const totalPopulation = data.reduce((s, p) => s + (p.population || 0), 0);
-      const avgOpp = data.length > 0 ? (data.reduce((s, p) => s + (p.opportunityScore || 0), 0) / data.length).toFixed(1) : '0';
-      const avgFeas = data.length > 0 ? (data.reduce((s, p) => s + (p.feasibilityScore || 0), 0) / data.length).toFixed(1) : '0';
+      const totalPopulation = data.reduce((s, p) => s + (Number(p.population) || 0), 0);
+      const avgOpp = data.length > 0 ? (data.reduce((s, p) => s + (Number(p.opportunityScore) || 0), 0) / data.length).toFixed(1) : '0';
+      const avgFeas = data.length > 0 ? (data.reduce((s, p) => s + (Number(p.feasibilityScore) || 0), 0) / data.length).toFixed(1) : '0';
 
       doc.setFontSize(13);
       doc.setTextColor(37, 99, 235);
@@ -111,7 +111,7 @@ function EnhancedExport({ data, selectedDistrict, businessCategories }) {
 
       const headers = ['Pincode', 'Area', 'Population', 'Growth %', 'Income', 'Opp.', 'Feas.'];
       (businessCategories || []).forEach(cat => {
-        headers.push(`${cat.name.substring(0, 8)} Gap`);
+        headers.push(`${(cat.name || '').substring(0, 8)} Gap`);
       });
 
       const tableData = data.map(pincode => {
@@ -176,7 +176,7 @@ function EnhancedExport({ data, selectedDistrict, businessCategories }) {
   const exportCSV = () => {
     if (!data || data.length === 0) return;
     const headers = ['Pincode', 'Area', 'District', 'Population', 'Growth %', 'Income Level', 'Opp. Score', 'Feas. Score'];
-    (businessCategories || []).forEach(cat => headers.push(`${cat.name} Gap`));
+    (businessCategories || []).forEach(cat => headers.push(`${cat.name || ''} Gap`));
     const rows = data.map(pincode => [
       pincode.pincode || '', pincode.area || '', pincode.district || '',
       pincode.population || '', pincode.populationGrowth || '', pincode.incomeLevel || '',

@@ -33,7 +33,7 @@ function SearchBar({ onSearch, onChange, placeholder = "Search by area or pincod
     searchTimeoutRef.current = setTimeout(async () => {
       try {
         const res = await searchAPI.suggestions(searchTerm, district);
-        if (res.data) setServerSuggestions(res.data);
+        if (Array.isArray(res.data)) setServerSuggestions(res.data);
       } catch { setServerSuggestions([]); }
     }, 300);
     return () => { if (searchTimeoutRef.current) clearTimeout(searchTimeoutRef.current); };

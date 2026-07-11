@@ -96,9 +96,9 @@ export function getBusinessCategoriesFromArea(area) {
   ]);
 
   return Array.from(categories).map((name) => {
-    const demand = toNumberOrNull(demandScores[name]) || 0;
-    const supply = toNumberOrNull(competitors[name]) || 0;
-    const gap = demand !== null && supply !== null ? Math.max(0, demand - supply) : 0;
+    const demand = toNumberOrNull(demandScores[name]) ?? 0;
+    const supply = toNumberOrNull(competitors[name]) ?? 0;
+    const gap = Math.max(0, demand - supply);
     return { name, demand, supply, gap };
   });
 }

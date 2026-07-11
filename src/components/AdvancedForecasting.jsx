@@ -113,7 +113,7 @@ function AdvancedForecasting({ pincodeData, businessCategories }) {
   const generateCategoryForecast = () => {
     if (!businessCategories || businessCategories.length === 0) return [];
 
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'].slice(0, timePeriod);
     const avgGrowth = pincodeData?.length > 0
       ? pincodeData.reduce((sum, p) => sum + (Number(p.populationGrowth) || 0), 0) / pincodeData.length
       : 2;

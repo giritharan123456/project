@@ -189,7 +189,7 @@ function AnalyticsPanel({ pincodeData, selectedDistrict }) {
       doc.text(`District: ${selectedDistrict} | Generated: ${new Date().toLocaleDateString('en-IN')}`, margin, 17);
 
       const totalPop = pincodeData.reduce((s, p) => s + (Number(p.population) || 0), 0);
-      const avgGrowth = (pincodeData.reduce((s, p) => s + (p.populationGrowth || 0), 0) / pincodeData.length).toFixed(2);
+      const avgGrowth = (pincodeData.reduce((s, p) => s + (Number(p.populationGrowth) || 0), 0) / pincodeData.length).toFixed(2);
 
       autoTable(doc, {
         startY: 30,
@@ -211,7 +211,7 @@ function AnalyticsPanel({ pincodeData, selectedDistrict }) {
           (p.area || '').substring(0, 25),
           p.pincode || '',
           (Number(p.population) || 0).toLocaleString(),
-          `${(p.populationGrowth || 0).toFixed(2)}%`,
+          `${(Number(p.populationGrowth) || 0).toFixed(2)}%`,
           p.incomeLevel || '-',
         ]),
         styles: { fontSize: 7, cellPadding: 2 },

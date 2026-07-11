@@ -240,7 +240,7 @@ const Competitors = ({ pincodeData }) => {
                     <p className={`text-xs mt-0.5 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{insight.description}</p>
                   </div>
                 </div>
-                {expandedInsight === insight.id ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                {expandedInsight === insight.id ? <ChevronUp size={16} className={isDarkMode ? 'text-slate-300' : 'text-slate-600'} /> : <ChevronDown size={16} className={isDarkMode ? 'text-slate-300' : 'text-slate-600'} />}
               </div>
               <AnimatePresence>
                 {expandedInsight === insight.id && (

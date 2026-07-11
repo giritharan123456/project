@@ -66,7 +66,7 @@ function BusinessInsights({ pincodeData }) {
       else if (avgDemand >= 60) demandLevels['Medium (60-79)']++;
       else demandLevels['Low (0-59)']++;
     });
-    const total = pincodeData.length;
+    const total = Object.values(demandLevels).reduce((sum, v) => sum + v, 0);
     return Object.entries(demandLevels).map(([name, value]) => ({
       name, value, percentage: total > 0 ? Number(((value / total) * 100).toFixed(2)) : 0
     }));
