@@ -422,9 +422,9 @@ function Forecast() {
               <thead>
                 <tr className={`border-b ${isDarkMode ? 'border-[#334155]' : 'border-[#e2e8f0]'}`}>
                   <th className={`text-left p-2 sm:p-4 font-semibold text-xs sm:text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Year</th>
-                  <th className={`text-left p-2 sm:p-4 font-semibold text-xs sm:text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Population</th>
+                  <th className={`hidden sm:table-cell text-left p-2 sm:p-4 font-semibold text-xs sm:text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Population</th>
                   <th className={`text-left p-2 sm:p-4 font-semibold text-xs sm:text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Demand</th>
-                  <th className={`text-left p-2 sm:p-4 font-semibold text-xs sm:text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Competition</th>
+                  <th className={`hidden md:table-cell text-left p-2 sm:p-4 font-semibold text-xs sm:text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Competition</th>
                   <th className={`text-left p-2 sm:p-4 font-semibold text-xs sm:text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Revenue</th>
                 </tr>
               </thead>
@@ -438,9 +438,9 @@ function Forecast() {
                     className={`border-b ${isDarkMode ? 'border-[#334155]' : 'border-[#e2e8f0]'} hover:bg-opacity-50 ${isDarkMode ? 'hover:bg-[#1e293b]' : 'hover:bg-[#ffffff]'}`}
                   >
                     <td className={`p-2 sm:p-4 font-semibold text-xs sm:text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{prediction.year}</td>
-                    <td className={`p-2 sm:p-4 text-xs sm:text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{prediction.population}</td>
+                    <td className={`hidden sm:table-cell p-2 sm:p-4 text-xs sm:text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{prediction.population}</td>
                     <td className={`p-2 sm:p-4 text-xs sm:text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{prediction.demand}</td>
-                    <td className={`p-2 sm:p-4 text-xs sm:text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{prediction.competition}</td>
+                    <td className={`hidden md:table-cell p-2 sm:p-4 text-xs sm:text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{prediction.competition}</td>
                     <td className={`p-2 sm:p-4 font-semibold text-xs sm:text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{prediction.revenue}</td>
                   </motion.tr>
                 ))}

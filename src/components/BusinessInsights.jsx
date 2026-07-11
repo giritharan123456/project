@@ -144,19 +144,21 @@ function BusinessInsights({ pincodeData }) {
               <table className="w-full text-sm border-collapse">
                 <thead>
                   <tr className={isDarkMode ? 'bg-[#0f172a]' : 'bg-gray-50'}>
-                    {['Category', 'Avg Gap', 'Avg Demand', 'Competitors', 'Score'].map(h => (
-                      <th key={h} className={`p-3 text-left text-xs font-extrabold uppercase tracking-wider ${b('text-slate-300', 'text-slate-600')}`}>{h}</th>
-                    ))}
+                    <th className={`p-2 sm:p-3 text-left text-xs font-extrabold uppercase tracking-wider ${b('text-slate-300', 'text-slate-600')}`}>Category</th>
+                    <th className={`p-2 sm:p-3 text-left text-xs font-extrabold uppercase tracking-wider ${b('text-slate-300', 'text-slate-600')}`}>Avg Gap</th>
+                    <th className={`hidden md:table-cell p-2 sm:p-3 text-left text-xs font-extrabold uppercase tracking-wider ${b('text-slate-300', 'text-slate-600')}`}>Avg Demand</th>
+                    <th className={`hidden md:table-cell p-2 sm:p-3 text-left text-xs font-extrabold uppercase tracking-wider ${b('text-slate-300', 'text-slate-600')}`}>Competitors</th>
+                    <th className={`p-2 sm:p-3 text-left text-xs font-extrabold uppercase tracking-wider ${b('text-slate-300', 'text-slate-600')}`}>Score</th>
                   </tr>
                 </thead>
                 <tbody>
                   {opportunityData.map((item) => (
                     <tr key={item.category} className={`border-t transition-colors ${isDarkMode ? 'border-[#334155] hover:bg-[#0f172a]/50' : 'border-[#e2e8f0] hover:bg-gray-50'}`}>
-                      <td className={`p-3 text-sm font-medium ${b('text-white', 'text-slate-800')}`}>{item.category}</td>
-                      <td className={`p-3 text-sm font-bold ${b('text-slate-200', 'text-slate-700')}`}>{item.avgGap}</td>
-                      <td className={`p-3 text-sm font-bold ${b('text-slate-200', 'text-slate-700')}`}>{item.avgDemand}</td>
-                      <td className={`p-3 text-sm font-bold ${b('text-slate-200', 'text-slate-700')}`}>{item.avgCompetitors}</td>
-                      <td className="p-3">
+                      <td className={`p-2 sm:p-3 text-sm font-medium ${b('text-white', 'text-slate-800')}`}>{item.category}</td>
+                      <td className={`p-2 sm:p-3 text-sm font-bold ${b('text-slate-200', 'text-slate-700')}`}>{item.avgGap}</td>
+                      <td className={`hidden md:table-cell p-2 sm:p-3 text-sm font-bold ${b('text-slate-200', 'text-slate-700')}`}>{item.avgDemand}</td>
+                      <td className={`hidden md:table-cell p-2 sm:p-3 text-sm font-bold ${b('text-slate-200', 'text-slate-700')}`}>{item.avgCompetitors}</td>
+                      <td className="p-2 sm:p-3">
                         <span className={`inline-block px-2.5 py-1 rounded-lg text-xs font-bold ${
                           getScoreClass(item.opportunityScore) === 'high' ? isDarkMode ? 'bg-red-900/30 text-red-400' : 'bg-red-100 text-red-600' :
                           getScoreClass(item.opportunityScore) === 'medium' ? isDarkMode ? 'bg-amber-900/30 text-amber-400' : 'bg-amber-100 text-amber-600' :

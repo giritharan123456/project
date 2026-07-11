@@ -293,10 +293,10 @@ function Analysis() {
                   <tr className={`border-b ${isDarkMode ? 'border-[#334155]' : 'border-[#e2e8f0]'}`}>
                     <th className={`pb-2 sm:pb-3 font-bold text-xs sm:text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Category</th>
                     <th className={`pb-2 sm:pb-3 font-bold text-xs sm:text-sm text-right ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Demand</th>
-                    <th className={`pb-2 sm:pb-3 font-bold text-xs sm:text-sm text-right ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Supply</th>
+                    <th className={`hidden sm:table-cell pb-2 sm:pb-3 font-bold text-xs sm:text-sm text-right ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Supply</th>
                     <th className={`pb-2 sm:pb-3 font-bold text-xs sm:text-sm text-right ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Gap</th>
-                    <th className={`pb-2 sm:pb-3 font-bold text-xs sm:text-sm text-right ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Best Area</th>
-                    <th className={`pb-2 sm:pb-3 font-bold text-xs sm:text-sm text-right ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Areas</th>
+                    <th className={`hidden md:table-cell pb-2 sm:pb-3 font-bold text-xs sm:text-sm text-right ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Best Area</th>
+                    <th className={`hidden md:table-cell pb-2 sm:pb-3 font-bold text-xs sm:text-sm text-right ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Areas</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -304,7 +304,7 @@ function Analysis() {
                     <tr key={cat._id || i} className={`border-b ${isDarkMode ? 'border-[#334155]' : 'border-[#e2e8f0]'}`}>
                       <td className={`py-3 font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{cat.name}</td>
                       <td className={`py-3 text-right ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{Number(cat.demand || 0).toFixed(2)}</td>
-                      <td className={`py-3 text-right ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{Number(cat.supply || 0).toFixed(2)}</td>
+                      <td className={`hidden sm:table-cell py-3 text-right ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{Number(cat.supply || 0).toFixed(2)}</td>
                       <td className="py-3 text-right">
                         <span className={`px-2 py-1 rounded-full text-xs font-bold ${
                           (cat.gap || 0) >= 50 ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' :
@@ -312,10 +312,10 @@ function Analysis() {
                           'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'
                         }`}>{Number(cat.gap || 0).toFixed(2)}</span>
                       </td>
-                      <td className={`py-3 text-right text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+                      <td className={`hidden md:table-cell py-3 text-right text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                         {cat.bestArea?.name || '—'} {cat.bestArea?.gap ? `(${Number(cat.bestArea.gap).toFixed(2)})` : ''}
                       </td>
-                      <td className={`py-3 text-right ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{cat.areaCount || 0}</td>
+                      <td className={`hidden md:table-cell py-3 text-right ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{cat.areaCount || 0}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -338,9 +338,9 @@ function Analysis() {
                   <tr className={`border-b ${isDarkMode ? 'border-[#334155]' : 'border-[#e2e8f0]'}`}>
                     <th className={`pb-2 sm:pb-3 font-bold text-xs sm:text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>#</th>
                     <th className={`pb-2 sm:pb-3 font-bold text-xs sm:text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Area</th>
-                    <th className={`pb-2 sm:pb-3 font-bold text-xs sm:text-sm text-right ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Pincode</th>
-                    <th className={`pb-2 sm:pb-3 font-bold text-xs sm:text-sm text-right ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Population</th>
-                    <th className={`pb-2 sm:pb-3 font-bold text-xs sm:text-sm text-right ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Income</th>
+                    <th className={`hidden sm:table-cell pb-2 sm:pb-3 font-bold text-xs sm:text-sm text-right ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Pincode</th>
+                    <th className={`hidden md:table-cell pb-2 sm:pb-3 font-bold text-xs sm:text-sm text-right ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Population</th>
+                    <th className={`hidden md:table-cell pb-2 sm:pb-3 font-bold text-xs sm:text-sm text-right ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Income</th>
                     <th className={`pb-2 sm:pb-3 font-bold text-xs sm:text-sm text-right ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Avg Gap Score</th>
                   </tr>
                 </thead>
@@ -356,9 +356,9 @@ function Analysis() {
                           }`}>{i + 1}</span>
                         </td>
                         <td className={`py-3 font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{area.area || area.pincode}</td>
-                        <td className={`py-3 text-right ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{area.pincode}</td>
-                        <td className={`py-3 text-right ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{(area.population || 0).toLocaleString()}</td>
-                        <td className="py-3 text-right">
+                        <td className={`hidden sm:table-cell py-3 text-right ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{area.pincode}</td>
+                        <td className={`hidden md:table-cell py-3 text-right ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{(area.population || 0).toLocaleString()}</td>
+                        <td className="hidden md:table-cell py-3 text-right">
                           <span className={`px-2 py-1 rounded-full text-xs font-bold ${
                             area.incomeLevel === 'High' ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' :
                             area.incomeLevel === 'Medium' ? 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400' :

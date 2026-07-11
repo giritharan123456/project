@@ -69,10 +69,10 @@ function CategoryPincodeMatrix() {
                   <th className={`text-left px-3 sm:px-4 py-2 sm:py-3 font-semibold text-xs uppercase tracking-wider ${b('text-gray-600', 'text-gray-400')}`}>Category</th>
                   <th className={`text-left px-3 sm:px-4 py-2 sm:py-3 font-semibold text-xs uppercase tracking-wider ${b('text-gray-600', 'text-gray-400')}`}>Best Pincode</th>
                   <th className={`text-left px-3 sm:px-4 py-2 sm:py-3 font-semibold text-xs uppercase tracking-wider ${b('text-gray-600', 'text-gray-400')}`}>Area</th>
-                  <th className={`text-left px-3 sm:px-4 py-2 sm:py-3 font-semibold text-xs uppercase tracking-wider ${b('text-gray-600', 'text-gray-400')}`}>District</th>
+                  <th className={`hidden md:table-cell text-left px-3 sm:px-4 py-2 sm:py-3 font-semibold text-xs uppercase tracking-wider ${b('text-gray-600', 'text-gray-400')}`}>District</th>
                   <th className={`text-center px-3 sm:px-4 py-2 sm:py-3 font-semibold text-xs uppercase tracking-wider ${b('text-gray-600', 'text-gray-400')}`}>Gap Score</th>
-                  <th className={`text-center px-3 sm:px-4 py-2 sm:py-3 font-semibold text-xs uppercase tracking-wider ${b('text-gray-600', 'text-gray-400')}`}>Demand</th>
-                  <th className={`text-center px-3 sm:px-4 py-2 sm:py-3 font-semibold text-xs uppercase tracking-wider ${b('text-gray-600', 'text-gray-400')}`}>Feasibility</th>
+                  <th className={`hidden lg:table-cell text-center px-3 sm:px-4 py-2 sm:py-3 font-semibold text-xs uppercase tracking-wider ${b('text-gray-600', 'text-gray-400')}`}>Demand</th>
+                  <th className={`hidden lg:table-cell text-center px-3 sm:px-4 py-2 sm:py-3 font-semibold text-xs uppercase tracking-wider ${b('text-gray-600', 'text-gray-400')}`}>Feasibility</th>
                 </tr>
               </thead>
               <tbody>
@@ -84,14 +84,14 @@ function CategoryPincodeMatrix() {
                       <td className="px-3 sm:px-4 py-2 sm:py-3 whitespace-nowrap">{catNames[0] || '-'}</td>
                       <td className={`px-3 sm:px-4 py-2 sm:py-3 whitespace-nowrap font-semibold ${b('text-gray-900', 'text-white')}`}>{row.pincode}</td>
                       <td className="px-3 sm:px-4 py-2 sm:py-3 whitespace-nowrap">{row.areaName || '-'}</td>
-                      <td className="px-3 sm:px-4 py-2 sm:py-3 whitespace-nowrap">{row.district || '-'}</td>
+                      <td className="hidden md:table-cell px-3 sm:px-4 py-2 sm:py-3 whitespace-nowrap">{row.district || '-'}</td>
                       <td className="px-3 sm:px-4 py-2 sm:py-3 text-center">
                          <span className={`px-2 py-1 rounded-md text-xs font-semibold ${getScoreColor(row.gapScore)}`}>{row.gapScore != null ? Number(row.gapScore).toFixed(2) : '-'}</span>
                       </td>
-                      <td className="px-3 sm:px-4 py-2 sm:py-3 text-center">
+                      <td className="hidden lg:table-cell px-3 sm:px-4 py-2 sm:py-3 text-center">
                          <span className={`px-2 py-1 rounded-md text-xs font-semibold ${getScoreColor(row.demandScore)}`}>{row.demandScore != null ? Number(row.demandScore).toFixed(2) : '-'}</span>
                       </td>
-                      <td className="px-3 sm:px-4 py-2 sm:py-3 text-center">
+                      <td className="hidden lg:table-cell px-3 sm:px-4 py-2 sm:py-3 text-center">
                          <span className={`px-2 py-1 rounded-md text-xs font-semibold ${getScoreColor(row.feasibilityScore)}`}>{row.feasibilityScore != null ? Number(row.feasibilityScore).toFixed(2) : '-'}</span>
                       </td>
                     </motion.tr>

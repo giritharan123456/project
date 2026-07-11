@@ -480,8 +480,8 @@ function Reports() {
                   <tr className={`border-b-2 ${isDarkMode ? 'border-[#334155]' : 'border-[#e2e8f0]'}`}>
                     <th className={`pb-2 sm:pb-3 font-bold text-xs sm:text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Category</th>
                     <th className={`pb-2 sm:pb-3 font-bold text-xs sm:text-sm text-right ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Gap Score</th>
-                    <th className={`pb-2 sm:pb-3 font-bold text-xs sm:text-sm text-right ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Demand</th>
-                    <th className={`pb-2 sm:pb-3 font-bold text-xs sm:text-sm text-right ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Competitors</th>
+                    <th className={`hidden md:table-cell pb-2 sm:pb-3 font-bold text-xs sm:text-sm text-right ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Demand</th>
+                    <th className={`hidden md:table-cell pb-2 sm:pb-3 font-bold text-xs sm:text-sm text-right ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Competitors</th>
                     <th className={`pb-2 sm:pb-3 font-bold text-xs sm:text-sm text-right ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Status</th>
                   </tr>
                 </thead>
@@ -496,8 +496,8 @@ function Reports() {
                           'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'
                         }`}>{Number(cat.gap).toFixed(2)}</span>
                       </td>
-                      <td className={`py-3 text-right font-medium ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{Number(cat.demand).toFixed(2)}</td>
-                      <td className={`py-3 text-right font-medium ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{cat.competitors}</td>
+                      <td className={`hidden md:table-cell py-3 text-right font-medium ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{Number(cat.demand).toFixed(2)}</td>
+                      <td className={`hidden md:table-cell py-3 text-right font-medium ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{cat.competitors}</td>
                       <td className="py-3 text-right">
                         {cat.gap >= 70 && cat.competitors < 5 ? (
                           <span className="inline-flex items-center gap-1 text-green-500 text-xs font-bold"><CheckCircle size={14} /> High Opportunity</span>
