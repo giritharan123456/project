@@ -3,6 +3,8 @@ const District = require('../models/District');
 const { createNotification } = require('./notificationController');
 const calculateScores = require('../utils/calculateScores');
 
+const escapeRegex = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
 // @desc    Get area by pincode
 // @route   GET /api/areas/pincode/:pincode
 // @access  Public

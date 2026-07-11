@@ -31,6 +31,17 @@ const createDistrict = async (req, res) => {
       return res.status(400).json({ success: false, message: 'District name is required' });
     }
     const district = await District.create({ name, state, population, area });
+
+    if (req.user) {
+      await createNotification(
+        req.user._id,
+        'admin',
+        `New district created: ${name}`,
+        `Admin created district "${name}" in ${state || 'Tamil Nadu'}.`,
+        { districtName: name }
+      );
+    }
+
     res.status(201).json({
       success: true,
       message: 'District created successfully',
@@ -50,6 +61,17 @@ const updateDistrict = async (req, res) => {
     if (!district) {
       return res.status(404).json({ success: false, message: 'District not found' });
     }
+
+    if (req.user) {
+      await createNotification(
+        req.user._id,
+        'admin',
+        `District updated: ${district.name}`,
+        `Admin updated district "${district.name}".`,
+        { districtName: district.name }
+      );
+    }
+
     res.json({
       success: true,
       message: 'District updated successfully',
@@ -70,9 +92,20 @@ const deleteDistrict = async (req, res) => {
       return res.status(404).json({ success: false, message: 'District not found' });
     }
 
-    // Delete all areas in this district
+    const districtName = district.name;
+    const areaCount = await Area.countDocuments({ district: req.params.id });
     await Area.deleteMany({ district: req.params.id });
     await District.findByIdAndDelete(req.params.id);
+
+    if (req.user) {
+      await createNotification(
+        req.user._id,
+        'admin',
+        `District deleted: ${districtName}`,
+        `Admin deleted district "${districtName}" and ${areaCount} associated areas.`,
+        { districtName }
+      );
+    }
 
     res.json({
       success: true,
@@ -202,7 +235,22 @@ const deleteArea = async (req, res) => {
     if (!area) {
       return res.status(404).json({ success: false, message: 'Area not found' });
     }
+    const areaName = area.name;
+    const pincode = area.pincode;
+    const populatedArea = await Area.findById(area._id).populate('district', 'name');
+    const districtName = populatedArea?.district?.name || '';
     await Area.findByIdAndDelete(req.params.id);
+
+    if (req.user) {
+      await createNotification(
+        req.user._id,
+        'admin',
+        `Area deleted: ${areaName} (${pincode})`,
+        `Admin deleted area "${areaName}" in ${districtName}.`,
+        { pincode, areaName, districtName }
+      );
+    }
+
     res.json({
       success: true,
       message: 'Area deleted successfully'
@@ -238,6 +286,17 @@ const createBusinessCategory = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Category name is required' });
     }
     const category = await BusinessCategory.create({ name, description, icon });
+
+    if (req.user) {
+      await createNotification(
+        req.user._id,
+        'admin',
+        `New business category: ${name}`,
+        `Admin created business category "${name}".`,
+        {}
+      );
+    }
+
     res.status(201).json({
       success: true,
       message: 'Business category created successfully',
@@ -257,6 +316,17 @@ const updateBusinessCategory = async (req, res) => {
     if (!category) {
       return res.status(404).json({ success: false, message: 'Business category not found' });
     }
+
+    if (req.user) {
+      await createNotification(
+        req.user._id,
+        'admin',
+        `Business category updated: ${category.name}`,
+        `Admin updated business category "${category.name}".`,
+        {}
+      );
+    }
+
     res.json({
       success: true,
       message: 'Business category updated successfully',
@@ -276,7 +346,19 @@ const deleteBusinessCategory = async (req, res) => {
     if (!category) {
       return res.status(404).json({ success: false, message: 'Business category not found' });
     }
+    const categoryName = category.name;
     await BusinessCategory.findByIdAndDelete(req.params.id);
+
+    if (req.user) {
+      await createNotification(
+        req.user._id,
+        'admin',
+        `Business category deleted: ${categoryName}`,
+        `Admin deleted business category "${categoryName}".`,
+        {}
+      );
+    }
+
     res.json({
       success: true,
       message: 'Business category deleted successfully'
