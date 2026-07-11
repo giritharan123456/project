@@ -1,16 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useTheme } from '../contexts/ThemeContext';
-import { Filter, X, ChevronDown } from 'lucide-react';
+import { Filter, X, ChevronDown, Check } from 'lucide-react';
 
-function DataFilter({ pincodeData, filters, onFiltersChange, onClear }) {
+function DataFilter({ pincodeData, filters, onFiltersChange, onClear, resultCount, totalCount }) {
   const { isDarkMode } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef(null);
 
-  const incomeLevels = [...new Set((pincodeData || []).map(p => p.incomeLevel).filter(Boolean))];
-  const hasActiveFilters = filters.incomeLevel || filters.opportunityLevel || filters.minPopulation || filters.maxPopulation || filters.minGrowth || filters.maxGrowth;
+  // Click outside to close
+  useEffect(() => {
+    if (!isOpen) return;
+    const handler = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, [isOpen]);
+
+  const incomeLevels = [...new Set((pincodeData || []).map(p => p.incomeLevel).filter(Boolean))].sort();
+  const hasActiveFilters = filters.incomeLevel || filters.opportunityLevel || filters.minPopulation || filters.maxPopulation || filters.minGrowth != null || filters.maxGrowth != null;
 
   const handleChange = (key, value) => {
-    onFiltersChange({ ...filters, [key]: value });
+    const next = { ...filters, [key]: value };
+    // Clean up empty values
+    if (value === '' || value === null || value === undefined) delete next[key];
+    onFiltersChange(next);
   };
 
   const clearAll = () => {
@@ -24,12 +40,18 @@ function DataFilter({ pincodeData, filters, onFiltersChange, onClear }) {
     if (filters.opportunityLevel) count++;
     if (filters.minPopulation) count++;
     if (filters.maxPopulation) count++;
-    if (filters.minGrowth) count++;
-    if (filters.maxGrowth) count++;
+    if (filters.minGrowth != null) count++;
+    if (filters.maxGrowth != null) count++;
     return count;
   };
 
-  const inputClass = `w-full px-2.5 py-1.5 rounded-lg text-xs font-semibold border transition-all duration-200 outline-none ${
+  const selectClass = `w-full px-2.5 py-2 rounded-lg text-xs font-semibold border transition-all duration-200 outline-none cursor-pointer ${
+    isDarkMode
+      ? 'bg-[#0f172a] border-[#334155] text-white focus:border-blue-500'
+      : 'bg-slate-50 border-slate-200 text-slate-800 focus:border-blue-500'
+  }`;
+
+  const inputClass = `w-full px-2.5 py-2 rounded-lg text-xs font-semibold border transition-all duration-200 outline-none ${
     isDarkMode
       ? 'bg-[#0f172a] border-[#334155] text-white focus:border-blue-500'
       : 'bg-slate-50 border-slate-200 text-slate-800 focus:border-blue-500'
@@ -39,16 +61,20 @@ function DataFilter({ pincodeData, filters, onFiltersChange, onClear }) {
     isDarkMode ? 'text-slate-400' : 'text-slate-500'
   }`;
 
+  const activeBg = isDarkMode ? 'bg-blue-900/40 border-blue-500 text-blue-300' : 'bg-blue-50 border-blue-400 text-blue-700';
+  const inactiveBg = isDarkMode ? 'bg-[#0f172a] border-[#334155] text-slate-300' : 'bg-slate-50 border-slate-200 text-slate-600';
+
   return (
-    <div className="relative">
+    <div className="relative" ref={dropdownRef}>
+      {/* Filter Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all duration-200 ${
+        className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-bold transition-all duration-200 border ${
           hasActiveFilters
-            ? 'bg-blue-600 text-white shadow-md'
+            ? 'bg-blue-600 text-white border-blue-600 shadow-md'
             : isDarkMode
-              ? 'bg-[#0f172a] text-slate-300 border border-[#334155] hover:border-blue-500'
-              : 'bg-slate-100 text-slate-600 border border-slate-200 hover:border-blue-400'
+              ? 'bg-[#0f172a] text-slate-300 border-[#334155] hover:border-blue-500 hover:text-white'
+              : 'bg-white text-slate-600 border-slate-200 hover:border-blue-400 hover:text-blue-600'
         }`}
       >
         <Filter size={13} />
@@ -60,18 +86,27 @@ function DataFilter({ pincodeData, filters, onFiltersChange, onClear }) {
         )}
       </button>
 
+      {/* Dropdown */}
       {isOpen && (
         <div
-          className={`absolute top-full left-0 mt-2 p-3 rounded-xl border shadow-2xl z-50 w-[320px] sm:w-[400px] ${
+          className={`absolute top-full left-0 mt-2 p-4 rounded-xl border shadow-2xl z-[60] w-[340px] sm:w-[420px] ${
             isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-slate-200'
           }`}
           onClick={(e) => e.stopPropagation()}
         >
-          <div className="flex items-center justify-between mb-3">
-            <h4 className={`text-sm font-extrabold ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>Filter Areas</h4>
+          {/* Header */}
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <h4 className={`text-sm font-extrabold ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>Filter Areas</h4>
+              {resultCount != null && totalCount != null && (
+                <p className={`text-[10px] font-bold mt-0.5 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
+                  Showing {resultCount} of {totalCount} areas
+                </p>
+              )}
+            </div>
             <div className="flex items-center gap-1.5">
               {hasActiveFilters && (
-                <button onClick={clearAll} className="text-[10px] font-bold text-blue-500 hover:text-blue-400 transition-colors">
+                <button onClick={clearAll} className="text-[10px] font-bold text-blue-500 hover:text-blue-400 transition-colors px-2 py-1 rounded-md hover:bg-blue-500/10">
                   Clear All
                 </button>
               )}
@@ -81,7 +116,8 @@ function DataFilter({ pincodeData, filters, onFiltersChange, onClear }) {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-2.5">
+          {/* Filter Options */}
+          <div className="grid grid-cols-2 gap-3">
             {/* Income Level */}
             <div>
               <label className={labelClass}>Income Level</label>
@@ -89,7 +125,7 @@ function DataFilter({ pincodeData, filters, onFiltersChange, onClear }) {
                 <select
                   value={filters.incomeLevel || ''}
                   onChange={(e) => handleChange('incomeLevel', e.target.value)}
-                  className={`${inputClass} appearance-none pr-7 cursor-pointer`}
+                  className={`${selectClass} appearance-none pr-7`}
                 >
                   <option value="">All Levels</option>
                   {incomeLevels.map(level => (
@@ -107,7 +143,7 @@ function DataFilter({ pincodeData, filters, onFiltersChange, onClear }) {
                 <select
                   value={filters.opportunityLevel || ''}
                   onChange={(e) => handleChange('opportunityLevel', e.target.value)}
-                  className={`${inputClass} appearance-none pr-7 cursor-pointer`}
+                  className={`${selectClass} appearance-none pr-7`}
                 >
                   <option value="">All Levels</option>
                   <option value="high">High (≥65)</option>
@@ -123,9 +159,9 @@ function DataFilter({ pincodeData, filters, onFiltersChange, onClear }) {
               <label className={labelClass}>Min Population</label>
               <input
                 type="number"
-                placeholder="0"
+                placeholder="No minimum"
                 value={filters.minPopulation || ''}
-                onChange={(e) => handleChange('minPopulation', e.target.value ? Number(e.target.value) : '')}
+                onChange={(e) => handleChange('minPopulation', e.target.value ? Number(e.target.value) : null)}
                 className={inputClass}
                 min="0"
               />
@@ -136,9 +172,9 @@ function DataFilter({ pincodeData, filters, onFiltersChange, onClear }) {
               <label className={labelClass}>Max Population</label>
               <input
                 type="number"
-                placeholder="No limit"
+                placeholder="No maximum"
                 value={filters.maxPopulation || ''}
-                onChange={(e) => handleChange('maxPopulation', e.target.value ? Number(e.target.value) : '')}
+                onChange={(e) => handleChange('maxPopulation', e.target.value ? Number(e.target.value) : null)}
                 className={inputClass}
                 min="0"
               />
@@ -150,9 +186,9 @@ function DataFilter({ pincodeData, filters, onFiltersChange, onClear }) {
               <input
                 type="number"
                 step="0.1"
-                placeholder="0"
-                value={filters.minGrowth || ''}
-                onChange={(e) => handleChange('minGrowth', e.target.value ? Number(e.target.value) : '')}
+                placeholder="No minimum"
+                value={filters.minGrowth != null ? filters.minGrowth : ''}
+                onChange={(e) => handleChange('minGrowth', e.target.value !== '' ? Number(e.target.value) : null)}
                 className={inputClass}
               />
             </div>
@@ -163,17 +199,56 @@ function DataFilter({ pincodeData, filters, onFiltersChange, onClear }) {
               <input
                 type="number"
                 step="0.1"
-                placeholder="No limit"
-                value={filters.maxGrowth || ''}
-                onChange={(e) => handleChange('maxGrowth', e.target.value ? Number(e.target.value) : '')}
+                placeholder="No maximum"
+                value={filters.maxGrowth != null ? filters.maxGrowth : ''}
+                onChange={(e) => handleChange('maxGrowth', e.target.value !== '' ? Number(e.target.value) : null)}
                 className={inputClass}
               />
             </div>
           </div>
 
+          {/* Quick Filters */}
+          <div className={`mt-3 pt-3 border-t ${isDarkMode ? 'border-[#334155]' : 'border-slate-200'}`}>
+            <label className={labelClass}>Quick Filters</label>
+            <div className="flex flex-wrap gap-1.5">
+              {[
+                { label: 'High Income', filter: { incomeLevel: 'High' } },
+                { label: 'Low Income', filter: { incomeLevel: 'Low' } },
+                { label: 'High Opportunity', filter: { opportunityLevel: 'high' } },
+                { label: 'Fast Growing', filter: { minGrowth: 1.5 } },
+                { label: 'Pop > 50K', filter: { minPopulation: 50000 } },
+              ].map(qf => {
+                const isActive = JSON.stringify(filters) === JSON.stringify(qf.filter);
+                return (
+                  <button
+                    key={qf.label}
+                    onClick={() => {
+                      if (isActive) clearAll();
+                      else onFiltersChange(qf.filter);
+                    }}
+                    className={`px-2 py-1 rounded-md text-[10px] font-bold border transition-all ${
+                      isActive ? activeBg : `${inactiveBg} hover:border-blue-400`
+                    }`}
+                  >
+                    {isActive && <Check size={10} className="inline mr-0.5" />}
+                    {qf.label}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Active Filters Summary */}
           {hasActiveFilters && (
-            <div className={`mt-3 pt-2 border-t text-[10px] font-bold ${isDarkMode ? 'border-[#334155] text-slate-400' : 'border-slate-200 text-slate-500'}`}>
-              {getActiveCount()} filter(s) active — showing matching areas
+            <div className={`mt-3 pt-2 border-t flex items-center justify-between ${isDarkMode ? 'border-[#334155]' : 'border-slate-200'}`}>
+              <span className={`text-[10px] font-bold ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
+                {getActiveCount()} filter(s) active
+              </span>
+              {resultCount != null && (
+                <span className={`text-[10px] font-extrabold ${resultCount > 0 ? 'text-emerald-500' : 'text-red-500'}`}>
+                  {resultCount} match{resultCount !== 1 ? 'es' : ''}
+                </span>
+              )}
             </div>
           )}
         </div>
@@ -183,19 +258,29 @@ function DataFilter({ pincodeData, filters, onFiltersChange, onClear }) {
 }
 
 export function applyFilters(pincodeData, filters) {
-  if (!pincodeData || !filters) return pincodeData;
+  if (!pincodeData || !filters || Object.keys(filters).length === 0) return pincodeData;
   return pincodeData.filter(p => {
+    // Income Level filter
     if (filters.incomeLevel && p.incomeLevel !== filters.incomeLevel) return false;
+
+    // Opportunity Level filter
     if (filters.opportunityLevel) {
       const score = p.opportunityScore || 0;
       if (filters.opportunityLevel === 'high' && score < 65) return false;
       if (filters.opportunityLevel === 'medium' && (score < 50 || score >= 65)) return false;
       if (filters.opportunityLevel === 'low' && score >= 50) return false;
     }
-    if (filters.minPopulation && (p.population || 0) < filters.minPopulation) return false;
-    if (filters.maxPopulation && (p.population || 0) > filters.maxPopulation) return false;
-    if (filters.minGrowth != null && filters.minGrowth !== '' && (p.populationGrowth || 0) < filters.minGrowth) return false;
-    if (filters.maxGrowth != null && filters.maxGrowth !== '' && (p.populationGrowth || 0) > filters.maxGrowth) return false;
+
+    // Population filters
+    const pop = p.population || 0;
+    if (filters.minPopulation != null && filters.minPopulation !== '' && pop < filters.minPopulation) return false;
+    if (filters.maxPopulation != null && filters.maxPopulation !== '' && pop > filters.maxPopulation) return false;
+
+    // Growth filters
+    const growth = p.populationGrowth || 0;
+    if (filters.minGrowth != null && filters.minGrowth !== '' && growth < filters.minGrowth) return false;
+    if (filters.maxGrowth != null && filters.maxGrowth !== '' && growth > filters.maxGrowth) return false;
+
     return true;
   });
 }

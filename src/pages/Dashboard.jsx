@@ -84,10 +84,27 @@ function Dashboard() {
       if (isFav) {
         await favoriteAPI.remove('area', pincode);
       } else {
-        await favoriteAPI.add('area', pincode, { pincode, name: area.area || area.name, district: area.district });
+        const { averageOfValues } = await import('../utils/dataUtils');
+        const avgGap = area.opportunityScore || averageOfValues(area.marketGapScores) || 0;
+        const avgDemand = averageOfValues(area.demandScores) ?? 0;
+        const totalComps = Object.values(area.competitors || {}).reduce((s, v) => s + (Number(v) || 0), 0);
+        const topCategory = Object.entries(area.marketGapScores || {}).sort(([, a], [, b]) => Number(b) - Number(a))[0]?.[0] || null;
+        await favoriteAPI.add('area', pincode, {
+          pincode,
+          name: area.area || area.name,
+          district: area.district,
+          incomeLevel: area.incomeLevel || 'N/A',
+          population: area.population || 0,
+          populationGrowth: area.populationGrowth || 0,
+          opportunityScore: Number(avgGap.toFixed(1)),
+          demandScore: Number(avgDemand.toFixed(1)),
+          competitors: totalComps,
+          topCategory,
+          lat: area.lat,
+          lng: area.lng,
+        });
       }
     } catch {
-      // Revert on error
       setFavorites(prev => {
         const next = new Set(prev);
         if (isFav) next.add(pincode);
@@ -365,7 +382,13 @@ function Dashboard() {
                 {searchError && <p className="mt-1 text-[10px] text-red-500 font-medium">{searchError}</p>}
               </div>
               <div className="flex-shrink-0">
-                <DataFilter pincodeData={pincodeData} filters={filters} onFiltersChange={setFilters} />
+                <DataFilter
+                  pincodeData={pincodeData}
+                  filters={filters}
+                  onFiltersChange={setFilters}
+                  resultCount={displayData.length}
+                  totalCount={filteredPincodeData.length}
+                />
               </div>
             </div>
             {businessCategories.length > 0 && (
