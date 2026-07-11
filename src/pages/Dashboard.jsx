@@ -301,22 +301,23 @@ function Dashboard() {
             </div>
             <div className="flex items-center gap-2">
               {/* View Tabs */}
-              <div className={`hidden sm:flex items-center gap-0.5 p-0.5 rounded-lg ${isDarkMode ? 'bg-[#0f172a]' : 'bg-slate-100'}`}>
+              <div className={`flex items-center gap-0.5 p-0.5 rounded-lg ${isDarkMode ? 'bg-[#0f172a]' : 'bg-slate-100'}`}>
                 {[
-                  { key: 'dashboard', label: 'Dashboard' },
-                  { key: 'table', label: 'Table' },
-                  { key: 'favorites', label: 'Favorites' },
+                  { key: 'dashboard', label: 'Dashboard', icon: '📊' },
+                  { key: 'table', label: 'Table', icon: '📋' },
+                  { key: 'favorites', label: 'Favorites', icon: '❤️' },
                 ].map(tab => (
                   <button
                     key={tab.key}
                     onClick={() => setActiveView(tab.key)}
-                    className={`px-2.5 py-1 rounded-md text-[10px] font-bold transition-all ${
+                    className={`flex items-center gap-1 px-2 sm:px-2.5 py-1 rounded-md text-[10px] font-bold transition-all ${
                       activeView === tab.key
                         ? 'bg-blue-600 text-white shadow-sm'
                         : isDarkMode ? 'text-slate-400 hover:text-white' : 'text-slate-500 hover:text-slate-800'
                     }`}
                   >
-                    {tab.label}
+                    <span className="text-[11px]">{tab.icon}</span>
+                    <span className="hidden xs:inline">{tab.label}</span>
                   </button>
                 ))}
               </div>
@@ -528,14 +529,24 @@ function Dashboard() {
                       Clear All
                     </button>
                   </div>
-                  <DataTable
-                    pincodeData={pincodeData.filter(p => favorites.has(String(p.pincode)))}
-                    onAreaClick={(area) => setDrilldownArea(area)}
-                    onCompare={toggleCompare}
-                    compareList={compareList}
-                    favorites={favorites}
-                    onToggleFavorite={toggleFavorite}
-                  />
+                  {(() => {
+                    const favData = displayData.filter(p => favorites.has(String(p.pincode)));
+                    if (favData.length === 0) {
+                      return (
+                        <EmptyState type="noData" message="None of your favorites are in the current district. Switch districts or add new favorites." />
+                      );
+                    }
+                    return (
+                      <DataTable
+                        pincodeData={favData}
+                        onAreaClick={(area) => setDrilldownArea(area)}
+                        onCompare={toggleCompare}
+                        compareList={compareList}
+                        favorites={favorites}
+                        onToggleFavorite={toggleFavorite}
+                      />
+                    );
+                  })()}
                 </div>
               )}
             </motion.div>
