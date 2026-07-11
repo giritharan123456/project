@@ -106,8 +106,8 @@ function Navbar() {
             </span>
           </Link>
 
-          {/* Search Bar - Hidden on mobile, visible on md+ */}
-          <form onSubmit={handleSearch} className="hidden md:flex flex-1 max-w-2xl mx-4 relative" ref={searchRef}>
+          {/* Search Bar - Hidden on mobile, visible on lg+ */}
+          <form onSubmit={handleSearch} className="hidden lg:flex flex-1 max-w-2xl mx-4 relative" ref={searchRef}>
             <div className={`flex w-full rounded-lg overflow-hidden border-2 ${b('border-gray-300 focus-within:border-[#2563eb]', 'border-slate-600 focus-within:border-[#2563eb]')} focus-within:ring-2 focus-within:ring-[#2563eb]/30 transition-all`}>
               <input
                 type="text"
@@ -144,7 +144,7 @@ function Navbar() {
           {/* Right Actions */}
           <div className="flex items-center gap-1 sm:gap-2 lg:gap-3 flex-shrink-0">
             {/* Mobile Menu Toggle */}
-            <button onClick={() => setShowMobileNav(!showMobileNav)} className={`md:hidden p-2 rounded-lg ${b('hover:bg-gray-100 text-gray-700', 'hover:bg-[#1e293b] text-gray-300')}`}>
+            <button onClick={() => setShowMobileNav(!showMobileNav)} className={`lg:hidden p-2 rounded-lg ${b('hover:bg-gray-100 text-gray-700', 'hover:bg-[#1e293b] text-gray-300')}`}>
               {showMobileNav ? (
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
               ) : (
@@ -243,7 +243,7 @@ function Navbar() {
       {/* Mobile Search (visible only when toggled) */}
       <AnimatePresence>
         {showMobileNav && (
-          <motion.div initial={{ height: 0 }} animate={{ height: 'auto' }} exit={{ height: 0 }} className={`md:hidden overflow-hidden border-t ${b('border-gray-200 bg-white', 'border-[#1e293b] bg-[#0f172a]')}`}>
+          <motion.div initial={{ height: 0 }} animate={{ height: 'auto' }} exit={{ height: 0 }} className={`lg:hidden overflow-hidden border-t ${b('border-gray-200 bg-white', 'border-[#1e293b] bg-[#0f172a]')}`}>
             <div className="p-4">
               <form onSubmit={handleSearch} className="mb-4">
                 <div className={`flex rounded-lg overflow-hidden border-2 ${b('border-gray-300', 'border-slate-600')}`}>
@@ -282,8 +282,8 @@ function Navbar() {
         )}
       </AnimatePresence>
 
-      {/* Secondary Navigation - hidden on mobile, scrollable on md+ */}
-      <div className={`hidden md:block border-t ${b('border-gray-100 bg-gray-50/50', 'border-[#1e293b] bg-[#0f172a]/50')}`}>
+      {/* Secondary Navigation - hidden on mobile, scrollable on lg+ */}
+      <div className={`hidden lg:block border-t ${b('border-gray-100 bg-gray-50/50', 'border-[#1e293b] bg-[#0f172a]/50')}`}>
         <div className="max-w-[1600px] mx-auto px-4 md:px-8">
           <div className="flex items-center gap-1 overflow-x-auto py-1 scrollbar-hide">
             {navLinks.map(link => (
