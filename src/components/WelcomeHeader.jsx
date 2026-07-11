@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Bell, Sun, Moon, User, Clock } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
@@ -11,11 +11,23 @@ export default function WelcomeHeader() {
   const navigate = useNavigate();
   const [time, setTime] = useState(new Date());
   const [showNotif, setShowNotif] = useState(false);
+  const notifRef = useRef(null);
 
   useEffect(() => {
     const t = setInterval(() => setTime(new Date()), 60000);
     return () => clearInterval(t);
   }, []);
+
+  useEffect(() => {
+    if (!showNotif) return;
+    const handleClick = (e) => {
+      if (notifRef.current && !notifRef.current.contains(e.target)) {
+        setShowNotif(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClick);
+    return () => document.removeEventListener('mousedown', handleClick);
+  }, [showNotif]);
 
   const getGreeting = () => {
     const h = time.getHours();
@@ -70,7 +82,7 @@ export default function WelcomeHeader() {
           {/* Right: Actions */}
           <div className="flex items-center gap-2">
             {/* Notification Bell */}
-            <div className="relative">
+            <div className="relative" ref={notifRef}>
               <button
                 onClick={() => setShowNotif(!showNotif)}
                 className={`relative p-2 rounded-lg transition-colors ${

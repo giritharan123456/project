@@ -32,14 +32,8 @@ const businessCategorySchema = new mongoose.Schema({
   },
   minInvestment: { type: Number, default: 500000 },
   maxInvestment: { type: Number, default: 5000000 },
-  createdAt: {
-    type: Date,
-    default: Date.now
-  },
-  updatedAt: {
-    type: Date,
-    default: Date.now
-  }
-});
+  typicalMargin: { type: Number },
+  growthRate: { type: Number },
+}, { timestamps: true });
 
 module.exports = mongoose.model('BusinessCategory', businessCategorySchema);

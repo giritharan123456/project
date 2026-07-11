@@ -147,7 +147,12 @@ const getAreasByDistrict = async (req, res) => {
 // @access  Private/Admin
 const createArea = async (req, res) => {
   try {
-    const area = new Area(req.body);
+    const allowed = ['name', 'pincode', 'population', 'competitors', 'demandScores', 'marketGapScores', 'searchTrends', 'district', 'populationGrowth', 'incomeLevel', 'urbanDevelopment', 'coordinates'];
+    const filtered = {};
+    for (const key of allowed) {
+      if (req.body[key] !== undefined) filtered[key] = req.body[key];
+    }
+    const area = new Area(filtered);
     calculateScores(area);
     await area.save();
     res.status(201).json({

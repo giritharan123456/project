@@ -55,9 +55,9 @@ const apiCall = async (endpoint, options = {}) => {
           });
           if (refreshResponse.ok) {
             const refreshData = await refreshResponse.json();
-            localStorage.setItem('token', refreshData.accessToken);
+            localStorage.setItem('token', refreshData.accessToken || refreshData.token);
             isRefreshing = false;
-            processQueue(null, refreshData.accessToken);
+            processQueue(null, refreshData.accessToken || refreshData.token);
             // Retry original request with new token
             return apiCall(endpoint, options);
           } else {

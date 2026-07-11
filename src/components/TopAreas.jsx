@@ -113,7 +113,7 @@ function TopAreas({ pincodeData, businessCategories }) {
                     }`}>
                       {avgGapScore.toFixed(2)}
                     </div>
-                    <div className="w-16 h-1.5 rounded-full bg-gray-200 dark:bg-gray-700 mt-1 overflow-hidden">
+                    <div className={`w-16 h-1.5 rounded-full mt-1 overflow-hidden ${isDarkMode ? 'bg-gray-700' : 'bg-gray-200'}`}>
                       <div
                         className="h-full rounded-full transition-all duration-500"
                         style={{ 

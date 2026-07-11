@@ -17,13 +17,13 @@ export default function LandingPreview({ area, onNavigate }) {
   const avgDemand = averageOfValues(demandScores) ?? 0;
   const totalCompetitors = Object.values(competitors).reduce((s, v) => s + (Number(v) || 0), 0);
 
-  const sortedCategories = Object.entries(gapScores).sort(([, a], [, b]) => b - a);
-  const maxScore = sortedCategories.length > 0 ? Math.max(...sortedCategories.map(([, v]) => v)) : 1;
+  const sortedCategories = Object.entries(gapScores).sort(([, a], [, b]) => (Number(b) || 0) - (Number(a) || 0));
+  const maxScore = sortedCategories.length > 0 ? Math.max(...sortedCategories.map(([, v]) => Number(v) || 0), 1) : 1;
 
   const getScoreColor = (score) => {
-    if (score >= 65) return { bar: 'bg-red-500', text: 'text-red-500', badge: 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400' };
-    if (score >= 50) return { bar: 'bg-amber-500', text: 'text-amber-500', badge: 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400' };
-    return { bar: 'bg-emerald-500', text: 'text-emerald-500', badge: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400' };
+    if (score >= 65) return { bar: 'bg-red-500', text: 'text-red-500', badge: isDarkMode ? 'bg-red-900/30 text-red-400' : 'bg-red-100 text-red-700' };
+    if (score >= 50) return { bar: 'bg-amber-500', text: 'text-amber-500', badge: isDarkMode ? 'bg-amber-900/30 text-amber-400' : 'bg-amber-100 text-amber-700' };
+    return { bar: 'bg-emerald-500', text: 'text-emerald-500', badge: isDarkMode ? 'bg-emerald-900/30 text-emerald-400' : 'bg-emerald-100 text-emerald-700' };
   };
 
   const getOppLabel = (score) => {

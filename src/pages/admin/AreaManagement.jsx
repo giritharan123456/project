@@ -69,7 +69,7 @@ const AreaManagement = () => {
     setFormData({
       pincode: area.pincode,
       name: area.name,
-      district: area.district._id || area.district,
+      district: area.district?._id || area.district,
       coordinates: area.coordinates,
       population: area.population,
       populationGrowth: area.populationGrowth,

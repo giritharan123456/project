@@ -20,7 +20,7 @@ function EnhancedExport({ data, selectedDistrict, businessCategories }) {
     try {
       await exportToPDF();
     } catch (error) {
-      toastError('PDF export failed. Please try again.');
+      toastError?.('PDF export failed. Please try again.');
     } finally {
       setIsExporting(false);
     }
@@ -28,7 +28,7 @@ function EnhancedExport({ data, selectedDistrict, businessCategories }) {
 
   const exportToPDF = async () => {
     if (!data || data.length === 0) {
-      toastError('No data to export');
+      toastError?.('No data to export');
       return;
     }
 
@@ -161,7 +161,7 @@ function EnhancedExport({ data, selectedDistrict, businessCategories }) {
 
       doc.save(`market-gap-analysis-${districtName}.pdf`);
     } catch (error) {
-      toastError('PDF export failed. Please try again.');
+      toastError?.('PDF export failed. Please try again.');
     }
   };
 

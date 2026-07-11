@@ -57,7 +57,8 @@ const createDistrict = async (req, res) => {
 // @access  Admin
 const updateDistrict = async (req, res) => {
   try {
-    const district = await District.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
+    const { name, state, region } = req.body;
+    const district = await District.findByIdAndUpdate(req.params.id, { name, state, region }, { new: true, runValidators: true });
     if (!district) {
       return res.status(404).json({ success: false, message: 'District not found' });
     }
@@ -312,7 +313,8 @@ const createBusinessCategory = async (req, res) => {
 // @access  Admin
 const updateBusinessCategory = async (req, res) => {
   try {
-    const category = await BusinessCategory.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
+    const { name, description, icon, minInvestment, maxInvestment, typicalMargin, growthRate } = req.body;
+    const category = await BusinessCategory.findByIdAndUpdate(req.params.id, { name, description, icon, minInvestment, maxInvestment, typicalMargin, growthRate }, { new: true, runValidators: true });
     if (!category) {
       return res.status(404).json({ success: false, message: 'Business category not found' });
     }

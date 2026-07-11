@@ -4,6 +4,11 @@ import { motion } from 'framer-motion';
 import { ArrowUpDown, ArrowUp, ArrowDown, ChevronLeft, ChevronRight, Table2, Heart } from 'lucide-react';
 import { averageOfValues } from '../utils/dataUtils';
 
+const SortIcon = ({ col, sortKey, sortDir }) => {
+  if (sortKey !== col) return <ArrowUpDown size={10} className="opacity-30" />;
+  return sortDir === 'asc' ? <ArrowUp size={10} className="text-blue-500" /> : <ArrowDown size={10} className="text-blue-500" />;
+};
+
 function DataTable({ pincodeData, onAreaClick, onCompare, compareList, favorites, onToggleFavorite }) {
   const { isDarkMode } = useTheme();
   const [sortKey, setSortKey] = useState('opportunityScore');
@@ -50,11 +55,6 @@ function DataTable({ pincodeData, onAreaClick, onCompare, compareList, favorites
 
   const totalPages = Math.ceil(sorted.length / perPage);
   const paged = sorted.slice((page - 1) * perPage, page * perPage);
-
-  const SortIcon = ({ col }) => {
-    if (sortKey !== col) return <ArrowUpDown size={10} className="opacity-30" />;
-    return sortDir === 'asc' ? <ArrowUp size={10} className="text-blue-500" /> : <ArrowDown size={10} className="text-blue-500" />;
-  };
 
   const thClass = `px-2 py-2.5 text-left text-[10px] font-extrabold uppercase tracking-wider cursor-pointer select-none transition-colors hover:text-blue-500 ${
     isDarkMode ? 'text-slate-400' : 'text-slate-500'
@@ -124,7 +124,7 @@ function DataTable({ pincodeData, onAreaClick, onCompare, compareList, favorites
                 <th key={col.key} className={thClass} onClick={() => handleSort(col.key)}>
                   <div className="flex items-center gap-1">
                     {col.label}
-                    <SortIcon col={col.key} />
+                    <SortIcon col={col.key} sortKey={sortKey} sortDir={sortDir} />
                   </div>
                 </th>
               ))}

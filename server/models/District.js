@@ -52,14 +52,6 @@ const districtSchema = new mongoose.Schema({
       required: false // will be fetched from API
     }
   },
-  createdAt: {
-    type: Date,
-    default: Date.now
-  },
-  updatedAt: {
-    type: Date,
-    default: Date.now
-  }
-});
+}, { timestamps: true });
 
 module.exports = mongoose.model('District', districtSchema);

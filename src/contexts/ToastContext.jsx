@@ -76,7 +76,7 @@ export const ToastProvider = ({ children }) => {
               exit={{ opacity: 0, x: 100 }}
               className={`flex items-center gap-3 p-4 rounded-xl border shadow-lg min-w-[300px] max-w-md ${
                 bgColors[toast.type]
-              } ${isDarkMode ? 'bg-[#1e293b]' : 'bg-[#ffffff]'}`}
+              }`}
             >
               {icons[toast.type]}
               <p className={`flex-1 text-sm font-medium ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>

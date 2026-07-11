@@ -106,8 +106,8 @@ function Profile() {
       toast.error('Passwords do not match');
       return;
     }
-    if (newPassword.length < 6) {
-      toast.error('Password must be at least 6 characters');
+    if (newPassword.length < 8) {
+      toast.error('Password must be at least 8 characters');
       return;
     }
     setLoading(true);
@@ -320,7 +320,7 @@ function Profile() {
                     ) : null}
                     <div>
                       <label className={`block text-sm font-medium mb-1 ${b('text-gray-700', 'text-gray-300')}`}>New Password</label>
-                      <input type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} required minLength={6}
+                      <input type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} required minLength={8}
                         className={`w-full px-4 py-2.5 rounded-lg border text-sm outline-none focus:ring-2 focus:ring-[#2563eb]/40 ${b('bg-white border-gray-300 text-gray-900', 'bg-[#0f172a] border-[#334155] text-gray-100')}`} />
                     </div>
                     <div>
