@@ -218,11 +218,11 @@ function Landing() {
                 Identify underserved markets, analyze competition, and make data-driven business decisions with real market intelligence across 38 districts.
               </p>
               <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-8 sm:mb-10">
-                <Link to="/signup" className="px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white rounded-xl font-semibold text-center hover:opacity-90 transition-opacity shadow-lg shadow-blue-500/25">
+                <Link to="/signup" className="w-full px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white rounded-xl font-semibold text-center hover:opacity-90 transition-opacity shadow-lg shadow-blue-500/25 flex items-center justify-center gap-2">
                   Get Started Free
-                  <ArrowRight className="inline ml-2" size={20} />
+                  <ArrowRight size={18} />
                 </Link>
-                <Link to="/login" className={`px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-semibold text-center border-2 transition-colors ${isDarkMode ? 'text-white border-[#334155] hover:bg-[#1e293b]' : 'text-gray-700 border-gray-200 hover:bg-gray-50'}`}>
+                <Link to="/login" className={`w-full px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-semibold text-center border-2 transition-colors ${isDarkMode ? 'text-white border-[#334155] hover:bg-[#1e293b]' : 'text-gray-700 border-gray-200 hover:bg-gray-50'}`}>
                   View Demo Dashboard
                 </Link>
               </div>
