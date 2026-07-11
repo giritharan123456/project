@@ -51,10 +51,10 @@ function InvestmentEstimator() {
 
   const fmt = (val) => {
     if (val == null || isNaN(val)) return '-';
-    if (val >= 10000000) return `\u20B9${(val / 10000000).toFixed(2)} Cr`;
-    if (val >= 100000) return `\u20B9${(val / 100000).toFixed(2)} L`;
-    if (val >= 1000) return `\u20B9${(val / 1000).toFixed(0)}K`;
-    return `\u20B9${val}`;
+    if (val >= 10000000) return 'Rs. ' + (val / 10000000).toFixed(2) + ' Cr';
+    if (val >= 100000) return 'Rs. ' + (val / 100000).toFixed(2) + ' L';
+    if (val >= 1000) return 'Rs. ' + (val / 1000).toFixed(0) + 'K';
+    return 'Rs. ' + val;
   };
 
   const ctx = estimate?.areaContext;
@@ -133,10 +133,10 @@ function InvestmentEstimator() {
             </div>
 
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-              <StatCard icon={IndianRupee} label="Investment Needed" value={`${fmt(estimate.minTotal)} \u2013 ${fmt(estimate.maxTotal)}`} sub="One-time setup cost" color="green" b={b} />
-              <StatCard icon={TrendingUp} label="Monthly Revenue" value={`${fmt(revenue?.monthlyMin)} \u2013 ${fmt(revenue?.monthlyMax)}`} sub={`${revenue?.dailyCustomersMin}\u2013${revenue?.dailyCustomersMax} customers/day`} color="blue" b={b} />
-              <StatCard icon={TrendingDown} label="Monthly Costs" value={`${fmt(costs?.totalMin)} \u2013 ${fmt(costs?.totalMax)}`} sub="Rent + staff + utilities" color="orange" b={b} />
-              <StatCard icon={Target} label="Monthly Profit" value={profit?.monthlyMax > 0 ? `${fmt(profit?.monthlyMin)} \u2013 ${fmt(profit?.monthlyMax)}` : 'Low margin'} sub={roi?.breakEvenMonths ? `Break-even: ${roi.breakEvenMonths} months` : 'Check market conditions'} color={profit?.monthlyMax > 0 ? 'green' : 'red'} b={b} />
+              <StatCard icon={IndianRupee} label="Investment Needed" value={`${fmt(estimate.minTotal)}  to  ${fmt(estimate.maxTotal)}`} sub="One-time setup cost" color="green" b={b} />
+              <StatCard icon={TrendingUp} label="Monthly Revenue" value={`${fmt(revenue?.monthlyMin)}  to  ${fmt(revenue?.monthlyMax)}`} sub={`${revenue?.dailyCustomersMin} to ${revenue?.dailyCustomersMax} customers/day`} color="blue" b={b} />
+              <StatCard icon={TrendingDown} label="Monthly Costs" value={`${fmt(costs?.totalMin)}  to  ${fmt(costs?.totalMax)}`} sub="Rent + staff + utilities" color="orange" b={b} />
+              <StatCard icon={Target} label="Monthly Profit" value={profit?.monthlyMax > 0 ? `${fmt(profit?.monthlyMin)}  to  ${fmt(profit?.monthlyMax)}` : 'Low margin'} sub={roi?.breakEvenMonths ? `Break-even: ${roi.breakEvenMonths} months` : 'Check market conditions'} color={profit?.monthlyMax > 0 ? 'green' : 'red'} b={b} />
             </div>
 
             {roi && (roi.annualROI != null || roi.breakEvenMonths != null) && (
@@ -169,7 +169,7 @@ function InvestmentEstimator() {
                 </div>
                 <div className={`mt-3 pt-3 border-t flex justify-between items-center ${b('border-gray-100', 'border-[#334155]')}`}>
                   <span className={`text-xs font-semibold ${b('text-gray-600', 'text-gray-400')}`}>Total Monthly Cost</span>
-                  <span className={`text-sm font-bold ${b('text-gray-900', 'text-white')}`}>{fmt(costs.totalMin)} \u2013 {fmt(costs.totalMax)}</span>
+                  <span className={`text-sm font-bold ${b('text-gray-900', 'text-white')}`}>{fmt(costs.totalMin)}  to  {fmt(costs.totalMax)}</span>
                 </div>
               </div>
             )}
@@ -181,7 +181,7 @@ function InvestmentEstimator() {
                   <div className={`p-3 rounded-lg ${b('bg-blue-50', 'bg-blue-900/20')}`}>
                     <Users size={14} className="text-blue-500 mb-1" />
                     <p className={`text-[10px] uppercase font-semibold ${b('text-gray-500', 'text-gray-400')}`}>Expected Customers/Day</p>
-                    <p className={`text-sm font-bold ${b('text-gray-900', 'text-white')}`}>{revenue.dailyCustomersMin} \u2013 {revenue.dailyCustomersMax}</p>
+                    <p className={`text-sm font-bold ${b('text-gray-900', 'text-white')}`}>{revenue.dailyCustomersMin}  to  {revenue.dailyCustomersMax}</p>
                   </div>
                   <div className={`p-3 rounded-lg ${b('bg-green-50', 'bg-green-900/20')}`}>
                     <IndianRupee size={14} className="text-green-500 mb-1" />
@@ -191,12 +191,12 @@ function InvestmentEstimator() {
                   <div className={`p-3 rounded-lg ${b('bg-purple-50', 'bg-purple-900/20')}`}>
                     <TrendingUp size={14} className="text-purple-500 mb-1" />
                     <p className={`text-[10px] uppercase font-semibold ${b('text-gray-500', 'text-gray-400')}`}>Monthly Revenue</p>
-                    <p className={`text-sm font-bold ${b('text-gray-900', 'text-white')}`}>{fmt(revenue.monthlyMin)} \u2013 {fmt(revenue.monthlyMax)}</p>
+                    <p className={`text-sm font-bold ${b('text-gray-900', 'text-white')}`}>{fmt(revenue.monthlyMin)}  to  {fmt(revenue.monthlyMax)}</p>
                   </div>
                 </div>
                 {ctx?.areaInfo && (
                   <p className={`text-[10px] mt-2 ${b('text-gray-400', 'text-gray-500')}`}>
-                    Based on {ctx.areaInfo.population?.toLocaleString()} population, {ctx.areaInfo.incomeLevel} income area, {market?.demandLabel} demand ({market?.demandScore}/100)
+                    Based on {ctx.areaInfo.population?.toLocaleString()} people, {ctx.areaInfo.incomeLevel} income area, {market?.demandLabel} demand
                   </p>
                 )}
               </div>
@@ -208,33 +208,45 @@ function InvestmentEstimator() {
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                   <div className={`p-3 rounded-lg ${b('bg-gray-50', 'bg-[#0f172a]')}`}>
                     <p className={`text-[10px] uppercase font-semibold ${b('text-gray-500', 'text-gray-400')}`}>Market Demand</p>
-                    <p className={`text-lg font-bold ${market.demandScore > 50 ? 'text-emerald-500' : 'text-yellow-500'}`}>{market.demandScore}/100</p>
-                    <p className={`text-[10px] ${b('text-gray-400', 'text-gray-500')}`}>{market.demandLabel}</p>
+                    <div className="flex items-baseline gap-1 mt-1">
+                      <p className={`text-lg font-bold ${market.demandScore > 50 ? 'text-emerald-500' : 'text-yellow-500'}`}>{market.demandScore}</p>
+                      <p className={`text-[10px] ${b('text-gray-400', 'text-gray-500')}`}>/100</p>
+                    </div>
+                    <div className={`w-full h-1.5 rounded-full mt-1.5 ${b('bg-gray-200', 'bg-gray-700')}`}>
+                      <div className={`h-full rounded-full ${market.demandScore > 50 ? 'bg-emerald-500' : 'bg-yellow-500'}`} style={{ width: `${Math.min(100, market.demandScore)}%` }} />
+                    </div>
+                    <p className={`text-[10px] mt-1 ${b('text-gray-400', 'text-gray-500')}`}>{market.demandLabel}</p>
                   </div>
                   <div className={`p-3 rounded-lg ${b('bg-gray-50', 'bg-[#0f172a]')}`}>
                     <p className={`text-[10px] uppercase font-semibold ${b('text-gray-500', 'text-gray-400')}`}>Market Gap</p>
-                    <p className={`text-lg font-bold ${market.gapScore > 50 ? 'text-emerald-500' : 'text-yellow-500'}`}>{market.gapScore}/100</p>
-                    <p className={`text-[10px] ${b('text-gray-400', 'text-gray-500')}`}>{market.gapScore > 50 ? 'Strong opportunity' : 'Competitive market'}</p>
+                    <div className="flex items-baseline gap-1 mt-1">
+                      <p className={`text-lg font-bold ${market.gapScore > 50 ? 'text-emerald-500' : 'text-yellow-500'}`}>{market.gapScore}</p>
+                      <p className={`text-[10px] ${b('text-gray-400', 'text-gray-500')}`}>/100</p>
+                    </div>
+                    <div className={`w-full h-1.5 rounded-full mt-1.5 ${b('bg-gray-200', 'bg-gray-700')}`}>
+                      <div className={`h-full rounded-full ${market.gapScore > 50 ? 'bg-emerald-500' : 'bg-yellow-500'}`} style={{ width: `${Math.min(100, market.gapScore)}%` }} />
+                    </div>
+                    <p className={`text-[10px] mt-1 ${b('text-gray-400', 'text-gray-500')}`}>{market.gapScore > 50 ? 'Strong opportunity' : 'Competitive market'}</p>
                   </div>
                   <div className={`p-3 rounded-lg ${b('bg-gray-50', 'bg-[#0f172a]')}`}>
                     <p className={`text-[10px] uppercase font-semibold ${b('text-gray-500', 'text-gray-400')}`}>Competitors Nearby</p>
-                    <p className={`text-lg font-bold ${b('text-gray-900', 'text-white')}`}>{market.competitorsForCat}</p>
+                    <p className={`text-lg font-bold mt-1 ${b('text-gray-900', 'text-white')}`}>{market.competitorsForCat}</p>
                     <p className={`text-[10px] ${b('text-gray-400', 'text-gray-500')}`}>Total: {market.totalCompetitors} all types</p>
                   </div>
                   <div className={`p-3 rounded-lg ${b('bg-gray-50', 'bg-[#0f172a]')}`}>
                     <p className={`text-[10px] uppercase font-semibold ${b('text-gray-500', 'text-gray-400')}`}>Competition Level</p>
-                    <p className={`text-lg font-bold ${market.marketSaturation === 'Low' ? 'text-emerald-500' : market.marketSaturation === 'Moderate' ? 'text-yellow-500' : 'text-red-500'}`}>{market.marketSaturation}</p>
-                    <p className={`text-[10px] ${b('text-gray-400', 'text-gray-500')}`}>{market.marketSaturation === 'Low' ? 'Less competition — good entry' : market.marketSaturation === 'Moderate' ? 'Some competition' : 'Crowded market'}</p>
+                    <p className={`text-lg font-bold mt-1 ${market.marketSaturation === 'Low' ? 'text-emerald-500' : market.marketSaturation === 'Moderate' ? 'text-yellow-500' : 'text-red-500'}`}>{market.marketSaturation}</p>
+                    <p className={`text-[10px] ${b('text-gray-400', 'text-gray-500')}`}>{market.marketSaturation === 'Low' ? 'Less competition' : market.marketSaturation === 'Moderate' ? 'Some competition' : 'Crowded market'}</p>
                   </div>
                 </div>
               </div>
             )}
 
-            {ctx?.topAreas && ctx.topAreas.length > 0 && (
+            {ctx?.topAreas && ctx.topAreas.filter(a => a.gap > 0).length > 0 && (
               <div className={`rounded-xl border p-4 sm:p-5 ${b('bg-white border-gray-200', 'bg-[#1e293b] border-[#334155]')}`}>
-                <h3 className={`text-sm font-bold mb-3 ${b('text-gray-900', 'text-white')}`}>Top 5 Areas for {estimate.category}</h3>
+                <h3 className={`text-sm font-bold mb-3 ${b('text-gray-900', 'text-white')}`}>Best Areas for {estimate.category}</h3>
                 <div className="space-y-2">
-                  {ctx.topAreas.map((a, i) => (
+                  {ctx.topAreas.filter(a => a.gap > 0).map((a, i) => (
                     <div key={i} className={`flex items-center justify-between px-3 py-2 rounded-lg ${b('bg-gray-50', 'bg-[#0f172a]')}`}>
                       <div className="flex items-center gap-2">
                         <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold text-white ${i === 0 ? 'bg-yellow-500' : i === 1 ? 'bg-gray-400' : i === 2 ? 'bg-orange-400' : 'bg-gray-300'}`}>{i + 1}</span>
@@ -243,7 +255,7 @@ function InvestmentEstimator() {
                           <span className={`text-[10px] ml-1 ${b('text-gray-400', 'text-gray-500')}`}>({a.pincode})</span>
                         </div>
                       </div>
-                      <span className={`text-xs font-bold ${a.gap > 60 ? 'text-emerald-500' : a.gap > 30 ? 'text-yellow-500' : 'text-red-500'}`}>Gap: {a.gap}</span>
+                      <span className={`text-xs font-bold ${a.gap > 60 ? 'text-emerald-500' : a.gap > 30 ? 'text-yellow-500' : 'text-red-500'}`}>Score: {a.gap}</span>
                     </div>
                   ))}
                 </div>
@@ -281,7 +293,7 @@ function CostItem({ label, value, b }) {
   return (
     <div className={`p-3 rounded-lg ${b('bg-gray-50', 'bg-[#0f172a]')}`}>
       <p className={`text-[10px] uppercase font-semibold ${b('text-gray-500', 'text-gray-400')}`}>{label}</p>
-      <p className={`text-sm font-bold ${b('text-gray-900', 'text-white')}`}>{`\u20B9${(value / 1000).toFixed(0)}K`}/mo</p>
+      <p className={`text-sm font-bold ${b('text-gray-900', 'text-white')}`}>{'Rs. ' + (value / 1000).toFixed(0) + 'K'}/mo</p>
     </div>
   );
 }
