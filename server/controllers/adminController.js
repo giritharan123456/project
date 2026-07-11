@@ -11,7 +11,7 @@ const logger = require('../utils/logger');
 // @access  Admin
 const getAllDistricts = async (req, res) => {
   try {
-    const districts = await District.find({}).sort({ name: 1 });
+    const districts = await District.find({}).lean().sort({ name: 1 });
     res.json({
       success: true,
       count: districts.length,
@@ -89,7 +89,7 @@ const updateDistrict = async (req, res) => {
 // @access  Admin
 const deleteDistrict = async (req, res) => {
   try {
-    const district = await District.findById(req.params.id);
+    const district = await District.findById(req.params.id).lean();
     if (!district) {
       return res.status(404).json({ success: false, message: 'District not found' });
     }
@@ -124,7 +124,7 @@ const deleteDistrict = async (req, res) => {
 const getAllAreas = async (req, res) => {
   try {
     const limit = Math.min(Math.max(parseInt(req.query.limit) || 500, 1), 1000);
-    const areas = await Area.find({}).populate('district', 'name').sort({ name: 1 }).limit(limit);
+    const areas = await Area.find({}).lean().populate('district', 'name').sort({ name: 1 }).limit(limit);
     res.json({
       success: true,
       count: areas.length,
@@ -140,7 +140,7 @@ const getAllAreas = async (req, res) => {
 // @access  Admin
 const getAreasByDistrict = async (req, res) => {
   try {
-    const areas = await Area.find({ district: req.params.districtId }).populate('district', 'name');
+    const areas = await Area.find({ district: req.params.districtId }).lean().populate('district', 'name');
     res.json({
       success: true,
       count: areas.length,
@@ -168,7 +168,7 @@ const createArea = async (req, res) => {
     });
     calculateScores(area);
     await area.save();
-    const populatedArea = await Area.findById(area._id).populate('district', 'name');
+    const populatedArea = await Area.findById(area._id).lean().populate('district', 'name');
 
     if (req.user) {
       const districtName = populatedArea.district?.name || '';
@@ -206,7 +206,7 @@ const updateArea = async (req, res) => {
     }
     calculateScores(area);
     await area.save();
-    const populated = await Area.findById(area._id).populate('district', 'name');
+    const populated = await Area.findById(area._id).lean().populate('district', 'name');
 
     if (req.user) {
       const districtName = populated.district?.name || '';
@@ -234,13 +234,13 @@ const updateArea = async (req, res) => {
 // @access  Admin
 const deleteArea = async (req, res) => {
   try {
-    const area = await Area.findById(req.params.id);
+    const area = await Area.findById(req.params.id).lean();
     if (!area) {
       return res.status(404).json({ success: false, message: 'Area not found' });
     }
     const areaName = area.name;
     const pincode = area.pincode;
-    const populatedArea = await Area.findById(area._id).populate('district', 'name');
+    const populatedArea = await Area.findById(area._id).lean().populate('district', 'name');
     const districtName = populatedArea?.district?.name || '';
     await Area.findByIdAndDelete(req.params.id);
 
@@ -268,7 +268,7 @@ const deleteArea = async (req, res) => {
 // @access  Admin
 const getAllBusinessCategories = async (req, res) => {
   try {
-    const categories = await BusinessCategory.find({}).sort({ name: 1 });
+    const categories = await BusinessCategory.find({}).lean().sort({ name: 1 });
     res.json({
       success: true,
       count: categories.length,
@@ -346,7 +346,7 @@ const updateBusinessCategory = async (req, res) => {
 // @access  Admin
 const deleteBusinessCategory = async (req, res) => {
   try {
-    const category = await BusinessCategory.findById(req.params.id);
+    const category = await BusinessCategory.findById(req.params.id).lean();
     if (!category) {
       return res.status(404).json({ success: false, message: 'Business category not found' });
     }
@@ -378,7 +378,7 @@ const deleteBusinessCategory = async (req, res) => {
 const getAllUsers = async (req, res) => {
   try {
     const limit = Math.min(Math.max(parseInt(req.query.limit) || 200, 1), 500);
-    const users = await User.find({}).select('-password').sort({ createdAt: -1 }).limit(limit);
+    const users = await User.find({}).lean().select('-password').sort({ createdAt: -1 }).limit(limit);
     res.json({
       success: true,
       count: users.length,
@@ -394,7 +394,7 @@ const getAllUsers = async (req, res) => {
 // @access  Admin
 const getUserById = async (req, res) => {
   try {
-    const user = await User.findById(req.params.id).select('-password');
+    const user = await User.findById(req.params.id).lean().select('-password');
     if (!user) {
       return res.status(404).json({ success: false, message: 'User not found' });
     }
@@ -418,14 +418,19 @@ const updateUser = async (req, res) => {
     }
 
     if (req.body.email && req.body.email !== user.email) {
-      const existing = await User.findOne({ email: req.body.email });
+      const existing = await User.findOne({ email: req.body.email }).lean();
       if (existing) {
         return res.status(400).json({ success: false, message: 'Email already in use' });
       }
       user.email = req.body.email;
     }
     user.name = req.body.name || user.name;
-    user.role = req.body.role || user.role;
+    if (req.body.role) {
+      if (!['guest', 'user', 'admin'].includes(req.body.role)) {
+        return res.status(400).json({ success: false, message: 'Invalid role' });
+      }
+      user.role = req.body.role;
+    }
     if (req.body.password) {
       if (req.body.password.length < 8) {
         return res.status(400).json({ success: false, message: 'Password must be at least 8 characters' });
@@ -457,9 +462,15 @@ const updateUser = async (req, res) => {
 // @access  Admin
 const deleteUser = async (req, res) => {
   try {
-    const user = await User.findById(req.params.id);
+    const user = await User.findById(req.params.id).lean();
     if (!user) {
       return res.status(404).json({ success: false, message: 'User not found' });
+    }
+    if (user.role === 'admin') {
+      const adminCount = await User.countDocuments({ role: 'admin' });
+      if (adminCount <= 1) {
+        return res.status(400).json({ success: false, message: 'Cannot delete the last admin' });
+      }
     }
     await User.findByIdAndDelete(req.params.id);
     res.json({

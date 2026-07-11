@@ -16,7 +16,8 @@ const processQueue = (error, token = null) => {
 
 // Helper function to make API calls
 const apiCall = async (endpoint, options = {}, _retryCount = 0) => {
-  const token = localStorage.getItem('token');
+  try {
+    const token = (() => { try { return localStorage.getItem('token'); } catch { return null; } })();
   
   const defaultOptions = {
     credentials: 'include', // Include cookies for refresh token
@@ -29,12 +30,13 @@ const apiCall = async (endpoint, options = {}, _retryCount = 0) => {
   const timeout = options.timeout || 30000;
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), timeout);
+  const signal = options.signal || controller.signal;
 
   try {
     const response = await fetch(`${API_BASE_URL}${endpoint}`, {
       ...defaultOptions,
       ...options,
-      signal: controller.signal,
+      signal,
       headers: {
         ...defaultOptions.headers,
         ...options.headers,
@@ -48,16 +50,20 @@ const apiCall = async (endpoint, options = {}, _retryCount = 0) => {
       if (!isRefreshing) {
         isRefreshing = true;
         try {
+          const refreshController = new AbortController();
+          const refreshTimer = setTimeout(() => refreshController.abort(), 10000);
           const refreshResponse = await fetch(`${API_BASE_URL}/auth/refresh`, {
             method: 'POST',
             credentials: 'include',
-            headers: { 'Content-Type': 'application/json' }
+            headers: { 'Content-Type': 'application/json' },
+            signal: refreshController.signal,
           });
+          clearTimeout(refreshTimer);
           if (refreshResponse.ok) {
             const refreshData = await refreshResponse.json();
             const newToken = refreshData.accessToken || refreshData.token;
             if (newToken && typeof newToken === 'string') {
-              localStorage.setItem('token', newToken);
+              try { localStorage.setItem('token', newToken); } catch {}
             }
             isRefreshing = false;
             processQueue(null, newToken);
@@ -70,8 +76,7 @@ const apiCall = async (endpoint, options = {}, _retryCount = 0) => {
         } catch (refreshError) {
           isRefreshing = false;
           processQueue(refreshError, null);
-          localStorage.removeItem('token');
-          localStorage.removeItem('user');
+          try { localStorage.removeItem('token'); localStorage.removeItem('user'); } catch {}
           window.location.href = '/login';
           throw refreshError;
         }
@@ -117,6 +122,7 @@ const apiCall = async (endpoint, options = {}, _retryCount = 0) => {
     
     throw error;
   }
+  } finally {}
 };
 
 // Auth API

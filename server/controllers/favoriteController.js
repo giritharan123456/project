@@ -9,7 +9,7 @@ exports.addFavorite = async (req, res) => {
       user: req.user._id,
       itemType,
       itemId
-    });
+    }).lean();
 
     if (existing) {
       return res.status(400).json({ success: false, message: 'Already in favorites' });
@@ -56,7 +56,7 @@ exports.getFavorites = async (req, res) => {
     const query = { user: req.user._id };
     if (itemType) query.itemType = itemType;
 
-    const favorites = await Favorite.find(query).sort({ createdAt: -1 });
+    const favorites = await Favorite.find(query).lean().sort({ createdAt: -1 });
     res.json({ success: true, data: favorites, count: favorites.length });
   } catch (error) {
     logger.error('Get favorites error:', error);
@@ -72,7 +72,7 @@ exports.checkFavorite = async (req, res) => {
       user: req.user._id,
       itemType,
       itemId
-    });
+    }).lean();
 
     res.json({ success: true, isFavorite: !!favorite });
   } catch (error) {

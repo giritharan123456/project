@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
+const { param } = require('express-validator');
 const { protect, admin } = require('../middleware/auth');
+const { handleValidationErrors } = require('../middleware/validation');
 const {
   // District management
   getAllDistricts,
@@ -37,26 +39,26 @@ router.get('/stats', protect, admin, getDashboardStats);
 // District routes
 router.get('/districts', protect, admin, getAllDistricts);
 router.post('/districts', protect, admin, createDistrict);
-router.put('/districts/:id', protect, admin, updateDistrict);
-router.delete('/districts/:id', protect, admin, deleteDistrict);
+router.put('/districts/:id', protect, admin, param('id').isMongoId().withMessage('Invalid ID format'), handleValidationErrors, updateDistrict);
+router.delete('/districts/:id', protect, admin, param('id').isMongoId().withMessage('Invalid ID format'), handleValidationErrors, deleteDistrict);
 
 // Area routes
 router.get('/areas', protect, admin, getAllAreas);
-router.get('/areas/district/:districtId', protect, admin, getAreasByDistrict);
+router.get('/areas/district/:districtId', protect, admin, param('districtId').isMongoId().withMessage('Invalid ID format'), handleValidationErrors, getAreasByDistrict);
 router.post('/areas', protect, admin, createArea);
-router.put('/areas/:id', protect, admin, updateArea);
-router.delete('/areas/:id', protect, admin, deleteArea);
+router.put('/areas/:id', protect, admin, param('id').isMongoId().withMessage('Invalid ID format'), handleValidationErrors, updateArea);
+router.delete('/areas/:id', protect, admin, param('id').isMongoId().withMessage('Invalid ID format'), handleValidationErrors, deleteArea);
 
 // Business category routes
 router.get('/business-categories', protect, admin, getAllBusinessCategories);
 router.post('/business-categories', protect, admin, createBusinessCategory);
-router.put('/business-categories/:id', protect, admin, updateBusinessCategory);
-router.delete('/business-categories/:id', protect, admin, deleteBusinessCategory);
+router.put('/business-categories/:id', protect, admin, param('id').isMongoId().withMessage('Invalid ID format'), handleValidationErrors, updateBusinessCategory);
+router.delete('/business-categories/:id', protect, admin, param('id').isMongoId().withMessage('Invalid ID format'), handleValidationErrors, deleteBusinessCategory);
 
 // User management routes
 router.get('/users', protect, admin, getAllUsers);
-router.get('/users/:id', protect, admin, getUserById);
-router.put('/users/:id', protect, admin, updateUser);
-router.delete('/users/:id', protect, admin, deleteUser);
+router.get('/users/:id', protect, admin, param('id').isMongoId().withMessage('Invalid ID format'), handleValidationErrors, getUserById);
+router.put('/users/:id', protect, admin, param('id').isMongoId().withMessage('Invalid ID format'), handleValidationErrors, updateUser);
+router.delete('/users/:id', protect, admin, param('id').isMongoId().withMessage('Invalid ID format'), handleValidationErrors, deleteUser);
 
 module.exports = router;

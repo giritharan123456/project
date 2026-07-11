@@ -25,6 +25,7 @@ const searchAreas = async (req, res) => {
     }
 
     const areas = await Area.find(searchQuery)
+      .lean()
       .populate('district', 'name')
       .limit(Math.min(parseInt(limit) || 20, 100));
       
@@ -43,7 +44,7 @@ const searchAreas = async (req, res) => {
 // @access  Public
 const searchByPincode = async (req, res) => {
   try {
-    const area = await Area.findOne({ pincode: req.params.pincode }).populate('district', 'name');
+    const area = await Area.findOne({ pincode: req.params.pincode }).lean().populate('district', 'name');
     
     if (area) {
       res.json({
@@ -66,7 +67,7 @@ const searchByName = async (req, res) => {
     const escapedName = req.params.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     const areas = await Area.find({ 
       name: { $regex: escapedName, $options: 'i' } 
-    }).populate('district', 'name');
+    }).lean().populate('district', 'name');
       
     res.json({
       success: true,
@@ -97,13 +98,14 @@ const getSearchSuggestions = async (req, res) => {
     };
 
     if (district) {
-      const districtDoc = await District.findOne({ name: { $regex: `^${escapeRegex(district)}$`, $options: 'i' } }).select('_id');
+      const districtDoc = await District.findOne({ name: { $regex: `^${escapeRegex(district)}$`, $options: 'i' } }).lean().select('_id');
       if (districtDoc) {
         filter.district = districtDoc._id;
       }
     }
 
     const suggestions = await Area.find(filter)
+      .lean()
       .select('name pincode district')
       .populate('district', 'name')
       .limit(10);

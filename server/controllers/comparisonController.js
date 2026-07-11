@@ -16,7 +16,7 @@ const compareAreas = async (req, res) => {
       });
     }
 
-    const areas = await Area.find({ _id: { $in: areaIds } }).populate('district', 'name');
+    const areas = await Area.find({ _id: { $in: areaIds } }).lean().populate('district', 'name');
     
     if (areas.length !== areaIds.length) {
       return res.status(404).json({ 
@@ -73,6 +73,10 @@ const saveComparison = async (req, res) => {
       return res.status(404).json({ success: false, message: 'User not found' });
     }
 
+    if (user.savedComparisons && user.savedComparisons.length >= 50) {
+      return res.status(400).json({ success: false, message: 'Maximum of 50 saved comparisons reached' });
+    }
+
     // Create comparison object
     const comparison = {
       name: name || `Comparison ${new Date().toLocaleDateString()}`,
@@ -98,7 +102,7 @@ const saveComparison = async (req, res) => {
 // @access  Private
 const getSavedComparisons = async (req, res) => {
   try {
-    const user = await User.findById(req.user._id);
+    const user = await User.findById(req.user._id).lean();
     if (!user) {
       return res.status(404).json({ success: false, message: 'User not found' });
     }

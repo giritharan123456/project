@@ -41,13 +41,15 @@ function Navbar() {
   const isAdmin = user?.role === 'admin';
 
   useEffect(() => {
+    const controller = new AbortController();
     const fetchNotifCount = async () => {
       try {
-        const res = await notificationsAPI.getAll({ limit: 1 });
+        const res = await notificationsAPI.getAll({ limit: 1, signal: controller.signal });
         if (res.success) setNotifCount(res.unreadCount || 0);
       } catch { /* noop - notification count not critical */ }
     };
     if (user) fetchNotifCount();
+    return () => controller.abort();
   }, [user]);
 
   useEffect(() => {
@@ -144,7 +146,7 @@ function Navbar() {
           {/* Right Actions */}
           <div className="flex items-center gap-1 sm:gap-2 lg:gap-3 flex-shrink-0">
             {/* Mobile Menu Toggle */}
-            <button onClick={() => setShowMobileNav(!showMobileNav)} className={`lg:hidden p-2 rounded-lg ${b('hover:bg-gray-100 text-gray-700', 'hover:bg-[#1e293b] text-gray-300')}`}>
+            <button onClick={() => setShowMobileNav(!showMobileNav)} aria-label="Toggle mobile navigation" aria-expanded={showMobileNav} className={`lg:hidden p-2 rounded-lg ${b('hover:bg-gray-100 text-gray-700', 'hover:bg-[#1e293b] text-gray-300')}`}>
               {showMobileNav ? (
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
               ) : (
@@ -166,7 +168,7 @@ function Navbar() {
                   if (res.success) setNotifDropdown(res.data || []);
                 } catch { setNotifDropdown([]); }
                 setShowNotifDropdown(true);
-              }} className={`relative p-2 rounded-lg ${b('hover:bg-gray-100', 'hover:bg-[#1e293b]')}`}>
+              }} aria-label="Notifications" className={`relative p-2 rounded-lg ${b('hover:bg-gray-100', 'hover:bg-[#1e293b]')}`}>
                 <span className="text-lg">🔔</span>
                 {notifCount > 0 && (
                   <span className="absolute -top-0.5 -right-0.5 w-4 h-4 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center">

@@ -8,7 +8,7 @@ const logger = require('../utils/logger');
 // @access  Public
 const getLandingContent = async (req, res) => {
   try {
-    let content = await Content.findOne({ type: 'landing' });
+    let content = await Content.findOne({ type: 'landing' }).lean();
     
     if (!content) {
       // Fetch stats from database (which contains real data from government APIs)
@@ -21,7 +21,7 @@ const getLandingContent = async (req, res) => {
       let totalHouseholds = 0;
       
       // Aggregate population and households from all areas
-      const areas = await Area.find({}).limit(1000);
+      const areas = await Area.find({}).lean().limit(1000);
       areas.forEach(area => {
         totalPopulation += area.population || 0;
         totalHouseholds += Math.floor((area.population || 0) / 4); // Estimate households
@@ -70,7 +70,7 @@ const filterContentFields = (body) => {
 const updateLandingContent = async (req, res) => {
   try {
     const filtered = filterContentFields(req.body);
-    let content = await Content.findOne({ type: 'landing' });
+    let content = await Content.findOne({ type: 'landing' }).lean();
     
     if (content) {
       content = await Content.findOneAndUpdate({ type: 'landing' }, filtered, { new: true, runValidators: true });
@@ -92,7 +92,7 @@ const updateLandingContent = async (req, res) => {
 // @access  Public
 const getAboutContent = async (req, res) => {
   try {
-    let content = await Content.findOne({ type: 'about' });
+    let content = await Content.findOne({ type: 'about' }).lean();
     
     if (!content) {
       // Default about content - can be updated by admin
@@ -129,7 +129,7 @@ const getAboutContent = async (req, res) => {
 const updateAboutContent = async (req, res) => {
   try {
     const filtered = filterContentFields(req.body);
-    let content = await Content.findOne({ type: 'about' });
+    let content = await Content.findOne({ type: 'about' }).lean();
     
     if (content) {
       content = await Content.findOneAndUpdate({ type: 'about' }, filtered, { new: true, runValidators: true });
@@ -151,7 +151,7 @@ const updateAboutContent = async (req, res) => {
 // @access  Public
 const getAnalysisContent = async (req, res) => {
   try {
-    let content = await Content.findOne({ type: 'analysis' });
+    let content = await Content.findOne({ type: 'analysis' }).lean();
     
     if (!content) {
       // Default analysis methodology content
@@ -205,7 +205,7 @@ const getAnalysisContent = async (req, res) => {
 const updateAnalysisContent = async (req, res) => {
   try {
     const filtered = filterContentFields(req.body);
-    let content = await Content.findOne({ type: 'analysis' });
+    let content = await Content.findOne({ type: 'analysis' }).lean();
     
     if (content) {
       content = await Content.findOneAndUpdate({ type: 'analysis' }, filtered, { new: true, runValidators: true });
@@ -227,7 +227,7 @@ const updateAnalysisContent = async (req, res) => {
 // @access  Public
 const getHomeContent = async (req, res) => {
   try {
-    let content = await Content.findOne({ type: 'home' });
+    let content = await Content.findOne({ type: 'home' }).lean();
     
     if (!content) {
       // Default home page content
@@ -274,7 +274,7 @@ const getHomeContent = async (req, res) => {
 const updateHomeContent = async (req, res) => {
   try {
     const filtered = filterContentFields(req.body);
-    let content = await Content.findOne({ type: 'home' });
+    let content = await Content.findOne({ type: 'home' }).lean();
     
     if (content) {
       content = await Content.findOneAndUpdate({ type: 'home' }, filtered, { new: true, runValidators: true });

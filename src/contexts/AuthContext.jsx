@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useRef } from 'react';
 import { authAPI } from '../services/api';
 
 const AuthContext = createContext(null);
@@ -7,9 +7,10 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const mountedRef = useRef(true);
 
   useEffect(() => {
-    const controller = new AbortController();
+    mountedRef.current = true;
     const initAuth = async () => {
       try {
         const token = localStorage.getItem('token');
@@ -17,43 +18,40 @@ export const AuthProvider = ({ children }) => {
         if (token && storedUser) {
           try {
             const response = await authAPI.getProfile();
-            if (controller.signal.aborted) return;
+            if (!mountedRef.current) return;
             if (response.success) {
               const parsedUser = response.user;
               setIsAuthenticated(true);
               setUser(parsedUser);
-              localStorage.setItem('user', JSON.stringify(parsedUser));
+              try { localStorage.setItem('user', JSON.stringify(parsedUser)); } catch {}
             } else {
-              localStorage.removeItem('token');
-              localStorage.removeItem('user');
+              try { localStorage.removeItem('token'); localStorage.removeItem('user'); } catch {}
             }
           } catch {
-            if (controller.signal.aborted) return;
-            localStorage.removeItem('token');
-            localStorage.removeItem('user');
+            if (!mountedRef.current) return;
+            try { localStorage.removeItem('token'); localStorage.removeItem('user'); } catch {}
           }
         }
       } catch {
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
+        try { localStorage.removeItem('token'); localStorage.removeItem('user'); } catch {}
       }
-      if (!controller.signal.aborted) {
+      if (mountedRef.current) {
         setLoading(false);
       }
     };
 
     initAuth();
-    return () => controller.abort();
+    return () => { mountedRef.current = false; };
   }, []);
 
   const login = async (email, password) => {
     try {
       const response = await authAPI.login({ email, password });
+      if (!mountedRef.current) return { success: false, message: 'Component unmounted' };
       if (response.success) {
         setIsAuthenticated(true);
         setUser(response.user);
-        localStorage.setItem('token', response.token);
-        localStorage.setItem('user', JSON.stringify(response.user));
+        try { localStorage.setItem('token', response.token); localStorage.setItem('user', JSON.stringify(response.user)); } catch {}
         return { success: true };
       }
       return { success: false, message: response.message };
@@ -66,11 +64,11 @@ export const AuthProvider = ({ children }) => {
   const register = async (name, email, password) => {
     try {
       const response = await authAPI.register({ name, email, password });
+      if (!mountedRef.current) return { success: false, message: 'Component unmounted' };
       if (response.success) {
         setIsAuthenticated(true);
         setUser(response.user);
-        localStorage.setItem('token', response.token);
-        localStorage.setItem('user', JSON.stringify(response.user));
+        try { localStorage.setItem('token', response.token); localStorage.setItem('user', JSON.stringify(response.user)); } catch {}
         return { success: true };
       }
       return { success: false, message: response.message };
@@ -82,11 +80,11 @@ export const AuthProvider = ({ children }) => {
   const guestLogin = async () => {
     try {
       const response = await authAPI.guestLogin();
+      if (!mountedRef.current) return { success: false, message: 'Component unmounted' };
       if (response.success) {
         setIsAuthenticated(true);
         setUser(response.user);
-        localStorage.setItem('token', response.token);
-        localStorage.setItem('user', JSON.stringify(response.user));
+        try { localStorage.setItem('token', response.token); localStorage.setItem('user', JSON.stringify(response.user)); } catch {}
         return { success: true };
       }
       return { success: false, message: response.message };
@@ -97,18 +95,19 @@ export const AuthProvider = ({ children }) => {
 
   const handleGoogleCallback = async (token) => {
     try {
-      localStorage.setItem('token', token);
+      try { localStorage.setItem('token', token); } catch {}
       const response = await authAPI.getProfile();
+      if (!mountedRef.current) return { success: false, message: 'Component unmounted' };
       if (response.success) {
         setIsAuthenticated(true);
         setUser(response.user);
-        localStorage.setItem('user', JSON.stringify(response.user));
+        try { localStorage.setItem('user', JSON.stringify(response.user)); } catch {}
         return { success: true };
       }
-      localStorage.removeItem('token');
+      try { localStorage.removeItem('token'); } catch {}
       return { success: false, message: response.message || 'Failed to get profile' };
     } catch (error) {
-      localStorage.removeItem('token');
+      try { localStorage.removeItem('token'); } catch {}
       return { success: false, message: error.message };
     }
   };
@@ -116,8 +115,7 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     setIsAuthenticated(false);
     setUser(null);
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
+    try { localStorage.removeItem('token'); localStorage.removeItem('user'); } catch {}
   };
 
   const isAdmin = user?.role === 'admin';

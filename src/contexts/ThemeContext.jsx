@@ -5,24 +5,20 @@ const ThemeContext = createContext();
 export const useTheme = () => useContext(ThemeContext);
 
 export const ThemeProvider = ({ children }) => {
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    try {
+      return localStorage.getItem('darkMode') === 'true';
+    } catch {
+      return false;
+    }
+  });
 
   useEffect(() => {
-    const savedMode = localStorage.getItem('darkMode');
-    if (savedMode === 'true') {
-      setIsDarkMode(true);
-      document.documentElement.classList.add('dark');
-    }
-  }, []);
+    document.documentElement.classList.toggle('dark', isDarkMode);
+    try { localStorage.setItem('darkMode', isDarkMode); } catch {}
+  }, [isDarkMode]);
 
-  const toggleTheme = () => {
-    setIsDarkMode(prev => {
-      const newMode = !prev;
-      document.documentElement.classList.toggle('dark', newMode);
-      localStorage.setItem('darkMode', newMode);
-      return newMode;
-    });
-  };
+  const toggleTheme = () => setIsDarkMode(prev => !prev);
 
   return (
     <ThemeContext.Provider value={{ isDarkMode, toggleTheme }}>

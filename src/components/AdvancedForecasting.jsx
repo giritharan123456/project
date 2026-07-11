@@ -176,7 +176,7 @@ function AdvancedForecasting({ pincodeData, businessCategories }) {
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 mb-2">
         <h3 className={`text-lg sm:text-xl font-bold bg-gradient-to-r from-[#2563eb] to-[#7c3aed] bg-clip-text text-transparent ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>📈 Advanced Forecasting & Trend Analysis</h3>
         <div className="flex gap-2">
-          <select value={timePeriod} onChange={(e) => setTimePeriod(Number(e.target.value))} className={`px-3 py-2 border-2 rounded-lg ${isDarkMode ? 'bg-[#0f172a] border-[#334155] text-[#f1f5f9]' : 'bg-[#f8fafc] border-[#e2e8f0] text-[#1e293b]'}`}>
+          <select value={timePeriod} onChange={(e) => setTimePeriod(Number(e.target.value))} aria-label="Select forecast time period" className={`px-3 py-2 border-2 rounded-lg ${isDarkMode ? 'bg-[#0f172a] border-[#334155] text-[#f1f5f9]' : 'bg-[#f8fafc] border-[#e2e8f0] text-[#1e293b]'}`}>
             <option value={12}>12 Months</option>
             <option value={6}>6 Months</option>
             <option value={3}>3 Months</option>

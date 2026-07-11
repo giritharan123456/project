@@ -15,6 +15,7 @@ const getMarketData = async (req, res) => {
     }
 
     const areas = await Area.find(query)
+      .lean()
       .populate('district', 'name')
       .limit(Math.min(parseInt(limit) || 100, 500));
       
@@ -33,7 +34,7 @@ const getMarketData = async (req, res) => {
 // @access  Public
 const getMarketDataByArea = async (req, res) => {
   try {
-    const area = await Area.findById(req.params.areaId).populate('district', 'name');
+    const area = await Area.findById(req.params.areaId).lean().populate('district', 'name');
     if (area) {
       res.json({
         success: true,
@@ -65,6 +66,7 @@ const getMarketDataByArea = async (req, res) => {
 const getMarketDataByDistrict = async (req, res) => {
   try {
     const areas = await Area.find({ district: req.params.districtId })
+      .lean()
       .populate('district', 'name')
       .limit(500);
       

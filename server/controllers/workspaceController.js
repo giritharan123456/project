@@ -8,6 +8,7 @@ const logger = require('../utils/logger');
 const getProfile = async (req, res) => {
   try {
     const user = await User.findById(req.user._id)
+      .lean()
       .populate('favoriteAreas', 'name pincode district marketGapScores')
       .select('-password');
 
@@ -57,13 +58,14 @@ const getProfile = async (req, res) => {
 // @access  Private
 const getFavorites = async (req, res) => {
   try {
-    const user = await User.findById(req.user._id).select('favoriteAreas');
+    const user = await User.findById(req.user._id).lean().select('favoriteAreas');
     if (!user) {
       return res.status(404).json({ success: false, message: 'User not found' });
     }
 
     // Populate full area details for each favorite
     const favoriteAreas = await Area.find({ _id: { $in: user.favoriteAreas } })
+      .lean()
       .populate('district', 'name');
 
     const formatted = favoriteAreas.map(area => {
@@ -105,12 +107,18 @@ const addFavorite = async (req, res) => {
       return res.status(400).json({ success: false, message: 'areaId is required' });
     }
 
-    const [area, user] = await Promise.all([
-      Area.findById(areaId),
-      User.findByIdAndUpdate(req.user._id, { $addToSet: { favoriteAreas: areaId } }, { new: true })
+    const [area, existingUser] = await Promise.all([
+      Area.findById(areaId).lean(),
+      User.findById(req.user._id).lean().select('favoriteAreas')
     ]);
     if (!area) return res.status(404).json({ success: false, message: 'Area not found' });
-    if (!user) return res.status(404).json({ success: false, message: 'User not found' });
+    if (!existingUser) return res.status(404).json({ success: false, message: 'User not found' });
+
+    if (existingUser.favoriteAreas && existingUser.favoriteAreas.length >= 100) {
+      return res.status(400).json({ success: false, message: 'Maximum of 100 favorites reached' });
+    }
+
+    const user = await User.findByIdAndUpdate(req.user._id, { $addToSet: { favoriteAreas: areaId } }, { new: true });
 
     res.json({ success: true, message: 'Area added to favorites' });
   } catch (error) {
@@ -143,7 +151,7 @@ const removeFavorite = async (req, res) => {
 // @access  Private
 const getSearchHistory = async (req, res) => {
   try {
-    const user = await User.findById(req.user._id).select('recentSearches');
+    const user = await User.findById(req.user._id).lean().select('recentSearches');
     if (!user) {
       return res.status(404).json({ success: false, message: 'User not found' });
     }
@@ -151,6 +159,7 @@ const getSearchHistory = async (req, res) => {
     // Enrich each pincode with area name if available
     const pincodes = (user.recentSearches || []).slice(0, 20);
     const areas = await Area.find({ pincode: { $in: pincodes } })
+      .lean()
       .populate('district', 'name')
       .select('name pincode district');
     const areaMap = new Map(areas.map(a => [a.pincode, a]));

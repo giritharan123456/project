@@ -19,14 +19,14 @@ const getAnalyticsOverview = async (req, res) => {
     const coveredDistrictDocs = await District.find(
       { _id: { $in: districtsWithAreas } },
       'name'
-    );
+    ).lean();
     const districtNames = coveredDistrictDocs.map(d => d.name);
 
     // ── Total areas & pincodes ────────────────────────────────────────
     const totalAreas = await Area.countDocuments();
 
     // ── Business opportunity counts ──────────────────────────────────
-    const allAreas = await Area.find({}, 'marketGapScores').limit(500);
+    const allAreas = await Area.find({}, 'marketGapScores').lean().limit(500);
     let highOpportunity = 0;
     let mediumOpportunity = 0;
     let lowOpportunity = 0;
@@ -45,6 +45,7 @@ const getAnalyticsOverview = async (req, res) => {
 
     // ── Top growth areas (by populationGrowth) ───────────────────────
     const topGrowthAreas = await Area.find()
+      .lean()
       .sort({ populationGrowth: -1 })
       .limit(5)
       .populate('district', 'name')
@@ -67,6 +68,7 @@ const getAnalyticsOverview = async (req, res) => {
 
     // ── High risk areas (high competition, low demand) ────────────────
     const highRiskAreas = await Area.find()
+      .lean()
       .populate('district', 'name')
       .select('name pincode competitors demandScores marketGapScores')
       .limit(100); // look at up to 100 areas
@@ -154,12 +156,12 @@ const getAnalyticsOverview = async (req, res) => {
 // @access  Public
 const getDistrictAnalytics = async (req, res) => {
   try {
-    const district = await District.findById(req.params.districtId);
+    const district = await District.findById(req.params.districtId).lean();
     if (!district) {
       return res.status(404).json({ success: false, message: 'District not found' });
     }
 
-    const areas = await Area.find({ district: req.params.districtId });
+    const areas = await Area.find({ district: req.params.districtId }).lean();
 
     const areaCount = areas.length;
     const totalPopulation = areas.reduce((sum, a) => sum + (Number(a.population) || 0), 0);

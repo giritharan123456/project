@@ -11,12 +11,12 @@ const getCategoryExplorer = async (req, res) => {
     const { district, sortBy: rawSortBy = 'gap', limit: rawLimit = 50 } = req.query;
     const sortBy = sanitizeSortBy(rawSortBy, 'gap');
     const limit = Math.min(Math.max(parseInt(rawLimit) || 50, 1), 200);
-    const categories = await BusinessCategory.find().sort({ [sortBy]: -1 }).limit(limit);
+    const categories = await BusinessCategory.find().lean().sort({ [sortBy]: -1 }).limit(limit);
 
     const filter = {};
     if (district) filter.district = district;
     const areaLimit = Math.min(Math.max(parseInt(req.query.areaLimit) || 500, 1), 1000);
-    const areas = await Area.find(filter).populate('district', 'name').limit(areaLimit);
+    const areas = await Area.find(filter).lean().populate('district', 'name').limit(areaLimit);
 
     const enriched = categories.map(cat => {
       const areasWithCat = areas.filter(a => a.marketGapScores && a.marketGapScores.get(cat.name) != null);
@@ -50,7 +50,7 @@ const getLeaderboard = async (req, res) => {
     let sortField = { [sortBy]: -1 };
     const skip = (Number(page) - 1) * Number(limit);
     const [areas, total] = await Promise.all([
-      Area.find(filter).populate('district', 'name').sort(sortField).skip(skip).limit(Number(limit)),
+      Area.find(filter).lean().populate('district', 'name').sort(sortField).skip(skip).limit(Number(limit)),
       Area.countDocuments(filter)
     ]);
 
@@ -88,8 +88,8 @@ const getMatrix = async (req, res) => {
     if (district) filter.district = district;
 
     const [areas, categories] = await Promise.all([
-      Area.find(filter).populate('district', 'name'),
-      BusinessCategory.find()
+      Area.find(filter).populate('district', 'name').lean(),
+      BusinessCategory.find().lean()
     ]);
 
     const matrix = categories.map(cat => {
@@ -129,11 +129,11 @@ const getInvestmentEstimate = async (req, res) => {
     const { category, areaId } = req.query;
     if (!category) return res.status(400).json({ success: false, message: 'Category required' });
 
-    const cat = await BusinessCategory.findById(category);
+    const cat = await BusinessCategory.findById(category).lean();
     if (!cat) return res.status(404).json({ success: false, message: 'Category not found' });
 
     let area = null;
-    if (areaId) area = await Area.findById(areaId).populate('district', 'name');
+    if (areaId) area = await Area.findById(areaId).lean().populate('district', 'name');
 
     const baseMin = cat.minInvestment || 500000;
     const baseMax = cat.maxInvestment || 5000000;
@@ -197,7 +197,7 @@ const getInvestmentEstimate = async (req, res) => {
 
       const topAreas = await Area.find({
         [`demandScores.${cat.name}`]: { $gt: 0 }
-      }).populate('district', 'name').sort({ [`marketGapScores.${cat.name}`]: -1 }).limit(5).select('name pincode district');
+      }).lean().populate('district', 'name').sort({ [`marketGapScores.${cat.name}`]: -1 }).limit(5).select('name pincode district');
 
       areaContext = {
         areaInfo: {
@@ -270,9 +270,11 @@ const getInvestmentEstimate = async (req, res) => {
 
 const recalculateScores = async (req, res) => {
   try {
-    const areas = await Area.find();
-    const bulkOps = [];
-    for (const area of areas) {
+    const BATCH_SIZE = 200;
+    const cursor = Area.find().lean().cursor();
+    let total = 0;
+    let bulkOps = [];
+    for await (const area of cursor) {
       const gaps = area.marketGapScores ? Object.fromEntries(area.marketGapScores) : {};
       const demands = area.demandScores ? Object.fromEntries(area.demandScores) : {};
       const gapValues = Object.values(gaps);
@@ -289,11 +291,17 @@ const recalculateScores = async (req, res) => {
       bulkOps.push({
         updateOne: { filter: { _id: area._id }, update: { $set: { feasibilityScore, opportunityScore } } }
       });
+      if (bulkOps.length >= BATCH_SIZE) {
+        await Area.bulkWrite(bulkOps);
+        total += bulkOps.length;
+        bulkOps = [];
+      }
     }
     if (bulkOps.length > 0) {
       await Area.bulkWrite(bulkOps);
+      total += bulkOps.length;
     }
-    res.json({ success: true, message: `Recalculated scores for ${bulkOps.length} areas` });
+    res.json({ success: true, message: `Recalculated scores for ${total} areas` });
   } catch (error) {
     res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }
@@ -310,7 +318,7 @@ const getPincodeShops = async (req, res) => {
       if (/^[0-9a-fA-F]{24}$/.test(district)) {
         filter.district = district;
       } else {
-        const dist = await District.findOne({ name: { $regex: district, $options: 'i' } });
+        const dist = await District.findOne({ name: { $regex: district, $options: 'i' } }).lean();
         if (dist) filter.district = dist._id;
       }
     }
@@ -326,11 +334,11 @@ const getPincodeShops = async (req, res) => {
     const skip = (pageNum - 1) * limitNum;
 
     const [areas, total] = await Promise.all([
-      Area.find(filter).populate('district', 'name').sort({ [sortBy]: -1 }).skip(skip).limit(limitNum),
+      Area.find(filter).lean().populate('district', 'name').sort({ [sortBy]: -1 }).skip(skip).limit(limitNum),
       Area.countDocuments(filter)
     ]);
 
-    const categories = await BusinessCategory.find().select('name demand supply gap minInvestment maxInvestment');
+    const categories = await BusinessCategory.find().lean().select('name demand supply gap minInvestment maxInvestment');
     const catMap = {};
     categories.forEach(c => { catMap[c.name] = c; });
 

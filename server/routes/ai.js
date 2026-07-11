@@ -9,7 +9,7 @@ const getSmartResponse = async (query) => {
   const q = query.toLowerCase().trim();
 
   const [areas, districts, categories] = await Promise.all([
-    Area.find().populate('district', 'name').limit(200),
+    Area.find().populate('district', 'name').lean().limit(200),
     District.find(),
     BusinessCategory.find()
   ]);

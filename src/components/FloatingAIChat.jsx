@@ -14,10 +14,14 @@ const FloatingAIChat = () => {
   const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef(null);
   const mountedRef = useRef(true);
+  const abortRef = useRef(null);
 
   useEffect(() => {
     mountedRef.current = true;
-    return () => { mountedRef.current = false; };
+    return () => {
+      mountedRef.current = false;
+      if (abortRef.current) abortRef.current.abort();
+    };
   }, []);
 
   useEffect(() => {
@@ -33,13 +37,17 @@ const FloatingAIChat = () => {
     setMessage('');
     setLoading(true);
 
+    if (abortRef.current) abortRef.current.abort();
+    const controller = new AbortController();
+    abortRef.current = controller;
+
     try {
-      const res = await aiAPI.chat(msg);
-      if (!mountedRef.current) return;
+      const res = await aiAPI.chat(msg, { signal: controller.signal });
+      if (!mountedRef.current || controller.signal.aborted) return;
       const reply = res.data?.response || 'Sorry, I could not process that request.';
       setMessages(prev => [...prev, { id: Date.now() + 1, text: reply, isBot: true }]);
-    } catch {
-      if (!mountedRef.current) return;
+    } catch (err) {
+      if (!mountedRef.current || err.name === 'AbortError') return;
       setMessages(prev => [...prev, { id: Date.now() + 1, text: 'Connection error. Please try again.', isBot: true }]);
     } finally {
       if (mountedRef.current) setLoading(false);
@@ -56,6 +64,7 @@ const FloatingAIChat = () => {
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
         onClick={() => setIsOpen(true)}
+        aria-label="Open AI Chat"
         className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 p-3.5 rounded-full shadow-lg z-50 bg-gradient-to-r from-blue-600 to-violet-600 text-white"
       >
         <MessageCircle size={22} />
@@ -83,7 +92,7 @@ const FloatingAIChat = () => {
                   <p className={`text-[10px] ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Ask anything about market data</p>
                 </div>
               </div>
-              <button onClick={() => setIsOpen(false)} className={`p-1.5 rounded-lg ${isDarkMode ? 'hover:bg-white/10 text-slate-400' : 'hover:bg-slate-100 text-slate-500'}`}>
+              <button onClick={() => setIsOpen(false)} aria-label="Close chat" className={`p-1.5 rounded-lg ${isDarkMode ? 'hover:bg-white/10 text-slate-400' : 'hover:bg-slate-100 text-slate-500'}`}>
                 <X size={16} />
               </button>
             </div>

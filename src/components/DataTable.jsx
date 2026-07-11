@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useRef } from 'react';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { useTheme } from '../contexts/ThemeContext';
 import { motion } from 'framer-motion';
 import { ArrowUpDown, ArrowUp, ArrowDown, ChevronLeft, ChevronRight, Table2, Heart } from 'lucide-react';
@@ -74,6 +74,10 @@ function DataTable({ pincodeData, onAreaClick, onCompare, compareList, favorites
   const handleFavLeave = () => {
     favTimeoutRef.current = setTimeout(() => setHoveredFav(null), 200);
   };
+
+  useEffect(() => {
+    return () => { if (favTimeoutRef.current) clearTimeout(favTimeoutRef.current); };
+  }, []);
 
   if (!pincodeData || pincodeData.length === 0) return null;
 

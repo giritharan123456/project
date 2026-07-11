@@ -10,7 +10,7 @@ exports.createShare = async (req, res) => {
       user: req.user._id,
       itemType,
       itemId
-    });
+    }).lean();
 
     if (existing) {
       return res.json({ success: true, data: existing });
@@ -40,7 +40,7 @@ exports.getShareByToken = async (req, res) => {
     const share = await Share.findOne({
       shareToken: token,
       expiresAt: { $gt: new Date() }
-    });
+    }).lean();
 
     if (!share) {
       return res.status(404).json({ success: false, message: 'Share link expired or invalid' });
@@ -58,6 +58,7 @@ exports.getShareByToken = async (req, res) => {
 exports.getShares = async (req, res) => {
   try {
     const shares = await Share.find({ user: req.user._id })
+      .lean()
       .sort({ createdAt: -1 })
       .limit(50);
 

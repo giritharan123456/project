@@ -7,7 +7,7 @@ const logger = require('../utils/logger');
 // @access  Public
 const getAllDistricts = async (req, res) => {
   try {
-    const districts = await District.find({});
+    const districts = await District.find({}).lean();
     res.json({
       success: true,
       count: districts.length,
@@ -23,7 +23,7 @@ const getAllDistricts = async (req, res) => {
 // @access  Public
 const getDistrictById = async (req, res) => {
   try {
-    const district = await District.findById(req.params.id);
+    const district = await District.findById(req.params.id).lean();
     if (district) {
       res.json({
         success: true,
@@ -87,7 +87,7 @@ const updateDistrict = async (req, res) => {
 // @access  Private/Admin
 const deleteDistrict = async (req, res) => {
   try {
-    const district = await District.findById(req.params.id);
+    const district = await District.findById(req.params.id).lean();
     if (district) {
       await Area.deleteMany({ district: req.params.id });
       await District.findByIdAndDelete(req.params.id);

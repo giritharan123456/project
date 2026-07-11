@@ -85,6 +85,7 @@ function OpportunityHeatMap({ pincodeData }) {
             className={`px-2 sm:px-3 py-1.5 sm:py-2 border-2 rounded-lg text-xs sm:text-sm ${isDarkMode ? 'bg-[#0f172a] border-[#334155] text-[#f1f5f9]' : 'bg-[#f8fafc] border-[#e2e8f0] text-[#1e293b]'}`}
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
+            aria-label="Filter by category"
           >
             <option value="all">All</option>
             {categories.map(cat => (

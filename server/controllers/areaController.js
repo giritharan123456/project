@@ -13,7 +13,7 @@ const getAreaByPincode = async (req, res) => {
   try {
     const { pincode } = req.params;
     
-    const area = await Area.findOne({ pincode }).populate('district', 'name');
+    const area = await Area.findOne({ pincode }).lean().populate('district', 'name');
     
     if (!area) {
       return res.status(404).json({ 
@@ -75,7 +75,7 @@ const getAllAreas = async (req, res) => {
     }
     if (search) {
       const safeSearch = escapeRegex(search);
-      const districtMatches = await District.find({ name: { $regex: safeSearch, $options: 'i' } }).select('_id');
+      const districtMatches = await District.find({ name: { $regex: safeSearch, $options: 'i' } }).lean().select('_id');
       const districtIds = districtMatches.map(d => d._id);
       query.$or = [
         { name: { $regex: safeSearch, $options: 'i' } },
@@ -86,6 +86,7 @@ const getAllAreas = async (req, res) => {
 
     const [areas, total] = await Promise.all([
       Area.find(query)
+        .lean()
         .populate('district', 'name')
         .sort({ name: 1 })
         .skip(skip)
@@ -111,7 +112,7 @@ const getAllAreas = async (req, res) => {
 // @access  Public
 const getAreaById = async (req, res) => {
   try {
-    const area = await Area.findById(req.params.id).populate('district', 'name');
+    const area = await Area.findById(req.params.id).lean().populate('district', 'name');
     if (area) {
       res.json({
         success: true,
@@ -132,6 +133,7 @@ const getAreasByDistrict = async (req, res) => {
   try {
     const limit = Math.min(Math.max(parseInt(req.query.limit) || 500, 1), 1000);
     const areas = await Area.find({ district: req.params.districtId })
+      .lean()
       .populate('district', 'name')
       .limit(limit);
       

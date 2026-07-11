@@ -3,6 +3,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const morgan = require('morgan');
+const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const cookieParser = require('cookie-parser');
 const path = require('path');
@@ -15,7 +16,7 @@ const logger = require('./utils/logger');
 
 const app = express();
 
-app.set('trust proxy', true);
+app.set('trust proxy', 1);
 
 connectDB().catch(err => {
   logger.error(`DB init failed: ${err.message}`);
@@ -25,14 +26,12 @@ app.use(passport.initialize());
 app.use(cookieParser());
 
 // Start guest user cleanup (only in production, not during tests or on Vercel)
+let cleanupGuestUsers;
 if (process.env.NODE_ENV !== 'test' && process.env.VERCEL !== '1') {
-  const { cleanupGuestUsers } = require('./controllers/authController');
+  cleanupGuestUsers = require('./controllers/authController').cleanupGuestUsers;
   setInterval(cleanupGuestUsers, 6 * 60 * 60 * 1000);
 } else if (process.env.VERCEL === '1') {
-  // On Vercel, use cron job instead of setInterval
-  const { cleanupGuestUsers } = require('./controllers/authController');
-  // This will be triggered by Vercel cron
-  exports.cleanupGuestUsers = cleanupGuestUsers;
+  cleanupGuestUsers = require('./controllers/authController').cleanupGuestUsers;
 }
 
 app.use(morgan('short'));
@@ -94,6 +93,7 @@ const authLimiter = rateLimit({
 });
 app.use('/api/auth/login', authLimiter);
 app.use('/api/auth/register', authLimiter);
+app.use('/api/auth/guest', authLimiter);
 app.use('/api/auth/forgot-password', authLimiter);
 app.use('/api/auth/reset-password', authLimiter);
 app.use('/api/auth/google', authLimiter);
@@ -131,7 +131,6 @@ app.use('/api/shares', require('./routes/shares'));
 
 // Health check endpoint
 app.get('/api/health', async (req, res) => {
-  const mongoose = require('mongoose');
   const dbState = mongoose.connection.readyState;
   const states = ['disconnected', 'connected', 'connecting', 'disconnecting'];
   res.json({
@@ -148,15 +147,33 @@ app.use(require('./middleware/errorHandler'));
 
 const frontendBuild = path.join(__dirname, '..', 'dist');
 app.use(express.static(frontendBuild));
-app.get('/{*path}', (req, res) => {
+app.get('/{*path}', (req, res, next) => {
+  if (req.path.startsWith('/api/')) {
+    return res.status(404).json({ success: false, message: 'API route not found' });
+  }
   res.sendFile(path.join(frontendBuild, 'index.html'));
 });
 
 if (process.env.VERCEL !== '1' && process.env.NODE_ENV !== 'test') {
   const PORT = process.env.PORT || 5000;
-  app.listen(PORT, () => {
+  const server = app.listen(PORT, () => {
     logger.info(`Server running on port ${PORT}`);
+  });
+
+  process.on('SIGTERM', () => {
+    logger.info('SIGTERM received. Shutting down gracefully...');
+    server.close(() => {
+      mongoose.connection.close(false).then(() => process.exit(0));
+    });
+  });
+
+  process.on('SIGINT', () => {
+    logger.info('SIGINT received. Shutting down gracefully...');
+    server.close(() => {
+      mongoose.connection.close(false).then(() => process.exit(0));
+    });
   });
 }
 
 module.exports = app;
+module.exports.cleanupGuestUsers = cleanupGuestUsers;
