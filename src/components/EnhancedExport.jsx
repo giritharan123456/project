@@ -110,7 +110,7 @@ function EnhancedExport({ data, selectedDistrict, businessCategories, leaderboar
       doc.setFont(undefined, 'normal');
 
       const headers = ['Pincode', 'Area', 'Population', 'Growth %', 'Income', 'Opp.', 'Feas.'];
-      businessCategories.forEach(cat => {
+      (businessCategories || []).forEach(cat => {
         headers.push(`${cat.name.substring(0, 8)} Gap`);
       });
 
@@ -124,7 +124,7 @@ function EnhancedExport({ data, selectedDistrict, businessCategories, leaderboar
           pincode.opportunityScore != null ? String(pincode.opportunityScore) : '-',
           pincode.feasibilityScore != null ? String(pincode.feasibilityScore) : '-',
         ];
-        businessCategories.forEach(cat => {
+        (businessCategories || []).forEach(cat => {
           row.push((pincode.marketGapScores && pincode.marketGapScores[cat.name] != null) ? Number(pincode.marketGapScores[cat.name]).toFixed(1) : '0');
         });
         return row;
@@ -176,12 +176,12 @@ function EnhancedExport({ data, selectedDistrict, businessCategories, leaderboar
   const exportCSV = () => {
     if (!data || data.length === 0) return;
     const headers = ['Pincode', 'Area', 'District', 'Population', 'Growth %', 'Income Level', 'Opp. Score', 'Feas. Score'];
-    businessCategories.forEach(cat => headers.push(`${cat.name} Gap`));
+    (businessCategories || []).forEach(cat => headers.push(`${cat.name} Gap`));
     const rows = data.map(pincode => [
       pincode.pincode || '', pincode.area || '', pincode.district || '',
       pincode.population || '', pincode.populationGrowth || '', pincode.incomeLevel || '',
       pincode.opportunityScore ?? '', pincode.feasibilityScore ?? '',
-      ...businessCategories.map(cat => (pincode.marketGapScores && pincode.marketGapScores[cat.name]) || 0)
+      ...(businessCategories || []).map(cat => (pincode.marketGapScores && pincode.marketGapScores[cat.name]) || 0)
     ]);
     const csv = [headers.map(escapeCSV).join(','), ...rows.map(r => r.map(escapeCSV).join(','))].join('\n');
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });

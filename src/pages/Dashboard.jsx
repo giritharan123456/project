@@ -84,35 +84,61 @@ function Dashboard() {
 
 
   useEffect(() => {
-    const fetchData = async () => {
+    let cancelled = false;
+    const controller = new AbortController();
+
+    const fetchAll = async () => {
+      setLoading(true);
+      setError(null);
       try {
-        setLoading(true);
-        setError(null);
+        // Step 1: always load districts first
         const districtsRes = await districtsAPI.getAll();
+        if (cancelled) return;
         const districtsData = districtsRes.data || [];
         setDistricts(districtsData);
-        if (districtsData.length > 0 && !districtsData.find(d => d._id === selectedDistrict)) {
-          setSelectedDistrict(districtsData[0]._id);
+
+        // Step 2: ensure a valid district is selected
+        let districtId = selectedDistrict;
+        if (!districtId || !districtsData.find(d => d._id === districtId)) {
+          districtId = districtsData[0]?._id;
+          if (districtId) setSelectedDistrict(districtId);
+        }
+
+        // Step 3: load areas for that district
+        if (districtId) {
+          const areasRes = await areasAPI.getAll({ district: districtId, limit: 50 });
+          if (!cancelled) setAreas(areasRes.data || []);
         }
       } catch (err) {
-        setError('Failed to load districts. Please check your connection and try again.');
+        if (!cancelled) setError('Failed to load data. Please check your connection and try again.');
       } finally {
-        setLoading(false);
+        if (!cancelled) setLoading(false);
       }
     };
-    fetchData();
+
+    fetchAll();
+    return () => { cancelled = true; controller.abort(); };
   }, []);
 
+  // Re-fetch areas when district changes (after initial load)
+  const initialLoadDone = useRef(false);
   useEffect(() => {
+    if (!initialLoadDone.current) {
+      initialLoadDone.current = true;
+      return;
+    }
     if (!selectedDistrict) return;
+    let cancelled = false;
     const fetchAreas = async () => {
+      setLoading(true);
       try {
-        setLoading(true);
         const areasRes = await areasAPI.getAll({ district: selectedDistrict, limit: 50 });
-        setAreas(areasRes.data || []);
-      } catch { setAreas([]); } finally { setLoading(false); }
+        if (!cancelled) setAreas(areasRes.data || []);
+      } catch { if (!cancelled) setAreas([]); }
+      finally { if (!cancelled) setLoading(false); }
     };
     fetchAreas();
+    return () => { cancelled = true; };
   }, [selectedDistrict]);
 
   const currentDistrict = districts.find(d => d._id === selectedDistrict);

@@ -97,6 +97,10 @@ function BusinessInsights({ pincodeData }) {
         <h3 className={`text-xl font-bold ${b('text-[#f1f5f9]', 'text-[#1e293b]')}`}>Business Insights</h3>
       </div>
 
+      {(!opportunityData || opportunityData.length === 0) && (!competitionData || competitionData.length === 0) && (!demandDistribution || demandDistribution.length === 0) ? (
+        <p className={`text-sm text-center py-8 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>No insight data available for this area.</p>
+      ) : (<>
+
       {/* Tabs */}
       <div className={`flex gap-1 p-1 rounded-xl mb-3 ${isDarkMode ? 'bg-[#0f172a]' : 'bg-gray-100'}`}>
         {tabs.map(tab => (
@@ -244,6 +248,7 @@ function BusinessInsights({ pincodeData }) {
           </motion.div>
         )}
       </div>
+      </>)}
     </div>
   );
 }

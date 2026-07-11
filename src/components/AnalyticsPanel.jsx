@@ -230,7 +230,7 @@ function AnalyticsPanel({ pincodeData, businessCategories, selectedDistrict }) {
       <div className="flex justify-between items-center mb-4">
         <h3 className={`text-xl font-bold bg-gradient-to-r from-[#2563eb] to-[#7c3aed] bg-clip-text text-transparent ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>📊 Analytics — {selectedDistrict || 'All Districts'}</h3>
         <div className="flex gap-2">
-          <button className={`px-4 py-2 border-2 rounded-lg transition-all duration-300 ${isDarkMode ? 'bg-[#0f172a] border-[#334155] text-[#f1f5f9] hover:border-[#2563eb]' : 'bg-[#f8fafc] border-[#e2e8f0] text-[#1e293b] hover:border-[#2563eb]'}`} onClick={handleExportReport}>📥 Export</button>
+          <button disabled={!hasData} className={`px-4 py-2 border-2 rounded-lg transition-all duration-300 ${!hasData ? 'opacity-40 cursor-not-allowed' : ''} ${isDarkMode ? 'bg-[#0f172a] border-[#334155] text-[#f1f5f9] hover:border-[#2563eb]' : 'bg-[#f8fafc] border-[#e2e8f0] text-[#1e293b] hover:border-[#2563eb]'}`} onClick={handleExportReport}>📥 Export</button>
         </div>
       </div>
 

@@ -185,6 +185,10 @@ function AdvancedForecasting({ pincodeData, businessCategories }) {
         </div>
       </div>
 
+      {forecastData.length === 0 && categoryForecast.length === 0 && trendAnalysis.length === 0 ? (
+        <p className={`text-sm text-center py-8 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>No forecast data available for this area.</p>
+      ) : (<>
+
       <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-0">
         <motion.div
           className={`p-3 rounded-lg border ${isDarkMode ? 'bg-[#0f172a] border-[#334155]' : 'bg-[#f8fafc] border-[#e2e8f0]'}`}
@@ -304,6 +308,7 @@ function AdvancedForecasting({ pincodeData, businessCategories }) {
           ))}
         </div>
       </motion.div>
+      </>)}
     </div>
   );
 }

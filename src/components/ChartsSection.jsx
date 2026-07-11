@@ -77,6 +77,7 @@ function ChartsSection({ businessCategories, selectedCategory, pincodeData }) {
           <span className={`text-sm sm:text-base font-extrabold ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>Demand vs Supply Analysis</span>
         </div>
         <div className="p-2 sm:p-3">
+          {filteredCategories.length > 0 ? (
           <ResponsiveContainer width="100%" height={280}>
             <BarChart data={filteredCategories} barGap={2} barCategoryGap="18%" margin={{ top: 8, right: 15, left: 5, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" stroke={gridStroke} vertical={false} />
@@ -89,6 +90,9 @@ function ChartsSection({ businessCategories, selectedCategory, pincodeData }) {
               <Bar dataKey="gap" fill="#ef4444" name="Gap" radius={[3, 3, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
+          ) : (
+          <p className={`text-center py-8 text-sm ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>No demand data available.</p>
+          )}
         </div>
       </div>
 
@@ -99,6 +103,7 @@ function ChartsSection({ businessCategories, selectedCategory, pincodeData }) {
           <span className={`text-base font-extrabold ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>Demand Forecasting</span>
         </div>
         <div className="p-3">
+          {forecastData.length > 0 ? (
           <ResponsiveContainer width="100%" height={280}>
             <LineChart data={forecastData} margin={{ top: 8, right: 15, left: 5, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" stroke={gridStroke} vertical={false} />
@@ -110,6 +115,9 @@ function ChartsSection({ businessCategories, selectedCategory, pincodeData }) {
               <Line type="monotone" dataKey="projectedDemand" stroke="#10b981" name="Projected Demand" strokeWidth={2.5} strokeDasharray="8 4" dot={{ r: 4, fill: '#10b981', strokeWidth: 2, stroke: '#fff' }} />
             </LineChart>
           </ResponsiveContainer>
+          ) : (
+          <p className={`text-center py-8 text-sm ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>No forecast data available.</p>
+          )}
         </div>
       </div>
 
@@ -120,6 +128,7 @@ function ChartsSection({ businessCategories, selectedCategory, pincodeData }) {
           <span className={`text-base font-extrabold ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>Market Gap Score by Category</span>
         </div>
         <div className="p-3">
+          {gapChartData.length > 0 ? (
           <ResponsiveContainer width="100%" height={280}>
             <BarChart data={gapChartData} barCategoryGap="22%" margin={{ top: 8, right: 15, left: 5, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" stroke={gridStroke} vertical={false} />
@@ -134,6 +143,9 @@ function ChartsSection({ businessCategories, selectedCategory, pincodeData }) {
               </Bar>
             </BarChart>
           </ResponsiveContainer>
+          ) : (
+          <p className={`text-center py-8 text-sm ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>No gap data available.</p>
+          )}
         </div>
       </div>
 
@@ -144,6 +156,7 @@ function ChartsSection({ businessCategories, selectedCategory, pincodeData }) {
           <span className={`text-base font-extrabold ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>Category Gap Share</span>
         </div>
         <div className="p-3">
+          {gapChartData.length > 0 ? (
           <ResponsiveContainer width="100%" height={300}>
             <PieChart>
               <Pie data={gapChartData} cx="50%" cy="50%" outerRadius={100} innerRadius={40} paddingAngle={2} dataKey="score">
@@ -158,6 +171,9 @@ function ChartsSection({ businessCategories, selectedCategory, pincodeData }) {
               />
             </PieChart>
           </ResponsiveContainer>
+          ) : (
+          <p className={`text-center py-8 text-sm ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>No category data available.</p>
+          )}
         </div>
       </div>
     </div>
