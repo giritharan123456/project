@@ -4,7 +4,7 @@ import { useSearchParams, useNavigate } from 'react-router-dom';
 import { useTheme } from '../contexts/ThemeContext';
 import { useDistrict } from '../contexts/DistrictContext';
 import { usePincode } from '../contexts/PincodeContext';
-import { areasAPI, districtsAPI } from '../services/api';
+import { areasAPI, districtsAPI, favoriteAPI } from '../services/api';
 import EmptyState from '../components/EmptyState';
 import {
   transformAreaToPincodeData,
@@ -31,6 +31,10 @@ import HeroBanner from '../components/HeroBanner';
 import QuickActions from '../components/QuickActions';
 import ExecutiveSummary from '../components/ExecutiveSummary';
 import TopPerformers from '../components/TopPerformers';
+import DataFilter, { applyFilters } from '../components/DataFilter';
+import AreaComparison from '../components/AreaComparison';
+import AreaDetailDrilldown from '../components/AreaDetailDrilldown';
+import DataTable from '../components/DataTable';
 
 function Dashboard() {
   const { isDarkMode } = useTheme();
@@ -46,6 +50,61 @@ function Dashboard() {
   const [searchError, setSearchError] = useState(null);
   const [searchLoading, setSearchLoading] = useState(false);
   const [selectedBusinessCategory, setSelectedBusinessCategory] = useState('all');
+
+  // ═══ NEW STATE: Filters, Comparison, Drill-down, Favorites ═══
+  const [filters, setFilters] = useState({});
+  const [compareList, setCompareList] = useState([]);
+  const [drilldownArea, setDrilldownArea] = useState(null);
+  const [favorites, setFavorites] = useState(new Set());
+  const [activeView, setActiveView] = useState('dashboard');
+
+  // ═══ FAVORITES: Load from backend on mount ═══
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await favoriteAPI.getAll('area');
+        if (res.data) {
+          const ids = new Set(res.data.map(f => f.itemId).filter(Boolean));
+          setFavorites(ids);
+        }
+      } catch { /* not logged in or error — ignore */ }
+    })();
+  }, []);
+
+  const toggleFavorite = async (area) => {
+    const pincode = area.pincode;
+    const isFav = favorites.has(pincode);
+    setFavorites(prev => {
+      const next = new Set(prev);
+      if (isFav) next.delete(pincode);
+      else next.add(pincode);
+      return next;
+    });
+    try {
+      if (isFav) {
+        await favoriteAPI.remove('area', pincode);
+      } else {
+        await favoriteAPI.add('area', pincode, { pincode, name: area.area || area.name, district: area.district });
+      }
+    } catch {
+      // Revert on error
+      setFavorites(prev => {
+        const next = new Set(prev);
+        if (isFav) next.add(pincode);
+        else next.delete(pincode);
+        return next;
+      });
+    }
+  };
+
+  const toggleCompare = (area) => {
+    setCompareList(prev => {
+      const exists = prev.find(c => c.pincode === area.pincode);
+      if (exists) return prev.filter(c => c.pincode !== area.pincode);
+      if (prev.length >= 3) return prev;
+      return [...prev, area];
+    });
+  };
 
   useEffect(() => {
     const controller = new AbortController();
@@ -148,7 +207,10 @@ function Dashboard() {
     const searched = pincodeData.find(p => p.pincode === selectedPincode);
     return searched ? [searched] : byDistrict;
   }, [pincodeData, currentDistrictName, selectedPincode]);
-  const displayData = filteredPincodeData;
+
+  // Apply filters to displayData
+  const filteredByCriteria = useMemo(() => applyFilters(filteredPincodeData, filters), [filteredPincodeData, filters]);
+  const displayData = filteredByCriteria;
 
   // Suggestions: all pincodes when no district, district pincodes when district selected
   const searchSuggestions = useMemo(() => {
@@ -255,6 +317,26 @@ function Dashboard() {
               </span>
             </div>
             <div className="flex items-center gap-2">
+              {/* View Tabs */}
+              <div className={`hidden sm:flex items-center gap-0.5 p-0.5 rounded-lg ${isDarkMode ? 'bg-[#0f172a]' : 'bg-slate-100'}`}>
+                {[
+                  { key: 'dashboard', label: 'Dashboard' },
+                  { key: 'table', label: 'Table' },
+                  { key: 'favorites', label: 'Favorites' },
+                ].map(tab => (
+                  <button
+                    key={tab.key}
+                    onClick={() => setActiveView(tab.key)}
+                    className={`px-2.5 py-1 rounded-md text-[10px] font-bold transition-all ${
+                      activeView === tab.key
+                        ? 'bg-blue-600 text-white shadow-sm'
+                        : isDarkMode ? 'text-slate-400 hover:text-white' : 'text-slate-500 hover:text-slate-800'
+                    }`}
+                  >
+                    {tab.label}
+                  </button>
+                ))}
+              </div>
               <QuickActions onRefresh={handleRefresh} />
             </div>
           </div>
@@ -273,12 +355,17 @@ function Dashboard() {
                   setSearchPincode('');
                   setSearchError(null);
                   setSearchLoading(false);
+                  setFilters({});
+                  setCompareList([]);
                 }} />
               </div>
               <div className="flex-1">
                 <SearchBar value={searchPincode} onSearch={handleSearch} placeholder={selectedDistrict ? `Search pincode in ${currentDistrictName}...` : 'Search pincode (all districts)...'} suggestions={searchSuggestions} district={currentDistrictName} category={selectedBusinessCategory} />
                 {searchLoading && <p className="mt-1 text-[10px] text-slate-400 font-medium">Fetching data...</p>}
                 {searchError && <p className="mt-1 text-[10px] text-red-500 font-medium">{searchError}</p>}
+              </div>
+              <div className="flex-shrink-0">
+                <DataFilter pincodeData={pincodeData} filters={filters} onFiltersChange={setFilters} />
               </div>
             </div>
             {businessCategories.length > 0 && (
@@ -324,73 +411,159 @@ function Dashboard() {
             </motion.div>
           )}
 
-          {/* ═══ ROW 2: KPIs (Customer asks "What's the big picture?") ═══ */}
-          <motion.div {...fadeIn(0.05)}>
-            <HeroBanner pincodeData={displayData} selectedDistrict={currentDistrictName} />
-          </motion.div>
+          {/* ═══ VIEW: DASHBOARD ═══ */}
+          {activeView === 'dashboard' && (
+            <>
+              {/* ═══ ROW 2: KPIs (Customer asks "What's the big picture?") ═══ */}
+              <motion.div {...fadeIn(0.05)}>
+                <HeroBanner pincodeData={displayData} selectedDistrict={currentDistrictName} />
+              </motion.div>
 
-          {!hasAreaData(displayData) && !loading && !searchLoading && (
-            <motion.div {...fadeIn(0.1)}>
-              <EmptyState type="noData" message="Select a district and search a pincode to view market opportunities." />
+              {/* ═══ COMPARISON PANEL ═══ */}
+              {compareList.length > 0 && (
+                <motion.div {...fadeIn(0.06)} className="mt-2">
+                  <AreaComparison
+                    areas={compareList}
+                    onRemove={(pincode) => setCompareList(prev => prev.filter(c => c.pincode !== pincode))}
+                    onClear={() => setCompareList([])}
+                    onOpenDetail={(area) => setDrilldownArea(area)}
+                  />
+                </motion.div>
+              )}
+
+              {!hasAreaData(displayData) && !loading && !searchLoading && (
+                <motion.div {...fadeIn(0.1)}>
+                  <EmptyState type="noData" message="Select a district and search a pincode to view market opportunities." />
+                </motion.div>
+              )}
+
+              {hasAreaData(displayData) && (
+              <>
+
+              {/* ═══ ROW 3: KEY INSIGHTS (Customer asks "What should I know now?") ═══ */}
+              <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-0 -mt-px">
+                <motion.div {...fadeIn(0.08)}>
+                  <ExecutiveSummary pincodeData={displayData} />
+                </motion.div>
+                <motion.div {...fadeIn(0.1)}>
+                  <TopPerformers pincodeData={displayData} />
+                </motion.div>
+              </div>
+
+              {/* ═══ ROW 4: DATA TABLE ═══ */}
+              <motion.div {...fadeIn(0.11)}>
+                <DataTable
+                  pincodeData={displayData}
+                  onAreaClick={(area) => setDrilldownArea(area)}
+                  onCompare={toggleCompare}
+                  compareList={compareList}
+                  favorites={favorites}
+                  onToggleFavorite={toggleFavorite}
+                />
+              </motion.div>
+
+              {/* ═══ ROW 5: MAP (Customer asks "Show me on a map") ═══ */}
+              <motion.div {...fadeIn(0.12)}>
+                <div className={card}><MapSection pincodeData={displayData} selectedDistrict={currentDistrictName} /></div>
+              </motion.div>
+
+              {/* ═══ ROW 6: CHARTS (Customer asks "What do the charts say?") ═══ */}
+              <motion.div {...fadeIn(0.15)}>
+                <div className={card}><ChartsSection businessCategories={businessCategories} selectedCategory={selectedBusinessCategory} pincodeData={displayData} /></div>
+              </motion.div>
+
+              {/* ═══ ROW 7: INSIGHTS + COMPETITION (Customer asks "What business insights? Who's competing?") ═══ */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-0 -mt-px">
+                <motion.div {...fadeIn(0.18)}>
+                  <div className={`${card} h-full`}><BusinessInsights pincodeData={displayData} /></div>
+                </motion.div>
+                <motion.div {...fadeIn(0.2)}>
+                  <div className={`${card} h-full`}><Competitors pincodeData={displayData} /></div>
+                </motion.div>
+              </div>
+
+              {/* ═══ ROW 8: HEATMAP (Customer asks "Show me the heatmap") ═══ */}
+              <motion.div {...fadeIn(0.23)}>
+                <div className={card}><OpportunityHeatMap pincodeData={displayData} selectedDistrict={currentDistrictName} /></div>
+              </motion.div>
+
+              {/* ═══ ROW 9: FORECASTING (Customer asks "What about the future?") ═══ */}
+              <motion.div {...fadeIn(0.26)}>
+                <div className={card}><AdvancedForecasting pincodeData={displayData} businessCategories={businessCategories} /></div>
+              </motion.div>
+
+              {/* ═══ ROW 10: ANALYTICS (Customer asks "Give me detailed analytics") ═══ */}
+              <motion.div {...fadeIn(0.29)}>
+                <div className={card}><AnalyticsPanel pincodeData={displayData} businessCategories={businessCategories} selectedDistrict={currentDistrictName} /></div>
+              </motion.div>
+
+              {/* ═══ ROW 11: EXPORT (Customer asks "I want to download/report this") ═══ */}
+              <motion.div {...fadeIn(0.32)}>
+                <div className={card}><EnhancedExport data={displayData} selectedDistrict={currentDistrictName} businessCategories={businessCategories} /></div>
+              </motion.div>
+
+              </>
+              )}
+            </>
+          )}
+
+          {/* ═══ VIEW: TABLE ═══ */}
+          {activeView === 'table' && (
+            <motion.div {...fadeIn(0.05)} className="mt-2">
+              <DataTable
+                pincodeData={displayData}
+                onAreaClick={(area) => setDrilldownArea(area)}
+                onCompare={toggleCompare}
+                compareList={compareList}
+                favorites={favorites}
+                onToggleFavorite={toggleFavorite}
+              />
             </motion.div>
           )}
 
-          {hasAreaData(displayData) && (
-          <>
-
-          {/* ═══ ROW 3: KEY INSIGHTS (Customer asks "What should I know now?") ═══ */}
-          <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-0 -mt-px">
-            <motion.div {...fadeIn(0.08)}>
-              <ExecutiveSummary pincodeData={displayData} />
+          {/* ═══ VIEW: FAVORITES ═══ */}
+          {activeView === 'favorites' && (
+            <motion.div {...fadeIn(0.05)} className="mt-2">
+              {favorites.size === 0 ? (
+                <EmptyState type="noData" message="No favorite areas yet. Click the heart icon on any area to save it for quick access." />
+              ) : (
+                <div className="space-y-2">
+                  <div className={`flex items-center justify-between px-4 py-2 rounded-2xl border ${
+                    isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-slate-200 shadow-sm'
+                  }`}>
+                    <span className={`text-sm font-extrabold ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>
+                      ❤️ {favorites.size} Favorite Area{favorites.size !== 1 ? 's' : ''}
+                    </span>
+                    <button
+                      onClick={() => setFavorites(new Set())}
+                      className="text-[10px] font-bold text-red-500 hover:text-red-400 transition-colors"
+                    >
+                      Clear All
+                    </button>
+                  </div>
+                  <DataTable
+                    pincodeData={pincodeData.filter(p => favorites.has(p.pincode))}
+                    onAreaClick={(area) => setDrilldownArea(area)}
+                    onCompare={toggleCompare}
+                    compareList={compareList}
+                    favorites={favorites}
+                    onToggleFavorite={toggleFavorite}
+                  />
+                </div>
+              )}
             </motion.div>
-            <motion.div {...fadeIn(0.1)}>
-              <TopPerformers pincodeData={displayData} />
-            </motion.div>
-          </div>
-
-          {/* ═══ ROW 4: MAP (Customer asks "Show me on a map") ═══ */}
-          <motion.div {...fadeIn(0.12)}>
-            <div className={card}><MapSection pincodeData={displayData} selectedDistrict={currentDistrictName} /></div>
-          </motion.div>
-
-          {/* ═══ ROW 5: CHARTS (Customer asks "What do the charts say?") ═══ */}
-          <motion.div {...fadeIn(0.15)}>
-            <div className={card}><ChartsSection businessCategories={businessCategories} selectedCategory={selectedBusinessCategory} pincodeData={displayData} /></div>
-          </motion.div>
-
-          {/* ═══ ROW 6: INSIGHTS + COMPETITION (Customer asks "What business insights? Who's competing?") ═══ */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-0 -mt-px">
-            <motion.div {...fadeIn(0.18)}>
-              <div className={`${card} h-full`}><BusinessInsights pincodeData={displayData} /></div>
-            </motion.div>
-            <motion.div {...fadeIn(0.2)}>
-              <div className={`${card} h-full`}><Competitors pincodeData={displayData} /></div>
-            </motion.div>
-          </div>
-
-          {/* ═══ ROW 7: HEATMAP (Customer asks "Show me the heatmap") ═══ */}
-          <motion.div {...fadeIn(0.23)}>
-            <div className={card}><OpportunityHeatMap pincodeData={displayData} selectedDistrict={currentDistrictName} /></div>
-          </motion.div>
-
-          {/* ═══ ROW 8: FORECASTING (Customer asks "What about the future?") ═══ */}
-          <motion.div {...fadeIn(0.26)}>
-            <div className={card}><AdvancedForecasting pincodeData={displayData} businessCategories={businessCategories} /></div>
-          </motion.div>
-
-          {/* ═══ ROW 9: ANALYTICS (Customer asks "Give me detailed analytics") ═══ */}
-          <motion.div {...fadeIn(0.29)}>
-            <div className={card}><AnalyticsPanel pincodeData={displayData} businessCategories={businessCategories} selectedDistrict={currentDistrictName} /></div>
-          </motion.div>
-
-          {/* ═══ ROW 10: EXPORT (Customer asks "I want to download/report this") ═══ */}
-          <motion.div {...fadeIn(0.32)}>
-            <div className={card}><EnhancedExport data={displayData} selectedDistrict={currentDistrictName} businessCategories={businessCategories} /></div>
-          </motion.div>
-
-          </>
           )}
         </div>
+
+        {/* ═══ DRILL-DOWN MODAL ═══ */}
+        {drilldownArea && (
+          <AreaDetailDrilldown
+            area={drilldownArea}
+            onClose={() => setDrilldownArea(null)}
+            onCompare={toggleCompare}
+            isComparing={compareList.some(c => c.pincode === drilldownArea.pincode)}
+          />
+        )}
 
         <ScrollToTop />
         <HelpGuide />
