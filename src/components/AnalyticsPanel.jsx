@@ -3,6 +3,8 @@ import { motion } from 'framer-motion';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend } from 'recharts';
 import { useTheme } from '../contexts/ThemeContext';
 import { useToast } from '../contexts/ToastContext';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 import { averageOfValues } from '../utils/dataUtils';
 import ChartTooltip from './ChartTooltip';
 
@@ -174,15 +176,52 @@ function AnalyticsPanel({ pincodeData, businessCategories, selectedDistrict }) {
   const handleExportReport = () => {
     if (!hasData) { addToast('No data to export', 'warning'); return; }
     try {
-      let report = `MARKETVISION AI - ANALYTICS REPORT\nDistrict: ${selectedDistrict}\nGenerated: ${new Date().toLocaleDateString()}\n\n`;
-      report += `SUMMARY\n=======\nAreas: ${pincodeData.length}\nTotal Population: ${pincodeData.reduce((s, p) => s + (Number(p.population) || 0), 0).toLocaleString()}\nAvg Growth: ${(pincodeData.reduce((s, p) => s + (p.populationGrowth || 0), 0) / pincodeData.length).toFixed(2)}%\n\n`;
-      pincodeData.forEach((p, i) => {
-        report += `${i + 1}. ${p.area} (${p.pincode}) — Pop: ${(Number(p.population) || 0).toLocaleString()}, Growth: ${(p.populationGrowth || 0).toFixed(2)}%\n`;
+      const doc = new jsPDF();
+      const pageWidth = doc.internal.pageSize.getWidth();
+      const margin = 14;
+
+      doc.setFillColor(37, 99, 235);
+      doc.rect(0, 0, pageWidth, 24, 'F');
+      doc.setFontSize(16);
+      doc.setTextColor(255, 255, 255);
+      doc.text('MarketVision AI — Analytics Report', margin, 10);
+      doc.setFontSize(9);
+      doc.text(`District: ${selectedDistrict} | Generated: ${new Date().toLocaleDateString('en-IN')}`, margin, 17);
+
+      const totalPop = pincodeData.reduce((s, p) => s + (Number(p.population) || 0), 0);
+      const avgGrowth = (pincodeData.reduce((s, p) => s + (p.populationGrowth || 0), 0) / pincodeData.length).toFixed(2);
+
+      autoTable(doc, {
+        startY: 30,
+        head: [['Metric', 'Value']],
+        body: [
+          ['Areas Analyzed', String(pincodeData.length)],
+          ['Total Population', totalPop.toLocaleString()],
+          ['Average Growth', `${avgGrowth}%`],
+        ],
+        styles: { fontSize: 9, cellPadding: 3 },
+        headStyles: { fillColor: [37, 99, 235], textColor: 255 },
+        margin: { left: margin, right: margin },
       });
-      const blob = new Blob([report], { type: 'text/plain' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a'); a.href = url; a.download = `analytics-${selectedDistrict}.txt`;
-      document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
+
+      autoTable(doc, {
+        startY: doc.lastAutoTable.finalY + 10,
+        head: [['Area', 'Pincode', 'Population', 'Growth %', 'Income Level']],
+        body: pincodeData.map(p => [
+          (p.area || '').substring(0, 25),
+          p.pincode || '',
+          (Number(p.population) || 0).toLocaleString(),
+          `${(p.populationGrowth || 0).toFixed(2)}%`,
+          p.incomeLevel || '-',
+        ]),
+        styles: { fontSize: 7, cellPadding: 2 },
+        headStyles: { fillColor: [37, 99, 235], textColor: 255 },
+        alternateRowStyles: { fillColor: [245, 247, 250] },
+        margin: { left: margin, right: margin },
+      });
+
+      doc.save(`analytics-${selectedDistrict}.pdf`);
+      addToast('Analytics PDF exported successfully', 'success');
     } catch { addToast('Export failed', 'error'); }
   };
 

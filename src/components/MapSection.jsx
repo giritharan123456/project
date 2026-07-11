@@ -73,15 +73,15 @@ function MapSection({ pincodeData, selectedDistrict }) {
         <div className="flex gap-3 flex-wrap">
           <div className="flex items-center gap-1.5">
             <span className="w-3 h-3 rounded-full bg-red-500 shadow-sm"></span>
-            <span className={`text-xs font-medium ${b('text-gray-300', 'text-gray-600')}`}>High ≥80</span>
+            <span className={`text-xs font-medium ${b('text-gray-300', 'text-gray-600')}`}>High ≥65</span>
           </div>
           <div className="flex items-center gap-1.5">
             <span className="w-3 h-3 rounded-full bg-amber-500 shadow-sm"></span>
-            <span className={`text-xs font-medium ${b('text-gray-300', 'text-gray-600')}`}>Medium 70-79</span>
+            <span className={`text-xs font-medium ${b('text-gray-300', 'text-gray-600')}`}>Medium 50-64</span>
           </div>
           <div className="flex items-center gap-1.5">
             <span className="w-3 h-3 rounded-full bg-emerald-500 shadow-sm"></span>
-            <span className={`text-xs font-medium ${b('text-gray-300', 'text-gray-600')}`}>Low &lt;70</span>
+            <span className={`text-xs font-medium ${b('text-gray-300', 'text-gray-600')}`}>Low &lt;50</span>
           </div>
         </div>
       </div>

@@ -1,11 +1,13 @@
 import React, { useMemo } from 'react';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import { useTheme } from '../contexts/ThemeContext';
 import { Trophy, ArrowUpRight, ArrowDownRight, Minus } from 'lucide-react';
 import { averageOfValues } from '../utils/dataUtils';
 
 function TopPerformers({ pincodeData }) {
   const { isDarkMode } = useTheme();
+  const navigate = useNavigate();
 
   const topAreas = useMemo(() => {
     if (!pincodeData || pincodeData.length === 0) return [];
@@ -99,7 +101,8 @@ function TopPerformers({ pincodeData }) {
                   initial={{ opacity: 0, x: -8 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.05 * i }}
-                  className={`border-t transition-colors ${
+                  onClick={() => navigate('/area-leaderboard')}
+                  className={`border-t transition-colors cursor-pointer ${
                     isDarkMode ? 'border-[#334155] hover:bg-[#0f172a]/40' : 'border-slate-100 hover:bg-slate-50'
                   }`}
                 >

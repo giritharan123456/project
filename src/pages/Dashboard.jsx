@@ -88,25 +88,32 @@ function Dashboard() {
       try {
         setLoading(true);
         setError(null);
-        const [districtsRes, areasRes] = await Promise.allSettled([districtsAPI.getAll(), areasAPI.getAll()]);
-        const districtsData = districtsRes.status === 'fulfilled' ? (districtsRes.value.data || []) : [];
-        const areasData = areasRes.status === 'fulfilled' ? (areasRes.value.data || []) : [];
+        const districtsRes = await districtsAPI.getAll();
+        const districtsData = districtsRes.data || [];
         setDistricts(districtsData);
-        setAreas(areasData);
         if (districtsData.length > 0 && !districtsData.find(d => d._id === selectedDistrict)) {
           setSelectedDistrict(districtsData[0]._id);
         }
-        if (districtsRes.status === 'rejected' && areasRes.status === 'rejected') {
-          setError('Failed to load data. Please check your connection and try again.');
-        }
       } catch (err) {
-        setError(`Failed to load data: ${err.message || 'Unknown error'}`);
+        setError('Failed to load districts. Please check your connection and try again.');
       } finally {
         setLoading(false);
       }
     };
     fetchData();
   }, []);
+
+  useEffect(() => {
+    if (!selectedDistrict) return;
+    const fetchAreas = async () => {
+      try {
+        setLoading(true);
+        const areasRes = await areasAPI.getAll({ district: selectedDistrict, limit: 50 });
+        setAreas(areasRes.data || []);
+      } catch { setAreas([]); } finally { setLoading(false); }
+    };
+    fetchAreas();
+  }, [selectedDistrict]);
 
   const currentDistrict = districts.find(d => d._id === selectedDistrict);
   const currentDistrictName = currentDistrict?.name;

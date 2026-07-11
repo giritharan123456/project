@@ -1,11 +1,13 @@
 import React, { useMemo } from 'react';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import { useTheme } from '../contexts/ThemeContext';
 import { AlertTriangle, TrendingUp, CheckCircle, ArrowRight, Lightbulb, Target } from 'lucide-react';
 import { averageOfValues } from '../utils/dataUtils';
 
 function ExecutiveSummary({ pincodeData }) {
   const { isDarkMode } = useTheme();
+  const navigate = useNavigate();
 
   const insights = useMemo(() => {
     if (!pincodeData || pincodeData.length === 0) return { alerts: [], recommendations: [], topActions: [] };
@@ -85,6 +87,7 @@ function ExecutiveSummary({ pincodeData }) {
         action: `Explore ${topArea.area}`,
         detail: `Highest market gap score: ${topArea.avgGap.toFixed(0)}`,
         color: 'blue',
+        path: '/area-leaderboard',
       });
     }
 
@@ -94,6 +97,7 @@ function ExecutiveSummary({ pincodeData }) {
         action: `Target ${fastGrowing.area}`,
         detail: `Fastest growing: ${(fastGrowing.populationGrowth || 0).toFixed(2)}%`,
         color: 'emerald',
+        path: '/area-overview',
       });
     }
 
@@ -103,6 +107,7 @@ function ExecutiveSummary({ pincodeData }) {
         action: `Enter ${leastCompetitive.area}`,
         detail: `Lowest competition: ${leastCompetitive.totalComps} competitors`,
         color: 'violet',
+        path: '/pincode-explorer',
       });
     }
 
@@ -181,8 +186,8 @@ function ExecutiveSummary({ pincodeData }) {
             </p>
             <div className="flex flex-wrap gap-1.5">
               {insights.topActions.map((action, i) => (
-                <div key={i} className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold ${
-                  isDarkMode ? 'bg-[#0f172a] border border-[#334155] text-slate-300' : 'bg-slate-50 border border-slate-100 text-slate-600'
+                <div key={i} onClick={() => action.path && navigate(action.path)} className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold cursor-pointer transition-all hover:scale-105 ${
+                  isDarkMode ? 'bg-[#0f172a] border border-[#334155] text-slate-300 hover:border-[#3b82f6]' : 'bg-slate-50 border border-slate-100 text-slate-600 hover:border-[#3b82f6]'
                 }`}>
                   <ArrowRight size={10} style={{ color: action.color === 'blue' ? '#3b82f6' : action.color === 'emerald' ? '#10b981' : '#8b5cf6' }} />
                   <span>{action.action}</span>
