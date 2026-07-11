@@ -23,9 +23,9 @@ function MapSection({ pincodeData, selectedDistrict }) {
   };
 
   const getGapColor = (avgGapScore) => {
-    if (avgGapScore >= 65) return { fill: '#e74c3c', stroke: '#c0392b', label: 'High Opportunity' };
-    if (avgGapScore >= 50) return { fill: '#f39c12', stroke: '#e67e22', label: 'Medium Opportunity' };
-    return { fill: '#27ae60', stroke: '#229954', label: 'Low Opportunity' };
+    if (avgGapScore >= 65) return { fill: '#ef4444', stroke: '#dc2626', label: 'High Opportunity' };
+    if (avgGapScore >= 50) return { fill: '#f59e0b', stroke: '#d97706', label: 'Medium Opportunity' };
+    return { fill: '#22c55e', stroke: '#16a34a', label: 'Low Opportunity' };
   };
 
   const getRadiusByPopulation = (population) => {

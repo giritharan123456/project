@@ -29,10 +29,10 @@ function OpportunityHeatMap({ pincodeData }) {
   };
 
   const getHeatmapColor = (score) => {
-    if (score >= 80) return 'rgba(34, 197, 94, 0.8)';
-    if (score >= 60) return 'rgba(234, 179, 8, 0.8)';
-    if (score >= 40) return 'rgba(249, 115, 22, 0.8)';
-    return 'rgba(239, 68, 68, 0.8)';
+    if (score >= 80) return 'rgba(239, 68, 68, 0.85)';
+    if (score >= 65) return 'rgba(249, 115, 22, 0.85)';
+    if (score >= 50) return 'rgba(234, 179, 8, 0.85)';
+    return 'rgba(34, 197, 94, 0.85)';
   };
 
   const getHeatmapIntensity = (score) => {
@@ -98,20 +98,20 @@ function OpportunityHeatMap({ pincodeData }) {
       {showLegend && (
       <div className="flex flex-wrap gap-2 sm:gap-4 mb-4 p-2 sm:p-3 rounded-lg border border-dashed">
         <div className="flex items-center gap-1.5">
-          <div className="w-3 h-3 sm:w-4 sm:h-4 rounded flex-shrink-0" style={{ background: 'rgba(34, 197, 94, 0.8)' }}></div>
-          <span className={`text-[10px] sm:text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>High (80-100)</span>
+          <div className="w-3 h-3 sm:w-4 sm:h-4 rounded flex-shrink-0" style={{ background: 'rgba(239, 68, 68, 0.85)' }}></div>
+          <span className={`text-[10px] sm:text-sm font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>High (80-100)</span>
         </div>
         <div className="flex items-center gap-1.5">
-          <div className="w-3 h-3 sm:w-4 sm:h-4 rounded flex-shrink-0" style={{ background: 'rgba(234, 179, 8, 0.8)' }}></div>
-          <span className={`text-[10px] sm:text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Medium (60-79)</span>
+          <div className="w-3 h-3 sm:w-4 sm:h-4 rounded flex-shrink-0" style={{ background: 'rgba(249, 115, 22, 0.85)' }}></div>
+          <span className={`text-[10px] sm:text-sm font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Strong (65-79)</span>
         </div>
         <div className="flex items-center gap-1.5">
-          <div className="w-3 h-3 sm:w-4 sm:h-4 rounded flex-shrink-0" style={{ background: 'rgba(249, 115, 22, 0.8)' }}></div>
-          <span className={`text-[10px] sm:text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Low (40-59)</span>
+          <div className="w-3 h-3 sm:w-4 sm:h-4 rounded flex-shrink-0" style={{ background: 'rgba(234, 179, 8, 0.85)' }}></div>
+          <span className={`text-[10px] sm:text-sm font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Moderate (50-64)</span>
         </div>
         <div className="flex items-center gap-1.5">
-          <div className="w-3 h-3 sm:w-4 sm:h-4 rounded flex-shrink-0" style={{ background: 'rgba(239, 68, 68, 0.8)' }}></div>
-          <span className={`text-[10px] sm:text-sm ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Critical (0-39)</span>
+          <div className="w-3 h-3 sm:w-4 sm:h-4 rounded flex-shrink-0" style={{ background: 'rgba(34, 197, 94, 0.85)' }}></div>
+          <span className={`text-[10px] sm:text-sm font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Low (0-49)</span>
         </div>
       </div>
       )}
@@ -203,7 +203,7 @@ function OpportunityHeatMap({ pincodeData }) {
         <div>
           <span className={`text-xs opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>High Opportunity</span>
           <div className={`text-lg font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
-            {heatmapData.filter(d => d.avgGap >= 80).length}
+            {heatmapData.filter(d => d.avgGap >= 65).length}
           </div>
         </div>
         <div>
