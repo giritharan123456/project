@@ -150,6 +150,96 @@ const getInvestmentEstimate = async (req, res) => {
       { label: 'Demand Multiplier', min: Math.round(baseMin * (demandFactor - 1)), max: Math.round(baseMax * (demandFactor - 1)) },
     ] : [{ label: 'Base Investment', min: baseMin, max: baseMax }];
 
+    let areaContext = null;
+    if (area) {
+      const competitors = area.competitors ? Object.fromEntries(area.competitors) : {};
+      const demands = area.demandScores ? Object.fromEntries(area.demandScores) : {};
+      const gaps = area.marketGapScores ? Object.fromEntries(area.marketGapScores) : {};
+      const totalCompetitors = Object.values(competitors).reduce((s, v) => s + (Number(v) || 0), 0);
+      const demandScore = Number(demands[cat.name]) || 0;
+      const gapScore = Number(gaps[cat.name]) || 0;
+      const competitorsForCat = Number(competitors[cat.name]) || 0;
+
+      const population = Number(area.population) || 0;
+      const incomeLevel = area.incomeLevel || 'Low';
+      const avgSpendPerVisit = incomeLevel === 'High' ? 800 : incomeLevel === 'Medium' ? 500 : 300;
+      const dailyCustomersMin = Math.round(population * 0.001 * (demandScore / 100));
+      const dailyCustomersMax = Math.round(population * 0.003 * (demandScore / 100));
+
+      const monthlyRent = incomeLevel === 'High' ? 25000 : incomeLevel === 'Medium' ? 15000 : 8000;
+      const monthlyStaff = incomeLevel === 'High' ? 40000 : incomeLevel === 'Medium' ? 25000 : 15000;
+      const monthlyUtilities = incomeLevel === 'High' ? 8000 : incomeLevel === 'Medium' ? 5000 : 3000;
+      const monthlyMisc = 7000;
+      const monthlyCostMin = monthlyRent + monthlyStaff + monthlyUtilities + monthlyMisc;
+      const monthlyCostMax = Math.round(monthlyCostMin * 1.5);
+
+      const monthlyRevenueMin = dailyCustomersMin * avgSpendPerVisit * 26;
+      const monthlyRevenueMax = dailyCustomersMax * avgSpendPerVisit * 26;
+
+      const monthlyProfitMin = monthlyRevenueMin - monthlyCostMax;
+      const monthlyProfitMax = monthlyRevenueMax - monthlyCostMin;
+
+      const avgInvestment = (estimatedMin + estimatedMax) / 2;
+      const avgMonthlyProfit = (Math.max(0, monthlyProfitMin) + monthlyProfitMax) / 2;
+      const breakEvenMonths = avgMonthlyProfit > 0 ? Math.round(avgInvestment / avgMonthlyProfit) : null;
+      const annualROI = avgMonthlyProfit > 0 ? Math.round((avgMonthlyProfit * 12 / avgInvestment) * 100) : null;
+
+      const marketSaturation = competitorsForCat > 5 ? 'High' : competitorsForCat > 2 ? 'Moderate' : 'Low';
+      const demandLabel = demandScore > 70 ? 'Very High' : demandScore > 50 ? 'High' : demandScore > 30 ? 'Moderate' : 'Low';
+
+      const topAreas = await Area.find({
+        [`demandScores.${cat.name}`]: { $gt: 0 }
+      }).populate('district', 'name').sort({ [`marketGapScores.${cat.name}`]: -1 }).limit(5).select('name pincode district');
+
+      areaContext = {
+        areaInfo: {
+          name: area.name,
+          pincode: area.pincode,
+          district: area.district?.name || '',
+          population,
+          incomeLevel,
+          populationGrowth: area.populationGrowth || 0,
+        },
+        monthlyCosts: {
+          rent: monthlyRent,
+          staff: monthlyStaff,
+          utilities: monthlyUtilities,
+          misc: monthlyMisc,
+          totalMin: monthlyCostMin,
+          totalMax: monthlyCostMax,
+        },
+        revenue: {
+          dailyCustomersMin,
+          dailyCustomersMax,
+          avgSpendPerVisit,
+          monthlyMin: monthlyRevenueMin,
+          monthlyMax: monthlyRevenueMax,
+        },
+        profit: {
+          monthlyMin: Math.max(0, monthlyProfitMin),
+          monthlyMax: monthlyProfitMax,
+        },
+        roi: {
+          breakEvenMonths,
+          annualROI,
+        },
+        market: {
+          demandScore,
+          demandLabel,
+          gapScore,
+          competitorsForCat,
+          totalCompetitors,
+          marketSaturation,
+        },
+        topAreas: topAreas.map(a => ({
+          name: a.name,
+          pincode: a.pincode,
+          district: a.district?.name || '',
+          gap: a.marketGapScores?.get(cat.name) || 0,
+        })),
+      };
+    }
+
     res.json({
       success: true,
       estimate: {
@@ -160,7 +250,9 @@ const getInvestmentEstimate = async (req, res) => {
         locationMultiplier: Math.round(multiplier * 100) / 100,
         breakdown,
         category: cat.name,
+        description: cat.description,
         area: area ? { name: area.name, pincode: area.pincode, district: area.district?.name } : null,
+        areaContext,
       }
     });
   } catch (error) {
