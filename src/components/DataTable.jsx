@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef } from 'react';
 import { useTheme } from '../contexts/ThemeContext';
 import { motion } from 'framer-motion';
 import { ArrowUpDown, ArrowUp, ArrowDown, ChevronLeft, ChevronRight, Table2, Heart } from 'lucide-react';
@@ -9,6 +9,8 @@ function DataTable({ pincodeData, onAreaClick, onCompare, compareList, favorites
   const [sortKey, setSortKey] = useState('opportunityScore');
   const [sortDir, setSortDir] = useState('desc');
   const [page, setPage] = useState(1);
+  const [hoveredFav, setHoveredFav] = useState(null);
+  const favTimeoutRef = useRef(null);
   const perPage = 10;
 
   const handleSort = (key) => {
@@ -54,7 +56,7 @@ function DataTable({ pincodeData, onAreaClick, onCompare, compareList, favorites
     return sortDir === 'asc' ? <ArrowUp size={10} className="text-blue-500" /> : <ArrowDown size={10} className="text-blue-500" />;
   };
 
-  const thClass = `px-2 py-2 text-left text-[10px] font-extrabold uppercase tracking-wider cursor-pointer select-none transition-colors hover:text-blue-500 ${
+  const thClass = `px-2 py-2.5 text-left text-[10px] font-extrabold uppercase tracking-wider cursor-pointer select-none transition-colors hover:text-blue-500 ${
     isDarkMode ? 'text-slate-400' : 'text-slate-500'
   }`;
 
@@ -62,6 +64,15 @@ function DataTable({ pincodeData, onAreaClick, onCompare, compareList, favorites
     if (score >= 65) return isDarkMode ? 'bg-red-900/30 text-red-400' : 'bg-red-50 text-red-600';
     if (score >= 50) return isDarkMode ? 'bg-amber-900/30 text-amber-400' : 'bg-amber-50 text-amber-600';
     return isDarkMode ? 'bg-emerald-900/30 text-emerald-400' : 'bg-emerald-50 text-emerald-600';
+  };
+
+  const handleFavHover = (pincode) => {
+    if (favTimeoutRef.current) clearTimeout(favTimeoutRef.current);
+    setHoveredFav(pincode);
+  };
+
+  const handleFavLeave = () => {
+    favTimeoutRef.current = setTimeout(() => setHoveredFav(null), 200);
   };
 
   if (!pincodeData || pincodeData.length === 0) return null;
@@ -75,11 +86,11 @@ function DataTable({ pincodeData, onAreaClick, onCompare, compareList, favorites
       }`}
     >
       {/* Header */}
-      <div className={`px-4 py-2.5 border-b flex items-center justify-between ${
+      <div className={`px-4 py-3 border-b flex items-center justify-between ${
         isDarkMode ? 'border-[#334155] bg-[#0f172a]/40' : 'border-slate-100 bg-slate-50/50'
       }`}>
         <div className="flex items-center gap-2">
-          <Table2 size={14} className="text-blue-500" />
+          <Table2 size={16} className="text-blue-500" />
           <span className={`text-sm font-extrabold uppercase tracking-wider ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
             All Areas
           </span>
@@ -99,7 +110,7 @@ function DataTable({ pincodeData, onAreaClick, onCompare, compareList, favorites
         <table className="w-full text-xs">
           <thead>
             <tr className={isDarkMode ? 'bg-[#0f172a]/60' : 'bg-slate-50'}>
-              <th className={`px-2 py-2 w-8 ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}></th>
+              <th className={`px-2 py-2.5 w-10 ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}></th>
               {[
                 { key: 'area', label: 'Area' },
                 { key: 'pincode', label: 'Pincode' },
@@ -117,82 +128,151 @@ function DataTable({ pincodeData, onAreaClick, onCompare, compareList, favorites
                   </div>
                 </th>
               ))}
-              <th className={`px-2 py-2 w-8 ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}></th>
+              <th className={`px-2 py-2.5 w-10 ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}></th>
             </tr>
           </thead>
           <tbody>
-            {paged.map((row, i) => (
-              <tr
-                key={row.pincode || i}
-                onClick={() => onAreaClick && onAreaClick(row)}
-                className={`border-t transition-colors cursor-pointer ${
-                  isDarkMode ? 'border-[#334155] hover:bg-[#0f172a]/40' : 'border-slate-100 hover:bg-slate-50'
-                }`}
-              >
-                <td className="px-2 py-1.5">
-                  <button
-                    onClick={(e) => { e.stopPropagation(); onToggleFavorite && onToggleFavorite(row); }}
-                    className="p-0.5 transition-colors"
-                  >
-                    <Heart
-                      size={12}
-                      className={favorites?.has(row.pincode) ? 'fill-red-500 text-red-500' : isDarkMode ? 'text-slate-600 hover:text-red-400' : 'text-slate-300 hover:text-red-400'}
-                    />
-                  </button>
-                </td>
-                <td className="px-2 py-1.5">
-                  <p className={`font-extrabold truncate max-w-[120px] ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>{row.area || row.name || 'Unknown'}</p>
-                </td>
-                <td className={`px-2 py-1.5 font-bold ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>{row.pincode || '-'}</td>
-                <td className={`px-2 py-1.5 font-bold ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
-                  {(row.population || 0).toLocaleString()}
-                </td>
-                <td className="px-2 py-1.5">
-                  <span className={`font-bold ${(row.populationGrowth || 0) >= 1 ? 'text-emerald-500' : (row.populationGrowth || 0) >= 0 ? 'text-amber-500' : 'text-red-500'}`}>
-                    {(row.populationGrowth || 0) >= 0 ? '+' : ''}{(row.populationGrowth || 0).toFixed(2)}%
-                  </span>
-                </td>
-                <td className="px-2 py-1.5">
-                  <span className={`px-1.5 py-0.5 rounded-md font-extrabold text-[10px] ${getScoreBadge(row._avgGap)}`}>
-                    {row._avgGap.toFixed(1)}
-                  </span>
-                </td>
-                <td className={`px-2 py-1.5 font-bold ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>{row._avgDemand.toFixed(0)}</td>
-                <td className={`px-2 py-1.5 font-bold ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>{row._totalComps}</td>
-                <td className={`px-2 py-1.5 font-bold ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>{row.incomeLevel || '-'}</td>
-                <td className="px-2 py-1.5">
-                  <button
-                    onClick={(e) => { e.stopPropagation(); onCompare && onCompare(row); }}
-                    className={`text-[9px] font-bold px-1.5 py-0.5 rounded transition-colors ${
-                      compareList?.some(c => c.pincode === row.pincode)
-                        ? 'bg-blue-600 text-white'
-                        : isDarkMode ? 'bg-[#0f172a] text-slate-400 hover:text-blue-400 border border-[#334155]' : 'bg-slate-100 text-slate-500 hover:text-blue-600 border border-slate-200'
-                    }`}
-                  >
-                    {compareList?.some(c => c.pincode === row.pincode) ? '✓' : '+'}
-                  </button>
-                </td>
-              </tr>
-            ))}
+            {paged.map((row, i) => {
+              const isFav = favorites?.has(row.pincode);
+              const topCategory = row.marketGapScores ? Object.entries(row.marketGapScores).sort(([, a], [, b]) => Number(b) - Number(a))[0]?.[0] : null;
+
+              return (
+                <tr
+                  key={row.pincode || i}
+                  onClick={() => onAreaClick && onAreaClick(row)}
+                  className={`border-t transition-colors cursor-pointer ${
+                    isDarkMode ? 'border-[#334155] hover:bg-[#0f172a]/40' : 'border-slate-100 hover:bg-slate-50'
+                  }`}
+                >
+                  {/* Favorite Heart with Hover Tooltip */}
+                  <td className="px-2 py-1.5 relative">
+                    <div className="relative">
+                      <button
+                        onClick={(e) => { e.stopPropagation(); onToggleFavorite && onToggleFavorite(row); }}
+                        onMouseEnter={() => isFav && handleFavHover(row.pincode)}
+                        onMouseLeave={handleFavLeave}
+                        className="p-1 rounded-lg transition-all hover:bg-red-500/10"
+                      >
+                        <Heart
+                          size={16}
+                          className={isFav ? 'fill-red-500 text-red-500' : isDarkMode ? 'text-slate-600 hover:text-red-400' : 'text-slate-300 hover:text-red-400'}
+                        />
+                      </button>
+
+                      {/* Hover Tooltip for Favorites */}
+                      {isFav && hoveredFav === row.pincode && (
+                        <div
+                          onMouseEnter={() => handleFavHover(row.pincode)}
+                          onMouseLeave={handleFavLeave}
+                          className={`absolute left-0 top-full mt-1 w-64 p-3 rounded-xl border-2 shadow-2xl z-[70] ${
+                            isDarkMode ? 'bg-[#1e293b] border-blue-500/50' : 'bg-white border-blue-200 shadow-blue-500/10'
+                          }`}
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <div className="flex items-center gap-2 mb-2">
+                            <Heart size={12} className="fill-red-500 text-red-500" />
+                            <span className={`text-[10px] font-extrabold uppercase ${isDarkMode ? 'text-red-400' : 'text-red-600'}`}>
+                              Saved to Favorites
+                            </span>
+                          </div>
+                          <h5 className={`text-xs font-extrabold mb-2 ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>
+                            {row.area || row.name || 'Unknown'}
+                          </h5>
+                          <div className="grid grid-cols-2 gap-1.5">
+                            <div className={`p-1.5 rounded-lg ${isDarkMode ? 'bg-[#0f172a]' : 'bg-slate-50'}`}>
+                              <span className={`text-[9px] font-bold block ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>Income</span>
+                              <span className={`text-[10px] font-extrabold ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>{row.incomeLevel || 'N/A'}</span>
+                            </div>
+                            <div className={`p-1.5 rounded-lg ${isDarkMode ? 'bg-[#0f172a]' : 'bg-slate-50'}`}>
+                              <span className={`text-[9px] font-bold block ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>Opportunity</span>
+                              <span className={`text-[10px] font-extrabold ${row._avgGap >= 65 ? 'text-red-500' : row._avgGap >= 50 ? 'text-amber-500' : 'text-emerald-500'}`}>
+                                {row._avgGap.toFixed(1)}
+                              </span>
+                            </div>
+                            <div className={`p-1.5 rounded-lg ${isDarkMode ? 'bg-[#0f172a]' : 'bg-slate-50'}`}>
+                              <span className={`text-[9px] font-bold block ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>Growth</span>
+                              <span className={`text-[10px] font-extrabold ${(row.populationGrowth || 0) >= 1 ? 'text-emerald-500' : (row.populationGrowth || 0) >= 0 ? 'text-amber-500' : 'text-red-500'}`}>
+                                {(row.populationGrowth || 0) >= 0 ? '+' : ''}{(row.populationGrowth || 0).toFixed(2)}%
+                              </span>
+                            </div>
+                            <div className={`p-1.5 rounded-lg ${isDarkMode ? 'bg-[#0f172a]' : 'bg-slate-50'}`}>
+                              <span className={`text-[9px] font-bold block ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>Demand</span>
+                              <span className={`text-[10px] font-extrabold ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>{row._avgDemand.toFixed(1)}</span>
+                            </div>
+                            <div className={`p-1.5 rounded-lg ${isDarkMode ? 'bg-[#0f172a]' : 'bg-slate-50'}`}>
+                              <span className={`text-[9px] font-bold block ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>Population</span>
+                              <span className={`text-[10px] font-extrabold ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>{(row.population || 0).toLocaleString()}</span>
+                            </div>
+                            <div className={`p-1.5 rounded-lg ${isDarkMode ? 'bg-[#0f172a]' : 'bg-slate-50'}`}>
+                              <span className={`text-[9px] font-bold block ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>Competitors</span>
+                              <span className={`text-[10px] font-extrabold ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>{row._totalComps}</span>
+                            </div>
+                          </div>
+                          {topCategory && (
+                            <div className={`mt-2 pt-2 border-t ${isDarkMode ? 'border-[#334155]' : 'border-slate-200'}`}>
+                              <span className={`text-[9px] font-bold ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>Top Category: </span>
+                              <span className={`text-[10px] font-extrabold ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>{topCategory}</span>
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  </td>
+
+                  <td className="px-2 py-1.5">
+                    <p className={`font-extrabold truncate max-w-[120px] ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>{row.area || row.name || 'Unknown'}</p>
+                  </td>
+                  <td className={`px-2 py-1.5 font-bold ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>{row.pincode || '-'}</td>
+                  <td className={`px-2 py-1.5 font-bold ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
+                    {(row.population || 0).toLocaleString()}
+                  </td>
+                  <td className="px-2 py-1.5">
+                    <span className={`font-bold ${(row.populationGrowth || 0) >= 1 ? 'text-emerald-500' : (row.populationGrowth || 0) >= 0 ? 'text-amber-500' : 'text-red-500'}`}>
+                      {(row.populationGrowth || 0) >= 0 ? '+' : ''}{(row.populationGrowth || 0).toFixed(2)}%
+                    </span>
+                  </td>
+                  <td className="px-2 py-1.5">
+                    <span className={`px-1.5 py-0.5 rounded-md font-extrabold text-[10px] ${getScoreBadge(row._avgGap)}`}>
+                      {row._avgGap.toFixed(1)}
+                    </span>
+                  </td>
+                  <td className={`px-2 py-1.5 font-bold ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>{row._avgDemand.toFixed(0)}</td>
+                  <td className={`px-2 py-1.5 font-bold ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>{row._totalComps}</td>
+                  <td className={`px-2 py-1.5 font-bold ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>{row.incomeLevel || '-'}</td>
+                  <td className="px-2 py-1.5">
+                    <button
+                      onClick={(e) => { e.stopPropagation(); onCompare && onCompare(row); }}
+                      className={`text-[10px] font-bold px-2 py-1 rounded-lg transition-all ${
+                        compareList?.some(c => c.pincode === row.pincode)
+                          ? 'bg-blue-600 text-white shadow-sm'
+                          : isDarkMode ? 'bg-[#0f172a] text-slate-400 hover:text-blue-400 border border-[#334155] hover:border-blue-500' : 'bg-slate-100 text-slate-500 hover:text-blue-600 border border-slate-200 hover:border-blue-400'
+                      }`}
+                    >
+                      {compareList?.some(c => c.pincode === row.pincode) ? '✓' : '+'}
+                    </button>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
 
       {/* Pagination */}
       {totalPages > 1 && (
-        <div className={`px-4 py-2 border-t flex items-center justify-between ${
+        <div className={`px-4 py-3 border-t flex items-center justify-between ${
           isDarkMode ? 'border-[#334155]' : 'border-slate-200'
         }`}>
           <button
             onClick={() => setPage(p => Math.max(1, p - 1))}
             disabled={page === 1}
-            className={`flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-bold transition-colors ${
+            className={`flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-bold transition-colors ${
               page === 1 ? 'opacity-40 cursor-not-allowed' : ''
             } ${isDarkMode ? 'bg-[#0f172a] text-slate-300 hover:border-blue-500 border border-[#334155]' : 'bg-slate-100 text-slate-600 hover:border-blue-400 border border-slate-200'}`}
           >
-            <ChevronLeft size={12} /> Prev
+            <ChevronLeft size={14} /> Prev
           </button>
-          <div className="flex gap-1">
+          <div className="flex gap-1.5">
             {Array.from({ length: Math.min(totalPages, 5) }, (_, i) => {
               let pageNum;
               if (totalPages <= 5) pageNum = i + 1;
@@ -203,7 +283,7 @@ function DataTable({ pincodeData, onAreaClick, onCompare, compareList, favorites
                 <button
                   key={pageNum}
                   onClick={() => setPage(pageNum)}
-                  className={`w-6 h-6 rounded-md text-[10px] font-extrabold transition-colors ${
+                  className={`w-7 h-7 rounded-lg text-xs font-extrabold transition-colors ${
                     page === pageNum
                       ? 'bg-blue-600 text-white'
                       : isDarkMode ? 'bg-[#0f172a] text-slate-400 hover:text-white border border-[#334155]' : 'bg-slate-100 text-slate-500 hover:text-slate-800 border border-slate-200'
@@ -217,11 +297,11 @@ function DataTable({ pincodeData, onAreaClick, onCompare, compareList, favorites
           <button
             onClick={() => setPage(p => Math.min(totalPages, p + 1))}
             disabled={page === totalPages}
-            className={`flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-bold transition-colors ${
+            className={`flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-bold transition-colors ${
               page === totalPages ? 'opacity-40 cursor-not-allowed' : ''
             } ${isDarkMode ? 'bg-[#0f172a] text-slate-300 hover:border-blue-500 border border-[#334155]' : 'bg-slate-100 text-slate-600 hover:border-blue-400 border border-slate-200'}`}
           >
-            Next <ChevronRight size={12} />
+            Next <ChevronRight size={14} />
           </button>
         </div>
       )}
