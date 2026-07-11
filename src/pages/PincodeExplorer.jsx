@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
 import { useDistrict } from '../contexts/DistrictContext';
 import { useToast } from '../contexts/ToastContext';
-import { explorerAPI, areasAPI } from '../services/api';
+import { explorerAPI, areasAPI, searchAPI } from '../services/api';
 import { Search, MapPin, Users, TrendingUp, Store, Filter, ChevronDown, Building2, IndianRupee, Target, BarChart3, Landmark, X } from 'lucide-react';
 
 function PincodeExplorer() {
@@ -17,14 +17,50 @@ function PincodeExplorer() {
   const [incomeFilter, setIncomeFilter] = useState('');
   const [sortBy, setSortBy] = useState('opportunityScore');
   const [pincodeSearch, setPincodeSearch] = useState('');
+  const [suggestions, setSuggestions] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
   const [selectedArea, setSelectedArea] = useState(null);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [total, setTotal] = useState(0);
+  const searchRef = useRef(null);
+  const suggestTimerRef = useRef(null);
 
   const b = (light, dark) => isDarkMode ? dark : light;
 
   useEffect(() => { loadShops(); }, [selectedDistrict, selectedCategory, incomeFilter, sortBy, page]);
+
+  useEffect(() => {
+    const handler = (e) => {
+      if (searchRef.current && !searchRef.current.contains(e.target)) setShowSuggestions(false);
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, []);
+
+  const fetchSuggestions = (query) => {
+    setPincodeSearch(query);
+    if (suggestTimerRef.current) clearTimeout(suggestTimerRef.current);
+    if (!query || query.length < 2) { setSuggestions([]); setShowSuggestions(false); return; }
+    suggestTimerRef.current = setTimeout(async () => {
+      try {
+        const currentDist = districts.find(d => d._id === selectedDistrict);
+        const res = await searchAPI.suggestions(query, currentDist?.name);
+        if (res.data) { setSuggestions(res.data); setShowSuggestions(res.data.length > 0); }
+      } catch { setSuggestions([]); }
+    }, 300);
+  };
+
+  const selectSuggestion = (s) => {
+    setPincodeSearch(s.pincode);
+    setShowSuggestions(false);
+    setSuggestions([]);
+    setPage(1);
+    setLoading(true);
+    explorerAPI.getPincodeShops({ pincode: s.pincode }).then(res => {
+      if (res.success) { setAreas(res.areas || []); setTotal(res.total || 0); if (res.areas?.length === 1) setSelectedArea(res.areas[0]); }
+    }).catch(() => toastError('Pincode not found')).finally(() => setLoading(false));
+  };
 
   const loadShops = async () => {
     setLoading(true);
@@ -98,16 +134,31 @@ function PincodeExplorer() {
         {/* Search & Filters */}
         <motion.div className={`rounded-xl border p-4 sm:p-5 mb-6 ${b('bg-white border-gray-200', 'bg-[#1e293b] border-[#334155]')}`}>
           <div className="flex flex-col sm:flex-row gap-3 mb-4">
-            <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
+            <div className="flex-1 relative" ref={searchRef}>
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 z-10" size={16} />
               <input
                 type="text"
                 value={pincodeSearch}
-                onChange={(e) => setPincodeSearch(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && searchByPincode()}
-                placeholder="Search by pincode (e.g., 600001)"
+                onChange={(e) => fetchSuggestions(e.target.value)}
+                onFocus={() => { if (suggestions.length > 0) setShowSuggestions(true); }}
+                onKeyDown={(e) => { if (e.key === 'Enter') { setShowSuggestions(false); searchByPincode(); } }}
+                placeholder="Type pincode or area name..."
                 className={`w-full pl-10 pr-4 py-2.5 rounded-lg border text-sm outline-none ${b('bg-white border-gray-300 text-gray-700', 'bg-[#0f172a] border-[#334155] text-gray-200')}`}
               />
+              {showSuggestions && suggestions.length > 0 && (
+                <div className={`absolute left-0 right-0 top-full mt-1 rounded-lg border shadow-xl z-50 max-h-60 overflow-y-auto ${b('bg-white border-gray-200', 'bg-[#1e293b] border-[#334155]')}`}>
+                  {suggestions.map((s) => (
+                    <button key={s.id} onClick={() => selectSuggestion(s)}
+                      className={`w-full text-left px-4 py-2.5 flex items-center justify-between hover:bg-blue-50 transition-colors border-b last:border-0 ${b('border-gray-100', 'border-[#334155] hover:bg-blue-900/20')}`}>
+                      <div className="flex items-center gap-2">
+                        <MapPin size={12} className="text-blue-500" />
+                        <span className={`text-xs font-semibold ${b('text-gray-700', 'text-gray-200')}`}>{s.name}</span>
+                      </div>
+                      <span className={`text-[10px] font-bold ${b('text-gray-400', 'text-gray-500')}`}>{s.pincode}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
             <button onClick={searchByPincode}
               className="px-5 py-2.5 rounded-lg bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white text-sm font-semibold hover:shadow-lg transition-all">
