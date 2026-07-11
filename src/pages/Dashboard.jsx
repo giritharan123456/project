@@ -58,60 +58,26 @@ function Dashboard() {
   const [favorites, setFavorites] = useState(new Set());
   const [activeView, setActiveView] = useState('dashboard');
 
-  // ═══ FAVORITES: Load from backend on mount ═══
+  // ═══ FAVORITES: localStorage (reliable, no auth dependency) ═══
   useEffect(() => {
-    (async () => {
-      try {
-        const res = await favoriteAPI.getAll('area');
-        if (res.data) {
-          const ids = new Set(res.data.map(f => String(f.itemId)).filter(Boolean));
-          setFavorites(ids);
-        }
-      } catch { /* not logged in or error — ignore */ }
-    })();
+    try {
+      const stored = localStorage.getItem('mv_favorites');
+      if (stored) setFavorites(new Set(JSON.parse(stored)));
+    } catch { /* ignore */ }
   }, []);
 
-  const toggleFavorite = async (area) => {
+  const saveFavorites = (newSet) => {
+    setFavorites(newSet);
+    localStorage.setItem('mv_favorites', JSON.stringify([...newSet]));
+  };
+
+  const toggleFavorite = (area) => {
     const pincode = String(area.pincode);
     const isFav = favorites.has(pincode);
-    setFavorites(prev => {
-      const next = new Set(prev);
-      if (isFav) next.delete(pincode);
-      else next.add(pincode);
-      return next;
-    });
-    try {
-      if (isFav) {
-        await favoriteAPI.remove('area', pincode);
-      } else {
-        const { averageOfValues } = await import('../utils/dataUtils');
-        const avgGap = area.opportunityScore || averageOfValues(area.marketGapScores) || 0;
-        const avgDemand = averageOfValues(area.demandScores) ?? 0;
-        const totalComps = Object.values(area.competitors || {}).reduce((s, v) => s + (Number(v) || 0), 0);
-        const topCategory = Object.entries(area.marketGapScores || {}).sort(([, a], [, b]) => Number(b) - Number(a))[0]?.[0] || null;
-        await favoriteAPI.add('area', pincode, {
-          pincode,
-          name: area.area || area.name,
-          district: area.district,
-          incomeLevel: area.incomeLevel || 'N/A',
-          population: area.population || 0,
-          populationGrowth: area.populationGrowth || 0,
-          opportunityScore: Number(avgGap.toFixed(1)),
-          demandScore: Number(avgDemand.toFixed(1)),
-          competitors: totalComps,
-          topCategory,
-          lat: area.lat,
-          lng: area.lng,
-        });
-      }
-    } catch {
-      setFavorites(prev => {
-        const next = new Set(prev);
-        if (isFav) next.add(pincode);
-        else next.delete(pincode);
-        return next;
-      });
-    }
+    const next = new Set(favorites);
+    if (isFav) next.delete(pincode);
+    else next.add(pincode);
+    saveFavorites(next);
   };
 
   const toggleCompare = (area) => {
@@ -556,7 +522,7 @@ function Dashboard() {
                       ❤️ {favorites.size} Favorite Area{favorites.size !== 1 ? 's' : ''}
                     </span>
                     <button
-                      onClick={() => setFavorites(new Set())}
+                      onClick={() => { setFavorites(new Set()); localStorage.removeItem('mv_favorites'); }}
                       className="text-[10px] font-bold text-red-500 hover:text-red-400 transition-colors"
                     >
                       Clear All
