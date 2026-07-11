@@ -64,7 +64,7 @@ function Dashboard() {
       try {
         const res = await favoriteAPI.getAll('area');
         if (res.data) {
-          const ids = new Set(res.data.map(f => f.itemId).filter(Boolean));
+          const ids = new Set(res.data.map(f => String(f.itemId)).filter(Boolean));
           setFavorites(ids);
         }
       } catch { /* not logged in or error — ignore */ }
@@ -72,7 +72,7 @@ function Dashboard() {
   }, []);
 
   const toggleFavorite = async (area) => {
-    const pincode = area.pincode;
+    const pincode = String(area.pincode);
     const isFav = favorites.has(pincode);
     setFavorites(prev => {
       const next = new Set(prev);
@@ -361,8 +361,9 @@ function Dashboard() {
 
         <div className="max-w-[1600px] mx-auto px-2 sm:px-3 md:px-4 py-0">
 
-          {/* ═══ ROW 1: LOCATION + FILTERS (District-specific) ═══ */}
+          {/* ═══ ROW 1: LOCATION + SEARCH + FILTERS ═══ */}
           <motion.div {...fadeIn(0.02)} className={`${card} p-2.5`}>
+            {/* Row 1a: District + Search */}
             <div className="flex flex-col md:flex-row items-stretch md:items-center gap-2">
               <div className="w-full md:w-48 flex-shrink-0">
                 <DistrictSelector districts={districts} onDistrictChange={() => {
@@ -376,40 +377,37 @@ function Dashboard() {
                   setCompareList([]);
                 }} />
               </div>
-              <div className="flex-1">
+              <div className="flex-1 min-w-0">
                 <SearchBar value={searchPincode} onSearch={handleSearch} placeholder={selectedDistrict ? `Search pincode in ${currentDistrictName}...` : 'Search pincode (all districts)...'} suggestions={searchSuggestions} district={currentDistrictName} category={selectedBusinessCategory} />
                 {searchLoading && <p className="mt-1 text-[10px] text-slate-400 font-medium">Fetching data...</p>}
                 {searchError && <p className="mt-1 text-[10px] text-red-500 font-medium">{searchError}</p>}
               </div>
-              <div className="flex-shrink-0">
-                <DataFilter
-                  pincodeData={pincodeData}
-                  filters={filters}
-                  onFiltersChange={setFilters}
-                  resultCount={displayData.length}
-                  totalCount={filteredPincodeData.length}
-                />
-              </div>
             </div>
-            {businessCategories.length > 0 && (
-              <div className={`flex flex-wrap gap-1.5 mt-3 pt-3 border-t ${isDarkMode ? 'border-[#334155]' : 'border-slate-200'}`}>
-                {[{ name: 'all' }, ...businessCategories.map(c => ({ name: c.name || c }))].map(cat => (
-                  <button
-                    key={cat.name}
-                    onClick={() => setSelectedBusinessCategory(cat.name)}
-                    className={`px-2.5 sm:px-3 py-1.5 rounded-full text-[11px] sm:text-xs font-bold transition-all duration-200 ${
-                      selectedBusinessCategory === cat.name
-                        ? 'bg-blue-600 text-white shadow-md'
-                        : isDarkMode
-                          ? 'bg-[#0f172a] text-slate-300 hover:text-white border border-[#334155] hover:border-blue-500'
-                          : 'bg-slate-100 text-slate-600 hover:text-slate-800 hover:bg-slate-200 border border-slate-200'
-                    }`}
-                  >
-                    {cat.name === 'all' ? 'All' : cat.name}
-                  </button>
-                ))}
-              </div>
-            )}
+            {/* Row 1b: Filter Button + Category Pills */}
+            <div className={`flex flex-wrap items-center gap-2 mt-2 pt-2 border-t ${isDarkMode ? 'border-[#334155]' : 'border-slate-200'}`}>
+              <DataFilter
+                pincodeData={pincodeData}
+                filters={filters}
+                onFiltersChange={setFilters}
+                resultCount={displayData.length}
+                totalCount={filteredPincodeData.length}
+              />
+              {businessCategories.length > 0 && businessCategories.map(cat => (
+                <button
+                  key={cat.name || cat}
+                  onClick={() => setSelectedBusinessCategory(cat.name || cat)}
+                  className={`px-2.5 sm:px-3 py-1.5 rounded-full text-[11px] sm:text-xs font-bold transition-all duration-200 ${
+                    selectedBusinessCategory === (cat.name || cat)
+                      ? 'bg-blue-600 text-white shadow-md'
+                      : isDarkMode
+                        ? 'bg-[#0f172a] text-slate-300 hover:text-white border border-[#334155] hover:border-blue-500'
+                        : 'bg-slate-100 text-slate-600 hover:text-slate-800 hover:bg-slate-200 border border-slate-200'
+                  }`}
+                >
+                  {cat.name || cat}
+                </button>
+              ))}
+            </div>
           </motion.div>
 
           {/* ═══ SEARCH RESULT CARD ═══ */}
@@ -565,7 +563,7 @@ function Dashboard() {
                     </button>
                   </div>
                   <DataTable
-                    pincodeData={pincodeData.filter(p => favorites.has(p.pincode))}
+                    pincodeData={pincodeData.filter(p => favorites.has(String(p.pincode)))}
                     onAreaClick={(area) => setDrilldownArea(area)}
                     onCompare={toggleCompare}
                     compareList={compareList}

@@ -133,7 +133,7 @@ function DataTable({ pincodeData, onAreaClick, onCompare, compareList, favorites
           </thead>
           <tbody>
             {paged.map((row, i) => {
-              const isFav = favorites?.has(row.pincode);
+              const isFav = favorites?.has(String(row.pincode));
               const topCategory = row.marketGapScores ? Object.entries(row.marketGapScores).sort(([, a], [, b]) => Number(b) - Number(a))[0]?.[0] : null;
 
               return (
@@ -149,7 +149,7 @@ function DataTable({ pincodeData, onAreaClick, onCompare, compareList, favorites
                     <div className="relative">
                       <button
                         onClick={(e) => { e.stopPropagation(); onToggleFavorite && onToggleFavorite(row); }}
-                        onMouseEnter={() => isFav && handleFavHover(row.pincode)}
+                        onMouseEnter={() => isFav && handleFavHover(String(row.pincode))}
                         onMouseLeave={handleFavLeave}
                         className="p-1 rounded-lg transition-all hover:bg-red-500/10"
                       >
@@ -160,7 +160,7 @@ function DataTable({ pincodeData, onAreaClick, onCompare, compareList, favorites
                       </button>
 
                       {/* Hover Tooltip for Favorites */}
-                      {isFav && hoveredFav === row.pincode && (
+                      {isFav && hoveredFav === String(row.pincode) && (
                         <div
                           onMouseEnter={() => handleFavHover(row.pincode)}
                           onMouseLeave={handleFavLeave}
@@ -243,12 +243,12 @@ function DataTable({ pincodeData, onAreaClick, onCompare, compareList, favorites
                     <button
                       onClick={(e) => { e.stopPropagation(); onCompare && onCompare(row); }}
                       className={`text-[10px] font-bold px-2 py-1 rounded-lg transition-all ${
-                        compareList?.some(c => c.pincode === row.pincode)
+                        compareList?.some(c => String(c.pincode) === String(row.pincode))
                           ? 'bg-blue-600 text-white shadow-sm'
                           : isDarkMode ? 'bg-[#0f172a] text-slate-400 hover:text-blue-400 border border-[#334155] hover:border-blue-500' : 'bg-slate-100 text-slate-500 hover:text-blue-600 border border-slate-200 hover:border-blue-400'
                       }`}
                     >
-                      {compareList?.some(c => c.pincode === row.pincode) ? '✓' : '+'}
+                      {compareList?.some(c => String(c.pincode) === String(row.pincode)) ? '✓' : '+'}
                     </button>
                   </td>
                 </tr>
