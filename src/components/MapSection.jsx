@@ -1,5 +1,5 @@
 import React from 'react';
-import { MapContainer, TileLayer, Popup, CircleMarker, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, Popup, CircleMarker } from 'react-leaflet';
 import { useTheme } from '../contexts/ThemeContext';
 import { motion } from 'framer-motion';
 import { MapPin, TrendingUp, Users, BarChart3, Maximize2 } from 'lucide-react';

@@ -10,7 +10,7 @@ import ChartTooltip from './ChartTooltip';
 
 const COLORS = ['#2563eb', '#7c3aed', '#db2777', '#ea580c', '#16a34a', '#0891b2', '#d946ef', '#0ea5e9'];
 
-function AnalyticsPanel({ pincodeData, businessCategories, selectedDistrict }) {
+function AnalyticsPanel({ pincodeData, selectedDistrict }) {
   const { isDarkMode } = useTheme();
   const { addToast } = useToast();
 

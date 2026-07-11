@@ -4,7 +4,7 @@ import { useTheme } from '../contexts/ThemeContext';
 import EmptyState from './EmptyState';
 import { averageOfValues, toPlainObject, NO_DATA_LABEL } from '../utils/dataUtils';
 
-function OpportunityHeatMap({ pincodeData, selectedDistrict }) {
+function OpportunityHeatMap({ pincodeData }) {
   const { isDarkMode } = useTheme();
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [hoveredPincode, setHoveredPincode] = useState(null);

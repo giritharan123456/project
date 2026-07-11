@@ -130,12 +130,10 @@ function Dashboard() {
     if (!selectedDistrict) return;
     let cancelled = false;
     const fetchAreas = async () => {
-      setLoading(true);
       try {
         const areasRes = await areasAPI.getAll({ district: selectedDistrict, limit: 50 });
         if (!cancelled) setAreas(areasRes.data || []);
       } catch { if (!cancelled) setAreas([]); }
-      finally { if (!cancelled) setLoading(false); }
     };
     fetchAreas();
     return () => { cancelled = true; };

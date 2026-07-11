@@ -67,7 +67,7 @@ export default function SearchResultCard({ area, loading, error, onClose }) {
   const totalCompetitors = Object.values(competitors).reduce((s, v) => s + (Number(v) || 0), 0);
 
   const topCategories = Object.entries(gapScores)
-    .sort(([, a], [, b]) => b - a)
+    .sort(([, a], [, b]) => Number(b) - Number(a))
     .slice(0, 5);
 
   const getOppColor = (score) => {

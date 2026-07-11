@@ -6,7 +6,7 @@ import { Download, FileSpreadsheet } from 'lucide-react';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 
-function EnhancedExport({ data, selectedDistrict, businessCategories, leaderboardData }) {
+function EnhancedExport({ data, selectedDistrict, businessCategories }) {
   const { isDarkMode } = useTheme();
   const { districts } = useDistrict();
   const { error: toastError } = useToast();
