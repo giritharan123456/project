@@ -35,7 +35,10 @@ function PincodeExplorer() {
       if (searchRef.current && !searchRef.current.contains(e.target)) setShowSuggestions(false);
     };
     document.addEventListener('mousedown', handler);
-    return () => document.removeEventListener('mousedown', handler);
+    return () => {
+      document.removeEventListener('mousedown', handler);
+      if (suggestTimerRef.current) clearTimeout(suggestTimerRef.current);
+    };
   }, []);
 
   const fetchSuggestions = (query) => {

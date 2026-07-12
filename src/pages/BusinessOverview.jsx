@@ -116,9 +116,11 @@ function BusinessOverview() {
     window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(`Check out ${name} on MarketVision AI`)}&url=${encodeURIComponent(url)}`, '_blank');
   };
   const copyLink = async (url) => {
-    await navigator.clipboard.writeText(url);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    try {
+      await navigator.clipboard.writeText(url);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch { /* clipboard access denied */ }
   };
 
   const competitors = apiArea ? toPlainObject(apiArea.competitors) : {};

@@ -26,9 +26,9 @@ const getSmartResponse = async (query) => {
       const income = area.incomeLevel || 'N/A';
       const opp = area.opportunityScore || 0;
 
-      const demands = Object.fromEntries(area.demandScores || new Map());
-      const gaps = Object.fromEntries(area.marketGapScores || new Map());
-      const comps = Object.fromEntries(area.competitors || new Map());
+      const demands = area.demandScores || {};
+      const gaps = area.marketGapScores || {};
+      const comps = area.competitors || {};
 
       const avgDemand = Object.keys(demands).length ? Object.values(demands).reduce((a, b) => a + (Number(b) || 0), 0) / Object.keys(demands).length : 0;
       const avgGap = Object.keys(gaps).length ? Object.values(gaps).reduce((a, b) => a + (Number(b) || 0), 0) / Object.keys(gaps).length : 0;
@@ -119,7 +119,7 @@ const getSmartResponse = async (query) => {
 
     const catDemand = {};
     areas.forEach(a => {
-      const demands = Object.fromEntries(a.demandScores || new Map());
+      const demands = a.demandScores || {};
       Object.entries(demands).forEach(([cat, val]) => {
         if (!catDemand[cat]) catDemand[cat] = [];
         catDemand[cat].push(Number(val) || 0);
@@ -134,17 +134,17 @@ const getSmartResponse = async (query) => {
 
   if (q.includes('competitor') || q.includes('competition') || q.includes('rival') || q.includes('compete')) {
     const highComp = areas.filter(a => {
-      const comps = Object.values(Object.fromEntries(a.competitors || new Map()));
+      const comps = Object.values(a.competitors || {});
       return comps.some(c => (Number(c) || 0) >= 80);
     }).length;
     const lowComp = areas.filter(a => {
-      const comps = Object.values(Object.fromEntries(a.competitors || new Map()));
+      const comps = Object.values(a.competitors || {});
       return comps.every(c => (Number(c) || 0) < 40);
     }).length;
 
     const catComp = {};
     areas.forEach(a => {
-      const comps = Object.fromEntries(a.competitors || new Map());
+      const comps = a.competitors || {};
       Object.entries(comps).forEach(([cat, val]) => {
         if (!catComp[cat]) catComp[cat] = [];
         catComp[cat].push(Number(val) || 0);
@@ -170,8 +170,8 @@ const getSmartResponse = async (query) => {
 
       const catStats = {};
       areas.forEach(a => {
-        const demands = Object.fromEntries(a.demandScores || new Map());
-        const gaps = Object.fromEntries(a.marketGapScores || new Map());
+      const demands = a.demandScores || {};
+        const gaps = a.marketGapScores || {};
         Object.entries(demands).forEach(([cat, val]) => {
           if (!catStats[cat]) catStats[cat] = { demand: [], gap: [] };
           catStats[cat].demand.push(Number(val) || 0);
@@ -210,7 +210,7 @@ const getSmartResponse = async (query) => {
 
   if (q.includes('safe') || q.includes('safety') || q.includes('risk') || q.includes('secure')) {
     const lowCompAreas = areas.filter(a => {
-      const comps = Object.values(Object.fromEntries(a.competitors || new Map()));
+      const comps = Object.values(a.competitors || {});
       return comps.every(c => (Number(c) || 0) < 40);
     }).length;
     const highOppAreas = areas.filter(a => (a.opportunityScore || 0) >= 70).length;
@@ -227,7 +227,7 @@ const getSmartResponse = async (query) => {
     if (q.includes('which') && q.includes('business')) {
       const catStats = {};
       areas.forEach(a => {
-        const gaps = Object.fromEntries(a.marketGapScores || new Map());
+        const gaps = a.marketGapScores || {};
         Object.entries(gaps).forEach(([cat, val]) => {
           if (!catStats[cat]) catStats[cat] = [];
           catStats[cat].push(Number(val) || 0);

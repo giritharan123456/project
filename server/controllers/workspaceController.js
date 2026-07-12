@@ -69,7 +69,7 @@ const getFavorites = async (req, res) => {
       .populate('district', 'name');
 
     const formatted = favoriteAreas.map(area => {
-      const gapScores = area.marketGapScores ? Object.fromEntries(area.marketGapScores) : {};
+      const gapScores = area.marketGapScores || {};
       const values = Object.values(gapScores).map(v => Number(v) || 0);
       const avgScore = values.length > 0
         ? Math.round(values.reduce((a, b) => a + b, 0) / values.length)

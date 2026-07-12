@@ -7,7 +7,8 @@ try {
   if (fs.existsSync(envPath)) {
     const content = fs.readFileSync(envPath, 'utf8');
     console.log('.env file exists');
-    console.log('Content:', content);
+    const lines = content.split('\n').filter(l => l.trim() && !l.startsWith('#'));
+    console.log(`Found ${lines.length} environment variables`);
   } else {
     console.log('.env file does not exist');
   }

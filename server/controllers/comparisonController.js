@@ -41,7 +41,7 @@ const compareAreas = async (req, res) => {
       competitors: area.competitors,
       demandScores: area.demandScores,
       marketGapScores: area.marketGapScores,
-      overallScore: (() => { const m = area.marketGapScores ? Object.fromEntries(area.marketGapScores) : {}; const v = Object.values(m); return v.length ? v.reduce((a, b) => a + (Number(b) || 0), 0) / v.length : 0; })()
+      overallScore: (() => { const m = area.marketGapScores || {}; const v = Object.values(m); return v.length ? v.reduce((a, b) => a + (Number(b) || 0), 0) / v.length : 0; })()
     }));
 
     // Determine winner

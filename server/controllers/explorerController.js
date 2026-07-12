@@ -62,8 +62,8 @@ const getLeaderboard = async (req, res) => {
     const areas = convertMapFieldsArray(rawAreas);
 
     const enriched = areas.map(a => {
-      const gaps = a.marketGapScores ? Object.fromEntries(a.marketGapScores) : {};
-      const demands = a.demandScores ? Object.fromEntries(a.demandScores) : {};
+      const gaps = a.marketGapScores || {};
+      const demands = a.demandScores || {};
       const totalGap = Object.values(gaps).reduce((s, v) => s + v, 0);
       const totalDemand = Object.values(demands).reduce((s, v) => s + v, 0);
       const avgGap = Object.keys(gaps).length ? (totalGap / Object.keys(gaps).length) : 0;
@@ -168,9 +168,9 @@ const getInvestmentEstimate = async (req, res) => {
 
     let areaContext = null;
     if (area) {
-      const competitors = area.competitors ? Object.fromEntries(area.competitors) : {};
-      const demands = area.demandScores ? Object.fromEntries(area.demandScores) : {};
-      const gaps = area.marketGapScores ? Object.fromEntries(area.marketGapScores) : {};
+      const competitors = area.competitors || {};
+      const demands = area.demandScores || {};
+      const gaps = area.marketGapScores || {};
       const totalCompetitors = Object.values(competitors).reduce((s, v) => s + (Number(v) || 0), 0);
       const demandScore = Number(demands[cat.name]) || 0;
       const gapScore = Number(gaps[cat.name]) || 0;
@@ -353,9 +353,9 @@ const getPincodeShops = async (req, res) => {
     categories.forEach(c => { catMap[c.name] = c; });
 
     const enriched = areas.map(area => {
-      const competitors = area.competitors ? Object.fromEntries(area.competitors) : {};
-      const demands = area.demandScores ? Object.fromEntries(area.demandScores) : {};
-      const gaps = area.marketGapScores ? Object.fromEntries(area.marketGapScores) : {};
+      const competitors = area.competitors || {};
+      const demands = area.demandScores || {};
+      const gaps = area.marketGapScores || {};
 
       const businessList = categories.map(cat => {
         const count = competitors[cat.name] || 0;

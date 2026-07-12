@@ -33,7 +33,7 @@ const getAnalyticsOverview = async (req, res) => {
     let lowOpportunity = 0;
 
     allAreas.forEach(area => {
-      const scores = area.marketGapScores ? Object.fromEntries(area.marketGapScores) : {};
+      const scores = area.marketGapScores || {};
       const values = Object.values(scores).map(v => Number(v) || 0);
       const avgScore = values.length > 0
         ? values.reduce((a, b) => a + b, 0) / values.length
@@ -171,7 +171,7 @@ const getDistrictAnalytics = async (req, res) => {
     let totalGap = 0;
     let gapCount = 0;
     areas.forEach(area => {
-      const scores = Object.values(Object.fromEntries(area.marketGapScores || new Map()));
+      const scores = Object.values(area.marketGapScores || {});
       scores.forEach(s => {
         totalGap += Number(s) || 0;
         gapCount++;

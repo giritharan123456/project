@@ -26,7 +26,7 @@ const getAreaByPincode = async (req, res) => {
     // Create a notification for the authenticated user when area is loaded
     if (req.user) {
       const districtName = area.district?.name || '';
-      const gapScores = area.marketGapScores ? Object.fromEntries(area.marketGapScores) : {};
+      const gapScores = area.marketGapScores || {};
       const values = Object.values(gapScores).map(v => Number(v) || 0);
       const avgScore = values.length > 0
         ? Math.round(values.reduce((a, b) => a + b, 0) / values.length)

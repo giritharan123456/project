@@ -1,8 +1,8 @@
 const app = require('../server/server');
 
-module.exports = function handler(req, res) {
+module.exports = async function handler(req, res) {
   try {
-    return app(req, res);
+    return await app(req, res);
   } catch (err) {
     console.error('Vercel handler error:', err);
     if (!res.headersSent) {
