@@ -8,20 +8,20 @@ const logger = require('../utils/logger');
 // @access  Private
 const compareAreas = async (req, res) => {
   try {
-    const { areaIds } = req.body;
+    const { areaIds: rawAreaIds } = req.body;
     
-    if (!areaIds || !Array.isArray(areaIds) || areaIds.length < 2 || areaIds.length > 5) {
+    if (!rawAreaIds || !Array.isArray(rawAreaIds) || rawAreaIds.length < 2 || rawAreaIds.length > 5) {
       return res.status(400).json({ 
         success: false, 
         message: 'Please provide 2-5 area IDs for comparison' 
       });
     }
 
-    const uniqueIds = [...new Set(areaIds)];
-    if (uniqueIds.length !== areaIds.length) {
+    const uniqueIds = [...new Set(rawAreaIds)];
+    if (uniqueIds.length !== rawAreaIds.length) {
       return res.status(400).json({ success: false, message: 'Duplicate area IDs are not allowed' });
     }
-    areaIds = uniqueIds;
+    const areaIds = uniqueIds;
 
     const rawAreas = await Area.find({ _id: { $in: areaIds } }).lean().populate('district', 'name');
     const areas = convertMapFieldsArray(rawAreas);

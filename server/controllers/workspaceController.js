@@ -1,6 +1,7 @@
 const User = require('../models/User');
 const Area = require('../models/Area');
 const logger = require('../utils/logger');
+const { convertMapFieldsArray } = require('../utils/leanHelpers');
 
 // @desc    Get authenticated user's workspace profile
 // @route   GET /api/workspace/profile
@@ -64,9 +65,10 @@ const getFavorites = async (req, res) => {
     }
 
     // Populate full area details for each favorite
-    const favoriteAreas = await Area.find({ _id: { $in: user.favoriteAreas } })
+    const rawFavoriteAreas = await Area.find({ _id: { $in: user.favoriteAreas } })
       .lean()
       .populate('district', 'name');
+    const favoriteAreas = convertMapFieldsArray(rawFavoriteAreas);
 
     const formatted = favoriteAreas.map(area => {
       const gapScores = area.marketGapScores || {};

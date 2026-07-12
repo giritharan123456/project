@@ -363,9 +363,9 @@ export const adminAPI = {
 
 // Notifications API
 export const notificationsAPI = {
-  getAll: async (params = {}) => {
+  getAll: async (params = {}, options = {}) => {
     const queryString = new URLSearchParams(params).toString();
-    return apiCall(`/notifications${queryString ? `?${queryString}` : ''}`);
+    return apiCall(`/notifications${queryString ? `?${queryString}` : ''}`, options);
   },
 
   markAsRead: async (id) => {
@@ -502,10 +502,11 @@ export const contentAPI = {
 
 // AI Chat API
 export const aiAPI = {
-  chat: async (message) => {
+  chat: async (message, options = {}) => {
     return apiCall('/ai/chat', {
       method: 'POST',
       body: JSON.stringify({ message }),
+      ...options,
     });
   },
 };

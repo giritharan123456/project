@@ -44,7 +44,7 @@ function Navbar() {
     const controller = new AbortController();
     const fetchNotifCount = async () => {
       try {
-        const res = await notificationsAPI.getAll({ limit: 1, signal: controller.signal });
+        const res = await notificationsAPI.getAll({ limit: 1 }, { signal: controller.signal });
         if (res.success) setNotifCount(res.unreadCount || 0);
       } catch { /* noop - notification count not critical */ }
     };
