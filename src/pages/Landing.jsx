@@ -137,7 +137,7 @@ function Landing() {
 
   const platformStats = [
     { label: 'Districts Covered', value: stats.districts || '38', icon: MapPin },
-    { label: 'Areas Analyzed', value: stats.areas || '380+', icon: Globe },
+    { label: 'Areas Analyzed', value: stats.pincodes || '380+', icon: Globe },
     { label: 'Business Categories', value: stats.categories || '12', icon: BarChart3 },
     { label: 'Data Points', value: stats.dataPoints || '4,500+', icon: TrendingUp },
   ];

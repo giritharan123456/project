@@ -26,7 +26,6 @@ function Workspace() {
   });
   const [favoriteLocations, setFavoriteLocations] = useState([]);
   const [searchHistory, setSearchHistory] = useState([]);
-  const [savedReports, setSavedReports] = useState([]);
   const [savedComparisons, setSavedComparisons] = useState([]);
   const [recentlyViewed, setRecentlyViewed] = useState([]);
 
@@ -154,8 +153,8 @@ function Workspace() {
                       <p className={`font-semibold text-sm sm:text-base ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{favoriteLocations.length}</p>
                     </div>
                     <div className={`p-3 sm:p-4 rounded-xl ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
-                      <p className={`text-xs sm:text-sm opacity-70 mb-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Reports</p>
-                      <p className={`font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{savedReports.length}</p>
+                      <p className={`text-xs sm:text-sm opacity-70 mb-1 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Comparisons</p>
+                      <p className={`font-semibold text-sm sm:text-base ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{savedComparisons.length}</p>
                     </div>
                   </div>
 

@@ -350,6 +350,16 @@ const updateUserProfile = async (req, res) => {
       user.name = req.body.name || user.name;
       user.email = req.body.email || user.email;
       if (req.body.password) {
+        // Verify current password before allowing change
+        const { currentPassword } = req.body;
+        if (!currentPassword) {
+          return res.status(400).json({ success: false, message: 'Current password is required to change password' });
+        }
+        const isMatch = await user.matchPassword(currentPassword);
+        if (!isMatch) {
+          return res.status(401).json({ success: false, message: 'Current password is incorrect' });
+        }
+
         // Validate new password strength
         const password = req.body.password;
         const passwordErrors = [];

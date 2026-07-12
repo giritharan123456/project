@@ -112,7 +112,7 @@ function Profile() {
     }
     setLoading(true);
     try {
-      const res = await authAPI.updateProfile({ password: newPassword });
+      const res = await authAPI.updateProfile({ password: newPassword, currentPassword });
       if (res.success) {
         toast.success('Password changed successfully');
         setCurrentPassword('');

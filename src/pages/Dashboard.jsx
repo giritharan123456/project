@@ -4,7 +4,7 @@ import { useSearchParams, useNavigate } from 'react-router-dom';
 import { useTheme } from '../contexts/ThemeContext';
 import { useDistrict } from '../contexts/DistrictContext';
 import { usePincode } from '../contexts/PincodeContext';
-import { areasAPI, districtsAPI, favoriteAPI } from '../services/api';
+import { areasAPI, districtsAPI } from '../services/api';
 import EmptyState from '../components/EmptyState';
 import {
   transformAreaToPincodeData,
