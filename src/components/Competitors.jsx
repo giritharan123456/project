@@ -152,7 +152,7 @@ const Competitors = ({ pincodeData }) => {
         <ResponsiveContainer width="100%" height={340}>
           <BarChart data={chartData.barData} barCategoryGap="20%" margin={{ top: 8, right: 15, left: 5, bottom: 5 }}>
             <CartesianGrid strokeDasharray="3 3" stroke={gridStroke} vertical={false} />
-            <XAxis dataKey="name" tick={getAxis()} axisLine={axisLine} tickLine={false} angle={-35} textAnchor="end" height={55} interval={0} />
+            <XAxis dataKey="name" tick={getAxis()} axisLine={axisLine} tickLine={false} angle={-45} textAnchor="end" height={55} interval={0} />
             <YAxis tick={getAxis()} axisLine={axisLine} tickLine={false} />
             <RechartsTooltip content={<ChartTooltip />} />
             <Legend wrapperStyle={{ fontSize: 13, fontWeight: 700, paddingTop: 8 }} formatter={(value) => <span style={{ color: isDarkMode ? '#e2e8f0' : '#1e293b', fontWeight: 800, fontSize: 13 }}>{value}</span>} />
@@ -176,7 +176,7 @@ const Competitors = ({ pincodeData }) => {
           <ResponsiveContainer width="100%" height={340}>
             <BarChart data={engagementData} barCategoryGap="20%" margin={{ top: 8, right: 15, left: 5, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" stroke={gridStroke} vertical={false} />
-              <XAxis dataKey="area" tick={getAxis()} axisLine={axisLine} tickLine={false} angle={-35} textAnchor="end" height={55} interval={0} />
+              <XAxis dataKey="area" tick={getAxis()} axisLine={axisLine} tickLine={false} angle={-45} textAnchor="end" height={55} interval={0} />
               <YAxis tick={getAxis()} axisLine={axisLine} tickLine={false} />
               <RechartsTooltip content={<ChartTooltip />} />
               <Legend wrapperStyle={{ fontSize: 13, fontWeight: 700, paddingTop: 8 }} formatter={(value) => <span style={{ color: isDarkMode ? '#e2e8f0' : '#1e293b', fontWeight: 800, fontSize: 13 }}>{value}</span>} />

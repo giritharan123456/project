@@ -95,7 +95,7 @@ function SearchBar({ onSearch, onChange, placeholder = "Search by area or pincod
             }}
             onFocus={() => setShowSuggestions(searchTerm.length > 0)}
             onBlur={() => { blurTimeoutRef.current = setTimeout(() => setShowSuggestions(false), 200); }}
-            className={`w-full px-3 py-2 pl-9 border-2 rounded-lg text-sm transition-all duration-200 outline-none ${
+            className={`w-full px-3 py-2.5 pl-9 border-2 rounded-lg text-sm transition-all duration-200 outline-none ${
               isDarkMode
                 ? 'bg-[#0f172a] border-[#475569] text-white focus:border-blue-500 placeholder:text-slate-500'
                 : 'bg-slate-50 border-slate-200 text-slate-800 focus:border-blue-500 placeholder:text-slate-400'
@@ -106,7 +106,7 @@ function SearchBar({ onSearch, onChange, placeholder = "Search by area or pincod
             <button
               type="button"
               onClick={() => { setSearchTerm(''); setShowSuggestions(false); setServerSuggestions([]); onSearch(''); }}
-              className={`absolute right-2.5 top-1/2 -translate-y-1/2 p-1 rounded ${isDarkMode ? 'text-slate-500 hover:text-white' : 'text-slate-400 hover:text-slate-700'}`}
+              className={`absolute right-2.5 top-1/2 -translate-y-1/2 p-2 min-h-[44px] min-w-[44px] rounded ${isDarkMode ? 'text-slate-500 hover:text-white' : 'text-slate-400 hover:text-slate-700'}`}
             >
               <X size={14} />
             </button>

@@ -29,7 +29,7 @@ function AreaComparison({ areas, onRemove, onClear, onOpenDetail }) {
       }`}
     >
       {/* Header */}
-      <div className={`px-4 py-2.5 border-b flex items-center justify-between ${
+      <div className={`px-3 sm:px-4 py-2 sm:py-2.5 border-b flex items-center justify-between ${
         isDarkMode ? 'border-[#334155] bg-[#0f172a]/40' : 'border-slate-100 bg-slate-50/50'
       }`}>
         <div className="flex items-center gap-2">
@@ -61,11 +61,11 @@ function AreaComparison({ areas, onRemove, onClear, onOpenDetail }) {
               >
                 <button
                   onClick={() => onRemove(area.pincode)}
-                  className={`absolute top-1.5 right-1.5 p-1 rounded-full transition-colors ${
+                  className={`absolute top-1.5 right-1.5 p-2 min-h-[44px] min-w-[44px] rounded-full transition-colors ${
                     isDarkMode ? 'hover:bg-white/10 text-slate-500 hover:text-white' : 'hover:bg-slate-100 text-slate-400 hover:text-slate-600'
                   }`}
                 >
-                  <X size={12} />
+                  <X size={14} />
                 </button>
 
                 <h5
@@ -80,7 +80,7 @@ function AreaComparison({ areas, onRemove, onClear, onOpenDetail }) {
                 {/* Score Badge */}
                 <div className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full mb-2 ${colors.light}`}>
                   <span className={`text-[10px] font-extrabold ${colors.text}`}>{avgGap.toFixed(1)}</span>
-                  <span className={`text-[9px] font-bold ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>opp</span>
+                  <span className={`text-[10px] font-bold ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>opp</span>
                 </div>
 
                 {/* Metrics */}
@@ -159,7 +159,7 @@ function AreaComparison({ areas, onRemove, onClear, onOpenDetail }) {
                 {/* Top Category */}
                 {area.marketGapScores && Object.keys(area.marketGapScores).length > 0 && (
                   <div className={`mt-2 pt-2 border-t ${isDarkMode ? 'border-[#334155]' : 'border-slate-200'}`}>
-                    <span className={`text-[9px] font-bold uppercase ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>Top Category</span>
+                    <span className={`text-[10px] font-bold uppercase ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>Top Category</span>
                     <p className={`text-[10px] font-extrabold mt-0.5 ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>
                       {Object.entries(area.marketGapScores).sort(([, a], [, b]) => Number(b) - Number(a))[0]?.[0] || 'N/A'}
                     </p>

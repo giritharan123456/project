@@ -23,7 +23,7 @@ function DistrictSelector({ districts, onDistrictChange }) {
           id="district-select"
           value={selectedDistrict ?? ''}
           onChange={handleChange}
-          className={`w-full appearance-none px-3 py-2 pr-8 border-2 rounded-lg text-sm font-medium transition-all duration-200 outline-none cursor-pointer ${
+          className={`w-full appearance-none px-3 py-2.5 pr-8 border-2 rounded-lg text-sm font-medium transition-all duration-200 outline-none cursor-pointer ${
             isDarkMode
               ? 'bg-[#0f172a] border-[#475569] text-white focus:border-blue-500'
               : 'bg-slate-50 border-slate-200 text-slate-800 focus:border-blue-500'

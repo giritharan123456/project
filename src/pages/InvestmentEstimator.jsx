@@ -282,9 +282,9 @@ function StatCard({ icon: Icon, label, value, sub, color, b }) {
   return (
     <div className={`rounded-xl border p-3 sm:p-4 ${b(colors[color], darkColors[color])}`}>
       <Icon size={16} className="mb-1" />
-      <p className={`text-[9px] sm:text-[10px] uppercase font-semibold ${b('text-gray-500', 'text-gray-400')}`}>{label}</p>
+      <p className={`text-[10px] sm:text-[10px] uppercase font-semibold ${b('text-gray-500', 'text-gray-400')}`}>{label}</p>
       <p className={`text-sm sm:text-base font-bold mt-0.5 ${b('text-gray-900', 'text-white')}`}>{value}</p>
-      <p className={`text-[9px] sm:text-[10px] mt-0.5 ${b('text-gray-400', 'text-gray-500')}`}>{sub}</p>
+      <p className={`text-[10px] sm:text-[10px] mt-0.5 ${b('text-gray-400', 'text-gray-500')}`}>{sub}</p>
     </div>
   );
 }

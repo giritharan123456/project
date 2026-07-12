@@ -282,7 +282,7 @@ function AnalyticsPanel({ pincodeData, selectedDistrict }) {
             <ResponsiveContainer width="100%" height={340}>
               <BarChart data={districtComparison} margin={{ top: 8, right: 15, left: 5, bottom: 5 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke={isDarkMode ? '#475569' : '#cbd5e1'} vertical={false} />
-                <XAxis dataKey="district" tick={{ fontSize: 13, fontWeight: 700, fill: isDarkMode ? '#e2e8f0' : '#1e293b' }} axisLine={{ stroke: isDarkMode ? '#64748b' : '#94a3b8' }} tickLine={false} angle={-40} textAnchor="end" height={65} interval={0} />
+                <XAxis dataKey="district" tick={{ fontSize: 13, fontWeight: 700, fill: isDarkMode ? '#e2e8f0' : '#1e293b' }} axisLine={{ stroke: isDarkMode ? '#64748b' : '#94a3b8' }} tickLine={false} angle={-50} textAnchor="end" height={65} interval={0} />
                 <YAxis tick={{ fontSize: 13, fontWeight: 700, fill: isDarkMode ? '#e2e8f0' : '#1e293b' }} axisLine={{ stroke: isDarkMode ? '#64748b' : '#94a3b8' }} tickLine={false} />
                 <Tooltip content={<ChartTooltip />} />
                 <Bar dataKey="avgGap" fill="#2563eb" name="Avg Gap Score" radius={[3, 3, 0, 0]} />

@@ -171,11 +171,11 @@ function AreaLeaderboard() {
                         </button>
                         <div className="w-full sm:w-auto flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4 px-2 sm:px-0">
                           <div className="text-center">
-                            <p className={`text-[9px] sm:text-[10px] uppercase tracking-wider ${b('text-gray-400', 'text-gray-500')}`}>Opp</p>
+                            <p className={`text-[10px] sm:text-[10px] uppercase tracking-wider ${b('text-gray-400', 'text-gray-500')}`}>Opp</p>
                             <p className={`text-base sm:text-lg font-bold ${getScoreColor(area.opportunityScore)}`}>{Number(area.opportunityScore).toFixed(1)}</p>
                           </div>
                           <div className="text-center">
-                            <p className={`text-[9px] sm:text-[10px] uppercase tracking-wider ${b('text-gray-400', 'text-gray-500')}`}>Feas</p>
+                            <p className={`text-[10px] sm:text-[10px] uppercase tracking-wider ${b('text-gray-400', 'text-gray-500')}`}>Feas</p>
                             <p className={`text-base sm:text-lg font-bold ${getScoreColor(area.feasibilityScore)}`}>{Number(area.feasibilityScore).toFixed(1)}</p>
                           </div>
                         </div>

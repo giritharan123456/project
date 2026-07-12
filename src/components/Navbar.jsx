@@ -146,7 +146,7 @@ function Navbar() {
           {/* Right Actions */}
           <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
             {/* Mobile Menu Toggle */}
-            <button onClick={() => setShowMobileNav(!showMobileNav)} aria-label="Toggle mobile navigation" aria-expanded={showMobileNav} className={`lg:hidden p-2 rounded-lg ${b('hover:bg-gray-100 text-gray-700', 'hover:bg-[#1e293b] text-gray-300')}`}>
+            <button onClick={() => setShowMobileNav(!showMobileNav)} aria-label="Toggle mobile navigation" aria-expanded={showMobileNav} className={`lg:hidden p-2.5 min-h-[44px] min-w-[44px] rounded-lg ${b('hover:bg-gray-100 text-gray-700', 'hover:bg-[#1e293b] text-gray-300')}`}>
               {showMobileNav ? (
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
               ) : (
@@ -155,7 +155,7 @@ function Navbar() {
             </button>
 
             {/* Theme Toggle */}
-            <button onClick={toggleTheme} className={`p-2 rounded-lg text-lg ${b('hover:bg-gray-100', 'hover:bg-[#1e293b]')}`} aria-label="Toggle theme">
+            <button onClick={toggleTheme} className={`p-2.5 min-h-[44px] min-w-[44px] rounded-lg text-lg ${b('hover:bg-gray-100', 'hover:bg-[#1e293b]')}`} aria-label="Toggle theme">
               {isDarkMode ? '☀️' : '🌙'}
             </button>
 
@@ -168,7 +168,7 @@ function Navbar() {
                   if (res.success) setNotifDropdown(res.data || []);
                 } catch { setNotifDropdown([]); }
                 setShowNotifDropdown(true);
-              }} aria-label="Notifications" className={`relative p-2 rounded-lg ${b('hover:bg-gray-100', 'hover:bg-[#1e293b]')}`}>
+              }} aria-label="Notifications" className={`relative p-2.5 min-h-[44px] min-w-[44px] rounded-lg ${b('hover:bg-gray-100', 'hover:bg-[#1e293b]')}`}>
                 <span className="text-lg">🔔</span>
                 {notifCount > 0 && (
                   <span className="absolute -top-0.5 -right-0.5 w-4 h-4 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center">

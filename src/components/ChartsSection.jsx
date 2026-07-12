@@ -53,8 +53,8 @@ function ChartsSection({ businessCategories, selectedCategory, pincodeData }) {
   const axisDark = { fontSize: 13, fontWeight: 700, fill: '#e2e8f0' };
   const axisLight = { fontSize: 13, fontWeight: 700, fill: '#1e293b' };
   const getAxis = () => isDarkMode ? axisDark : axisLight;
-  const xAxisDark = { fontSize: 13, fontWeight: 800, fill: '#e2e8f0' };
-  const xAxisLight = { fontSize: 13, fontWeight: 800, fill: '#1e293b' };
+  const xAxisDark = { fontSize: 11, fontWeight: 800, fill: '#e2e8f0' };
+  const xAxisLight = { fontSize: 11, fontWeight: 800, fill: '#1e293b' };
   const getXAxis = () => isDarkMode ? xAxisDark : xAxisLight;
 
   const labelDark = (text) => ({
@@ -81,7 +81,7 @@ function ChartsSection({ businessCategories, selectedCategory, pincodeData }) {
             <BarChart3 size={16} className="text-blue-600" />
             <span className={`text-sm sm:text-base font-extrabold ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>Demand vs Supply Analysis</span>
           </div>
-          <button onClick={() => toggleTable('dvs')} className={`p-1.5 rounded-lg text-xs font-bold transition-colors ${showTable.dvs ? 'bg-blue-600 text-white' : isDarkMode ? 'bg-[#0f172a] text-slate-400 hover:text-white' : 'bg-slate-100 text-slate-500 hover:text-slate-800'}`}>
+          <button onClick={() => toggleTable('dvs')} className={`p-2 min-h-[44px] min-w-[44px] rounded-lg text-xs font-bold transition-colors ${showTable.dvs ? 'bg-blue-600 text-white' : isDarkMode ? 'bg-[#0f172a] text-slate-400 hover:text-white' : 'bg-slate-100 text-slate-500 hover:text-slate-800'}`}>
             <Table2 size={14} />
           </button>
         </div>
@@ -114,7 +114,7 @@ function ChartsSection({ businessCategories, selectedCategory, pincodeData }) {
               <ResponsiveContainer width="100%" height={280} minHeight={200}>
                 <BarChart data={filteredCategories} barGap={2} barCategoryGap="18%" margin={{ top: 8, right: 15, left: 5, bottom: 5 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke={gridStroke} vertical={false} />
-                  <XAxis dataKey="name" tick={{ ...getXAxis(), fontSize: 11 }} axisLine={axisLine} tickLine={false} angle={-25} textAnchor="end" height={48} interval={0} />
+                  <XAxis dataKey="name" tick={{ ...getXAxis(), fontSize: 11 }} axisLine={axisLine} tickLine={false} angle={-45} textAnchor="end" height={48} interval={0} />
                   <YAxis tick={getAxis()} axisLine={axisLine} tickLine={false} label={labelDark('Score')} />
                   <Tooltip content={<ChartTooltip />} />
                   <Legend wrapperStyle={legendStyle} formatter={legendFormatter} />
@@ -137,7 +137,7 @@ function ChartsSection({ businessCategories, selectedCategory, pincodeData }) {
             <TrendingUp size={16} className="text-emerald-600" />
             <span className={`text-sm sm:text-base font-extrabold ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>Demand Forecasting</span>
           </div>
-          <button onClick={() => toggleTable('df')} className={`p-1.5 rounded-lg text-xs font-bold transition-colors ${showTable.df ? 'bg-blue-600 text-white' : isDarkMode ? 'bg-[#0f172a] text-slate-400 hover:text-white' : 'bg-slate-100 text-slate-500 hover:text-slate-800'}`}>
+          <button onClick={() => toggleTable('df')} className={`p-2 min-h-[44px] min-w-[44px] rounded-lg text-xs font-bold transition-colors ${showTable.df ? 'bg-blue-600 text-white' : isDarkMode ? 'bg-[#0f172a] text-slate-400 hover:text-white' : 'bg-slate-100 text-slate-500 hover:text-slate-800'}`}>
             <Table2 size={14} />
           </button>
         </div>
@@ -166,7 +166,7 @@ function ChartsSection({ businessCategories, selectedCategory, pincodeData }) {
               <ResponsiveContainer width="100%" height={280} minHeight={200}>
                 <LineChart data={forecastData} margin={{ top: 8, right: 15, left: 5, bottom: 5 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke={gridStroke} vertical={false} />
-                  <XAxis dataKey="name" tick={{ ...getXAxis(), fontSize: 11 }} axisLine={axisLine} tickLine={false} interval={0} angle={-30} textAnchor="end" height={44} />
+                  <XAxis dataKey="name" tick={{ ...getXAxis(), fontSize: 11 }} axisLine={axisLine} tickLine={false} interval={0} angle={-45} textAnchor="end" height={44} />
                   <YAxis tick={getAxis()} axisLine={axisLine} tickLine={false} label={labelDark('Demand Score')} />
                   <Tooltip content={<ChartTooltip />} />
                   <Legend wrapperStyle={legendStyle} formatter={legendFormatter} />
@@ -188,7 +188,7 @@ function ChartsSection({ businessCategories, selectedCategory, pincodeData }) {
             <Activity size={16} className="text-red-600" />
             <span className={`text-sm sm:text-base font-extrabold ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>Market Gap Score by Category</span>
           </div>
-          <button onClick={() => toggleTable('mgs')} className={`p-1.5 rounded-lg text-xs font-bold transition-colors ${showTable.mgs ? 'bg-blue-600 text-white' : isDarkMode ? 'bg-[#0f172a] text-slate-400 hover:text-white' : 'bg-slate-100 text-slate-500 hover:text-slate-800'}`}>
+          <button onClick={() => toggleTable('mgs')} className={`p-2 min-h-[44px] min-w-[44px] rounded-lg text-xs font-bold transition-colors ${showTable.mgs ? 'bg-blue-600 text-white' : isDarkMode ? 'bg-[#0f172a] text-slate-400 hover:text-white' : 'bg-slate-100 text-slate-500 hover:text-slate-800'}`}>
             <Table2 size={14} />
           </button>
         </div>
@@ -217,7 +217,7 @@ function ChartsSection({ businessCategories, selectedCategory, pincodeData }) {
               <ResponsiveContainer width="100%" height={280} minHeight={200}>
                 <BarChart data={gapChartData} barCategoryGap="22%" margin={{ top: 8, right: 15, left: 5, bottom: 5 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke={gridStroke} vertical={false} />
-                  <XAxis dataKey="name" tick={{ ...getXAxis(), fontSize: 11 }} axisLine={axisLine} tickLine={false} angle={-35} textAnchor="end" height={54} interval={0} />
+                  <XAxis dataKey="name" tick={{ ...getXAxis(), fontSize: 11 }} axisLine={axisLine} tickLine={false} angle={-45} textAnchor="end" height={54} interval={0} />
                   <YAxis tick={getAxis()} axisLine={axisLine} tickLine={false} label={labelDark('Avg Score')} />
                   <Tooltip content={<ChartTooltip />} />
                   <Legend wrapperStyle={legendStyle} formatter={legendFormatter} />
@@ -242,7 +242,7 @@ function ChartsSection({ businessCategories, selectedCategory, pincodeData }) {
             <PieIcon size={16} className="text-violet-600" />
             <span className={`text-sm sm:text-base font-extrabold ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>Category Gap Share</span>
           </div>
-          <button onClick={() => toggleTable('cgs')} className={`p-1.5 rounded-lg text-xs font-bold transition-colors ${showTable.cgs ? 'bg-blue-600 text-white' : isDarkMode ? 'bg-[#0f172a] text-slate-400 hover:text-white' : 'bg-slate-100 text-slate-500 hover:text-slate-800'}`}>
+          <button onClick={() => toggleTable('cgs')} className={`p-2 min-h-[44px] min-w-[44px] rounded-lg text-xs font-bold transition-colors ${showTable.cgs ? 'bg-blue-600 text-white' : isDarkMode ? 'bg-[#0f172a] text-slate-400 hover:text-white' : 'bg-slate-100 text-slate-500 hover:text-slate-800'}`}>
             <Table2 size={14} />
           </button>
         </div>

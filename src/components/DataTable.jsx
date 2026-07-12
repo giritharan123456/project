@@ -184,37 +184,37 @@ function DataTable({ pincodeData, onAreaClick, onCompare, compareList, favorites
                           </h5>
                           <div className="grid grid-cols-2 gap-1.5">
                             <div className={`p-1.5 rounded-lg ${isDarkMode ? 'bg-[#0f172a]' : 'bg-slate-50'}`}>
-                              <span className={`text-[9px] font-bold block ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>Income</span>
+                              <span className={`text-[10px] font-bold block ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>Income</span>
                               <span className={`text-[10px] font-extrabold ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>{row.incomeLevel || 'N/A'}</span>
                             </div>
                             <div className={`p-1.5 rounded-lg ${isDarkMode ? 'bg-[#0f172a]' : 'bg-slate-50'}`}>
-                              <span className={`text-[9px] font-bold block ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>Opportunity</span>
+                              <span className={`text-[10px] font-bold block ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>Opportunity</span>
                               <span className={`text-[10px] font-extrabold ${row._avgGap >= 65 ? 'text-red-500' : row._avgGap >= 50 ? 'text-amber-500' : 'text-emerald-500'}`}>
                                 {(row._avgGap ?? 0).toFixed(1)}
                               </span>
                             </div>
                             <div className={`p-1.5 rounded-lg ${isDarkMode ? 'bg-[#0f172a]' : 'bg-slate-50'}`}>
-                              <span className={`text-[9px] font-bold block ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>Growth</span>
+                              <span className={`text-[10px] font-bold block ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>Growth</span>
                               <span className={`text-[10px] font-extrabold ${(row.populationGrowth || 0) >= 1 ? 'text-emerald-500' : (row.populationGrowth || 0) >= 0 ? 'text-amber-500' : 'text-red-500'}`}>
                                 {(row.populationGrowth || 0) >= 0 ? '+' : ''}{(row.populationGrowth || 0).toFixed(2)}%
                               </span>
                             </div>
                             <div className={`p-1.5 rounded-lg ${isDarkMode ? 'bg-[#0f172a]' : 'bg-slate-50'}`}>
-                              <span className={`text-[9px] font-bold block ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>Demand</span>
+                              <span className={`text-[10px] font-bold block ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>Demand</span>
                               <span className={`text-[10px] font-extrabold ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>{row._avgDemand.toFixed(1)}</span>
                             </div>
                             <div className={`p-1.5 rounded-lg ${isDarkMode ? 'bg-[#0f172a]' : 'bg-slate-50'}`}>
-                              <span className={`text-[9px] font-bold block ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>Population</span>
+                              <span className={`text-[10px] font-bold block ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>Population</span>
                               <span className={`text-[10px] font-extrabold ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>{(row.population || 0).toLocaleString()}</span>
                             </div>
                             <div className={`p-1.5 rounded-lg ${isDarkMode ? 'bg-[#0f172a]' : 'bg-slate-50'}`}>
-                              <span className={`text-[9px] font-bold block ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>Competitors</span>
+                              <span className={`text-[10px] font-bold block ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>Competitors</span>
                               <span className={`text-[10px] font-extrabold ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>{row._totalComps}</span>
                             </div>
                           </div>
                           {topCategory && (
                             <div className={`mt-2 pt-2 border-t ${isDarkMode ? 'border-[#334155]' : 'border-slate-200'}`}>
-                              <span className={`text-[9px] font-bold ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>Top Category: </span>
+                              <span className={`text-[10px] font-bold ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>Top Category: </span>
                               <span className={`text-[10px] font-extrabold ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>{topCategory}</span>
                             </div>
                           )}

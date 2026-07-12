@@ -193,7 +193,7 @@ function BusinessInsights({ pincodeData }) {
               </ResponsiveContainer>
             </div>
 
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-2 gap-2 sm:gap-3">
               {competitionData.slice(0, 4).map((area, i) => (
                 <div key={i} className={`p-3 rounded-xl border ${isDarkMode ? 'bg-[#0f172a] border-[#334155]' : 'bg-white border-[#e2e8f0]'}`}>
                   <h5 className={`text-sm font-bold mb-2 ${b('text-white', 'text-slate-800')}`}>{area.area}</h5>

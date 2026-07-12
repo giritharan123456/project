@@ -101,7 +101,7 @@ function CategoryExplorer() {
                         <div className={`${getBarColor(cat.avgGap)}`} style={{ width: `${cat.avgGap}%` }} title={`Gap: ${Number(cat.avgGap).toFixed(2)}`} />
                         <div className="bg-blue-500" style={{ width: `${Math.max(0, cat.avgDemand - cat.avgGap)}%` }} title={`Demand: ${Number(cat.avgDemand).toFixed(2)}`} />
                       </div>
-                      <div className="flex justify-between text-[9px] sm:text-[10px] mt-1">
+                      <div className="flex justify-between text-[10px] sm:text-[10px] mt-1">
                         <span className="text-green-600">Gap</span>
                         <span className="text-blue-600">Demand</span>
                       </div>
@@ -109,7 +109,7 @@ function CategoryExplorer() {
                   </div>
                   {cat.bestArea && (
                     <div className={`lg:w-48 p-3 rounded-lg ${b('bg-gray-50', 'bg-[#0f172a]')}`}>
-                      <p className={`text-[9px] sm:text-[10px] font-semibold uppercase tracking-wider ${b('text-gray-500', 'text-gray-400')} mb-1`}>Best Location</p>
+                      <p className={`text-[10px] sm:text-[10px] font-semibold uppercase tracking-wider ${b('text-gray-500', 'text-gray-400')} mb-1`}>Best Location</p>
                       <p className={`font-semibold text-sm ${b('text-gray-900', 'text-white')}`}>{cat.bestArea.name}</p>
                       <p className={`text-[10px] sm:text-xs ${b('text-gray-500', 'text-gray-400')}`}>{cat.bestArea.pincode} · {cat.bestArea.district}</p>
                       <p className="text-[10px] sm:text-xs font-bold text-green-500">Gap: {Number(cat.bestArea.gap).toFixed(2)}</p>

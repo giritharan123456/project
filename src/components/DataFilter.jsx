@@ -48,7 +48,7 @@ function DataFilter({ pincodeData, filters, onFiltersChange, onClear, resultCoun
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className={`flex items-center gap-2 px-4 py-2 sm:px-5 sm:py-3 rounded-xl text-xs sm:text-sm font-extrabold transition-all duration-200 border-2 shadow-lg ${
+        className={`flex items-center gap-2 px-4 py-2.5 sm:px-5 sm:py-3 rounded-xl text-xs sm:text-sm font-extrabold transition-all duration-200 border-2 shadow-lg ${
           hasActiveFilters
             ? 'bg-gradient-to-r from-blue-600 to-violet-600 text-white border-blue-500 shadow-blue-500/25'
             : isDarkMode
@@ -155,7 +155,7 @@ function DataFilter({ pincodeData, filters, onFiltersChange, onClear, resultCoun
                     const isActive = JSON.stringify(filters) === JSON.stringify(qf.filter);
                     return (
                       <button key={qf.label} onClick={() => isActive ? clearAll() : onFiltersChange(qf.filter)}
-                        className={`px-3 py-1.5 rounded-lg text-xs font-bold border-2 transition-all ${
+                        className={`px-3 py-2 min-h-[40px] rounded-lg text-xs font-bold border-2 transition-all ${
                           isActive
                             ? isDarkMode ? 'bg-blue-900/40 border-blue-500 text-blue-300' : 'bg-blue-50 border-blue-400 text-blue-700'
                             : isDarkMode ? 'bg-[#0f172a] border-[#334155] text-slate-300 hover:border-blue-400' : 'bg-slate-50 border-slate-200 text-slate-600 hover:border-blue-400'

@@ -197,7 +197,7 @@ function EnhancedExport({ data, selectedDistrict, businessCategories }) {
       <div className="space-y-6 mb-6">
         <div>
           <h4 className={`text-base font-semibold mb-3 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Export Summary</h4>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-4">
             <div className={`p-3 rounded-lg border ${isDarkMode ? 'bg-[#0f172a] border-[#334155]' : 'bg-[#f8fafc] border-[#e2e8f0]'}`}>
               <span className={`block text-xs opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>District</span>
               <span className={`block font-semibold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{districtName}</span>
@@ -220,7 +220,7 @@ function EnhancedExport({ data, selectedDistrict, businessCategories }) {
 
       <div className="flex gap-3">
         <button 
-          className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white border-none rounded-xl font-semibold cursor-pointer transition-all duration-300 shadow-[0_4px_15px_rgba(102,126,234,0.3)] hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(102,126,234,0.4)] active:translate-y-0 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="flex-1 flex items-center justify-center gap-2 px-4 sm:px-6 py-3 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white border-none rounded-xl font-semibold cursor-pointer transition-all duration-300 shadow-[0_4px_15px_rgba(102,126,234,0.3)] hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(102,126,234,0.4)] active:translate-y-0 disabled:opacity-50 disabled:cursor-not-allowed"
           onClick={handleExport}
           disabled={isExporting || !data || data.length === 0}
         >
@@ -228,7 +228,7 @@ function EnhancedExport({ data, selectedDistrict, businessCategories }) {
           {isExporting ? 'Exporting...' : 'Export PDF'}
         </button>
         <button 
-          className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-green-600 text-white border-none rounded-xl font-semibold cursor-pointer transition-all duration-300 hover:bg-green-700 active:translate-y-0 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="flex-1 flex items-center justify-center gap-2 px-4 sm:px-6 py-3 bg-green-600 text-white border-none rounded-xl font-semibold cursor-pointer transition-all duration-300 hover:bg-green-700 active:translate-y-0 disabled:opacity-50 disabled:cursor-not-allowed"
           onClick={exportCSV}
           disabled={!data || data.length === 0}
         >

@@ -25,7 +25,7 @@ function Pagination({ page, totalPages, onPageChange, isDarkMode }) {
         </button>
         {getPages().map((p, i) => (
           <button key={i} onClick={() => typeof p === 'number' && onPageChange(p)}
-            className={`w-10 h-10 rounded-lg text-sm font-medium transition-colors ${p === page ? 'bg-[#2563eb] text-white' : b('text-gray-700 hover:bg-gray-100', 'text-gray-300 hover:bg-[#1e293b]')} ${typeof p !== 'number' ? 'cursor-default' : ''}`}>
+            className={`min-h-[44px] min-w-[44px] w-10 h-10 rounded-lg text-sm font-medium transition-colors ${p === page ? 'bg-[#2563eb] text-white' : b('text-gray-700 hover:bg-gray-100', 'text-gray-300 hover:bg-[#1e293b]')} ${typeof p !== 'number' ? 'cursor-default' : ''}`}>
             {p}
           </button>
         ))}

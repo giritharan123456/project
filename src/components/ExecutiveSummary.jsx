@@ -191,7 +191,7 @@ function ExecutiveSummary({ pincodeData }) {
                 }`}>
                   <ArrowRight size={10} style={{ color: action.color === 'blue' ? '#3b82f6' : action.color === 'emerald' ? '#10b981' : '#8b5cf6' }} />
                   <span>{action.action}</span>
-                  <span className={`text-[10px] font-medium ${b('text-slate-500', 'text-slate-400')}`}>{action.detail}</span>
+                  <span className={`text-[10px] sm:text-[11px] font-medium ${b('text-slate-500', 'text-slate-400')}`}>{action.detail}</span>
                 </div>
               ))}
             </div>

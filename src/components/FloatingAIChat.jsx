@@ -65,7 +65,7 @@ const FloatingAIChat = () => {
         whileTap={{ scale: 0.9 }}
         onClick={() => setIsOpen(true)}
         aria-label="Open AI Chat"
-        className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 p-3.5 rounded-full shadow-lg z-50 bg-gradient-to-r from-blue-600 to-violet-600 text-white"
+        className="fixed bottom-20 right-4 sm:bottom-6 sm:right-6 p-3.5 rounded-full shadow-lg z-50 bg-gradient-to-r from-blue-600 to-violet-600 text-white"
       >
         <MessageCircle size={22} />
       </motion.button>
@@ -79,7 +79,7 @@ const FloatingAIChat = () => {
             className={`fixed bottom-16 right-4 sm:bottom-20 sm:right-6 w-[calc(100vw-2rem)] sm:w-80 rounded-2xl shadow-2xl z-50 flex flex-col overflow-hidden border ${
               isDarkMode ? 'bg-[#1e293b] border-[#475569]' : 'bg-white border-slate-200'
             }`}
-            style={{ maxHeight: 'calc(100vh - 120px)' }}
+            style={{ maxHeight: 'calc(100dvh - 140px)' }}
           >
             {/* Header */}
             <div className={`px-4 py-3 flex items-center justify-between border-b ${isDarkMode ? 'border-[#475569]' : 'border-slate-200'}`}>
@@ -98,7 +98,7 @@ const FloatingAIChat = () => {
             </div>
 
             {/* Messages */}
-            <div className="flex-1 overflow-y-auto p-3 space-y-2.5" style={{ maxHeight: '320px' }}>
+            <div className="flex-1 overflow-y-auto p-3 space-y-2.5" style={{ maxHeight: 'min(320px, 60vh)' }}>
               {messages.map((msg) => (
                 <div key={msg.id} className={`flex ${msg.isBot ? 'justify-start' : 'justify-end'}`}>
                   <div className={`flex items-start gap-1.5 max-w-[85%] ${msg.isBot ? '' : 'flex-row-reverse'}`}>
@@ -130,7 +130,7 @@ const FloatingAIChat = () => {
               <div className="px-3 pb-2 flex flex-wrap gap-1.5">
                 {suggestions.map(s => (
                   <button key={s} onClick={() => { setMessage(s); }}
-                    className={`px-2.5 py-1.5 rounded-lg text-[10px] font-bold transition-colors ${
+                    className={`px-2.5 py-1.5 rounded-lg text-[10px] sm:text-[11px] font-bold transition-colors ${
                       isDarkMode ? 'bg-[#0f172a] text-slate-400 hover:text-white' : 'bg-slate-100 text-slate-500 hover:text-slate-800'
                     }`}>
                     {s}

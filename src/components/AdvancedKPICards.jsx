@@ -103,7 +103,7 @@ function AdvancedKPICards({ data, selectedDistrict }) {
               <span className="text-xl">{kpi.icon}</span>
             </div>
             
-            <p className={`text-[10px] font-bold mb-0.5 uppercase tracking-wide ${b('text-slate-400', 'text-slate-500')}`}>{kpi.title}</p>
+            <p className={`text-[10px] sm:text-[11px] font-bold mb-0.5 uppercase tracking-wide ${b('text-slate-400', 'text-slate-500')}`}>{kpi.title}</p>
             <p className={`text-lg font-extrabold ${b('text-[#f1f5f9]', 'text-[#1e293b]')}`}>
               {formatValue(kpi.value, kpi.format)}
             </p>

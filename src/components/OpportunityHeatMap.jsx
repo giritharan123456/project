@@ -144,7 +144,7 @@ function OpportunityHeatMap({ pincodeData }) {
 
       {hoveredPincode && (
         <motion.div
-          className={`fixed bottom-4 right-4 p-4 rounded-xl border shadow-lg max-w-xs ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
+          className={`fixed bottom-4 left-4 right-4 sm:left-auto sm:right-4 sm:w-auto p-4 rounded-xl border shadow-lg max-w-xs ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-[#ffffff] border-[#e2e8f0]'}`}
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.2 }}
@@ -196,7 +196,7 @@ function OpportunityHeatMap({ pincodeData }) {
         </motion.div>
       )}
 
-      <div className="flex flex-wrap gap-6 mt-6 pt-4 border-t">
+      <div className="flex flex-wrap gap-4 sm:gap-6 mt-4 sm:mt-6 pt-3 sm:pt-4 border-t">
         <div>
           <span className={`text-xs opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Total Areas</span>
           <div className={`text-lg font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>{heatmapData.length}</div>

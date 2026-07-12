@@ -276,7 +276,7 @@ function PincodeExplorer() {
                     <p className={`text-xs font-semibold ${b('text-gray-700', 'text-gray-300')}`}>{biz.category}</p>
                     <p className={`text-[10px] ${b('text-gray-400', 'text-gray-500')}`}>{biz.businessCount} shops · {formatCurrency(biz.minInvestment)}-{formatCurrency(biz.maxInvestment)}</p>
                   </div>
-                  <span className={`px-1.5 py-0.5 rounded text-[9px] font-bold border ${getStatusBadge(biz.status)}`}>
+                  <span className={`px-1.5 py-0.5 rounded text-[10px] font-bold border ${getStatusBadge(biz.status)}`}>
                     {biz.status}
                   </span>
                 </div>
@@ -317,33 +317,33 @@ function PincodeExplorer() {
                   </div>
                   <div className="text-right">
                     <p className={`text-lg font-bold ${getScoreColor(area.opportunityScore)}`}>{area.opportunityScore?.toFixed(0)}</p>
-                    <p className={`text-[9px] uppercase ${b('text-gray-400', 'text-gray-500')}`}>Opportunity</p>
+                    <p className={`text-[10px] uppercase ${b('text-gray-400', 'text-gray-500')}`}>Opportunity</p>
                   </div>
                 </div>
 
                 <div className="grid grid-cols-3 gap-2 mb-3">
                   <div className={`text-center p-1.5 rounded-lg ${b('bg-gray-50', 'bg-[#0f172a]')}`}>
                     <p className={`text-xs font-bold ${b('text-gray-900', 'text-white')}`}>{area.population?.toLocaleString()}</p>
-                    <p className={`text-[9px] ${b('text-gray-400', 'text-gray-500')}`}>Population</p>
+                    <p className={`text-[10px] ${b('text-gray-400', 'text-gray-500')}`}>Population</p>
                   </div>
                   <div className={`text-center p-1.5 rounded-lg ${b('bg-gray-50', 'bg-[#0f172a]')}`}>
                     <p className={`text-xs font-bold ${b('text-gray-900', 'text-white')}`}>{area.totalBusinesses}</p>
-                    <p className={`text-[9px] ${b('text-gray-400', 'text-gray-500')}`}>Shops</p>
+                    <p className={`text-[10px] ${b('text-gray-400', 'text-gray-500')}`}>Shops</p>
                   </div>
                   <div className={`text-center p-1.5 rounded-lg ${b('bg-gray-50', 'bg-[#0f172a]')}`}>
                     <p className={`text-xs font-bold ${b('text-gray-900', 'text-white')}`}>{area.highOpportunityCount}</p>
-                    <p className={`text-[9px] ${b('text-gray-400', 'text-gray-500')}`}>High Opp.</p>
+                    <p className={`text-[10px] ${b('text-gray-400', 'text-gray-500')}`}>High Opp.</p>
                   </div>
                 </div>
 
                 <div className="flex flex-wrap gap-1">
-                  <span className={`px-1.5 py-0.5 rounded text-[9px] font-medium ${b('bg-gray-100 text-gray-600', 'bg-[#0f172a] text-gray-400')}`}>
+                  <span className={`px-1.5 py-0.5 rounded text-[10px] font-medium ${b('bg-gray-100 text-gray-600', 'bg-[#0f172a] text-gray-400')}`}>
                     {area.incomeLevel} Income
                   </span>
-                  <span className={`px-1.5 py-0.5 rounded text-[9px] font-medium ${b('bg-gray-100 text-gray-600', 'bg-[#0f172a] text-gray-400')}`}>
+                  <span className={`px-1.5 py-0.5 rounded text-[10px] font-medium ${b('bg-gray-100 text-gray-600', 'bg-[#0f172a] text-gray-400')}`}>
                     {area.trafficLevel} Traffic
                   </span>
-                  <span className={`px-1.5 py-0.5 rounded text-[9px] font-medium ${b('bg-gray-100 text-gray-600', 'bg-[#0f172a] text-gray-400')}`}>
+                  <span className={`px-1.5 py-0.5 rounded text-[10px] font-medium ${b('bg-gray-100 text-gray-600', 'bg-[#0f172a] text-gray-400')}`}>
                     +{area.populationGrowth}% Growth
                   </span>
                 </div>

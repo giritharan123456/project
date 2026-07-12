@@ -131,7 +131,7 @@ export default function SearchResultCard({ area, loading, error, onClose }) {
               Population
             </span>
           </div>
-          <p className={`text-xl font-extrabold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+          <p className={`text-base sm:text-xl font-extrabold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
             {area.population != null ? Number(area.population).toLocaleString() : 'N/A'}
           </p>
           {area.populationGrowth != null && (
@@ -150,7 +150,7 @@ export default function SearchResultCard({ area, loading, error, onClose }) {
             </span>
           </div>
           <div className="flex items-center gap-2">
-            <p className={`text-xl font-extrabold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+            <p className={`text-base sm:text-xl font-extrabold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
               {avgGap.toFixed(2)}
             </p>
             <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full border ${opp.bg} ${opp.text} ${opp.border}`}>
@@ -167,7 +167,7 @@ export default function SearchResultCard({ area, loading, error, onClose }) {
               Avg Demand
             </span>
           </div>
-          <p className={`text-xl font-extrabold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+          <p className={`text-base sm:text-xl font-extrabold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
             {avgDemand.toFixed(2)}
           </p>
         </div>
@@ -180,7 +180,7 @@ export default function SearchResultCard({ area, loading, error, onClose }) {
               Competitors
             </span>
           </div>
-          <p className={`text-xl font-extrabold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+          <p className={`text-base sm:text-xl font-extrabold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
             {totalCompetitors}
           </p>
         </div>
@@ -212,7 +212,7 @@ export default function SearchResultCard({ area, loading, error, onClose }) {
       )}
 
       {/* Location + Income */}
-      <div className={`px-4 py-2 border-t flex items-center gap-4 text-[11px] font-semibold ${
+      <div className={`px-4 py-2 border-t flex items-center gap-2 sm:gap-4 text-[11px] font-semibold ${
         isDarkMode ? 'border-[#334155] text-slate-500' : 'border-slate-100 text-slate-400'
       }`}>
         {area.incomeLevel && (

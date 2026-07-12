@@ -155,7 +155,7 @@ export default function HeroBanner({ pincodeData, selectedDistrict }) {
                   <kpi.icon size={12} className="text-white" />
                 </div>
                 {kpi.trend && (
-                  <div className={`flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-[9px] font-bold ${kpi.trend.bg} ${kpi.trend.color}`}>
+                  <div className={`flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-[10px] font-bold ${kpi.trend.bg} ${kpi.trend.color}`}>
                     <kpi.trend.icon size={10} />
                     {kpi.trend.label}
                   </div>

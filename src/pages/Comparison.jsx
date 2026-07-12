@@ -278,7 +278,7 @@ function Comparison() {
             <table className="w-full border-collapse min-w-[320px] sm:min-w-[500px]">
               <thead>
                 <tr className={isDarkMode ? 'bg-[#0f172a]' : 'bg-slate-100'}>
-                  <th className={`text-left p-1.5 sm:p-3 text-[9px] sm:text-[10px] font-extrabold uppercase tracking-wider ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>Metric</th>
+                  <th className={`text-left p-1.5 sm:p-3 text-[10px] sm:text-[10px] font-extrabold uppercase tracking-wider ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>Metric</th>
                   {selectedAreas.map(area => (
                     <th key={area.id} className={`text-center p-2 sm:p-3 text-[10px] font-extrabold uppercase tracking-wider ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
                       <div className="flex items-center justify-center gap-1">

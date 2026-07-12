@@ -134,7 +134,7 @@ function MapSection({ pincodeData, selectedDistrict }) {
                 }}
               >
                 <Popup>
-                  <div style={{ padding: '16px', minWidth: '280px', background: isDarkMode ? '#1e293b' : '#ffffff', color: isDarkMode ? '#f1f5f9' : '#1e293b' }}>
+                    <div style={{ padding: '16px', minWidth: 'min(280px, 85vw)', background: isDarkMode ? '#1e293b' : '#ffffff', color: isDarkMode ? '#f1f5f9' : '#1e293b' }}>
                     <h4 style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '8px' }}>{pincode.area} ({pincode.pincode})</h4>
                     <p style={{ fontSize: '14px', marginBottom: '4px' }}><strong>District:</strong> {pincode.district}</p>
                     <p style={{ fontSize: '14px', marginBottom: '4px' }}><strong>Population:</strong> {pincode.population != null ? Number(pincode.population).toLocaleString() : 'N/A'}</p>

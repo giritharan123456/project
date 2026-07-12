@@ -41,7 +41,7 @@ const HelpGuide = () => {
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
         onClick={() => setIsOpen(true)}
-        className={`fixed bottom-24 right-8 p-3 rounded-full shadow-lg z-40 transition-all bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white`}
+        className={`fixed bottom-24 right-4 md:right-8 p-3 rounded-full shadow-lg z-40 transition-all bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white`}
         aria-label="Help"
       >
         <HelpCircle size={20} />
@@ -61,10 +61,10 @@ const HelpGuide = () => {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
               onClick={(e) => e.stopPropagation()}
-              className={`w-full max-w-2xl rounded-2xl shadow-2xl p-6 ${isDarkMode ? 'bg-[#1e293b]' : 'bg-[#ffffff]'}`}
+              className={`w-full max-w-2xl rounded-2xl shadow-2xl p-4 sm:p-6 ${isDarkMode ? 'bg-[#1e293b]' : 'bg-[#ffffff]'}`}
             >
               <div className="flex justify-between items-center mb-6">
-                <h2 className={`text-2xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
+                <h2 className={`text-xl sm:text-2xl font-bold ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>
                   How to Use MarketVision AI
                 </h2>
                 <button
