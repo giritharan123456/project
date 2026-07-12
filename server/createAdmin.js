@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
 const dotenv = require('dotenv');
+const User = require('./models/User');
 const logger = require('./utils/logger');
 
 dotenv.config();
@@ -15,26 +15,19 @@ const createAdmin = async () => {
       logger.error('Usage: node createAdmin.js <password> or set ADMIN_PASSWORD env var');
       process.exit(1);
     }
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(adminPassword, salt);
 
-    const db = mongoose.connection.db;
-    const usersCollection = db.collection('users');
-
-    const existingAdmin = await usersCollection.findOne({ email: 'admin@marketgap.com' });
+    const existingAdmin = await User.findOne({ email: 'admin@marketgap.com' }).lean();
     if (existingAdmin) {
       logger.info('Admin user already exists');
       process.exit(0);
     }
 
-    const result = await usersCollection.insertOne({
+    await User.create({
       name: 'Admin User',
       email: 'admin@marketgap.com',
-      password: hashedPassword,
+      password: adminPassword,
       role: 'admin',
       isGuest: false,
-      createdAt: new Date(),
-      updatedAt: new Date(),
       savedComparisons: [],
       recentSearches: [],
       favoriteAreas: []

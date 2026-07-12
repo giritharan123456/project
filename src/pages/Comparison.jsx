@@ -87,7 +87,7 @@ function Comparison() {
     };
 
     fetchAreas();
-  }, [selectedPincode, districtName]);
+  }, [selectedPincode, selectedDistrict]);
 
   const addArea = (area) => {
     if (selectedAreas.length < 4 && !selectedAreas.find(a => a.id === area.id)) {

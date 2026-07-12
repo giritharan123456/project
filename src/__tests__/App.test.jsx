@@ -22,4 +22,14 @@ describe('App', () => {
     const root = container.querySelector('.min-h-screen');
     expect(root).toBeInTheDocument();
   });
+
+  test('renders landing page content', () => {
+    render(
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    );
+    const text = screen.getByText(/MarketVision/i);
+    expect(text).toBeInTheDocument();
+  });
 });

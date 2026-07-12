@@ -13,6 +13,8 @@ const AreaManagement = () => {
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [editingArea, setEditingArea] = useState(null);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [deleteTargetId, setDeleteTargetId] = useState(null);
   const [formData, setFormData] = useState({
     pincode: '',
     name: '',
@@ -83,14 +85,20 @@ const AreaManagement = () => {
     setShowModal(true);
   };
 
-  const handleDelete = async (id) => {
-    if (window.confirm('Are you sure you want to delete this area?')) {
-      try {
-        await adminAPI.deleteArea(id);
-        fetchData();
-      } catch (error) {
-        toastError('Error deleting area');
-      }
+  const handleDelete = (id) => {
+    setDeleteTargetId(id);
+    setShowDeleteConfirm(true);
+  };
+
+  const confirmDelete = async () => {
+    setShowDeleteConfirm(false);
+    try {
+      await adminAPI.deleteArea(deleteTargetId);
+      fetchData();
+    } catch (error) {
+      toastError('Error deleting area');
+    } finally {
+      setDeleteTargetId(null);
     }
   };
 
@@ -330,6 +338,29 @@ const AreaManagement = () => {
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {showDeleteConfirm && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white dark:bg-[#1e293b] rounded-lg shadow-xl max-w-sm w-full mx-4 p-6">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">Delete Area</h3>
+            <p className="text-gray-600 dark:text-gray-400 mb-6">Are you sure you want to delete this area? This action cannot be undone.</p>
+            <div className="flex justify-end space-x-3">
+              <button
+                onClick={() => { setShowDeleteConfirm(false); setDeleteTargetId(null); }}
+                className="px-4 py-2 text-gray-700 dark:text-gray-300 bg-gray-200 dark:bg-gray-600 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-500 transition"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={confirmDelete}
+                className="px-4 py-2 text-white bg-red-600 rounded-lg hover:bg-red-700 transition"
+              >
+                Delete
+              </button>
+            </div>
           </div>
         </div>
       )}

@@ -160,7 +160,7 @@ const getAreasByDistrict = async (req, res) => {
 const createArea = async (req, res) => {
   try {
     const { name, pincode, population, populationGrowth, incomeLevel, coordinates, urbanDevelopment, searchTrends, competitors, demandScores, marketGapScores, district, literacyRate, trafficLevel, landmarks, ageDistribution, residentialVsCommercial } = req.body;
-    if (!name || !pincode || !district) {
+    if (!name || !name.trim() || !pincode || !district) {
       return res.status(400).json({ success: false, message: 'Name, pincode, and district are required' });
     }
     const area = new Area({

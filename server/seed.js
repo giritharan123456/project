@@ -248,15 +248,16 @@ const seedDatabase = async () => {
         continue;
       }
       const areaDocs = generateAreasForDistrict(config, districtId);
-      const areas = [];
-      for (const d of areaDocs) {
+      const preparedAreas = areaDocs.map(d => {
         const area = new Area(d);
         calculateScores(area);
-        await area.save();
-        areas.push(area);
-      }
-      totalAreas += areas.length;
-      logger.info(`  ${config.name}: ${areas.length} areas`);
+        const obj = area.toObject();
+        delete obj._id;
+        return obj;
+      });
+      await Area.insertMany(preparedAreas);
+      totalAreas += preparedAreas.length;
+      logger.info(`  ${config.name}: ${preparedAreas.length} areas`);
     }
 
     logger.info(`Inserted ${totalAreas} areas with calculated scores`);

@@ -2,6 +2,9 @@
   "name": "marketvision-ai",
   "version": "1.0.0",
   "description": "MarketVision AI - MERN Stack Project",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",

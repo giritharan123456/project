@@ -25,6 +25,7 @@ function PincodeExplorer() {
   const [total, setTotal] = useState(0);
   const searchRef = useRef(null);
   const suggestTimerRef = useRef(null);
+  const abortControllerRef = useRef(null);
 
   const b = (light, dark) => isDarkMode ? dark : light;
 
@@ -38,6 +39,7 @@ function PincodeExplorer() {
     return () => {
       document.removeEventListener('mousedown', handler);
       if (suggestTimerRef.current) clearTimeout(suggestTimerRef.current);
+      if (abortControllerRef.current) abortControllerRef.current.abort();
     };
   }, []);
 
@@ -66,6 +68,8 @@ function PincodeExplorer() {
   };
 
   const loadShops = async () => {
+    if (abortControllerRef.current) abortControllerRef.current.abort();
+    abortControllerRef.current = new AbortController();
     setLoading(true);
     try {
       const params = { page, limit: 20, sortBy };
@@ -80,7 +84,9 @@ function PincodeExplorer() {
         setTotalPages(res.totalPages || 1);
         setTotal(res.total || 0);
       }
-    } catch { toastError('Failed to load shop data'); } finally { setLoading(false); }
+    } catch (err) {
+      if (err?.name !== 'AbortError') toastError('Failed to load shop data');
+    } finally { setLoading(false); }
   };
 
   const searchByPincode = async () => {

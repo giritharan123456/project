@@ -90,16 +90,16 @@ function CategoryExplorer() {
                     </div>
                     <p className={`text-[10px] sm:text-xs ${b('text-gray-500', 'text-gray-400')} mb-3`}>{cat.description}</p>
                     <div className="grid grid-cols-2 gap-2 sm:gap-3 text-[10px] sm:text-xs">
-                      <div><span className={b('text-gray-500', 'text-gray-400')}>Avg Gap: </span><span className={`font-semibold ${getScoreColor(cat.avgGap)}`}>{Number(cat.avgGap).toFixed(2)}</span></div>
-                      <div><span className={b('text-gray-500', 'text-gray-400')}>Avg Demand: </span><span className={`font-semibold ${getScoreColor(cat.avgDemand)}`}>{Number(cat.avgDemand).toFixed(2)}</span></div>
+                      <div><span className={b('text-gray-500', 'text-gray-400')}>Avg Gap: </span><span className={`font-semibold ${getScoreColor(cat.avgGap || 0)}`}>{Number(cat.avgGap || 0).toFixed(2)}</span></div>
+                      <div><span className={b('text-gray-500', 'text-gray-400')}>Avg Demand: </span><span className={`font-semibold ${getScoreColor(cat.avgDemand || 0)}`}>{Number(cat.avgDemand || 0).toFixed(2)}</span></div>
                       <div><span className={b('text-gray-500', 'text-gray-400')}>Areas: </span><span className="font-semibold">{cat.areaCount}</span></div>
                       <div><span className={b('text-gray-500', 'text-gray-400')}>Investment: </span><span className="font-semibold">₹{((cat.minInvestment || 0) / 100000).toFixed(2)}L - ₹{((cat.maxInvestment || 0) / 100000).toFixed(2)}L</span></div>
                     </div>
                     {/* Bar */}
                     <div className="mt-3">
                       <div className={`flex gap-1 h-2 rounded-full overflow-hidden ${isDarkMode ? 'bg-gray-700' : 'bg-gray-200'}`}>
-                        <div className={`${getBarColor(cat.avgGap)}`} style={{ width: `${cat.avgGap}%` }} title={`Gap: ${Number(cat.avgGap).toFixed(2)}`} />
-                        <div className="bg-blue-500" style={{ width: `${Math.max(0, cat.avgDemand - cat.avgGap)}%` }} title={`Demand: ${Number(cat.avgDemand).toFixed(2)}`} />
+                        <div className={`${getBarColor(cat.avgGap || 0)}`} style={{ width: `${Math.min(100, cat.avgGap || 0)}%` }} title={`Gap: ${Number(cat.avgGap || 0).toFixed(2)}`} />
+                        <div className="bg-blue-500" style={{ width: `${Math.max(0, (cat.avgDemand || 0) - (cat.avgGap || 0))}%` }} title={`Demand: ${Number(cat.avgDemand || 0).toFixed(2)}`} />
                       </div>
                       <div className="flex justify-between text-[10px] sm:text-[10px] mt-1">
                         <span className="text-green-600">Gap</span>

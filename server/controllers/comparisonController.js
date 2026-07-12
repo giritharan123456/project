@@ -17,6 +17,12 @@ const compareAreas = async (req, res) => {
       });
     }
 
+    const uniqueIds = [...new Set(areaIds)];
+    if (uniqueIds.length !== areaIds.length) {
+      return res.status(400).json({ success: false, message: 'Duplicate area IDs are not allowed' });
+    }
+    areaIds = uniqueIds;
+
     const rawAreas = await Area.find({ _id: { $in: areaIds } }).lean().populate('district', 'name');
     const areas = convertMapFieldsArray(rawAreas);
     
@@ -79,15 +85,13 @@ const saveComparison = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Maximum of 50 saved comparisons reached' });
     }
 
-    // Create comparison object
     const comparison = {
       name: name || `Comparison ${new Date().toLocaleDateString()}`,
       areaIds,
       createdAt: new Date()
     };
 
-    user.savedComparisons.push(comparison);
-    await user.save();
+    await User.findByIdAndUpdate(userId, { $push: { savedComparisons: comparison } });
 
     res.json({
       success: true,

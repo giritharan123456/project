@@ -102,7 +102,7 @@ function Forecast() {
     };
   };
 
-  const forecastData = generateForecastData(areaData);
+  const forecastData = useMemo(() => generateForecastData(areaData), [areaData]);
 
   // Generate future trends based on real data
   const generateFutureTrends = (area) => {
@@ -146,7 +146,7 @@ function Forecast() {
     ];
   };
 
-  const futureTrends = generateFutureTrends(areaData);
+  const futureTrends = useMemo(() => generateFutureTrends(areaData), [areaData]);
 
   const currentYear = new Date().getFullYear();
 

@@ -83,9 +83,9 @@ class DataFetcherService {
     const incomeLevel = this.getIncomeLevel(urbanDevelopment);
     const marketAnalysis = this.generateMarketAnalysis(populationData.population, urbanDevelopment, incomeLevel);
 
-    let districtDoc = await District.findOne({});
+    let districtDoc = await District.findOne({}).lean();
     if (!districtDoc) {
-      districtDoc = await District.create({ name: 'Default District', state: 'Tamil Nadu' });
+      throw new Error('No districts found. Please run seed.js first.');
     }
 
     return {
