@@ -171,6 +171,12 @@ export const authAPI = {
       body: JSON.stringify({ password }),
     });
   },
+
+  logout: async () => {
+    return apiCall('/auth/logout', {
+      method: 'POST',
+    });
+  },
 };
 
 // Districts API

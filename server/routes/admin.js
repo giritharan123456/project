@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { param } = require('express-validator');
 const { protect, admin } = require('../middleware/auth');
-const { handleValidationErrors } = require('../middleware/validation');
+const { handleValidationErrors, districtCreateValidation, areaValidation } = require('../middleware/validation');
 const {
   // District management
   getAllDistricts,
@@ -38,14 +38,14 @@ router.get('/stats', protect, admin, getDashboardStats);
 
 // District routes
 router.get('/districts', protect, admin, getAllDistricts);
-router.post('/districts', protect, admin, createDistrict);
+router.post('/districts', protect, admin, districtCreateValidation, createDistrict);
 router.put('/districts/:id', protect, admin, param('id').isMongoId().withMessage('Invalid ID format'), handleValidationErrors, updateDistrict);
 router.delete('/districts/:id', protect, admin, param('id').isMongoId().withMessage('Invalid ID format'), handleValidationErrors, deleteDistrict);
 
 // Area routes
 router.get('/areas', protect, admin, getAllAreas);
 router.get('/areas/district/:districtId', protect, admin, param('districtId').isMongoId().withMessage('Invalid ID format'), handleValidationErrors, getAreasByDistrict);
-router.post('/areas', protect, admin, createArea);
+router.post('/areas', protect, admin, areaValidation, createArea);
 router.put('/areas/:id', protect, admin, param('id').isMongoId().withMessage('Invalid ID format'), handleValidationErrors, updateArea);
 router.delete('/areas/:id', protect, admin, param('id').isMongoId().withMessage('Invalid ID format'), handleValidationErrors, deleteArea);
 

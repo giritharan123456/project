@@ -112,7 +112,12 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const logout = () => {
+  const logout = async () => {
+    try {
+      await authAPI.logout();
+    } catch {
+      // Server-side revocation best-effort
+    }
     setIsAuthenticated(false);
     setUser(null);
     try { localStorage.removeItem('token'); localStorage.removeItem('user'); } catch {}

@@ -14,7 +14,7 @@ const {
 } = require('../controllers/areaController');
 
 router.get('/', getAllAreas);
-router.get('/pincode/:pincode', optionalAuth, getAreaByPincode);
+router.get('/pincode/:pincode', optionalAuth, param('pincode').matches(/^\d{6}$/).withMessage('Valid 6-digit pincode required'), handleValidationErrors, getAreaByPincode);
 router.get('/district/:districtId', param('districtId').isMongoId().withMessage('Invalid ID format'), handleValidationErrors, getAreasByDistrict);
 router.get('/:id', param('id').isMongoId().withMessage('Invalid ID format'), handleValidationErrors, getAreaById);
 router.post('/', protect, admin, createArea);
