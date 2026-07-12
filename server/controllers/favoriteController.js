@@ -5,6 +5,14 @@ exports.addFavorite = async (req, res) => {
   try {
     const { itemType, itemId, itemData } = req.body;
 
+    const validTypes = ['area', 'business', 'comparison'];
+    if (!itemType || !validTypes.includes(itemType)) {
+      return res.status(400).json({ success: false, message: 'Invalid itemType' });
+    }
+    if (!itemId) {
+      return res.status(400).json({ success: false, message: 'itemId is required' });
+    }
+
     const existing = await Favorite.findOne({
       user: req.user._id,
       itemType,

@@ -7,7 +7,7 @@ import { usePincode } from '../contexts/PincodeContext';
 import { areasAPI } from '../services/api';
 import EmptyState from '../components/EmptyState';
 import { 
-  TrendingUp, TrendingDown, Calendar, LineChart, 
+  TrendingUp, Calendar, LineChart, 
   Users, DollarSign, Target, ArrowLeft, Download,
   ChevronDown, Info, Zap, AlertCircle, CheckCircle, Building2, Road
 } from 'lucide-react';

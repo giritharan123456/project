@@ -5,7 +5,7 @@ import { useTheme } from '../contexts/ThemeContext';
 import { useDistrict } from '../contexts/DistrictContext';
 import { contentAPI, areasAPI, districtsAPI, adminAPI } from '../services/api';
 import { useToast } from '../contexts/ToastContext';
-import { Target, Lightbulb, MapPin, BarChart3, Users, Zap, CheckCircle, TrendingUp, Brain, FileText, ArrowRight, Shield, Globe, Database, Lock } from 'lucide-react';
+import { Target, Lightbulb, MapPin, BarChart3, Users, Zap, TrendingUp, Brain, FileText, ArrowRight, Shield, Globe, Database } from 'lucide-react';
 
 function About() {
   const { isDarkMode } = useTheme();

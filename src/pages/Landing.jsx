@@ -8,7 +8,7 @@ import { areasAPI, contentAPI, searchAPI } from '../services/api';
 import LandingPreview from '../components/LandingPreview';
 import { 
   Search, BarChart3, TrendingUp, MapPin, Users, Zap, 
-  CheckCircle, Star, ArrowRight,
+  Star, ArrowRight,
   ChevronDown, Menu, X, Target, Shield, Globe, Award, Loader2
 } from 'lucide-react';
 

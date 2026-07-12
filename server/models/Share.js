@@ -39,5 +39,6 @@ const shareSchema = new mongoose.Schema({
 });
 
 shareSchema.index({ user: 1, createdAt: -1 });
+shareSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 });
 
 module.exports = mongoose.model('Share', shareSchema);

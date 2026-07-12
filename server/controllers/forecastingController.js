@@ -1,5 +1,4 @@
 const Area = require('../models/Area');
-const District = require('../models/District');
 const logger = require('../utils/logger');
 
 // @desc    Get forecast data for all areas
@@ -86,10 +85,8 @@ const getForecastByArea = async (req, res) => {
       const projectedDemand = {};
       const projectedGap = {};
       
-      const demandScores = area.demandScores;
-      const gapScores = area.marketGapScores;
-      const demandObj = demandScores instanceof Map ? Object.fromEntries(demandScores) : (demandScores || {});
-      const gapObj = gapScores instanceof Map ? Object.fromEntries(gapScores) : (gapScores || {});
+      const demandObj = area.demandScores || {};
+      const gapObj = area.marketGapScores || {};
       
       Object.entries(demandObj).forEach(([category, score]) => {
         projectedDemand[category] = Math.min(100, Math.round(score * (1 + growthRate * 0.5)));

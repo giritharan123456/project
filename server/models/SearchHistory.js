@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const searchHistorySchema = new mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true, index: true },
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   query: { type: String, required: true },
   type: { type: String, enum: ['pincode', 'district', 'category', 'general'], default: 'general' },
   resultCount: { type: Number, default: 0 },
