@@ -151,7 +151,7 @@ const getInvestmentEstimate = async (req, res) => {
     if (area) {
       incomeFactor = area.incomeLevel === 'High' ? 1.3 : area.incomeLevel === 'Medium' ? 1.0 : 0.8;
       growthFactor = 1 + ((area.populationGrowth || 0) / 100);
-      const demandScore = area.demandScores?.[cat.name] ?? area.demandScores?.get?.(cat.name) || 50;
+      const demandScore = (area.demandScores?.[cat.name] ?? area.demandScores?.get?.(cat.name)) || 50;
       demandFactor = 0.5 + (demandScore / 200);
       multiplier = incomeFactor * growthFactor * demandFactor;
     }
@@ -251,7 +251,7 @@ const getInvestmentEstimate = async (req, res) => {
           name: a.name,
           pincode: a.pincode,
           district: a.district?.name || '',
-          gap: a.marketGapScores?.[cat.name] ?? a.marketGapScores?.get?.(cat.name) || 0,
+          gap: (a.marketGapScores?.[cat.name] ?? a.marketGapScores?.get?.(cat.name)) || 0,
         })),
       };
     }
