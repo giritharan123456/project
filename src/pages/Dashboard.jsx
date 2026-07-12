@@ -295,14 +295,14 @@ function Dashboard() {
 
         {/* ═══ TOP NAV BAR ═══ */}
         <div className={`sticky top-0 z-40 border-b ${isDarkMode ? 'bg-[#1e293b]/95 backdrop-blur border-[#334155]' : 'bg-white/95 backdrop-blur border-slate-200'}`}>
-          <div className="max-w-[1600px] mx-auto px-2 sm:px-4 md:px-6 py-2 sm:py-2.5 flex items-center justify-between gap-2 min-w-0">
-            <div className="flex items-center gap-2 flex-shrink-0">
+          <div className="max-w-[1600px] mx-auto px-2 sm:px-4 md:px-6 py-2 flex items-center gap-2 min-w-0">
+            <div className="flex items-center gap-2 flex-shrink-0 min-w-0">
               <span className="text-xs sm:text-lg font-extrabold bg-gradient-to-r from-blue-600 to-violet-600 bg-clip-text text-transparent whitespace-nowrap">MarketVision AI</span>
-              <span className={`hidden sm:inline text-[9px] sm:text-[10px] font-bold px-1.5 sm:px-2 py-0.5 rounded-full ${isDarkMode ? 'bg-blue-900/40 text-blue-400' : 'bg-blue-50 text-blue-600'}`}>
+              <span className={`hidden md:inline text-[10px] font-bold px-2 py-0.5 rounded-full ${isDarkMode ? 'bg-blue-900/40 text-blue-400' : 'bg-blue-50 text-blue-600'}`}>
                 Dashboard
               </span>
             </div>
-            <div className="flex items-center gap-1 min-w-0 overflow-x-auto scrollbar-hide">
+            <div className="flex-1 flex items-center gap-1 min-w-0 overflow-x-auto scrollbar-hide justify-end">
               {/* View Tabs */}
               <div className={`flex items-center gap-0.5 p-0.5 rounded-lg flex-shrink-0 ${isDarkMode ? 'bg-[#0f172a]' : 'bg-slate-100'}`}>
                 {[
@@ -335,10 +335,10 @@ function Dashboard() {
         <div className="max-w-[1600px] mx-auto px-2 sm:px-3 md:px-4 py-0">
 
           {/* ═══ ROW 1: LOCATION + SEARCH + FILTERS ═══ */}
-          <motion.div {...fadeIn(0.02)} className={`${card} p-2.5`}>
+          <motion.div {...fadeIn(0.02)} className={`${card} p-2 sm:p-2.5 mt-2`}>
             {/* Row 1a: District + Search */}
-            <div className="flex flex-col md:flex-row items-stretch md:items-center gap-2">
-              <div className="w-full md:w-48 flex-shrink-0">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+              <div className="w-full sm:w-44 flex-shrink-0">
                 <DistrictSelector districts={districts} onDistrictChange={() => {
                   userClearedRef.current = false;
                   sessionStorage.removeItem('dashboardSearchCleared');
@@ -357,7 +357,7 @@ function Dashboard() {
               </div>
             </div>
             {/* Row 1b: Filter Button + Category Pills */}
-            <div className={`flex flex-wrap items-center gap-2 mt-2 pt-2 border-t ${isDarkMode ? 'border-[#334155]' : 'border-slate-200'}`}>
+            <div className={`flex flex-wrap items-center gap-1.5 sm:gap-2 mt-2 pt-2 border-t ${isDarkMode ? 'border-[#334155]' : 'border-slate-200'}`}>
               <DataFilter
                 pincodeData={pincodeData}
                 filters={filters}
@@ -369,7 +369,7 @@ function Dashboard() {
                 <button
                   key={cat.name || cat}
                   onClick={() => setSelectedBusinessCategory(cat.name || cat)}
-                  className={`px-2.5 sm:px-3 py-1.5 rounded-full text-[11px] sm:text-xs font-bold transition-all duration-200 ${
+                  className={`px-2 sm:px-2.5 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-bold transition-all duration-200 ${
                     selectedBusinessCategory === (cat.name || cat)
                       ? 'bg-blue-600 text-white shadow-md'
                       : isDarkMode

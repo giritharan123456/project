@@ -196,7 +196,7 @@ function Landing() {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative pt-24 sm:pt-32 pb-12 sm:pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
+      <section className="relative pt-20 sm:pt-28 pb-10 sm:pb-16 px-4 sm:px-6 lg:px-8 overflow-hidden">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-20 left-10 w-96 h-96 bg-[#2563eb] rounded-full blur-[150px]" />
           <div className="absolute bottom-10 right-10 w-96 h-96 bg-[#7c3aed] rounded-full blur-[150px]" />
@@ -217,35 +217,79 @@ function Landing() {
               <p className={`text-xs sm:text-base md:text-lg mb-6 sm:mb-8 leading-relaxed ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
                 Identify underserved markets, analyze competition, and make data-driven business decisions with real market intelligence across 38 districts.
               </p>
-              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-8 sm:mb-10">
-                <Link to="/signup" className="w-full px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white rounded-xl font-semibold text-center hover:opacity-90 transition-opacity shadow-lg shadow-blue-500/25 flex items-center justify-center gap-2">
+              <div className="flex flex-col sm:flex-row gap-3 mb-6 sm:mb-8">
+                <Link to="/signup" className="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white rounded-xl font-semibold text-center hover:opacity-90 transition-opacity shadow-lg shadow-blue-500/25 flex items-center justify-center gap-2">
                   Get Started Free
                   <ArrowRight size={18} />
                 </Link>
-                <Link to="/login" className={`w-full px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-semibold text-center border-2 transition-colors ${isDarkMode ? 'text-white border-[#334155] hover:bg-[#1e293b]' : 'text-gray-700 border-gray-200 hover:bg-gray-50'}`}>
+                <Link to="/login" className={`w-full sm:w-auto px-6 py-3 rounded-xl font-semibold text-center border-2 transition-colors ${isDarkMode ? 'text-white border-[#334155] hover:bg-[#1e293b]' : 'text-gray-700 border-gray-200 hover:bg-gray-50'}`}>
                   View Demo Dashboard
                 </Link>
               </div>
-              <div className="flex flex-wrap items-center gap-4 sm:gap-8">
+              <div className="flex flex-wrap items-center gap-3 sm:gap-6">
                 <div className="flex items-center gap-2">
                   <div className="flex -space-x-2">
                     {[0,1,2,3].map(i => (
-                      <div key={i} className={`w-8 h-8 rounded-full bg-gradient-to-r from-[#2563eb] to-[#7c3aed] border-2 flex items-center justify-center text-white text-xs font-bold ${isDarkMode ? 'border-gray-800' : 'border-white'}`}>
+                      <div key={i} className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-gradient-to-r from-[#2563eb] to-[#7c3aed] border-2 flex items-center justify-center text-white text-[10px] sm:text-xs font-bold ${isDarkMode ? 'border-gray-800' : 'border-white'}`}>
                         {String.fromCharCode(65 + i)}
                       </div>
                     ))}
                   </div>
-                  <span className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>1000+ users</span>
+                  <span className={`text-xs sm:text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>1000+ users</span>
                 </div>
                 <div className="flex items-center gap-1">
-                  {[1,2,3,4,5].map(i => <Star key={i} size={14} className="text-yellow-500 fill-yellow-500" />)}
-                  <span className={`text-sm ml-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>4.9/5</span>
+                  {[1,2,3,4,5].map(i => <Star key={i} size={12} className="text-yellow-500 fill-yellow-500 sm:hidden" />)}
+                  {[1,2,3,4,5].map(i => <Star key={`l${i}`} size={14} className="text-yellow-500 fill-yellow-500 hidden sm:block" />)}
+                  <span className={`text-xs sm:text-sm ml-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>4.9/5</span>
                 </div>
               </div>
             </motion.div>
 
-            <motion.div initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, delay: 0.2 }}>
-              <div className={`p-4 sm:p-6 md:p-8 rounded-3xl border shadow-2xl ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-gray-200'}`}>
+            {/* Mobile Search Form - visible only on mobile/tablet */}
+            <div className="lg:hidden mt-8 w-full">
+              <div className={`p-4 rounded-2xl border shadow-xl ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-gray-200'}`}>
+                <form onSubmit={handleSearch} className="relative">
+                  <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 rounded-lg bg-[#2563eb]/10 flex items-center justify-center flex-shrink-0">
+                      <Search className="text-[#2563eb]" size={16} />
+                    </div>
+                    <input 
+                      type="text" 
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      onFocus={() => searchSuggestions.length > 0 && setShowSuggestions(true)}
+                      placeholder="Search pincode, area..." 
+                      className={`flex-1 px-3 py-2.5 rounded-xl border outline-none focus:ring-2 focus:ring-[#2563eb]/40 transition-all text-sm ${isDarkMode ? 'bg-[#0f172a] text-white border-[#334155] placeholder-gray-500' : 'bg-gray-50 text-gray-900 border-gray-200 placeholder-gray-400'}`}
+                    />
+                    <button type="submit" className="px-4 py-2.5 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white rounded-xl font-medium text-sm flex-shrink-0">
+                      Search
+                    </button>
+                  </div>
+                  {showSuggestions && searchSuggestions.length > 0 && (
+                    <div className={`absolute top-full left-0 right-0 mt-1 rounded-xl shadow-xl border overflow-hidden z-50 max-h-48 overflow-y-auto ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-gray-200'}`}>
+                      {searchSuggestions.map((s, i) => (
+                        <button key={s.id || i} type="button"
+                          onClick={() => {
+                            setSearchQuery(s.pincode);
+                            setShowSuggestions(false);
+                            if (isAuthenticated) navigate(`/dashboard?search=${s.pincode}`);
+                            else navigate(`/login?redirect=${encodeURIComponent(`/dashboard?search=${s.pincode}`)}`);
+                          }}
+                          className={`flex items-center gap-3 w-full px-4 py-2.5 text-sm text-left ${isDarkMode ? 'hover:bg-white/10 text-gray-300' : 'hover:bg-gray-50 text-gray-700'}`}>
+                          <span className="text-xs opacity-50">📍</span>
+                          <span className="font-medium">{s.name || s.pincode}</span>
+                          <span className="text-xs opacity-50 ml-auto">{s.district ? `${s.district} · ` : ''}{s.pincode}</span>
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </form>
+              </div>
+            </div>
+
+            {/* Desktop Search Panel - visible only on lg+ */}
+            <motion.div initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, delay: 0.2 }} className="hidden lg:block">
+              <div className={`p-6 sm:p-8 rounded-3xl border shadow-2xl ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-gray-200'}`}>
                 <form onSubmit={handleSearch} className="relative">
                   <div className="flex items-center gap-2 sm:gap-3 mb-4">
                     <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-[#2563eb]/10 flex items-center justify-center">
@@ -289,7 +333,6 @@ function Landing() {
                   )}
                 </form>
 
-                {/* Search Loading */}
                 <AnimatePresence>
                   {searchLoading && (
                     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}

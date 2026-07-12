@@ -144,7 +144,7 @@ function Navbar() {
           </form>
 
           {/* Right Actions */}
-          <div className="flex items-center gap-1 sm:gap-2 lg:gap-3 flex-shrink-0">
+          <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
             {/* Mobile Menu Toggle */}
             <button onClick={() => setShowMobileNav(!showMobileNav)} aria-label="Toggle mobile navigation" aria-expanded={showMobileNav} className={`lg:hidden p-2 rounded-lg ${b('hover:bg-gray-100 text-gray-700', 'hover:bg-[#1e293b] text-gray-300')}`}>
               {showMobileNav ? (
@@ -179,7 +179,7 @@ function Navbar() {
               <AnimatePresence>
                 {showNotifDropdown && (
                   <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}
-                    className={`absolute right-0 mt-2 w-72 rounded-xl shadow-xl border overflow-hidden z-50 ${b('bg-white border-gray-200', 'bg-[#1e293b] border-[#334155]')}`}>
+                    className={`fixed sm:absolute right-2 sm:right-0 mt-2 w-[calc(100vw-16px)] sm:w-72 max-w-72 rounded-xl shadow-xl border overflow-hidden z-50 ${b('bg-white border-gray-200', 'bg-[#1e293b] border-[#334155]')}`}>
                     <div className={`px-4 py-3 border-b flex items-center justify-between ${b('border-gray-100', 'border-[#334155]')}`}>
                       <p className={`text-sm font-semibold ${b('text-gray-900', 'text-white')}`}>Notifications</p>
                       <Link to="/notifications" onClick={() => setShowNotifDropdown(false)} className="text-xs text-[#2563eb]">View all</Link>
