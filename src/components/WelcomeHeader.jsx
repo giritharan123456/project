@@ -80,16 +80,16 @@ export default function WelcomeHeader() {
           </div>
 
           {/* Right: Actions */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
             {/* Notification Bell */}
             <div className="relative" ref={notifRef}>
               <button
                 onClick={() => setShowNotif(!showNotif)}
-                className={`relative p-2 rounded-lg transition-colors ${
+                className={`relative p-2.5 sm:p-2 rounded-lg transition-colors min-w-[40px] min-h-[40px] flex items-center justify-center ${
                   isDarkMode ? 'hover:bg-[#0f172a] text-slate-300' : 'hover:bg-slate-100 text-slate-600'
                 }`}
               >
-                <Bell size={18} />
+                <Bell size={20} />
               </button>
               {showNotif && (
                 <motion.div
@@ -122,12 +122,12 @@ export default function WelcomeHeader() {
             {/* Dark Mode Toggle */}
             <button
               onClick={toggleTheme}
-              className={`p-2 rounded-lg transition-colors ${
+              className={`p-2.5 sm:p-2 rounded-lg transition-colors min-w-[40px] min-h-[40px] flex items-center justify-center ${
                 isDarkMode ? 'hover:bg-[#0f172a] text-amber-400' : 'hover:bg-slate-100 text-slate-600'
               }`}
               title={isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
             >
-              {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
+              {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
             </button>
           </div>
         </div>

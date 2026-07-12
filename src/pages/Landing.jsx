@@ -196,7 +196,7 @@ function Landing() {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative pt-20 sm:pt-28 pb-10 sm:pb-16 px-4 sm:px-6 lg:px-8 overflow-hidden">
+      <section className="relative pt-20 sm:pt-28 pb-10 sm:pb-16 px-4 sm:px-6 lg:px-8">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-20 left-10 w-96 h-96 bg-[#2563eb] rounded-full blur-[150px]" />
           <div className="absolute bottom-10 right-10 w-96 h-96 bg-[#7c3aed] rounded-full blur-[150px]" />
@@ -214,15 +214,15 @@ function Landing() {
                   Business Opportunity
                 </span>
               </h1>
-              <p className={`text-xs sm:text-base md:text-lg mb-6 sm:mb-8 leading-relaxed ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+              <p className={`text-xs sm:text-base md:text-lg mb-6 sm:mb-8 leading-relaxed break-words ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
                 Identify underserved markets, analyze competition, and make data-driven business decisions with real market intelligence across 38 districts.
               </p>
               <div className="flex flex-col sm:flex-row gap-3 mb-6 sm:mb-8">
-                <Link to="/signup" className="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white rounded-xl font-semibold text-center hover:opacity-90 transition-opacity shadow-lg shadow-blue-500/25 flex items-center justify-center gap-2">
+                <Link to="/signup" className="flex-1 sm:flex-1 px-6 py-3 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white rounded-xl font-semibold text-center hover:opacity-90 transition-opacity shadow-lg shadow-blue-500/25 flex items-center justify-center gap-2">
                   Get Started Free
                   <ArrowRight size={18} />
                 </Link>
-                <Link to="/login" className={`w-full sm:w-auto px-6 py-3 rounded-xl font-semibold text-center border-2 transition-colors ${isDarkMode ? 'text-white border-[#334155] hover:bg-[#1e293b]' : 'text-gray-700 border-gray-200 hover:bg-gray-50'}`}>
+                <Link to="/login" className={`flex-1 sm:flex-1 px-6 py-3 rounded-xl font-semibold text-center border-2 transition-colors ${isDarkMode ? 'text-white border-[#334155] hover:bg-[#1e293b]' : 'text-gray-700 border-gray-200 hover:bg-gray-50'}`}>
                   View Demo Dashboard
                 </Link>
               </div>
