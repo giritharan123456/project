@@ -15,7 +15,12 @@ const connectDB = async () => {
     try { await cached.promise; } catch { cached.promise = null; }
   }
   if (!cached.promise) {
-    cached.promise = mongoose.connect(process.env.MONGODB_URI).then((m) => m);
+    const uri = process.env.MONGODB_URI;
+    if (!uri) {
+      logger.error('MONGODB_URI is not set');
+      return null;
+    }
+    cached.promise = mongoose.connect(uri).then((m) => m);
   }
   try {
     cached.conn = await cached.promise;

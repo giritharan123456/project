@@ -82,7 +82,7 @@ const getLeaderboard = async (req, res) => {
       };
     });
 
-    res.json({ success: true, areas: enriched, total, page: Number(page), pages: Math.ceil(total / Number(limit)) });
+    res.json({ success: true, areas: enriched, total, page: safePage, pages: Math.ceil(total / safeLimit) });
   } catch (error) {
     res.status(500).json({ success: false, message: logger.getClientMessage(error) });
   }

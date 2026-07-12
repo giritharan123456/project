@@ -1,6 +1,8 @@
+const { safeToObj } = require('./leanHelpers');
+
 const calculateScores = (area) => {
-  const gaps = area.marketGapScores ? Object.fromEntries(area.marketGapScores) : {};
-  const demands = area.demandScores ? Object.fromEntries(area.demandScores) : {};
+  const gaps = safeToObj(area.marketGapScores);
+  const demands = safeToObj(area.demandScores);
   const gapValues = Object.values(gaps);
   const demandValues = Object.values(demands);
   const avgGap = gapValues.length ? gapValues.reduce((s, v) => s + v, 0) / gapValues.length : 0;

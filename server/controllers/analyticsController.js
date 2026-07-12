@@ -1,6 +1,6 @@
 const Area = require('../models/Area');
 const District = require('../models/District');
-const { convertMapFields, convertMapFieldsArray } = require('../utils/leanHelpers');
+const { convertMapFields, convertMapFieldsArray, safeToObj } = require('../utils/leanHelpers');
 const logger = require('../utils/logger');
 
 // @desc    Get analytics overview — computed from real DB data
@@ -53,7 +53,7 @@ const getAnalyticsOverview = async (req, res) => {
       .select('name pincode populationGrowth marketGapScores');
 
     const highGrowthAreas = topGrowthAreas.map(area => {
-      const scores = area.marketGapScores ? Object.fromEntries(area.marketGapScores) : {};
+      const scores = safeToObj(area.marketGapScores);
       const values = Object.values(scores).map(v => Number(v) || 0);
       const avgScore = values.length > 0
         ? Math.round(values.reduce((a, b) => a + b, 0) / values.length)
@@ -75,9 +75,9 @@ const getAnalyticsOverview = async (req, res) => {
       .limit(100); // look at up to 100 areas
 
     const riskScored = highRiskAreas.map(area => {
-      const competitors = area.competitors ? Object.fromEntries(area.competitors) : {};
-      const demandScores = area.demandScores ? Object.fromEntries(area.demandScores) : {};
-      const marketGapScores = area.marketGapScores ? Object.fromEntries(area.marketGapScores) : {};
+      const competitors = safeToObj(area.competitors);
+      const demandScores = safeToObj(area.demandScores);
+      const marketGapScores = safeToObj(area.marketGapScores);
 
       const totalCompetitors = Object.values(competitors).reduce((a, b) => a + (Number(b) || 0), 0);
       const avgDemand = Object.values(demandScores).length > 0

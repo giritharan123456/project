@@ -65,7 +65,7 @@ const getFavorites = async (req, res) => {
     }
 
     // Populate full area details for each favorite
-    const rawFavoriteAreas = await Area.find({ _id: { $in: user.favoriteAreas } })
+    const rawFavoriteAreas = await Area.find({ _id: { $in: user.favoriteAreas || [] } })
       .lean()
       .populate('district', 'name');
     const favoriteAreas = convertMapFieldsArray(rawFavoriteAreas);
