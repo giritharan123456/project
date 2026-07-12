@@ -41,7 +41,7 @@ const HelpGuide = () => {
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
         onClick={() => setIsOpen(true)}
-        className={`fixed bottom-24 right-4 md:right-8 p-3 rounded-full shadow-lg z-40 transition-all bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white`}
+        className={`fixed bottom-20 right-4 md:right-8 p-3 rounded-full shadow-lg z-40 transition-all bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white`}
         aria-label="Help"
       >
         <HelpCircle size={20} />

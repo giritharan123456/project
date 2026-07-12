@@ -65,7 +65,7 @@ const FloatingAIChat = () => {
         whileTap={{ scale: 0.9 }}
         onClick={() => setIsOpen(true)}
         aria-label="Open AI Chat"
-        className="fixed bottom-20 right-4 sm:bottom-6 sm:right-6 p-3.5 rounded-full shadow-lg z-50 bg-gradient-to-r from-blue-600 to-violet-600 text-white"
+        className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 p-3.5 rounded-full shadow-lg z-50 bg-gradient-to-r from-blue-600 to-violet-600 text-white"
       >
         <MessageCircle size={22} />
       </motion.button>
@@ -76,7 +76,7 @@ const FloatingAIChat = () => {
             initial={{ opacity: 0, y: 20, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.9 }}
-            className={`fixed bottom-16 right-4 sm:bottom-20 sm:right-6 w-[calc(100vw-2rem)] sm:w-80 rounded-2xl shadow-2xl z-50 flex flex-col overflow-hidden border ${
+            className={`fixed bottom-20 right-4 sm:bottom-20 sm:right-6 w-[calc(100vw-2rem)] sm:w-80 rounded-2xl shadow-2xl z-50 flex flex-col overflow-hidden border ${
               isDarkMode ? 'bg-[#1e293b] border-[#475569]' : 'bg-white border-slate-200'
             }`}
             style={{ maxHeight: 'calc(100dvh - 140px)' }}
