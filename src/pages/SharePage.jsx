@@ -17,7 +17,7 @@ function SharePage() {
     const resolveShare = async () => {
       try {
         const res = await shareAPI.getByToken(token);
-        const { itemType, pincode } = res.data.itemData || {};
+        const { itemType, pincode } = res.data?.itemData || {};
         if (pincode) {
           if (itemType === 'business') {
             navigate(`/business-overview/${pincode}`, { replace: true });

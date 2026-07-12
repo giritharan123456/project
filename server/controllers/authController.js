@@ -456,9 +456,7 @@ const forgotPassword = async (req, res) => {
     // Always return success message (don't reveal whether email exists)
     res.json({
       success: true,
-      message: 'If that email is registered, a password reset link has been sent.',
-      // Include resetUrl in dev mode for testing
-      ...(process.env.NODE_ENV !== 'production' && { resetToken, resetUrl })
+      message: 'If that email is registered, a password reset link has been sent.'
     });
   } catch (error) {
     res.status(500).json({ success: false, message: logger.getClientMessage(error) });
