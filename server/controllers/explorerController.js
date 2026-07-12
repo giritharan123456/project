@@ -19,10 +19,12 @@ const getCategoryExplorer = async (req, res) => {
     const areas = await Area.find(filter).lean().populate('district', 'name').limit(areaLimit);
 
     const enriched = categories.map(cat => {
-      const areasWithCat = areas.filter(a => a.marketGapScores && a.marketGapScores.get(cat.name) != null);
-      const avgGap = areasWithCat.length ? areasWithCat.reduce((s, a) => s + (a.marketGapScores.get(cat.name) || 0), 0) / areasWithCat.length : 0;
-      const avgDemand = areasWithCat.length ? areasWithCat.reduce((s, a) => s + (a.demandScores.get(cat.name) || 0), 0) / areasWithCat.length : 0;
-      const bestArea = areasWithCat.sort((a, b) => (b.marketGapScores.get(cat.name) || 0) - (a.marketGapScores.get(cat.name) || 0))[0] || null;
+      const areasWithCat = areas.filter(a => a.marketGapScores && (a.marketGapScores[cat.name] != null || a.marketGapScores.get?.(cat.name) != null));
+      const getGap = (a) => a.marketGapScores?.[cat.name] ?? a.marketGapScores?.get?.(cat.name) ?? 0;
+      const getDemand = (a) => a.demandScores?.[cat.name] ?? a.demandScores?.get?.(cat.name) ?? 0;
+      const avgGap = areasWithCat.length ? areasWithCat.reduce((s, a) => s + getGap(a), 0) / areasWithCat.length : 0;
+      const avgDemand = areasWithCat.length ? areasWithCat.reduce((s, a) => s + getDemand(a), 0) / areasWithCat.length : 0;
+      const bestArea = areasWithCat.sort((a, b) => getGap(b) - getGap(a))[0] || null;
       return {
         _id: cat._id, name: cat.name, description: cat.description,
         demand: cat.demand, supply: cat.supply, gap: cat.gap,
@@ -30,7 +32,7 @@ const getCategoryExplorer = async (req, res) => {
         avgGap: Math.round(avgGap * 10) / 10,
         avgDemand: Math.round(avgDemand * 10) / 10,
         areaCount: areasWithCat.length,
-        bestArea: bestArea ? { name: bestArea.name, pincode: bestArea.pincode, district: bestArea.district?.name || '', gap: bestArea.marketGapScores?.get(cat.name) } : null
+        bestArea: bestArea ? { name: bestArea.name, pincode: bestArea.pincode, district: bestArea.district?.name || '', gap: getGap(bestArea) } : null
       };
     });
 
@@ -98,8 +100,8 @@ const getMatrix = async (req, res) => {
       const scores = areas.map(a => ({
         areaId: a._id, areaName: a.name, pincode: a.pincode,
         district: a.district?.name || '',
-        gap: a.marketGapScores?.get(cat.name) || 0,
-        demand: a.demandScores?.get(cat.name) || 0,
+        gap: a.marketGapScores?.[cat.name] ?? a.marketGapScores?.get?.(cat.name) ?? 0,
+        demand: a.demandScores?.[cat.name] ?? a.demandScores?.get?.(cat.name) ?? 0,
         feasibilityScore: a.feasibilityScore,
         incomeLevel: a.incomeLevel, population: a.population
       })).filter(s => s.gap > 0).sort((a, b) => b.gap - a.gap);
@@ -145,7 +147,7 @@ const getInvestmentEstimate = async (req, res) => {
     if (area) {
       incomeFactor = area.incomeLevel === 'High' ? 1.3 : area.incomeLevel === 'Medium' ? 1.0 : 0.8;
       growthFactor = 1 + ((area.populationGrowth || 0) / 100);
-      const demandScore = area.demandScores?.get(cat.name) || 50;
+      const demandScore = area.demandScores?.[cat.name] ?? area.demandScores?.get?.(cat.name) || 50;
       demandFactor = 0.5 + (demandScore / 200);
       multiplier = incomeFactor * growthFactor * demandFactor;
     }
@@ -245,7 +247,7 @@ const getInvestmentEstimate = async (req, res) => {
           name: a.name,
           pincode: a.pincode,
           district: a.district?.name || '',
-          gap: a.marketGapScores?.get(cat.name) || 0,
+          gap: a.marketGapScores?.[cat.name] ?? a.marketGapScores?.get?.(cat.name) || 0,
         })),
       };
     }

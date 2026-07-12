@@ -6,6 +6,14 @@ exports.createShare = async (req, res) => {
   try {
     const { itemType, itemId, itemData } = req.body;
 
+    const ALLOWED_TYPES = ['area', 'business', 'comparison'];
+    if (!itemType || !ALLOWED_TYPES.includes(itemType)) {
+      return res.status(400).json({ success: false, message: `itemType must be one of: ${ALLOWED_TYPES.join(', ')}` });
+    }
+    if (!itemId || !/^[0-9a-fA-F]{24}$/.test(itemId)) {
+      return res.status(400).json({ success: false, message: 'Valid itemId required' });
+    }
+
     const existing = await Share.findOne({
       user: req.user._id,
       itemType,

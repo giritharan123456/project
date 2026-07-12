@@ -7,6 +7,18 @@ const contentSchema = new mongoose.Schema({
     unique: true,
     enum: ['landing', 'about', 'features', 'analysis', 'home']
   },
+  title: String,
+  subtitle: String,
+  description: String,
+  problem: String,
+  solution: String,
+  formula: String,
+  algorithm: String,
+  factors: [{
+    name: String,
+    description: String,
+    weight: String
+  }],
   faqs: [{
     question: String,
     answer: String

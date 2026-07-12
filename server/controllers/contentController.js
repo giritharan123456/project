@@ -56,7 +56,7 @@ const getLandingContent = async (req, res) => {
 };
 
 const filterContentFields = (body) => {
-  const allowed = ['title', 'description', 'subtitle', 'problem', 'solution', 'features', 'stats', 'factors', 'formula', 'algorithm', 'faqs'];
+  const allowed = ['title', 'subtitle', 'description', 'problem', 'solution', 'formula', 'algorithm', 'factors', 'features', 'benefits', 'reviews', 'howItWorks', 'stats', 'faqs'];
   const filtered = {};
   for (const key of allowed) {
     if (body[key] !== undefined) filtered[key] = body[key];

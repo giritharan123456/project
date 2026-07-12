@@ -377,11 +377,11 @@ const updateUserProfile = async (req, res) => {
         }
         user.password = password;
       }
-      if (req.body.recentSearches) {
-        user.recentSearches = req.body.recentSearches;
+      if (Array.isArray(req.body.recentSearches)) {
+        user.recentSearches = req.body.recentSearches.slice(0, 20);
       }
-      if (req.body.favoriteAreas) {
-        user.favoriteAreas = req.body.favoriteAreas;
+      if (Array.isArray(req.body.favoriteAreas)) {
+        user.favoriteAreas = req.body.favoriteAreas.slice(0, 50);
       }
 
       const updatedUser = await user.save();
