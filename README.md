@@ -32,21 +32,18 @@ npm install
 ## Development
 
 ```bash
-# Frontend (Vite dev server)
+# Install dependencies
+npm install
+
+# Start frontend + backend concurrently
 npm run dev
-
-# Backend server
-npm run server
-
-# Seed database
-npm run seed
 ```
 
 Open [http://localhost:5173](http://localhost:5173) to view the application.
 
 ## API Server
 
-The Express backend runs on port 5000 by default. All API endpoints are prefixed with `/api`.
+The Express backend runs on port 5000 by default (proxied via Vite). All API endpoints are prefixed with `/api`.
 
 ## Project Structure
 
