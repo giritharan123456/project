@@ -22,11 +22,13 @@ export const DistrictProvider = ({ children }) => {
   }, [districts, selectedDistrict]);
 
   useEffect(() => {
-    if (selectedDistrict) {
-      localStorage.setItem('selectedDistrict', selectedDistrict);
-    } else {
-      localStorage.removeItem('selectedDistrict');
-    }
+    try {
+      if (selectedDistrict) {
+        localStorage.setItem('selectedDistrict', selectedDistrict);
+      } else {
+        localStorage.removeItem('selectedDistrict');
+      }
+    } catch {}
   }, [selectedDistrict]);
 
   const value = {

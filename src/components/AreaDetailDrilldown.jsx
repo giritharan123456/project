@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTheme } from '../contexts/ThemeContext';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, MapPin, Users, TrendingUp, Target, Building2, DollarSign, Home, Globe2, BookOpen } from 'lucide-react';
+import { X, MapPin, Users, TrendingUp, Target, Building2, BarChart3, DollarSign, Home, Globe2, BookOpen } from 'lucide-react';
 import { averageOfValues } from '../utils/dataUtils';
 
 function AreaDetailDrilldown({ area, onClose, onCompare, isComparing }) {

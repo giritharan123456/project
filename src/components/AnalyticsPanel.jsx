@@ -5,6 +5,7 @@ import { useTheme } from '../contexts/ThemeContext';
 import { useToast } from '../contexts/ToastContext';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
+import { averageOfValues } from '../utils/dataUtils';
 import ChartTooltip from './ChartTooltip';
 
 const COLORS = ['#2563eb', '#7c3aed', '#db2777', '#ea580c', '#16a34a', '#0891b2', '#d946ef', '#0ea5e9'];

@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
 import { useDistrict } from '../contexts/DistrictContext';
 import { contentAPI } from '../services/api';
-import { MapPin, ArrowRight, LogIn, UserPlus, Shield } from 'lucide-react';
+import { MapPin, LogIn, UserPlus, Shield } from 'lucide-react';
 import { PageSkeleton } from '../components/Skeleton';
 
 function Home() {

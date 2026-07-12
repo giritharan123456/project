@@ -493,6 +493,7 @@ const getDashboardStats = async (req, res) => {
     const userCount = await User.countDocuments();
     const adminCount = await User.countDocuments({ role: 'admin' });
     const guestCount = await User.countDocuments({ isGuest: true });
+    const regularCount = await User.countDocuments({ role: 'user', isGuest: false });
 
     res.json({
       success: true,
@@ -503,7 +504,7 @@ const getDashboardStats = async (req, res) => {
         totalUsers: userCount,
         admins: adminCount,
         guests: guestCount,
-        regularUsers: userCount - adminCount - guestCount
+        regularUsers: regularCount
       }
     });
   } catch (error) {

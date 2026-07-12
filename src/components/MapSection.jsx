@@ -1,7 +1,7 @@
 import React from 'react';
 import { MapContainer, TileLayer, Popup, CircleMarker } from 'react-leaflet';
 import { useTheme } from '../contexts/ThemeContext';
-import { motion } from 'framer-motion';
+
 import { MapPin, TrendingUp, Users, BarChart3 } from 'lucide-react';
 import { averageOfValues } from '../utils/dataUtils';
 import 'leaflet/dist/leaflet.css';

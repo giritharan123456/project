@@ -48,9 +48,11 @@ const getLeaderboard = async (req, res) => {
     if (district) filter.district = district;
 
     let sortField = { [sortBy]: -1 };
-    const skip = (Number(page) - 1) * Number(limit);
+    const safePage = Math.max(1, parseInt(page) || 1);
+    const safeLimit = Math.min(200, Math.max(1, parseInt(limit) || 20));
+    const skip = (safePage - 1) * safeLimit;
     const [areas, total] = await Promise.all([
-      Area.find(filter).lean().populate('district', 'name').sort(sortField).skip(skip).limit(Number(limit)),
+      Area.find(filter).lean().populate('district', 'name').sort(sortField).skip(skip).limit(safeLimit),
       Area.countDocuments(filter)
     ]);
 

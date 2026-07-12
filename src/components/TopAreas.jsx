@@ -1,10 +1,10 @@
 import React from 'react';
 import { useTheme } from '../contexts/ThemeContext';
-import { Trophy, MapPin, TrendingUp, Star, Crown } from 'lucide-react';
+import { Trophy, MapPin, Star, Crown } from 'lucide-react';
 import EmptyState from './EmptyState';
 import { averageOfValues, NO_DATA_LABEL } from '../utils/dataUtils';
 
-function TopAreas({ pincodeData, businessCategories }) {
+function TopAreas({ pincodeData, businessCategories = [] }) {
   const { isDarkMode } = useTheme();
   const themeClass = (dark, light) => isDarkMode ? dark : light;
 

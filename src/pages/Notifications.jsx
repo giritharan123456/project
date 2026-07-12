@@ -5,8 +5,8 @@ import { useTheme } from '../contexts/ThemeContext';
 import { notificationsAPI } from '../services/api';
 import {
   Bell, TrendingUp, Store, Users, AlertTriangle, Calendar,
-  Check, CheckCheck, Search, MapPin, DollarSign, Star,
-  Clock, X, Zap
+  Check, CheckCheck, Search, MapPin,
+  Clock, X
 } from 'lucide-react';
 
 const TYPE_CONFIG = {
@@ -19,6 +19,7 @@ const TYPE_CONFIG = {
 };
 
 const formatRelative = (dateStr) => {
+  if (!dateStr) return '';
   const diff = Date.now() - new Date(dateStr).getTime();
   const mins = Math.floor(diff / 60000);
   if (mins < 1) return 'Just now';

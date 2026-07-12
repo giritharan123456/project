@@ -20,11 +20,13 @@ export const PincodeProvider = ({ children }) => {
 
   // Save selected pincode to localStorage whenever it changes
   useEffect(() => {
-    if (selectedPincode) {
-      localStorage.setItem('selectedPincode', selectedPincode);
-    } else {
-      localStorage.removeItem('selectedPincode');
-    }
+    try {
+      if (selectedPincode) {
+        localStorage.setItem('selectedPincode', selectedPincode);
+      } else {
+        localStorage.removeItem('selectedPincode');
+      }
+    } catch {}
   }, [selectedPincode]);
 
   const value = {

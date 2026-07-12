@@ -198,7 +198,7 @@ function Workspace() {
                   <div className="flex items-center gap-3 sm:gap-6 flex-shrink-0">
                     <div className="text-right">
                       <div className="text-lg sm:text-2xl font-bold bg-gradient-to-r from-[#2563eb] to-[#7c3aed] bg-clip-text text-transparent">
-                        {location.score}
+                        {location.score ?? 'N/A'}
                       </div>
                       <p className={`text-sm opacity-70 ${isDarkMode ? 'text-[#f1f5f9]' : 'text-[#1e293b]'}`}>Score</p>
                     </div>

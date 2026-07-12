@@ -93,7 +93,7 @@ function CategoryExplorer() {
                       <div><span className={b('text-gray-500', 'text-gray-400')}>Avg Gap: </span><span className={`font-semibold ${getScoreColor(cat.avgGap)}`}>{Number(cat.avgGap).toFixed(2)}</span></div>
                       <div><span className={b('text-gray-500', 'text-gray-400')}>Avg Demand: </span><span className={`font-semibold ${getScoreColor(cat.avgDemand)}`}>{Number(cat.avgDemand).toFixed(2)}</span></div>
                       <div><span className={b('text-gray-500', 'text-gray-400')}>Areas: </span><span className="font-semibold">{cat.areaCount}</span></div>
-                      <div><span className={b('text-gray-500', 'text-gray-400')}>Investment: </span><span className="font-semibold">₹{(cat.minInvestment / 100000).toFixed(2)}L - ₹{(cat.maxInvestment / 100000).toFixed(2)}L</span></div>
+                      <div><span className={b('text-gray-500', 'text-gray-400')}>Investment: </span><span className="font-semibold">₹{((cat.minInvestment || 0) / 100000).toFixed(2)}L - ₹{((cat.maxInvestment || 0) / 100000).toFixed(2)}L</span></div>
                     </div>
                     {/* Bar */}
                     <div className="mt-3">

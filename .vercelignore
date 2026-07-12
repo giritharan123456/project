@@ -1,12 +1,1 @@
 node_modules/
-server/.env
-server/.env.test
-.env
-dist/
-build/
-.git/
-coverage/
-*.log
-.tmp/
-.npm-cache/
-.vercel/

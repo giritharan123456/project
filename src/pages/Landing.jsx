@@ -8,7 +8,7 @@ import { areasAPI, contentAPI, searchAPI } from '../services/api';
 import LandingPreview from '../components/LandingPreview';
 import { 
   Search, BarChart3, TrendingUp, MapPin, Users, Zap, 
-  CheckCircle, Star, MessageSquare, Mail, ArrowRight,
+  CheckCircle, Star, ArrowRight,
   ChevronDown, Menu, X, Target, Shield, Globe, Award, Loader2
 } from 'lucide-react';
 
@@ -450,12 +450,7 @@ function Landing() {
       <section className="py-12 sm:py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6">
-            {[
-              { value: '38', label: 'Districts', icon: MapPin },
-              { value: '380+', label: 'Areas Covered', icon: Globe },
-              { value: '12', label: 'Categories', icon: BarChart3 },
-              { value: '4,500+', label: 'Data Points', icon: TrendingUp },
-            ].map((stat, i) => (
+            {platformStats.map((stat, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
                 className={`p-4 sm:p-6 rounded-2xl border text-center ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-gray-200'}`}>

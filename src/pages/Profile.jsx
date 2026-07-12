@@ -272,7 +272,7 @@ function Profile() {
                               {item.pincode && <span className={b('text-gray-500', 'text-gray-400')}>{item.pincode}</span>}
                               {item.category && <span className={b('text-gray-500', 'text-gray-400')}>{item.category}</span>}
                               <span className={b('text-gray-400', 'text-gray-500')}>
-                                {new Date(item.createdAt).toLocaleDateString()} {new Date(item.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                {item.createdAt ? `${new Date(item.createdAt).toLocaleDateString()} ${new Date(item.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}` : ''}
                               </span>
                             </div>
                           </div>

@@ -6,7 +6,7 @@ import { useDistrict } from '../contexts/DistrictContext';
 import { usePincode } from '../contexts/PincodeContext';
 import { areasAPI } from '../services/api';
 import { 
-  ArrowLeft, Plus, X, TrendingUp, TrendingDown, BarChart3, 
+  ArrowLeft, Plus, X, TrendingUp, BarChart3, 
   Users, DollarSign, Target, Award, MapPin, Star, ChevronDown,
   Crown, ChevronRight
 } from 'lucide-react';

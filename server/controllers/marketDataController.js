@@ -85,10 +85,19 @@ const getMarketDataByDistrict = async (req, res) => {
 // @access  Private/Admin
 const updateMarketData = async (req, res) => {
   try {
-    const { competitors, demandScores, marketGapScores, searchTrends } = req.body;
+    const updateFields = {};
+    if (req.body.competitors !== undefined) updateFields.competitors = req.body.competitors;
+    if (req.body.demandScores !== undefined) updateFields.demandScores = req.body.demandScores;
+    if (req.body.marketGapScores !== undefined) updateFields.marketGapScores = req.body.marketGapScores;
+    if (req.body.searchTrends !== undefined) updateFields.searchTrends = req.body.searchTrends;
+
+    if (Object.keys(updateFields).length === 0) {
+      return res.status(400).json({ success: false, message: 'No fields to update' });
+    }
+
     const area = await Area.findByIdAndUpdate(
       req.params.areaId,
-      { competitors, demandScores, marketGapScores, searchTrends },
+      { $set: updateFields },
       { new: true, runValidators: true }
     );
     if (area) {

@@ -28,8 +28,15 @@ export const ToastProvider = ({ children }) => {
     const id = `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
     const toast = { id, message, type };
     setToasts(prev => {
-      const updated = prev.length >= 5 ? prev.slice(1) : prev;
-      return [...updated, toast];
+      if (prev.length >= 5) {
+        const removed = prev[0];
+        if (timeoutsRef.current[removed.id]) {
+          clearTimeout(timeoutsRef.current[removed.id]);
+          delete timeoutsRef.current[removed.id];
+        }
+        return [...prev.slice(1), toast];
+      }
+      return [...prev, toast];
     });
     
     if (duration > 0) {

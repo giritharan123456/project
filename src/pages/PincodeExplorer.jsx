@@ -4,7 +4,7 @@ import { useTheme } from '../contexts/ThemeContext';
 import { useDistrict } from '../contexts/DistrictContext';
 import { useToast } from '../contexts/ToastContext';
 import { explorerAPI, areasAPI, searchAPI } from '../services/api';
-import { Search, MapPin, Users, TrendingUp, Store, Filter, ChevronDown, Building2, IndianRupee, Target, BarChart3, Landmark, X } from 'lucide-react';
+import { Search, MapPin, Users, TrendingUp, Store, ChevronDown, IndianRupee, X } from 'lucide-react';
 
 function PincodeExplorer() {
   const { isDarkMode } = useTheme();
@@ -241,7 +241,7 @@ function PincodeExplorer() {
               <div className={`p-3 rounded-lg ${b('bg-green-50', 'bg-green-900/20')}`}>
                 <TrendingUp size={16} className="text-green-500 mb-1" />
                 <p className={`text-[10px] uppercase ${b('text-gray-500', 'text-gray-400')}`}>Growth</p>
-                <p className={`text-sm font-bold ${b('text-gray-900', 'text-white')}`}>{selectedArea.populationGrowth}%</p>
+                <p className={`text-sm font-bold ${b('text-gray-900', 'text-white')}`}>{selectedArea.populationGrowth ?? 0}%</p>
               </div>
               <div className={`p-3 rounded-lg ${b('bg-purple-50', 'bg-purple-900/20')}`}>
                 <IndianRupee size={16} className="text-purple-500 mb-1" />
@@ -251,7 +251,7 @@ function PincodeExplorer() {
               <div className={`p-3 rounded-lg ${b('bg-orange-50', 'bg-orange-900/20')}`}>
                 <Store size={16} className="text-orange-500 mb-1" />
                 <p className={`text-[10px] uppercase ${b('text-gray-500', 'text-gray-400')}`}>Total Shops</p>
-                <p className={`text-sm font-bold ${b('text-gray-900', 'text-white')}`}>{selectedArea.totalBusinesses}</p>
+                <p className={`text-sm font-bold ${b('text-gray-900', 'text-white')}`}>{selectedArea.totalBusinesses ?? 0}</p>
               </div>
             </div>
 
@@ -327,24 +327,24 @@ function PincodeExplorer() {
                     <p className={`text-[10px] ${b('text-gray-400', 'text-gray-500')}`}>Population</p>
                   </div>
                   <div className={`text-center p-1.5 rounded-lg ${b('bg-gray-50', 'bg-[#0f172a]')}`}>
-                    <p className={`text-xs font-bold ${b('text-gray-900', 'text-white')}`}>{area.totalBusinesses}</p>
+                    <p className={`text-xs font-bold ${b('text-gray-900', 'text-white')}`}>{area.totalBusinesses ?? 0}</p>
                     <p className={`text-[10px] ${b('text-gray-400', 'text-gray-500')}`}>Shops</p>
                   </div>
                   <div className={`text-center p-1.5 rounded-lg ${b('bg-gray-50', 'bg-[#0f172a]')}`}>
-                    <p className={`text-xs font-bold ${b('text-gray-900', 'text-white')}`}>{area.highOpportunityCount}</p>
+                    <p className={`text-xs font-bold ${b('text-gray-900', 'text-white')}`}>{area.highOpportunityCount ?? 0}</p>
                     <p className={`text-[10px] ${b('text-gray-400', 'text-gray-500')}`}>High Opp.</p>
                   </div>
                 </div>
 
                 <div className="flex flex-wrap gap-1">
                   <span className={`px-1.5 py-0.5 rounded text-[10px] font-medium ${b('bg-gray-100 text-gray-600', 'bg-[#0f172a] text-gray-400')}`}>
-                    {area.incomeLevel} Income
+                    {area.incomeLevel ?? 'N/A'} Income
                   </span>
                   <span className={`px-1.5 py-0.5 rounded text-[10px] font-medium ${b('bg-gray-100 text-gray-600', 'bg-[#0f172a] text-gray-400')}`}>
-                    {area.trafficLevel} Traffic
+                    {area.trafficLevel ?? 'N/A'} Traffic
                   </span>
                   <span className={`px-1.5 py-0.5 rounded text-[10px] font-medium ${b('bg-gray-100 text-gray-600', 'bg-[#0f172a] text-gray-400')}`}>
-                    +{area.populationGrowth}% Growth
+                    +{area.populationGrowth ?? 0}% Growth
                   </span>
                 </div>
               </motion.div>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { MapPin, Users, TrendingUp, Target, BarChart3, Building2, ArrowRight, Lock } from 'lucide-react';
+import { MapPin, Users, Target, BarChart3, Building2, ArrowRight, Lock } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 import { useAuth } from '../contexts/AuthContext';
 import { averageOfValues } from '../utils/dataUtils';
@@ -127,7 +127,7 @@ export default function LandingPreview({ area, onNavigate }) {
                       className={`h-full rounded-full ${colors.bar}`}
                     />
                   </div>
-                  <span className={`text-[10px] sm:text-xs font-extrabold w-8 sm:w-12 ${colors.text}`}>{score.toFixed(0)}</span>
+                  <span className={`text-[10px] sm:text-xs font-extrabold w-8 sm:w-12 ${colors.text}`}>{(score ?? 0).toFixed(0)}</span>
                 </div>
               );
             })}

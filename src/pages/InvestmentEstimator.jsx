@@ -4,7 +4,7 @@ import { useTheme } from '../contexts/ThemeContext';
 import { useDistrict } from '../contexts/DistrictContext';
 import { useToast } from '../contexts/ToastContext';
 import { explorerAPI, areasAPI } from '../services/api';
-import { Calculator, ChevronDown, TrendingUp, TrendingDown, IndianRupee, Users, Clock, BarChart3, Target, Store, MapPin, Info, ArrowUpRight, ArrowDownRight } from 'lucide-react';
+import { Calculator, ChevronDown, TrendingUp, TrendingDown, IndianRupee, Users, Clock, BarChart3, Target, Store } from 'lucide-react';
 
 function InvestmentEstimator() {
   const { isDarkMode } = useTheme();
@@ -293,7 +293,7 @@ function CostItem({ label, value, b }) {
   return (
     <div className={`p-3 rounded-lg ${b('bg-gray-50', 'bg-[#0f172a]')}`}>
       <p className={`text-[10px] uppercase font-semibold ${b('text-gray-500', 'text-gray-400')}`}>{label}</p>
-      <p className={`text-sm font-bold ${b('text-gray-900', 'text-white')}`}>{'Rs. ' + (value / 1000).toFixed(0) + 'K'}/mo</p>
+      <p className={`text-sm font-bold ${b('text-gray-900', 'text-white')}`}>{'Rs. ' + ((value || 0) / 1000).toFixed(0) + 'K'}/mo</p>
     </div>
   );
 }

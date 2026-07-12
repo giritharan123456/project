@@ -8,8 +8,8 @@ import { areasAPI, analyticsAPI, explorerAPI } from '../services/api';
 import { useToast } from '../contexts/ToastContext';
 import { transformAreaToPincodeData } from '../utils/dataUtils';
 import {
-  BarChart3, TrendingUp, MapPin, Users, Target, Calculator,
-  AlertTriangle, DollarSign, Activity, Globe, Zap, ArrowRight, CheckCircle, XCircle
+  BarChart3, TrendingUp, MapPin, Users, Target,
+  AlertTriangle, DollarSign, Activity, Globe, Zap, CheckCircle
 } from 'lucide-react';
 
 function Analysis() {

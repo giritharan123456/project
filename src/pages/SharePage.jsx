@@ -4,7 +4,7 @@ import { useTheme } from '../contexts/ThemeContext';
 import { shareAPI } from '../services/api';
 import LoadingSpinner from '../components/LoadingSpinner';
 import EmptyState from '../components/EmptyState';
-import { ExternalLink } from 'lucide-react';
+import { Clock } from 'lucide-react';
 
 function SharePage() {
   const { isDarkMode } = useTheme();

@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { MapPin, Users, TrendingUp, Building2, Target, BarChart3, X, Loader2 } from 'lucide-react';
+import { MapPin, Users, Building2, Target, BarChart3, X, Loader2 } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 import { averageOfValues } from '../utils/dataUtils';
 
