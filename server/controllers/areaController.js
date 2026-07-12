@@ -2,6 +2,7 @@ const Area = require('../models/Area');
 const District = require('../models/District');
 const { createNotification } = require('./notificationController');
 const calculateScores = require('../utils/calculateScores');
+const { convertMapFields, convertMapFieldsArray } = require('../utils/leanHelpers');
 const logger = require('../utils/logger');
 
 const escapeRegex = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -13,7 +14,7 @@ const getAreaByPincode = async (req, res) => {
   try {
     const { pincode } = req.params;
     
-    const area = await Area.findOne({ pincode }).lean().populate('district', 'name');
+    const area = convertMapFields(await Area.findOne({ pincode }).lean().populate('district', 'name'));
     
     if (!area) {
       return res.status(404).json({ 
@@ -84,7 +85,7 @@ const getAllAreas = async (req, res) => {
       ];
     }
 
-    const [areas, total] = await Promise.all([
+    const [rawAreas, total] = await Promise.all([
       Area.find(query)
         .lean()
         .populate('district', 'name')
@@ -93,6 +94,7 @@ const getAllAreas = async (req, res) => {
         .limit(limitNum),
       Area.countDocuments(query)
     ]);
+    const areas = convertMapFieldsArray(rawAreas);
     
     res.json({
       success: true,
@@ -112,7 +114,7 @@ const getAllAreas = async (req, res) => {
 // @access  Public
 const getAreaById = async (req, res) => {
   try {
-    const area = await Area.findById(req.params.id).lean().populate('district', 'name');
+    const area = convertMapFields(await Area.findById(req.params.id).lean().populate('district', 'name'));
     if (area) {
       res.json({
         success: true,
@@ -132,10 +134,11 @@ const getAreaById = async (req, res) => {
 const getAreasByDistrict = async (req, res) => {
   try {
     const limit = Math.min(Math.max(parseInt(req.query.limit) || 500, 1), 1000);
-    const areas = await Area.find({ district: req.params.districtId })
+    const rawAreas = await Area.find({ district: req.params.districtId })
       .lean()
       .populate('district', 'name')
       .limit(limit);
+    const areas = convertMapFieldsArray(rawAreas);
       
     res.json({
       success: true,

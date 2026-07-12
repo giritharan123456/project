@@ -1,6 +1,7 @@
 const Content = require('../models/Content');
 const Area = require('../models/Area');
 const District = require('../models/District');
+const { convertMapFieldsArray } = require('../utils/leanHelpers');
 const logger = require('../utils/logger');
 
 // @desc    Get landing page content
@@ -21,7 +22,7 @@ const getLandingContent = async (req, res) => {
       let totalHouseholds = 0;
       
       // Aggregate population and households from all areas
-      const areas = await Area.find({}).lean().limit(1000);
+      const areas = convertMapFieldsArray(await Area.find({}).lean().limit(1000));
       areas.forEach(area => {
         totalPopulation += area.population || 0;
         totalHouseholds += Math.floor((area.population || 0) / 4); // Estimate households

@@ -1,5 +1,6 @@
 const Area = require('../models/Area');
 const District = require('../models/District');
+const { convertMapFields, convertMapFieldsArray } = require('../utils/leanHelpers');
 const logger = require('../utils/logger');
 
 const escapeRegex = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -24,10 +25,11 @@ const searchAreas = async (req, res) => {
       searchQuery.district = district;
     }
 
-    const areas = await Area.find(searchQuery)
+    const rawAreas = await Area.find(searchQuery)
       .lean()
       .populate('district', 'name')
       .limit(Math.min(parseInt(limit) || 20, 100));
+    const areas = convertMapFieldsArray(rawAreas);
       
     res.json({
       success: true,
@@ -44,7 +46,7 @@ const searchAreas = async (req, res) => {
 // @access  Public
 const searchByPincode = async (req, res) => {
   try {
-    const area = await Area.findOne({ pincode: req.params.pincode }).lean().populate('district', 'name');
+    const area = convertMapFields(await Area.findOne({ pincode: req.params.pincode }).lean().populate('district', 'name'));
     
     if (area) {
       res.json({
@@ -65,9 +67,10 @@ const searchByPincode = async (req, res) => {
 const searchByName = async (req, res) => {
   try {
     const escapedName = req.params.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    const areas = await Area.find({ 
+    const rawAreas = await Area.find({ 
       name: { $regex: escapedName, $options: 'i' } 
     }).lean().populate('district', 'name');
+    const areas = convertMapFieldsArray(rawAreas);
       
     res.json({
       success: true,

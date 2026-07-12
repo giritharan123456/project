@@ -1,5 +1,6 @@
 const Area = require('../models/Area');
 const User = require('../models/User');
+const { convertMapFieldsArray } = require('../utils/leanHelpers');
 const logger = require('../utils/logger');
 
 // @desc    Compare multiple areas
@@ -16,7 +17,8 @@ const compareAreas = async (req, res) => {
       });
     }
 
-    const areas = await Area.find({ _id: { $in: areaIds } }).lean().populate('district', 'name');
+    const rawAreas = await Area.find({ _id: { $in: areaIds } }).lean().populate('district', 'name');
+    const areas = convertMapFieldsArray(rawAreas);
     
     if (areas.length !== areaIds.length) {
       return res.status(404).json({ 

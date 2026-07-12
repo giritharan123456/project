@@ -1,16 +1,18 @@
 const Area = require('../models/Area');
 const District = require('../models/District');
 const BusinessCategory = require('../models/BusinessCategory');
+const { convertMapFieldsArray } = require('../utils/leanHelpers');
 const logger = require('../utils/logger');
 
 const getSmartResponse = async (query) => {
   const q = query.toLowerCase().trim();
 
-  const [areas, districts, categories] = await Promise.all([
+  const [rawAreas, districts, categories] = await Promise.all([
     Area.find().populate('district', 'name').lean().limit(200),
     District.find(),
     BusinessCategory.find()
   ]);
+  const areas = convertMapFieldsArray(rawAreas);
 
   const pincodeMatch = q.match(/\b(\d{6})\b/);
   if (pincodeMatch) {

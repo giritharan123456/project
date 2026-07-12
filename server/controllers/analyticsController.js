@@ -1,5 +1,6 @@
 const Area = require('../models/Area');
 const District = require('../models/District');
+const { convertMapFields, convertMapFieldsArray } = require('../utils/leanHelpers');
 const logger = require('../utils/logger');
 
 // @desc    Get analytics overview — computed from real DB data
@@ -26,7 +27,7 @@ const getAnalyticsOverview = async (req, res) => {
     const totalAreas = await Area.countDocuments();
 
     // ── Business opportunity counts ──────────────────────────────────
-    const allAreas = await Area.find({}, 'marketGapScores').lean().limit(500);
+    const allAreas = convertMapFieldsArray(await Area.find({}, 'marketGapScores').lean().limit(500));
     let highOpportunity = 0;
     let mediumOpportunity = 0;
     let lowOpportunity = 0;
@@ -161,7 +162,7 @@ const getDistrictAnalytics = async (req, res) => {
       return res.status(404).json({ success: false, message: 'District not found' });
     }
 
-    const areas = await Area.find({ district: req.params.districtId }).lean();
+    const areas = convertMapFieldsArray(await Area.find({ district: req.params.districtId }).lean());
 
     const areaCount = areas.length;
     const totalPopulation = areas.reduce((sum, a) => sum + (Number(a.population) || 0), 0);

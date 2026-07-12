@@ -53,6 +53,8 @@ const userSchema = new mongoose.Schema({
   },
 }, { timestamps: true });
 
+userSchema.index({ resetPasswordToken: 1, resetPasswordExpire: 1 });
+
 // Hash password before saving
 userSchema.pre('save', async function() {
   if (!this.isModified('password')) {

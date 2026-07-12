@@ -1,5 +1,6 @@
 const Area = require('../models/Area');
 const District = require('../models/District');
+const { convertMapFields, convertMapFieldsArray } = require('../utils/leanHelpers');
 const logger = require('../utils/logger');
 
 // @desc    Get market data for all areas
@@ -14,10 +15,11 @@ const getMarketData = async (req, res) => {
       query.district = district;
     }
 
-    const areas = await Area.find(query)
+    const rawAreas = await Area.find(query)
       .lean()
       .populate('district', 'name')
       .limit(Math.min(parseInt(limit) || 100, 500));
+    const areas = convertMapFieldsArray(rawAreas);
       
     res.json({
       success: true,
@@ -34,7 +36,7 @@ const getMarketData = async (req, res) => {
 // @access  Public
 const getMarketDataByArea = async (req, res) => {
   try {
-    const area = await Area.findById(req.params.areaId).lean().populate('district', 'name');
+    const area = convertMapFields(await Area.findById(req.params.areaId).lean().populate('district', 'name'));
     if (area) {
       res.json({
         success: true,
@@ -65,10 +67,11 @@ const getMarketDataByArea = async (req, res) => {
 // @access  Public
 const getMarketDataByDistrict = async (req, res) => {
   try {
-    const areas = await Area.find({ district: req.params.districtId })
+    const rawAreas = await Area.find({ district: req.params.districtId })
       .lean()
       .populate('district', 'name')
       .limit(500);
+    const areas = convertMapFieldsArray(rawAreas);
       
     res.json({
       success: true,

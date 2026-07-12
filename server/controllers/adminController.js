@@ -4,6 +4,7 @@ const BusinessCategory = require('../models/BusinessCategory');
 const User = require('../models/User');
 const calculateScores = require('../utils/calculateScores');
 const { createNotification } = require('./notificationController');
+const { convertMapFields, convertMapFieldsArray } = require('../utils/leanHelpers');
 const logger = require('../utils/logger');
 
 // @desc    Get all districts
@@ -124,7 +125,8 @@ const deleteDistrict = async (req, res) => {
 const getAllAreas = async (req, res) => {
   try {
     const limit = Math.min(Math.max(parseInt(req.query.limit) || 500, 1), 1000);
-    const areas = await Area.find({}).lean().populate('district', 'name').sort({ name: 1 }).limit(limit);
+    const rawAreas = await Area.find({}).lean().populate('district', 'name').sort({ name: 1 }).limit(limit);
+    const areas = convertMapFieldsArray(rawAreas);
     res.json({
       success: true,
       count: areas.length,
@@ -140,7 +142,8 @@ const getAllAreas = async (req, res) => {
 // @access  Admin
 const getAreasByDistrict = async (req, res) => {
   try {
-    const areas = await Area.find({ district: req.params.districtId }).lean().populate('district', 'name');
+    const rawAreas = await Area.find({ district: req.params.districtId }).lean().populate('district', 'name');
+    const areas = convertMapFieldsArray(rawAreas);
     res.json({
       success: true,
       count: areas.length,
@@ -168,7 +171,7 @@ const createArea = async (req, res) => {
     });
     calculateScores(area);
     await area.save();
-    const populatedArea = await Area.findById(area._id).lean().populate('district', 'name');
+    const populatedArea = convertMapFields(await Area.findById(area._id).lean().populate('district', 'name'));
 
     if (req.user) {
       const districtName = populatedArea.district?.name || '';
@@ -206,7 +209,7 @@ const updateArea = async (req, res) => {
     }
     calculateScores(area);
     await area.save();
-    const populated = await Area.findById(area._id).lean().populate('district', 'name');
+    const populated = convertMapFields(await Area.findById(area._id).lean().populate('district', 'name'));
 
     if (req.user) {
       const districtName = populated.district?.name || '';
@@ -240,7 +243,7 @@ const deleteArea = async (req, res) => {
     }
     const areaName = area.name;
     const pincode = area.pincode;
-    const populatedArea = await Area.findById(area._id).lean().populate('district', 'name');
+    const populatedArea = convertMapFields(await Area.findById(area._id).lean().populate('district', 'name'));
     const districtName = populatedArea?.district?.name || '';
     await Area.findByIdAndDelete(req.params.id);
 

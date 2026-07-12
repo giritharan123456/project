@@ -69,7 +69,7 @@ const districtValidation = [
 ];
 
 const areaSearchValidation = [
-  query('q').trim().isLength({ min: 1, max: 100 }).withMessage('Search query required'),
+  query('query').trim().isLength({ min: 1, max: 100 }).withMessage('Search query required'),
   handleValidationErrors
 ];
 
@@ -91,8 +91,8 @@ const districtCreateValidation = [
 ];
 
 const comparisonValidation = [
-  body('areas').isArray({ min: 2, max: 5 }).withMessage('2-5 areas required for comparison'),
-  body('areas.*').isMongoId().withMessage('Valid area IDs required'),
+  body('areaIds').isArray({ min: 2, max: 5 }).withMessage('2-5 areas required for comparison'),
+  body('areaIds.*').isMongoId().withMessage('Valid area IDs required'),
   handleValidationErrors
 ];
 

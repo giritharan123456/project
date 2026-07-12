@@ -1,4 +1,5 @@
 const Area = require('../models/Area');
+const { convertMapFields, convertMapFieldsArray } = require('../utils/leanHelpers');
 const logger = require('../utils/logger');
 
 // @desc    Get forecast data for all areas
@@ -14,7 +15,8 @@ const getForecastData = async (req, res) => {
     }
 
     const areaLimit = Math.min(Math.max(parseInt(req.query.limit) || 500, 1), 1000);
-    const areas = await Area.find(query).lean().populate('district', 'name').limit(areaLimit);
+    const rawAreas = await Area.find(query).lean().populate('district', 'name').limit(areaLimit);
+    const areas = convertMapFieldsArray(rawAreas);
     
     // Generate forecast data based on timeframe
     const forecastData = areas.map(area => {
@@ -59,7 +61,7 @@ const getForecastData = async (req, res) => {
 const getForecastByArea = async (req, res) => {
   try {
     const { timeframe } = req.query;
-    const area = await Area.findById(req.params.areaId).lean().populate('district', 'name');
+    const area = convertMapFields(await Area.findById(req.params.areaId).lean().populate('district', 'name'));
     
     if (!area) {
       return res.status(404).json({ success: false, message: 'Area not found' });
@@ -120,7 +122,8 @@ const getForecastByArea = async (req, res) => {
 const getForecastByDistrict = async (req, res) => {
   try {
     const { timeframe } = req.query;
-    const areas = await Area.find({ district: req.params.districtId }).lean().populate('district', 'name');
+    const rawAreas = await Area.find({ district: req.params.districtId }).lean().populate('district', 'name');
+    const areas = convertMapFieldsArray(rawAreas);
     
     const years = timeframe === '10years' ? 10 : 5;
     const forecastData = areas.map(area => {

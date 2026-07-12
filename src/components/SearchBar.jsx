@@ -11,6 +11,7 @@ function SearchBar({ onSearch, onChange, placeholder = "Search by area or pincod
   const [serverSuggestions, setServerSuggestions] = useState([]);
   const blurTimeoutRef = useRef(null);
   const searchTimeoutRef = useRef(null);
+  const abortRef = useRef(null);
 
   useEffect(() => {
     if (value !== undefined) setSearchTerm(value);
@@ -20,6 +21,7 @@ function SearchBar({ onSearch, onChange, placeholder = "Search by area or pincod
     return () => {
       if (blurTimeoutRef.current) clearTimeout(blurTimeoutRef.current);
       if (searchTimeoutRef.current) clearTimeout(searchTimeoutRef.current);
+      if (abortRef.current) abortRef.current.abort();
     };
   }, []);
 
@@ -31,10 +33,13 @@ function SearchBar({ onSearch, onChange, placeholder = "Search by area or pincod
       return;
     }
     searchTimeoutRef.current = setTimeout(async () => {
+      if (abortRef.current) abortRef.current.abort();
+      const controller = new AbortController();
+      abortRef.current = controller;
       try {
-        const res = await searchAPI.suggestions(searchTerm, district);
-        if (Array.isArray(res.data)) setServerSuggestions(res.data);
-      } catch { setServerSuggestions([]); }
+        const res = await searchAPI.suggestions(searchTerm, district, { signal: controller.signal });
+        if (!controller.signal.aborted && Array.isArray(res.data)) setServerSuggestions(res.data);
+      } catch { if (!controller.signal.aborted) setServerSuggestions([]); }
     }, 300);
     return () => { if (searchTimeoutRef.current) clearTimeout(searchTimeoutRef.current); };
   }, [searchTerm, district]);

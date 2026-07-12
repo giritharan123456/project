@@ -1,6 +1,7 @@
 const Area = require('../models/Area');
 const BusinessCategory = require('../models/BusinessCategory');
 const District = require('../models/District');
+const { convertMapFields, convertMapFieldsArray } = require('../utils/leanHelpers');
 const logger = require('../utils/logger');
 
 const ALLOWED_SORT_FIELDS = ['opportunityScore', 'feasibilityScore', 'population', 'populationGrowth', 'demand', 'supply', 'gap', 'name', 'createdAt'];
@@ -16,7 +17,8 @@ const getCategoryExplorer = async (req, res) => {
     const filter = {};
     if (district) filter.district = district;
     const areaLimit = Math.min(Math.max(parseInt(req.query.areaLimit) || 500, 1), 1000);
-    const areas = await Area.find(filter).lean().populate('district', 'name').limit(areaLimit);
+    const rawAreas = await Area.find(filter).lean().populate('district', 'name').limit(areaLimit);
+    const areas = convertMapFieldsArray(rawAreas);
 
     const enriched = categories.map(cat => {
       const areasWithCat = areas.filter(a => a.marketGapScores && (a.marketGapScores[cat.name] != null || a.marketGapScores.get?.(cat.name) != null));
@@ -53,10 +55,11 @@ const getLeaderboard = async (req, res) => {
     const safePage = Math.max(1, parseInt(page) || 1);
     const safeLimit = Math.min(200, Math.max(1, parseInt(limit) || 20));
     const skip = (safePage - 1) * safeLimit;
-    const [areas, total] = await Promise.all([
+    const [rawAreas, total] = await Promise.all([
       Area.find(filter).lean().populate('district', 'name').sort(sortField).skip(skip).limit(safeLimit),
       Area.countDocuments(filter)
     ]);
+    const areas = convertMapFieldsArray(rawAreas);
 
     const enriched = areas.map(a => {
       const gaps = a.marketGapScores ? Object.fromEntries(a.marketGapScores) : {};
@@ -91,10 +94,11 @@ const getMatrix = async (req, res) => {
     const filter = {};
     if (district) filter.district = district;
 
-    const [areas, categories] = await Promise.all([
+    const [rawAreas, categories] = await Promise.all([
       Area.find(filter).populate('district', 'name').lean(),
       BusinessCategory.find().lean()
     ]);
+    const areas = convertMapFieldsArray(rawAreas);
 
     const matrix = categories.map(cat => {
       const scores = areas.map(a => ({
@@ -137,7 +141,7 @@ const getInvestmentEstimate = async (req, res) => {
     if (!cat) return res.status(404).json({ success: false, message: 'Category not found' });
 
     let area = null;
-    if (areaId) area = await Area.findById(areaId).lean().populate('district', 'name');
+    if (areaId) area = convertMapFields(await Area.findById(areaId).lean().populate('district', 'name'));
 
     const baseMin = cat.minInvestment || 500000;
     const baseMax = cat.maxInvestment || 5000000;
@@ -199,9 +203,9 @@ const getInvestmentEstimate = async (req, res) => {
       const marketSaturation = competitorsForCat > 5 ? 'High' : competitorsForCat > 2 ? 'Moderate' : 'Low';
       const demandLabel = demandScore > 70 ? 'Very High' : demandScore > 50 ? 'High' : demandScore > 30 ? 'Moderate' : 'Low';
 
-      const topAreas = await Area.find({
+      const topAreas = convertMapFieldsArray(await Area.find({
         [`demandScores.${cat.name}`]: { $gt: 0 }
-      }).lean().populate('district', 'name').sort({ [`marketGapScores.${cat.name}`]: -1 }).limit(5).select('name pincode district');
+      }).lean().populate('district', 'name').sort({ [`marketGapScores.${cat.name}`]: -1 }).limit(5).select('name pincode district'));
 
       areaContext = {
         areaInfo: {
@@ -278,9 +282,10 @@ const recalculateScores = async (req, res) => {
     const cursor = Area.find().lean().cursor();
     let total = 0;
     let bulkOps = [];
-    for await (const area of cursor) {
-      const gaps = area.marketGapScores ? Object.fromEntries(area.marketGapScores) : {};
-      const demands = area.demandScores ? Object.fromEntries(area.demandScores) : {};
+    for await (const rawArea of cursor) {
+      const area = convertMapFields(rawArea);
+      const gaps = area.marketGapScores || {};
+      const demands = area.demandScores || {};
       const gapValues = Object.values(gaps);
       const demandValues = Object.values(demands);
 
@@ -337,10 +342,11 @@ const getPincodeShops = async (req, res) => {
     const limitNum = Math.min(Math.max(parseInt(limit) || 50, 1), 100);
     const skip = (pageNum - 1) * limitNum;
 
-    const [areas, total] = await Promise.all([
+    const [rawAreas, total] = await Promise.all([
       Area.find(filter).lean().populate('district', 'name').sort({ [sortBy]: -1 }).skip(skip).limit(limitNum),
       Area.countDocuments(filter)
     ]);
+    const areas = convertMapFieldsArray(rawAreas);
 
     const categories = await BusinessCategory.find().lean().select('name demand supply gap minInvestment maxInvestment');
     const catMap = {};
