@@ -201,7 +201,7 @@ function Landing() {
           <div className="absolute top-20 left-10 w-96 h-96 bg-[#2563eb] rounded-full blur-[150px]" />
           <div className="absolute bottom-10 right-10 w-96 h-96 bg-[#7c3aed] rounded-full blur-[150px]" />
         </div>
-        <div className="max-w-7xl mx-auto relative">
+        <div className="max-w-7xl mx-auto relative w-full">
           <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 items-center">
             <motion.div initial={{ opacity: 0, x: -40 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }} className="min-w-0">
               <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-[#2563eb]/10 text-[#2563eb] text-xs sm:text-sm font-semibold mb-4 sm:mb-6">
