@@ -143,14 +143,14 @@ function Landing() {
   ];
 
   return (
-    <div className={`min-h-screen w-full max-w-full overflow-x-hidden ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
+    <div className={`min-h-screen ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
       {/* Navigation */}
       <nav className={`fixed top-0 left-0 right-0 z-50 border-b backdrop-blur-xl ${isDarkMode ? 'bg-[#0f172a]/80 border-[#334155]' : 'bg-[#f8fafc]/80 border-[#e2e8f0]'}`}>
-        <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
-            <div className="flex items-center gap-2">
-              <Target className="text-[#2563eb]" size={32} />
-              <span className="text-xl font-bold bg-gradient-to-r from-[#2563eb] to-[#7c3aed] bg-clip-text text-transparent">
+            <div className="flex items-center gap-2 min-w-0">
+              <Target className="text-[#2563eb] flex-shrink-0" size={28} />
+              <span className="text-lg sm:text-xl font-bold bg-gradient-to-r from-[#2563eb] to-[#7c3aed] bg-clip-text text-transparent whitespace-nowrap">
                 MarketVision AI
               </span>
             </div>
@@ -196,14 +196,14 @@ function Landing() {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative pt-20 sm:pt-28 pb-10 sm:pb-16 px-5 sm:px-8 lg:px-10">
-        <div className="absolute inset-0 opacity-10 overflow-hidden">
-          <div className="absolute top-20 left-10 w-96 h-96 bg-[#2563eb] rounded-full blur-[150px]" />
-          <div className="absolute bottom-10 right-10 w-96 h-96 bg-[#7c3aed] rounded-full blur-[150px]" />
+      <section className="relative pt-20 sm:pt-28 pb-10 sm:pb-16 px-4 sm:px-8 lg:px-10">
+        <div className="absolute inset-0 opacity-10 overflow-hidden pointer-events-none">
+          <div className="absolute top-20 left-4 sm:left-10 w-48 sm:w-96 h-48 sm:h-96 bg-[#2563eb] rounded-full blur-[100px] sm:blur-[150px]" />
+          <div className="absolute bottom-10 right-4 sm:right-10 w-48 sm:w-96 h-48 sm:h-96 bg-[#7c3aed] rounded-full blur-[100px] sm:blur-[150px]" />
         </div>
-        <div className="max-w-7xl mx-auto relative w-full overflow-hidden">
+        <div className="max-w-7xl mx-auto relative w-full">
           <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 items-center">
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="min-w-0 overflow-hidden">
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="min-w-0">
               <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-[#2563eb]/10 text-[#2563eb] text-xs sm:text-sm font-semibold mb-4 sm:mb-6">
                 <Zap size={14} />
                 AI-Powered Market Intelligence
@@ -218,11 +218,11 @@ function Landing() {
                 Identify underserved markets, analyze competition, and make data-driven business decisions with real market intelligence across 38 districts.
               </p>
               <div className="flex flex-col sm:flex-row gap-3 mb-6 sm:mb-8">
-                <Link to="/signup" className="flex-1 sm:flex-1 px-6 py-3 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white rounded-xl font-semibold text-center hover:opacity-90 transition-opacity shadow-lg shadow-blue-500/25 flex items-center justify-center gap-2">
+                <Link to="/signup" className="px-5 py-3 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white rounded-xl font-semibold text-center hover:opacity-90 transition-opacity shadow-lg shadow-blue-500/25 flex items-center justify-center gap-2 min-w-0">
                   Get Started Free
-                  <ArrowRight size={18} />
+                  <ArrowRight size={18} className="flex-shrink-0" />
                 </Link>
-                <Link to="/login" className={`flex-1 sm:flex-1 px-6 py-3 rounded-xl font-semibold text-center border-2 transition-colors ${isDarkMode ? 'text-white border-[#334155] hover:bg-[#1e293b]' : 'text-gray-700 border-gray-200 hover:bg-gray-50'}`}>
+                <Link to="/login" className={`px-5 py-3 rounded-xl font-semibold text-center border-2 transition-colors min-w-0 ${isDarkMode ? 'text-white border-[#334155] hover:bg-[#1e293b]' : 'text-gray-700 border-gray-200 hover:bg-gray-50'}`}>
                   View Demo Dashboard
                 </Link>
               </div>
@@ -288,7 +288,7 @@ function Landing() {
             </div>
 
             {/* Desktop Search Panel - visible only on lg+ */}
-            <motion.div initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, delay: 0.2 }} className="hidden lg:block">
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }} className="hidden lg:block">
               <div className={`p-6 sm:p-8 rounded-3xl border shadow-2xl ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-gray-200'}`}>
                 <form onSubmit={handleSearch} className="relative">
                   <div className="flex items-center gap-2 sm:gap-3 mb-4">
@@ -369,7 +369,7 @@ function Landing() {
 
       {/* Rich Preview Section */}
       {searchPreview && !searchLoading && (
-        <section className="py-10 px-5 sm:px-8 lg:px-10">
+        <section className="py-10 px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto">
             <LandingPreview area={searchPreview} onNavigate={() => handleNavigate(searchPreview.pincode || searchQuery.trim())} />
           </div>
@@ -377,7 +377,7 @@ function Landing() {
       )}
 
       {/* Features Section */}
-      <section id="features" className="py-12 sm:py-20 px-5 sm:px-8 lg:px-10">
+      <section id="features" className="py-12 sm:py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-10 sm:mb-16">
             <span className="inline-block px-3 sm:px-4 py-1 sm:py-1.5 rounded-full bg-[#2563eb]/10 text-[#2563eb] text-xs sm:text-sm font-semibold mb-3 sm:mb-4">Features</span>
@@ -414,7 +414,7 @@ function Landing() {
       </section>
 
       {/* How It Works */}
-      <section id="how-it-works" className={`py-12 sm:py-20 px-5 sm:px-8 lg:px-10 ${isDarkMode ? 'bg-[#1e293b]/50' : 'bg-gray-50'}`}>
+      <section id="how-it-works" className={`py-12 sm:py-20 px-4 sm:px-6 lg:px-8 ${isDarkMode ? 'bg-[#1e293b]/50' : 'bg-gray-50'}`}>
         <div className="max-w-7xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-10 sm:mb-16">
             <span className="inline-block px-3 sm:px-4 py-1 sm:py-1.5 rounded-full bg-[#2563eb]/10 text-[#2563eb] text-xs sm:text-sm font-semibold mb-3 sm:mb-4">Process</span>
@@ -447,7 +447,7 @@ function Landing() {
       </section>
 
       {/* Stats Section */}
-      <section className="py-12 sm:py-20 px-5 sm:px-8 lg:px-10">
+      <section className="py-12 sm:py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6">
             {platformStats.map((stat, i) => (
@@ -464,7 +464,7 @@ function Landing() {
       </section>
 
       {/* FAQ Section */}
-      <section id="faq" className={`py-12 sm:py-20 px-5 sm:px-8 lg:px-10 ${isDarkMode ? 'bg-[#1e293b]/50' : 'bg-gray-50'}`}>
+      <section id="faq" className={`py-12 sm:py-20 px-4 sm:px-6 lg:px-8 ${isDarkMode ? 'bg-[#1e293b]/50' : 'bg-gray-50'}`}>
         <div className="max-w-3xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-8 sm:mb-12">
             <span className="inline-block px-3 sm:px-4 py-1 sm:py-1.5 rounded-full bg-[#2563eb]/10 text-[#2563eb] text-xs sm:text-sm font-semibold mb-3 sm:mb-4">FAQ</span>
@@ -495,13 +495,13 @@ function Landing() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-12 sm:py-20 px-5 sm:px-8 lg:px-10">
+      <section className="py-12 sm:py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
             className="relative p-5 sm:p-8 md:p-12 rounded-3xl bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-center overflow-hidden">
-            <div className="absolute inset-0 opacity-10">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-white rounded-full blur-[100px]" />
-              <div className="absolute bottom-0 left-0 w-48 h-48 bg-white rounded-full blur-[80px]" />
+            <div className="absolute inset-0 opacity-10 overflow-hidden pointer-events-none">
+              <div className="absolute top-0 right-0 w-40 sm:w-64 h-40 sm:h-64 bg-white rounded-full blur-[60px] sm:blur-[100px]" />
+              <div className="absolute bottom-0 left-0 w-32 sm:w-48 h-32 sm:h-48 bg-white rounded-full blur-[50px] sm:blur-[80px]" />
             </div>
             <div className="relative">
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3 sm:mb-4">
@@ -525,7 +525,7 @@ function Landing() {
       </section>
 
       {/* Footer */}
-      <footer className={`py-8 sm:py-12 px-5 sm:px-8 lg:px-10 border-t ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-gray-200'}`}>
+      <footer className={`py-8 sm:py-12 px-4 sm:px-6 lg:px-8 border-t ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-gray-200'}`}>
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
             <div>
