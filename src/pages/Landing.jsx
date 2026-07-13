@@ -143,7 +143,7 @@ function Landing() {
   ];
 
   return (
-    <div className={`min-h-screen overflow-hidden ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
+    <div className={`min-h-screen overflow-hidden max-w-full ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
       {/* Navigation */}
       <nav className={`fixed top-0 left-0 right-0 z-50 border-b ${isDarkMode ? 'bg-[#0f172a]/90 border-[#334155]' : 'bg-[#f8fafc]/90 border-[#e2e8f0]'}`}>
         <div className="max-w-7xl mx-auto px-5">
@@ -217,12 +217,12 @@ function Landing() {
               <p className={`text-sm sm:text-base md:text-lg mb-6 sm:mb-8 leading-relaxed break-words ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`} style={{ maxWidth: '100%', overflowWrap: 'break-word', wordBreak: 'break-word' }}>
                 Identify underserved markets, analyze competition, and make data-driven business decisions with real market intelligence across 38 districts.
               </p>
-              <div className="flex flex-col sm:flex-row gap-3 mb-6 sm:mb-8">
-                <Link to="/signup" className="px-4 py-2.5 sm:px-6 sm:py-3 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white rounded-xl font-semibold text-center hover:opacity-90 transition-opacity shadow-lg shadow-blue-500/25 flex items-center justify-center gap-2 min-w-0 text-sm sm:text-base">
+              <div className="flex flex-col sm:flex-row gap-3 mb-6 sm:mb-8 items-center">
+                <Link to="/signup" className="px-6 py-2.5 sm:px-6 sm:py-3 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white rounded-xl font-semibold text-center hover:opacity-90 transition-opacity shadow-lg shadow-blue-500/25 flex items-center justify-center gap-2 text-sm sm:text-base">
                   Get Started Free
                   <ArrowRight size={16} className="flex-shrink-0" />
                 </Link>
-                <Link to="/login" className={`px-4 py-2.5 sm:px-6 sm:py-3 rounded-xl font-semibold text-center border-2 transition-colors min-w-0 text-sm sm:text-base ${isDarkMode ? 'text-white border-[#334155] hover:bg-[#1e293b]' : 'text-gray-700 border-gray-200 hover:bg-gray-50'}`}>
+                <Link to="/login" className={`px-6 py-2.5 sm:px-6 sm:py-3 rounded-xl font-semibold text-center border-2 transition-colors text-sm sm:text-base ${isDarkMode ? 'text-white border-[#334155] hover:bg-[#1e293b]' : 'text-gray-700 border-gray-200 hover:bg-gray-50'}`}>
                   View Demo Dashboard
                 </Link>
               </div>
@@ -246,7 +246,7 @@ function Landing() {
             </motion.div>
 
             {/* Mobile Search Form - visible only on mobile/tablet */}
-            <div className="lg:hidden mt-8 w-full">
+            <div className="lg:hidden mt-8 w-full max-w-sm mx-auto">
               <div className={`p-4 rounded-2xl border shadow-xl ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-gray-200'}`}>
                 <form onSubmit={handleSearch} className="relative">
                   <div className="flex items-center gap-2 min-w-0">
