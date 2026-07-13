@@ -146,7 +146,7 @@ function Landing() {
     <div className={`min-h-screen overflow-hidden max-w-full ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
       {/* Navigation */}
       <nav className={`fixed top-0 left-0 right-0 z-50 border-b ${isDarkMode ? 'bg-[#0f172a]/90 border-[#334155]' : 'bg-[#f8fafc]/90 border-[#e2e8f0]'}`}>
-        <div className="max-w-7xl mx-auto px-5">
+        <div style={{ paddingLeft: '16px', paddingRight: '16px' }} className="max-w-7xl mx-auto sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-2 min-w-0 shrink-0">
               <Target className="text-[#2563eb] flex-shrink-0" size={28} />
@@ -201,8 +201,8 @@ function Landing() {
           <div className="absolute top-20 left-4 sm:left-10 w-48 sm:w-96 h-48 sm:h-96 bg-[#2563eb] rounded-full blur-[100px] sm:blur-[150px]" />
           <div className="absolute bottom-10 right-4 sm:right-10 w-48 sm:w-96 h-48 sm:h-96 bg-[#7c3aed] rounded-full blur-[100px] sm:blur-[150px]" />
         </div>
-        <div className="max-w-7xl mx-auto relative px-5">
-          <div className="grid lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 items-center">
+        <div style={{ paddingLeft: '16px', paddingRight: '16px' }} className="max-w-7xl mx-auto relative sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-4 sm:gap-8 lg:gap-12 items-center">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="min-w-0 overflow-hidden">
               <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-[#2563eb]/10 text-[#2563eb] text-xs sm:text-sm font-semibold mb-4 sm:mb-6">
                 <Zap size={14} />
@@ -217,20 +217,20 @@ function Landing() {
               <p className={`text-sm sm:text-base md:text-lg mb-6 sm:mb-8 leading-relaxed break-words ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`} style={{ maxWidth: '100%', overflowWrap: 'break-word', wordBreak: 'break-word' }}>
                 Identify underserved markets, analyze competition, and make data-driven business decisions with real market intelligence across 38 districts.
               </p>
-              <div className="flex flex-col sm:flex-row gap-3 mb-6 sm:mb-8 items-center">
-                <Link to="/signup" className="px-6 py-2.5 sm:px-6 sm:py-3 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white rounded-xl font-semibold text-center hover:opacity-90 transition-opacity shadow-lg shadow-blue-500/25 flex items-center justify-center gap-2 text-sm sm:text-base">
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px', marginBottom: '20px' }} className="sm:flex-row sm:gap-3 sm:mb-8 sm:items-stretch">
+                <Link to="/signup" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', padding: '10px 20px', fontSize: '14px', width: 'auto', maxWidth: '260px' }} className="bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white rounded-xl font-semibold hover:opacity-90 transition-opacity shadow-lg shadow-blue-500/25 sm:px-6 sm:py-3 sm:text-base sm:max-w-none sm:w-auto sm:flex-none">
                   Get Started Free
-                  <ArrowRight size={16} className="flex-shrink-0" />
+                  <ArrowRight size={14} className="flex-shrink-0" />
                 </Link>
-                <Link to="/login" className={`px-6 py-2.5 sm:px-6 sm:py-3 rounded-xl font-semibold text-center border-2 transition-colors text-sm sm:text-base ${isDarkMode ? 'text-white border-[#334155] hover:bg-[#1e293b]' : 'text-gray-700 border-gray-200 hover:bg-gray-50'}`}>
+                <Link to="/login" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '10px 20px', fontSize: '14px', width: 'auto', maxWidth: '260px' }} className={`rounded-xl font-semibold text-center border-2 transition-colors sm:px-6 sm:py-3 sm:text-base sm:max-w-none sm:w-auto sm:flex-none ${isDarkMode ? 'text-white border-[#334155] hover:bg-[#1e293b]' : 'text-gray-700 border-gray-200 hover:bg-gray-50'}`}>
                   View Demo Dashboard
                 </Link>
               </div>
-              <div className="flex flex-wrap items-center gap-3 sm:gap-6">
+              <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '8px' }} className="sm:gap-6">
                 <div className="flex items-center gap-2">
                   <div className="flex -space-x-2">
                     {[0,1,2,3].map(i => (
-                      <div key={i} className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-gradient-to-r from-[#2563eb] to-[#7c3aed] border-2 flex items-center justify-center text-white text-[10px] sm:text-xs font-bold ${isDarkMode ? 'border-gray-800' : 'border-white'}`}>
+                      <div key={i} className={`w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-gradient-to-r from-[#2563eb] to-[#7c3aed] border-2 flex items-center justify-center text-white text-[9px] sm:text-xs font-bold ${isDarkMode ? 'border-gray-800' : 'border-white'}`}>
                         {String.fromCharCode(65 + i)}
                       </div>
                     ))}
@@ -246,22 +246,22 @@ function Landing() {
             </motion.div>
 
             {/* Mobile Search Form - visible only on mobile/tablet */}
-            <div className="lg:hidden mt-8 w-full max-w-sm mx-auto">
-              <div className={`p-4 rounded-2xl border shadow-xl ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-gray-200'}`}>
+            <div className="lg:hidden mt-6" style={{ width: '100%', maxWidth: '300px', marginLeft: 'auto', marginRight: 'auto' }}>
+              <div className={`p-3 rounded-2xl border shadow-xl ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-gray-200'}`}>
                 <form onSubmit={handleSearch} className="relative">
-                  <div className="flex items-center gap-2 min-w-0">
-                    <div className="w-8 h-8 rounded-lg bg-[#2563eb]/10 flex items-center justify-center flex-shrink-0">
-                      <Search className="text-[#2563eb]" size={16} />
+                  <div className="flex items-center gap-1.5 min-w-0">
+                    <div className="w-7 h-7 rounded-lg bg-[#2563eb]/10 flex items-center justify-center flex-shrink-0">
+                      <Search className="text-[#2563eb]" size={14} />
                     </div>
                     <input 
                       type="text" 
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                       onFocus={() => searchSuggestions.length > 0 && setShowSuggestions(true)}
-                      placeholder="Search pincode, area..." 
-                      className={`flex-1 min-w-0 px-3 py-2.5 rounded-xl border outline-none focus:ring-2 focus:ring-[#2563eb]/40 transition-all text-sm ${isDarkMode ? 'bg-[#0f172a] text-white border-[#334155] placeholder-gray-500' : 'bg-gray-50 text-gray-900 border-gray-200 placeholder-gray-400'}`}
+                      placeholder="Search pincode..." 
+                      className={`flex-1 min-w-0 px-2 py-2 rounded-lg border outline-none focus:ring-2 focus:ring-[#2563eb]/40 transition-all text-xs ${isDarkMode ? 'bg-[#0f172a] text-white border-[#334155] placeholder-gray-500' : 'bg-gray-50 text-gray-900 border-gray-200 placeholder-gray-400'}`}
                     />
-                    <button type="submit" className="px-3 py-2.5 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white rounded-xl font-medium text-sm flex-shrink-0 whitespace-nowrap">
+                    <button type="submit" style={{ padding: '8px 12px', fontSize: '12px' }} className="bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white rounded-lg font-medium flex-shrink-0 whitespace-nowrap">
                       Search
                     </button>
                   </div>
