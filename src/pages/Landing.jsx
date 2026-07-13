@@ -143,10 +143,10 @@ function Landing() {
   ];
 
   return (
-    <div className={`min-h-screen ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
+    <div className={`min-h-screen overflow-x-hidden ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
       {/* Navigation */}
       <nav className={`fixed top-0 left-0 right-0 z-50 border-b backdrop-blur-xl ${isDarkMode ? 'bg-[#0f172a]/80 border-[#334155]' : 'bg-[#f8fafc]/80 border-[#e2e8f0]'}`}>
-        <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-2">
               <Target className="text-[#2563eb]" size={32} />
@@ -196,8 +196,8 @@ function Landing() {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative pt-20 sm:pt-28 pb-10 sm:pb-16 px-4 sm:px-6 lg:px-8">
-        <div className="absolute inset-0 opacity-10">
+      <section className="relative pt-20 sm:pt-28 pb-10 sm:pb-16 px-5 sm:px-8 lg:px-10">
+        <div className="absolute inset-0 opacity-10 overflow-hidden">
           <div className="absolute top-20 left-10 w-96 h-96 bg-[#2563eb] rounded-full blur-[150px]" />
           <div className="absolute bottom-10 right-10 w-96 h-96 bg-[#7c3aed] rounded-full blur-[150px]" />
         </div>
@@ -369,7 +369,7 @@ function Landing() {
 
       {/* Rich Preview Section */}
       {searchPreview && !searchLoading && (
-        <section className="py-10 px-4 sm:px-6 lg:px-8">
+        <section className="py-10 px-5 sm:px-8 lg:px-10">
           <div className="max-w-4xl mx-auto">
             <LandingPreview area={searchPreview} onNavigate={() => handleNavigate(searchPreview.pincode || searchQuery.trim())} />
           </div>
@@ -377,7 +377,7 @@ function Landing() {
       )}
 
       {/* Features Section */}
-      <section id="features" className="py-12 sm:py-20 px-4 sm:px-6 lg:px-8">
+      <section id="features" className="py-12 sm:py-20 px-5 sm:px-8 lg:px-10">
         <div className="max-w-7xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-10 sm:mb-16">
             <span className="inline-block px-3 sm:px-4 py-1 sm:py-1.5 rounded-full bg-[#2563eb]/10 text-[#2563eb] text-xs sm:text-sm font-semibold mb-3 sm:mb-4">Features</span>
@@ -414,7 +414,7 @@ function Landing() {
       </section>
 
       {/* How It Works */}
-      <section id="how-it-works" className={`py-12 sm:py-20 px-4 sm:px-6 lg:px-8 ${isDarkMode ? 'bg-[#1e293b]/50' : 'bg-gray-50'}`}>
+      <section id="how-it-works" className={`py-12 sm:py-20 px-5 sm:px-8 lg:px-10 ${isDarkMode ? 'bg-[#1e293b]/50' : 'bg-gray-50'}`}>
         <div className="max-w-7xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-10 sm:mb-16">
             <span className="inline-block px-3 sm:px-4 py-1 sm:py-1.5 rounded-full bg-[#2563eb]/10 text-[#2563eb] text-xs sm:text-sm font-semibold mb-3 sm:mb-4">Process</span>
@@ -447,7 +447,7 @@ function Landing() {
       </section>
 
       {/* Stats Section */}
-      <section className="py-12 sm:py-20 px-4 sm:px-6 lg:px-8">
+      <section className="py-12 sm:py-20 px-5 sm:px-8 lg:px-10">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6">
             {platformStats.map((stat, i) => (
@@ -464,7 +464,7 @@ function Landing() {
       </section>
 
       {/* FAQ Section */}
-      <section id="faq" className={`py-12 sm:py-20 px-4 sm:px-6 lg:px-8 ${isDarkMode ? 'bg-[#1e293b]/50' : 'bg-gray-50'}`}>
+      <section id="faq" className={`py-12 sm:py-20 px-5 sm:px-8 lg:px-10 ${isDarkMode ? 'bg-[#1e293b]/50' : 'bg-gray-50'}`}>
         <div className="max-w-3xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-8 sm:mb-12">
             <span className="inline-block px-3 sm:px-4 py-1 sm:py-1.5 rounded-full bg-[#2563eb]/10 text-[#2563eb] text-xs sm:text-sm font-semibold mb-3 sm:mb-4">FAQ</span>
@@ -495,7 +495,7 @@ function Landing() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-12 sm:py-20 px-4 sm:px-6 lg:px-8">
+      <section className="py-12 sm:py-20 px-5 sm:px-8 lg:px-10">
         <div className="max-w-4xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
             className="relative p-5 sm:p-8 md:p-12 rounded-3xl bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-center overflow-hidden">
@@ -525,7 +525,7 @@ function Landing() {
       </section>
 
       {/* Footer */}
-      <footer className={`py-8 sm:py-12 px-4 sm:px-6 lg:px-8 border-t ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-gray-200'}`}>
+      <footer className={`py-8 sm:py-12 px-5 sm:px-8 lg:px-10 border-t ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-gray-200'}`}>
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
             <div>
