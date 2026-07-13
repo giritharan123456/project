@@ -143,14 +143,14 @@ function Landing() {
   ];
 
   return (
-    <div className={`min-h-screen ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`} style={{ overflowX: 'hidden', width: '100%', maxWidth: '100vw' }}>
+    <div className={`min-h-screen ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`} style={{ width: '100vw', maxWidth: '100vw', overflow: 'hidden', position: 'relative' }}>
       {/* Navigation */}
       <nav className={`fixed top-0 left-0 right-0 z-50 border-b backdrop-blur-xl ${isDarkMode ? 'bg-[#0f172a]/80 border-[#334155]' : 'bg-[#f8fafc]/80 border-[#e2e8f0]'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
-            <div className="flex items-center gap-2 min-w-0">
+            <div className="flex items-center gap-2 min-w-0 shrink-0">
               <Target className="text-[#2563eb] flex-shrink-0" size={28} />
-              <span className="text-lg sm:text-xl font-bold bg-gradient-to-r from-[#2563eb] to-[#7c3aed] bg-clip-text text-transparent whitespace-nowrap">
+              <span className="text-lg sm:text-xl font-bold bg-gradient-to-r from-[#2563eb] to-[#7c3aed] bg-clip-text text-transparent whitespace-nowrap shrink-0">
                 MarketVision AI
               </span>
             </div>
@@ -201,7 +201,7 @@ function Landing() {
           <div className="absolute top-20 left-4 sm:left-10 w-48 sm:w-96 h-48 sm:h-96 bg-[#2563eb] rounded-full blur-[100px] sm:blur-[150px]" />
           <div className="absolute bottom-10 right-4 sm:right-10 w-48 sm:w-96 h-48 sm:h-96 bg-[#7c3aed] rounded-full blur-[100px] sm:blur-[150px]" />
         </div>
-        <div className="max-w-7xl mx-auto relative w-full">
+        <div className="max-w-7xl mx-auto relative">
           <div className="grid lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 items-center">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="min-w-0 overflow-hidden">
               <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-[#2563eb]/10 text-[#2563eb] text-xs sm:text-sm font-semibold mb-4 sm:mb-6">
