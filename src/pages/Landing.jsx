@@ -143,7 +143,7 @@ function Landing() {
   ];
 
   return (
-    <div className={`min-h-screen overflow-x-hidden ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
+    <div className={`min-h-screen ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
       {/* Navigation */}
       <nav className={`fixed top-0 left-0 right-0 z-50 border-b backdrop-blur-xl ${isDarkMode ? 'bg-[#0f172a]/80 border-[#334155]' : 'bg-[#f8fafc]/80 border-[#e2e8f0]'}`}>
         <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10">
@@ -203,7 +203,7 @@ function Landing() {
         </div>
         <div className="max-w-7xl mx-auto relative w-full">
           <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 items-center">
-            <motion.div initial={{ opacity: 0, x: -40 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }} className="min-w-0">
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="min-w-0">
               <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-[#2563eb]/10 text-[#2563eb] text-xs sm:text-sm font-semibold mb-4 sm:mb-6">
                 <Zap size={14} />
                 AI-Powered Market Intelligence

@@ -2,6 +2,25 @@
 @tailwind components;
 @tailwind utilities;
 
+html, body {
+  overflow-x: hidden;
+}
+
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.landing-container {
+  padding-left: max(20px, 5vw);
+  padding-right: max(20px, 5vw);
+}
+
 :root {
   --primary-blue: #2563eb;
   --primary-purple: #7c3aed;
