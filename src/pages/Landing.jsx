@@ -143,7 +143,7 @@ function Landing() {
   ];
 
   return (
-    <div className={`min-h-screen ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
+    <div className={`min-h-screen w-full max-w-full overflow-x-hidden ${isDarkMode ? 'bg-[#0f172a]' : 'bg-[#f8fafc]'}`}>
       {/* Navigation */}
       <nav className={`fixed top-0 left-0 right-0 z-50 border-b backdrop-blur-xl ${isDarkMode ? 'bg-[#0f172a]/80 border-[#334155]' : 'bg-[#f8fafc]/80 border-[#e2e8f0]'}`}>
         <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10">
@@ -201,9 +201,9 @@ function Landing() {
           <div className="absolute top-20 left-10 w-96 h-96 bg-[#2563eb] rounded-full blur-[150px]" />
           <div className="absolute bottom-10 right-10 w-96 h-96 bg-[#7c3aed] rounded-full blur-[150px]" />
         </div>
-        <div className="max-w-7xl mx-auto relative w-full">
+        <div className="max-w-7xl mx-auto relative w-full overflow-hidden">
           <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 items-center">
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="min-w-0">
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="min-w-0 overflow-hidden">
               <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-[#2563eb]/10 text-[#2563eb] text-xs sm:text-sm font-semibold mb-4 sm:mb-6">
                 <Zap size={14} />
                 AI-Powered Market Intelligence
@@ -214,7 +214,7 @@ function Landing() {
                   Business Opportunity
                 </span>
               </h1>
-              <p className={`text-xs sm:text-base md:text-lg mb-6 sm:mb-8 leading-relaxed break-words ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+              <p className={`text-xs sm:text-base md:text-lg mb-6 sm:mb-8 leading-relaxed break-words max-w-full ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
                 Identify underserved markets, analyze competition, and make data-driven business decisions with real market intelligence across 38 districts.
               </p>
               <div className="flex flex-col sm:flex-row gap-3 mb-6 sm:mb-8">
@@ -249,7 +249,7 @@ function Landing() {
             <div className="lg:hidden mt-8 w-full">
               <div className={`p-4 rounded-2xl border shadow-xl ${isDarkMode ? 'bg-[#1e293b] border-[#334155]' : 'bg-white border-gray-200'}`}>
                 <form onSubmit={handleSearch} className="relative">
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 min-w-0">
                     <div className="w-8 h-8 rounded-lg bg-[#2563eb]/10 flex items-center justify-center flex-shrink-0">
                       <Search className="text-[#2563eb]" size={16} />
                     </div>
@@ -259,9 +259,9 @@ function Landing() {
                       onChange={(e) => setSearchQuery(e.target.value)}
                       onFocus={() => searchSuggestions.length > 0 && setShowSuggestions(true)}
                       placeholder="Search pincode, area..." 
-                      className={`flex-1 px-3 py-2.5 rounded-xl border outline-none focus:ring-2 focus:ring-[#2563eb]/40 transition-all text-sm ${isDarkMode ? 'bg-[#0f172a] text-white border-[#334155] placeholder-gray-500' : 'bg-gray-50 text-gray-900 border-gray-200 placeholder-gray-400'}`}
+                      className={`flex-1 min-w-0 px-3 py-2.5 rounded-xl border outline-none focus:ring-2 focus:ring-[#2563eb]/40 transition-all text-sm ${isDarkMode ? 'bg-[#0f172a] text-white border-[#334155] placeholder-gray-500' : 'bg-gray-50 text-gray-900 border-gray-200 placeholder-gray-400'}`}
                     />
-                    <button type="submit" className="px-4 py-2.5 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white rounded-xl font-medium text-sm flex-shrink-0">
+                    <button type="submit" className="px-3 py-2.5 bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white rounded-xl font-medium text-sm flex-shrink-0 whitespace-nowrap">
                       Search
                     </button>
                   </div>
