@@ -2,10 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  overflow-x: hidden;
+  width: 100%;
+}
+
 html, body, #root {
   margin: 0;
   padding: 0;
-  width: 100%;
 }
 
 * {
@@ -13,10 +17,13 @@ html, body, #root {
 }
 
 body {
-  word-wrap: break-word;
-  overflow-wrap: break-word;
   -webkit-text-size-adjust: 100%;
   -webkit-font-smoothing: antialiased;
+}
+
+.section-padding {
+  padding-left: max(16px, 5vw);
+  padding-right: max(16px, 5vw);
 }
 
 :root {
